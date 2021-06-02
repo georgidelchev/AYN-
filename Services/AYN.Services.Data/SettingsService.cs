@@ -1,12 +1,12 @@
-﻿namespace AYN.Services.Data
+﻿using System.Collections.Generic;
+using System.Linq;
+
+using AYN.Data.Common.Repositories;
+using AYN.Data.Models;
+using AYN.Services.Mapping;
+
+namespace AYN.Services.Data
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using AYN.Data.Common.Repositories;
-    using AYN.Data.Models;
-    using AYN.Services.Mapping;
-
     public class SettingsService : ISettingsService
     {
         private readonly IDeletableEntityRepository<Setting> settingsRepository;

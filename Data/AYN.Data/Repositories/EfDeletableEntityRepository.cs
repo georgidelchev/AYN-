@@ -1,13 +1,13 @@
-﻿namespace AYN.Data.Repositories
+﻿using System;
+using System.Linq;
+
+using AYN.Data.Common.Models;
+using AYN.Data.Common.Repositories;
+
+using Microsoft.EntityFrameworkCore;
+
+namespace AYN.Data.Repositories
 {
-    using System;
-    using System.Linq;
-
-    using AYN.Data.Common.Models;
-    using AYN.Data.Common.Repositories;
-
-    using Microsoft.EntityFrameworkCore;
-
     public class EfDeletableEntityRepository<TEntity> : EfRepository<TEntity>, IDeletableEntityRepository<TEntity>
         where TEntity : class, IDeletableEntity
     {

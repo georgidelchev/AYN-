@@ -1,7 +1,7 @@
-﻿namespace AYN.Web.Controllers
-{
-    using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
+namespace AYN.Web.Controllers
+{
     public class BaseController : Controller
     {
     }

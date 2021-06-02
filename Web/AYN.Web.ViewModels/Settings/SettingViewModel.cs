@@ -1,10 +1,10 @@
-﻿namespace AYN.Web.ViewModels.Settings
+﻿using AYN.Data.Models;
+using AYN.Services.Mapping;
+
+using AutoMapper;
+
+namespace AYN.Web.ViewModels.Settings
 {
-    using AYN.Data.Models;
-    using AYN.Services.Mapping;
-
-    using AutoMapper;
-
     public class SettingViewModel : IMapFrom<Setting>, IHaveCustomMappings
     {
         public int Id { get; set; }

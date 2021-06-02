@@ -15,7 +15,7 @@
       "documentInternalElements": false
     },
     "orderingRules": {
-      "usingDirectivesPlacement": "insideNamespace",
+      "usingDirectivesPlacement": "outsideNamespace",
       "systemUsingDirectivesFirst": true,
       "blankLinesBetweenUsingGroups": "require"
     }

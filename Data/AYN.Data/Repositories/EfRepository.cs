@@ -1,13 +1,13 @@
-﻿namespace AYN.Data.Repositories
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+
+using AYN.Data.Common.Repositories;
+
+using Microsoft.EntityFrameworkCore;
+
+namespace AYN.Data.Repositories
 {
-    using System;
-    using System.Linq;
-    using System.Threading.Tasks;
-
-    using AYN.Data.Common.Repositories;
-
-    using Microsoft.EntityFrameworkCore;
-
     public class EfRepository<TEntity> : IRepository<TEntity>
         where TEntity : class
     {

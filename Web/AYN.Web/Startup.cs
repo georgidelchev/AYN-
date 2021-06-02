@@ -1,27 +1,27 @@
-﻿namespace AYN.Web
+﻿using System.Reflection;
+
+using AYN.Data;
+using AYN.Data.Common;
+using AYN.Data.Common.Repositories;
+using AYN.Data.Models;
+using AYN.Data.Repositories;
+using AYN.Data.Seeding;
+using AYN.Services.Data;
+using AYN.Services.Mapping;
+using AYN.Services.Messaging;
+using AYN.Web.ViewModels;
+
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+namespace AYN.Web
 {
-    using System.Reflection;
-
-    using AYN.Data;
-    using AYN.Data.Common;
-    using AYN.Data.Common.Repositories;
-    using AYN.Data.Models;
-    using AYN.Data.Repositories;
-    using AYN.Data.Seeding;
-    using AYN.Services.Data;
-    using AYN.Services.Mapping;
-    using AYN.Services.Messaging;
-    using AYN.Web.ViewModels;
-
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
-
     public class Startup
     {
         private readonly IConfiguration configuration;

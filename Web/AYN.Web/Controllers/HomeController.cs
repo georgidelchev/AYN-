@@ -1,11 +1,11 @@
-﻿namespace AYN.Web.Controllers
+﻿using System.Diagnostics;
+
+using AYN.Web.ViewModels;
+
+using Microsoft.AspNetCore.Mvc;
+
+namespace AYN.Web.Controllers
 {
-    using System.Diagnostics;
-
-    using AYN.Web.ViewModels;
-
-    using Microsoft.AspNetCore.Mvc;
-
     public class HomeController : BaseController
     {
         public IActionResult Index()

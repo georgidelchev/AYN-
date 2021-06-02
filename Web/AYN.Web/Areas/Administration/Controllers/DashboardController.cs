@@ -1,10 +1,10 @@
-﻿namespace AYN.Web.Areas.Administration.Controllers
+﻿using AYN.Services.Data;
+using AYN.Web.ViewModels.Administration.Dashboard;
+
+using Microsoft.AspNetCore.Mvc;
+
+namespace AYN.Web.Areas.Administration.Controllers
 {
-    using AYN.Services.Data;
-    using AYN.Web.ViewModels.Administration.Dashboard;
-
-    using Microsoft.AspNetCore.Mvc;
-
     public class DashboardController : AdministrationController
     {
         private readonly ISettingsService settingsService;

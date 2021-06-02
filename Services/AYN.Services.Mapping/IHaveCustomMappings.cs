@@ -1,7 +1,7 @@
-﻿namespace AYN.Services.Mapping
-{
-    using AutoMapper;
+﻿using AutoMapper;
 
+namespace AYN.Services.Mapping
+{
     public interface IHaveCustomMappings
     {
         void CreateMappings(IProfileExpression configuration);

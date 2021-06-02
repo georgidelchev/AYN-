@@ -1,9 +1,9 @@
-﻿namespace AYN.Data.Common.Repositories
+﻿using System.Linq;
+
+using AYN.Data.Common.Models;
+
+namespace AYN.Data.Common.Repositories
 {
-    using System.Linq;
-
-    using AYN.Data.Common.Models;
-
     public interface IDeletableEntityRepository<TEntity> : IRepository<TEntity>
         where TEntity : class, IDeletableEntity
     {

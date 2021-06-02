@@ -1,12 +1,12 @@
 ﻿// ReSharper disable VirtualMemberCallInConstructor
+using System;
+
+using AYN.Data.Common.Models;
+
+using Microsoft.AspNetCore.Identity;
+
 namespace AYN.Data.Models
 {
-    using System;
-
-    using AYN.Data.Common.Models;
-
-    using Microsoft.AspNetCore.Identity;
-
     public class ApplicationRole : IdentityRole, IAuditInfo, IDeletableEntity
     {
         public ApplicationRole()

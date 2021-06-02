@@ -1,11 +1,11 @@
-﻿namespace AYN.Data
+﻿using System.Linq;
+
+using AYN.Data.Common.Models;
+
+using Microsoft.EntityFrameworkCore;
+
+namespace AYN.Data
 {
-    using System.Linq;
-
-    using AYN.Data.Common.Models;
-
-    using Microsoft.EntityFrameworkCore;
-
     internal static class EntityIndexesConfiguration
     {
         public static void Configure(ModelBuilder modelBuilder)

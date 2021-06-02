@@ -1,20 +1,20 @@
-﻿namespace AYN.Services.Data.Tests
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+using AYN.Data;
+using AYN.Data.Common.Repositories;
+using AYN.Data.Models;
+using AYN.Data.Repositories;
+
+using Microsoft.EntityFrameworkCore;
+
+using Moq;
+
+using Xunit;
+
+namespace AYN.Services.Data.Tests
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-
-    using AYN.Data;
-    using AYN.Data.Common.Repositories;
-    using AYN.Data.Models;
-    using AYN.Data.Repositories;
-
-    using Microsoft.EntityFrameworkCore;
-
-    using Moq;
-
-    using Xunit;
-
     public class SettingsServiceTests
     {
         [Fact]

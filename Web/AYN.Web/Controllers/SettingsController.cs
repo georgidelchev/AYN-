@@ -1,15 +1,15 @@
-﻿namespace AYN.Web.Controllers
+﻿using System;
+using System.Threading.Tasks;
+
+using AYN.Data.Common.Repositories;
+using AYN.Data.Models;
+using AYN.Services.Data;
+using AYN.Web.ViewModels.Settings;
+
+using Microsoft.AspNetCore.Mvc;
+
+namespace AYN.Web.Controllers
 {
-    using System;
-    using System.Threading.Tasks;
-
-    using AYN.Data.Common.Repositories;
-    using AYN.Data.Models;
-    using AYN.Services.Data;
-    using AYN.Web.ViewModels.Settings;
-
-    using Microsoft.AspNetCore.Mvc;
-
     public class SettingsController : BaseController
     {
         private readonly ISettingsService settingsService;

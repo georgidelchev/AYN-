@@ -1,26 +1,26 @@
-﻿namespace Sandbox
+﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Threading.Tasks;
+
+using AYN.Data;
+using AYN.Data.Common;
+using AYN.Data.Common.Repositories;
+using AYN.Data.Models;
+using AYN.Data.Repositories;
+using AYN.Data.Seeding;
+using AYN.Services.Data;
+using AYN.Services.Messaging;
+
+using CommandLine;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
+namespace Sandbox
 {
-    using System;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Threading.Tasks;
-
-    using AYN.Data;
-    using AYN.Data.Common;
-    using AYN.Data.Common.Repositories;
-    using AYN.Data.Models;
-    using AYN.Data.Repositories;
-    using AYN.Data.Seeding;
-    using AYN.Services.Data;
-    using AYN.Services.Messaging;
-
-    using CommandLine;
-
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
-
     public static class Program
     {
         public static int Main(string[] args)

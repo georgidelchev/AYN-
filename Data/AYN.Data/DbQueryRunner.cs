@@ -1,12 +1,12 @@
-﻿namespace AYN.Data
+﻿using System;
+using System.Threading.Tasks;
+
+using AYN.Data.Common;
+
+using Microsoft.EntityFrameworkCore;
+
+namespace AYN.Data
 {
-    using System;
-    using System.Threading.Tasks;
-
-    using AYN.Data.Common;
-
-    using Microsoft.EntityFrameworkCore;
-
     public class DbQueryRunner : IDbQueryRunner
     {
         public DbQueryRunner(ApplicationDbContext context)

@@ -1,7 +1,7 @@
-﻿namespace AYN.Services.Data
-{
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+namespace AYN.Services.Data
+{
     public interface ISettingsService
     {
         int GetCount();

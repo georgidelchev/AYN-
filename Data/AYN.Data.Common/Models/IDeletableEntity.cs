@@ -1,7 +1,7 @@
-﻿namespace AYN.Data.Common.Models
-{
-    using System;
+﻿using System;
 
+namespace AYN.Data.Common.Models
+{
     public interface IDeletableEntity
     {
         bool IsDeleted { get; set; }
