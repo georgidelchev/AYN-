@@ -26,6 +26,7 @@
         {
             var settings = this.settingsService.GetAll<SettingViewModel>();
             var model = new SettingsListViewModel { Settings = settings };
+
             return this.View(model);
         }
 

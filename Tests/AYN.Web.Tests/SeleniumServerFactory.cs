@@ -16,9 +16,13 @@
         public SeleniumServerFactory()
         {
             this.ClientOptions.BaseAddress = new Uri("https://localhost");
+
             var host = WebHost.CreateDefaultBuilder(Array.Empty<string>()).UseStartup<TStartup>().Build();
+
             host.Start();
+
             this.RootUri = host.ServerFeatures.Get<IServerAddressesFeature>().Addresses.LastOrDefault();
+
             var testServer = new TestServer(new WebHostBuilder().UseStartup<FakeStartup>());
         }
 
