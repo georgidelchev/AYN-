@@ -1,5 +1,6 @@
 ﻿// ReSharper disable VirtualMemberCallInConstructor
 using System;
+using System.ComponentModel.DataAnnotations;
 
 using AYN.Data.Common.Models;
 
@@ -22,10 +23,12 @@ namespace AYN.Data.Models
                 .ToString();
         }
 
+        [Required]
         public DateTime CreatedOn { get; set; }
 
         public DateTime? ModifiedOn { get; set; }
 
+        [Required]
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }

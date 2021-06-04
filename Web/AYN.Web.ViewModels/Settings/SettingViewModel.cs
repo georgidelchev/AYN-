@@ -1,7 +1,6 @@
-﻿using AYN.Data.Models;
+﻿using AutoMapper;
+using AYN.Data.Models;
 using AYN.Services.Mapping;
-
-using AutoMapper;
 
 namespace AYN.Web.ViewModels.Settings
 {

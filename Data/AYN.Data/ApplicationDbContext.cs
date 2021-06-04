@@ -26,6 +26,34 @@ namespace AYN.Data
 
         public DbSet<Setting> Settings { get; set; }
 
+        public DbSet<Ad> Ads { get; set; }
+
+        public DbSet<Address> Addresses { get; set; }
+
+        public DbSet<Post> Posts { get; set; }
+
+        public DbSet<PostVote> PostVotes { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<Comment> Comments { get; set; }
+
+        public DbSet<Contact> Contacts { get; set; }
+
+        public DbSet<FollowerFollowee> FollowersFollowees { get; set; }
+
+        public DbSet<Picture> Pictures { get; set; }
+
+        public DbSet<Report> Reports { get; set; }
+
+        public DbSet<SubCategory> SubCategories { get; set; }
+
+        public DbSet<Tag> Tags { get; set; }
+
+        public DbSet<Town> Towns { get; set; }
+
+        public DbSet<Wishlist> Wishlists { get; set; }
+
         public override int SaveChanges()
             => this.SaveChanges(true);
 
@@ -50,6 +78,20 @@ namespace AYN.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder
+                .Entity<FollowerFollowee>(followerFollowee =>
+                {
+                    followerFollowee
+                        .HasOne(ff => ff.Followee)
+                        .WithMany(ff => ff.Followings)
+                        .HasForeignKey(ff => ff.FolloweeId);
+
+                    followerFollowee
+                        .HasOne(ff => ff.Follower)
+                        .WithMany(ff => ff.Followers)
+                        .HasForeignKey(ff => ff.FollowerId);
+                });
+
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
 

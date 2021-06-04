@@ -4,7 +4,7 @@
     {
         public string RequestId { get; set; }
 
-        public bool ShowRequestId 
+        public bool ShowRequestId
             => !string.IsNullOrEmpty(this.RequestId);
     }
 }

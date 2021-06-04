@@ -34,5 +34,20 @@ namespace AYN.Data.Models
 
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
             = new HashSet<IdentityUserLogin<string>>();
+
+        public virtual ICollection<Ad> Ads { get; set; }
+            = new HashSet<Ad>();
+
+        public virtual ICollection<FollowerFollowee> Followers { get; set; }
+            = new HashSet<FollowerFollowee>();
+
+        public virtual ICollection<FollowerFollowee> Followings { get; set; }
+            = new HashSet<FollowerFollowee>();
+
+        public virtual ICollection<Post> Posts { get; set; }
+            = new HashSet<Post>();
+
+        public virtual ICollection<PostVote> PostVotes { get; set; }
+            = new HashSet<PostVote>();
     }
 }

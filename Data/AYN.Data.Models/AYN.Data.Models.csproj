@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\AYN.Common\AYN.Common.csproj" />
     <ProjectReference Include="..\AYN.Data.Common\AYN.Data.Common.csproj" />
   </ItemGroup>
   

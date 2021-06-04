@@ -44,4 +44,8 @@
     <ProjectReference Include="..\AYN.Data.Models\AYN.Data.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

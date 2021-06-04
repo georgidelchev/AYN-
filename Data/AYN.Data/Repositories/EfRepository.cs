@@ -22,13 +22,13 @@ namespace AYN.Data.Repositories
 
         protected ApplicationDbContext Context { get; set; }
 
-        public virtual IQueryable<TEntity> All() 
+        public virtual IQueryable<TEntity> All()
             => this.DbSet;
 
-        public virtual IQueryable<TEntity> AllAsNoTracking() 
+        public virtual IQueryable<TEntity> AllAsNoTracking()
             => this.DbSet.AsNoTracking();
 
-        public virtual Task AddAsync(TEntity entity) 
+        public virtual Task AddAsync(TEntity entity)
             => this.DbSet.AddAsync(entity).AsTask();
 
         public virtual void Update(TEntity entity)
@@ -43,10 +43,10 @@ namespace AYN.Data.Repositories
             entry.State = EntityState.Modified;
         }
 
-        public virtual void Delete(TEntity entity) 
+        public virtual void Delete(TEntity entity)
             => this.DbSet.Remove(entity);
 
-        public Task<int> SaveChangesAsync() 
+        public Task<int> SaveChangesAsync()
             => this.Context.SaveChangesAsync();
 
         public void Dispose()
