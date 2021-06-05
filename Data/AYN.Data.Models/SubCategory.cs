@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using AYN.Data.Common.Models;
 
@@ -16,5 +17,8 @@ namespace AYN.Data.Models
         public int CategoryId { get; set; }
 
         public virtual Category Category { get; set; }
+
+        public ICollection<Ad> Ads { get; set; }
+            = new HashSet<Ad>();
     }
 }

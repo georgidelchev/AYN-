@@ -24,15 +24,11 @@ namespace AYN.Data
         {
         }
 
-        public DbSet<Setting> Settings { get; set; }
-
         public DbSet<Ad> Ads { get; set; }
 
+        public DbSet<AdArchive> AdArchives { get; set; }
+
         public DbSet<Address> Addresses { get; set; }
-
-        public DbSet<Post> Posts { get; set; }
-
-        public DbSet<PostVote> PostVotes { get; set; }
 
         public DbSet<Category> Categories { get; set; }
 
@@ -40,9 +36,15 @@ namespace AYN.Data
 
         public DbSet<Contact> Contacts { get; set; }
 
+        public DbSet<FavoritePost> FavoritePosts { get; set; }
+
         public DbSet<FollowerFollowee> FollowersFollowees { get; set; }
 
         public DbSet<Picture> Pictures { get; set; }
+
+        public DbSet<Post> Posts { get; set; }
+
+        public DbSet<PostVote> PostVotes { get; set; }
 
         public DbSet<Report> Reports { get; set; }
 
@@ -52,7 +54,11 @@ namespace AYN.Data
 
         public DbSet<Town> Towns { get; set; }
 
+        public DbSet<UserRating> UserRatings { get; set; }
+
         public DbSet<Wishlist> Wishlists { get; set; }
+
+        public DbSet<Setting> Settings { get; set; }
 
         public override int SaveChanges()
             => this.SaveChanges(true);
