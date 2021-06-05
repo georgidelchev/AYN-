@@ -1,0 +1,45 @@
+﻿@model AYN.Web.ViewModels.Categories.ListAllCategoriesViewModel
+
+<style>
+    .dropdown:hover .dropdown-menu {
+        display: block;
+    }
+
+    .dropdown-menu {
+        margin-top: 0;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $(".dropdown").hover(function () {
+            var dropdownMenu = $(this).children(".dropdown-menu");
+            if (dropdownMenu.is(":visible")) {
+                dropdownMenu.parent().toggleClass("open");
+            }
+        });
+    });
+</script>
+
+<div class="row">
+    @foreach (var kvp in Model.AllCategoriesWithAllSubCategories)
+    {
+        <div class="col-md-3 nav-item dropdown mb-5">
+            <div class="text-center">
+                <img src="https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png" class="rounded-circle" style="width: 90px; height: 90px;" alt="">
+                <h6>@kvp.Key.Name</h6>
+                <h6>@kvp.Value.Sum(v => v.AdsCount) Ads</h6>
+            </div>
+            @if (kvp.Value.Any())
+            {
+                <div class="dropdown-menu">
+                    @foreach (var subCategory in kvp.Value)
+                    {
+                        <a href="/">@subCategory.Name</a><text> - @subCategory.AdsCount Ads</text><br>
+                    }
+                </div>
+            }
+
+        </div>
+    }
+</div>

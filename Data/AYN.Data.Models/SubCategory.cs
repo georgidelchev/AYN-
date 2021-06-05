@@ -18,7 +18,7 @@ namespace AYN.Data.Models
 
         public virtual Category Category { get; set; }
 
-        public ICollection<Ad> Ads { get; set; }
+        public virtual ICollection<Ad> Ads { get; set; }
             = new HashSet<Ad>();
     }
 }

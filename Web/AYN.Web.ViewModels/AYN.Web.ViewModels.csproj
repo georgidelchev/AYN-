@@ -23,4 +23,9 @@
     <ProjectReference Include="..\..\Services\AYN.Services.Mapping\AYN.Services.Mapping.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Categories\" />
+    <Folder Include="SubCategories\" />
+  </ItemGroup>
+
 </Project>
