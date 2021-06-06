@@ -54,16 +54,4 @@
     }
 </div>
 
-<div class="modal" tabindex="-1" role="dialog" id="deleteModal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content text-center">
-            <div class="modal-body">
-                <h2 class="text-warning">Are you sure?</h2>
-            </div>
-            <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-danger btn-sm" onclick="deleteForm.submit()"><i class="fas fa-check"></i></button>
-                <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal"><i class="fas fa-times"></i></button>
-            </div>
-        </div>
-    </div>
-</div>
+<partial name="_DeleteConfirmationPartial"/>
