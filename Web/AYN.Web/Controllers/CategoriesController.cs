@@ -44,5 +44,14 @@ namespace AYN.Web.Controllers
 
             return this.Redirect("/");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await this.categoriesService
+                .DeleteAsync(id);
+
+            return this.Redirect("/");
+        }
     }
 }

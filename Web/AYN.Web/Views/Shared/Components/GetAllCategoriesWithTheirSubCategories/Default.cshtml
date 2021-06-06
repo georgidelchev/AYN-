@@ -1,4 +1,6 @@
-﻿@model AYN.Web.ViewModels.Categories.ListAllCategoriesViewModel
+﻿@using AYN.Common
+
+@model AYN.Web.ViewModels.Categories.ListAllCategoriesViewModel
 
 <script>
     $(document).ready(function () {
@@ -14,22 +16,40 @@
 <div class="row">
     @foreach (var (key, value) in this.Model.AllCategoriesWithAllSubCategories)
     {
-        <div class="col-md-3 nav-item dropdown mb-5">
-            <div class="text-center">
-                <img src="/img/CategoriesPictures/@key.Id.@key.PictureExtension" class="rounded-circle category-image" alt="@key.Name">
-                <h6>@key.Name</h6>
-                <h6>@value.Sum(v => v.AdsCount) Ads</h6>
-            </div>
-            @if (value.Any())
+        <div class="col-md-3 nav-item text-center">
+            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
-                <div class="dropdown-menu">
-                    @foreach (var subCategory in value)
-                    {
-                        <a href="/">@subCategory.Name</a><text> - @subCategory.AdsCount Ads</text><br>
-                    }
+                <div>
+                    <button class="btn btn-sm" data-toggle="tooltip" data-placement="bottom" title="Add SubCategory" href="#">
+                        <i class="fas fa-plus text-decoration-none text-warning"></i>
+                    </button>
+                    <button class="btn btn-sm" data-toggle="tooltip" data-placement="bottom" title="Edit" href="#">
+                        <i class="fas fa-edit text-decoration-none text-primary"></i>
+                    </button>
+                    <form method="post" asp-controller="Categories" asp-action="Delete" asp-route-id="@key.Id">
+                        <button class="btn btn-sm" data-toggle="tooltip" data-placement="bottom" title="Delete">
+                            <i class="fas fa-times text-decoration-none text-danger"></i>
+                        </button>
+                    </form>
                 </div>
             }
+            <div class="dropdown mb-5">
+                <div class="text-center">
+                    <img src="/img/CategoriesPictures/@key.Id.@key.PictureExtension" class="rounded-circle category-image" alt="@key.Name">
+                    <h6>@key.Name</h6>
+                    <h6>@value.Sum(v => v.AdsCount) Ads</h6>
 
+                </div>
+                @if (value.Any())
+                {
+                    <div class="dropdown-menu">
+                        @foreach (var subCategory in value)
+                        {
+                            <a href="/">@subCategory.Name</a><text> - @subCategory.AdsCount Ads</text><br>
+                        }
+                    </div>
+                }
+            </div>
         </div>
     }
 </div>

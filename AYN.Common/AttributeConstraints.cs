@@ -4,6 +4,7 @@
     {
         // Category model
         public const int CategoryNameMaxLength = 20;
+        public const int CategoryNameMinLength = 3;
 
         // Description model
         public const int DescriptionMaxLength = 1000;
