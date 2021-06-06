@@ -38,3 +38,16 @@
 .dropdown:hover .dropbtn {
     background-color: #3e8e41;
 }
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu {
+    margin-top: 0;
+}
+
+.category-image {
+    width: 100px;
+    height: 100px;
+}
