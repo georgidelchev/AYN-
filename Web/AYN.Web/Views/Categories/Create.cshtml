@@ -33,8 +33,8 @@
 
     <hr />
     <h5>Add subCategories (optional)</h5>
-    <div id="IngredientsContainer">
-        <a class="btn btn-success btn-sm" onclick="AddSubCategory()">+</a><br />
+    <div id="SubCategoriesContainer">
+        <a class="btn btn-success btn-sm" onclick="AddSubCategory()"><i class="fas fa-plus"></i></a><br />
     </div>
     <hr />
 
@@ -47,7 +47,7 @@
         var subCategoryIndex = 0;
 
         function AddSubCategory() {
-            $("#IngredientsContainer").
+            $("#SubCategoriesContainer").
                 append("<div class='input-group mb-3'>" +
                     "<div class='input-group-prepend'>" +
                     "<label for='subCategoryName" + subCategoryIndex + "'" + "class='input-group-text'>" +

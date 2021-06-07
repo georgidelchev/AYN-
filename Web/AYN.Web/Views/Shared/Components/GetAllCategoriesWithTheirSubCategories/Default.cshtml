@@ -20,15 +20,19 @@
             @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
                 <div>
-                    <button class="btn btn-sm" data-toggle="tooltip" data-placement="bottom" title="Add SubCategory" href="#">
-                        <i class="fas fa-plus text-decoration-none text-warning"></i>
-                    </button>
-                    <button class="btn btn-sm" data-toggle="tooltip" data-placement="bottom" title="Edit" href="#">
-                        <i class="fas fa-edit text-decoration-none text-primary"></i>
-                    </button>
+                    <a class="text-decoration-none" asp-controller="Categories" asp-action="AddSubCategory" asp-route-id="@key.Id">
+                        <button class="btn btn-sm" data-toggle="tooltip" data-placement="bottom" title="Add SubCategory">
+                            <i class="fas fa-plus text-decoration-none text-warning"></i>
+                        </button>
+                    </a>
+                    <a class="text-decoration-none" asp-controller="Categories" asp-action="Edit" asp-route-id="@key.Id">
+                        <button class="btn btn-sm" data-toggle="tooltip" data-placement="bottom" title="Edit" href="#">
+                            <i class="fas fa-edit text-decoration-none text-primary"></i>
+                        </button>
+                    </a>
                     <form method="post" id="deleteForm" asp-controller="Categories" asp-action="Delete" asp-route-id="@key.Id">
                     </form>
-                    <button class="btn btn-sm" data-toggle="modal" data-placement="bottom" title="Delete" data-target="#deleteModal">
+                    <button class="btn btn-sm" data-toggle="modal" data-target="#deleteModal">
                         <i class="fas fa-times text-decoration-none text-danger"></i>
                     </button>
                 </div>
@@ -54,4 +58,4 @@
     }
 </div>
 
-<partial name="_DeleteConfirmationPartial"/>
+<partial name="_DeleteConfirmationPartial" />

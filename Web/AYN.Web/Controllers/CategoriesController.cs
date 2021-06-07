@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using AYN.Common;
 using AYN.Services.Data;
@@ -39,8 +40,61 @@ namespace AYN.Web.Controllers
 
             var wwwrootPath = this.environment
                 .WebRootPath;
+            try
+            {
+                await this.categoriesService.CreateAsync(input, wwwrootPath);
+            }
+            catch (InvalidOperationException ioe)
+            {
+                this.ModelState.AddModelError(string.Empty, ioe.Message);
 
-            await this.categoriesService.CreateAsync(input, wwwrootPath);
+                return this.View(input);
+            }
+
+            return this.Redirect("/");
+        }
+
+        [HttpGet]
+        public IActionResult AddSubCategory()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddSubCategory(AddSubCategoryViewModel input, int id)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(input);
+            }
+
+            try
+            {
+                await this.categoriesService.AddSubCategoryAsync(input, id);
+            }
+            catch (InvalidOperationException ioe)
+            {
+                this.ModelState.AddModelError(string.Empty, ioe.Message);
+
+                return this.View(input);
+            }
+
+            return this.Redirect("/");
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var viewModel = this.categoriesService
+                .GetById<EditCategoryInputModel>(id);
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditCategoryInputModel input, int id)
+        {
+            await this.categoriesService.UpdateAsync(input, id);
 
             return this.Redirect("/");
         }
@@ -48,8 +102,16 @@ namespace AYN.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            await this.categoriesService
-                .DeleteAsync(id);
+            try
+            {
+                await this.categoriesService.DeleteAsync(id);
+            }
+            catch (InvalidOperationException ioe)
+            {
+                this.ModelState.AddModelError(string.Empty, ioe.Message);
+
+                return this.Redirect("/");
+            }
 
             return this.Redirect("/");
         }
