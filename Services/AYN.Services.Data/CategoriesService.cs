@@ -42,10 +42,7 @@ namespace AYN.Services.Data
                 .TrimEnd()
                 .ToLower();
 
-            if (!this.allowedImageExtensions.Contains(extension))
-            {
-                throw new InvalidOperationException("Invalid image.");
-            }
+            this.ImageExtensionValidator(extension);
 
             var category = new Category()
             {
@@ -103,7 +100,7 @@ namespace AYN.Services.Data
                 .To<T>()
                 .FirstOrDefault();
 
-        public async Task UpdateAsync(EditCategoryInputModel input, int categoryId)
+        public async Task UpdateAsync(EditCategoryInputModel input, int categoryId, string imagePath)
         {
             var category = this.categoriesRepository
                 .All()
@@ -113,6 +110,36 @@ namespace AYN.Services.Data
 
             this.categoriesRepository.Update(category);
             await this.categoriesRepository.SaveChangesAsync();
+
+            if (input.Picture != null)
+            {
+                var physicalPath = $"{imagePath}/img/CategoriesPictures/";
+
+                Directory.CreateDirectory($"{physicalPath}");
+                File.Delete(physicalPath + $"{category.Id}.{category.PictureExtension}");
+
+                var extension = Path
+                    .GetExtension(input.Picture.FileName)
+                    .TrimStart('.')
+                    .TrimEnd()
+                    .ToLower();
+
+                this.ImageExtensionValidator(extension);
+
+                category.PictureExtension = extension;
+
+                this.categoriesRepository.Update(category);
+                await this.categoriesRepository.SaveChangesAsync();
+
+                var fullPhysicalPath = physicalPath + $"{category.Id}.{extension}";
+
+                await using var fileStream = new FileStream(fullPhysicalPath, FileMode.Create);
+
+                await input.Picture.CopyToAsync(fileStream);
+                await fileStream.DisposeAsync();
+
+                await SaveCategoryPictureLocally(fullPhysicalPath);
+            }
         }
 
         public async Task DeleteAsync(int id)
@@ -138,6 +165,14 @@ namespace AYN.Services.Data
             categoryImage.Mutate(ci => ci.Resize(100, 100));
 
             await categoryImage.SaveAsync($"{fullPhysicalPath}");
+        }
+
+        private void ImageExtensionValidator(string extension)
+        {
+            if (!this.allowedImageExtensions.Contains(extension))
+            {
+                throw new InvalidOperationException("Invalid image.");
+            }
         }
     }
 }

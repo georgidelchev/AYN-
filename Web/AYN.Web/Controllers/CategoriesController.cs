@@ -94,7 +94,10 @@ namespace AYN.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditCategoryInputModel input, int id)
         {
-            await this.categoriesService.UpdateAsync(input, id);
+            var wwwrootPath = this.environment
+                .WebRootPath;
+
+            await this.categoriesService.UpdateAsync(input, id, wwwrootPath);
 
             return this.Redirect("/");
         }

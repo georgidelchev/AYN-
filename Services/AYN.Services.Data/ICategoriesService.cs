@@ -15,7 +15,7 @@ namespace AYN.Services.Data
 
         T GetById<T>(int categoryId);
 
-        Task UpdateAsync(EditCategoryInputModel input, int categoryId);
+        Task UpdateAsync(EditCategoryInputModel input, int categoryId, string imagePath);
 
         Task DeleteAsync(int id);
     }
