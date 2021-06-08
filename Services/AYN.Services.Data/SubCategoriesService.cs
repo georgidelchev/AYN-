@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -42,6 +43,18 @@ namespace AYN.Services.Data
                 .Where(sc => sc.CategoryId == categoryId)
                 .OrderBy(sc => sc.Name)
                 .To<T>();
+
+        public IEnumerable<KeyValuePair<string, string>> GetAllAsKeyValuePairs()
+            => this.subCategoriesRepository
+                .All()
+                .Select(sc => new
+                {
+                    sc.Id,
+                    sc.Name,
+                })
+                .ToList()
+                .OrderBy(sc => sc.Name)
+                .Select(sc => new KeyValuePair<string, string>(sc.Id.ToString(), sc.Name));
 
         public bool IsSubCategoryExisting(string subCategoryName)
             => this.subCategoriesRepository

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+
 using AYN.Data.Common.Models;
 
 namespace AYN.Data.Models

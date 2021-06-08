@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+
 using AYN.Data.Models;
 using AYN.Services.Mapping;
 using Microsoft.AspNetCore.Http;
@@ -9,6 +10,7 @@ namespace AYN.Web.ViewModels.Categories
 {
     public class EditCategoryInputModel : IMapFrom<Category>
     {
+        [Required]
         public int Id { get; set; }
 
         [Required]

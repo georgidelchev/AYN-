@@ -3,14 +3,14 @@
     public static class AttributeConstraints
     {
         // Category model
-        public const int CategoryNameMaxLength = 20;
         public const int CategoryNameMinLength = 3;
-
-        // Description model
-        public const int DescriptionMaxLength = 1000;
+        public const int CategoryNameMaxLength = 20;
 
         // Ad model
         public const int AdNameMaxLength = 30;
+        public const int AdNameMinLength = 2;
+        public const int DescriptionMinLength = 10;
+        public const int DescriptionMaxLength = 1000;
 
         // Address model
         public const int AddressNameMaxLength = 50;
@@ -36,6 +36,7 @@
         public const int TagNameMaxLength = 10;
 
         // Town model
+        public const int TownNameMinLength = 3;
         public const int TownNameMaxLength = 30;
 
         // ApplicationUser Model

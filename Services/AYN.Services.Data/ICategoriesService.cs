@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using AYN.Web.ViewModels.Categories;
@@ -10,6 +11,8 @@ namespace AYN.Services.Data
         Task CreateAsync(CreateCategoryInputModel input, string imagePath);
 
         IQueryable<T> GetAll<T>();
+
+        IEnumerable<KeyValuePair<string, string>> GetAllAsKeyValuePairs();
 
         Task AddSubCategoryAsync(AddSubCategoryViewModel input, int categoryId);
 

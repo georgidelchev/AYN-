@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -89,6 +90,18 @@ namespace AYN.Services.Data
             => this.categoriesRepository
                 .All()
                 .To<T>();
+
+        public IEnumerable<KeyValuePair<string, string>> GetAllAsKeyValuePairs()
+            => this.categoriesRepository
+                .All()
+                .Select(c => new
+                {
+                    c.Id,
+                    c.Name,
+                })
+                .ToList()
+                .OrderBy(c => c.Name)
+                .Select(c => new KeyValuePair<string, string>(c.Id.ToString(), c.Name));
 
         public async Task AddSubCategoryAsync(AddSubCategoryViewModel input, int categoryId)
             => await this.subCategoriesService.CreateAsync(input, categoryId);

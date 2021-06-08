@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using AYN.Common;
 using AYN.Services.Data;
 using AYN.Web.ViewModels.Categories;
+using AYN.Web.ViewModels.SubCategories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -14,13 +16,16 @@ namespace AYN.Web.Controllers
     public class CategoriesController : Controller
     {
         private readonly ICategoriesService categoriesService;
+        private readonly ISubCategoriesService subCategoriesService;
         private readonly IWebHostEnvironment environment;
 
         public CategoriesController(
             ICategoriesService categoriesService,
+            ISubCategoriesService subCategoriesService,
             IWebHostEnvironment environment)
         {
             this.categoriesService = categoriesService;
+            this.subCategoriesService = subCategoriesService;
             this.environment = environment;
         }
 
@@ -100,6 +105,16 @@ namespace AYN.Web.Controllers
             await this.categoriesService.UpdateAsync(input, id, wwwrootPath);
 
             return this.Redirect("/");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public IActionResult GetSubCategories(int id)
+        {
+            var sc = this.subCategoriesService
+                .GetAllByCategoryId<SubCategoryViewModel>(id);
+
+            return this.Json(sc);
         }
 
         [HttpPost]

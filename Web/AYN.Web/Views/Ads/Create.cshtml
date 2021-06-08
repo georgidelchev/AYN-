@@ -1,0 +1,152 @@
+﻿@model AYN.Web.ViewModels.Ads.CreateAdInputModel
+
+@{
+    this.ViewData["Title"] = "Create Ad";
+
+    var categories = this.Model
+        .Categories
+        .Select(c => new SelectListItem(c.Value, c.Key));
+
+    var towns = this.Model
+            .Towns
+            .Select(c => new SelectListItem(c.Value, c.Key));
+}
+
+<div class="text-center">
+    <h1>@this.ViewData["Title"]</h1>
+</div>
+
+<form method="post" class="col-md-6 offset-md-3 text-center" enctype="multipart/form-data">
+    <hr />
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div>
+        <span asp-validation-for="Name" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="Name" class="input-group-text">
+                    <i class="fas fa-file-signature"></i>
+                </label>
+            </div>
+            <input asp-for="Name" placeholder="Name" class="form-control" />
+        </div>
+    </div>
+
+    <div>
+        <span asp-validation-for="Description" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="Description" class="input-group-text">
+                    <i class="fas fa-file-signature"></i>
+                </label>
+            </div>
+            <textarea asp-for="Description" rows="5" placeholder="Description" class="form-control"></textarea>
+        </div>
+    </div>
+
+    <div>
+        <span asp-validation-for="Weight" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="Weight" class="input-group-text">
+                    <i class="fas fa-file-signature"></i>
+                </label>
+            </div>
+            <input asp-for="Weight" placeholder="Weight (optional)" class="form-control" />
+        </div>
+    </div>
+
+   
+
+    <div>
+        <span asp-validation-for="TownId" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="TownId" class="input-group-text">
+                    <i class="fas fa-file-signature"></i>
+                </label>
+            </div>
+            <select asp-for="TownId" class="form-control" asp-items="towns">
+                <option selected disabled>Choose Town</option>
+            </select>
+        </div>
+    </div>
+
+    <div>
+        <span asp-validation-for="ProductCondition" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="ProductCondition" class="input-group-text">
+                    <i class="fas fa-file-signature"></i>
+                </label>
+            </div>
+            <select asp-for="ProductCondition" class="form-control">
+                <option selected disabled>Choose the condition of the product</option>
+            </select>
+        </div>
+    </div>
+    
+    <div>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="CategoryId" class="input-group-text">
+                    <i class="fas fa-file-signature"></i>
+                </label>
+            </div>
+            <select id="category-selector" asp-for="CategoryId" class="form-control" asp-items="categories">
+                <option selected disabled>Choose Category</option>
+            </select>
+        </div>
+    </div>
+
+    <div>
+        <span asp-validation-for="SubCategoryId" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="SubCategoryId" class="input-group-text">
+                    <i class="fas fa-file-signature"></i>
+                </label>
+            </div>
+            <select id="subcategory-selector" asp-for="SubCategoryId" class="form-control">
+                <option selected disabled>Please pick a SubCategory first.</option>
+            </select>
+        </div>
+    </div>
+
+    @*<div class="form-group">
+            <label for="customFile">Upload Picture</label>
+            <input type="file" class="form-control-file" id="customFile" asp-for="Picture" />
+            <span asp-validation-for="Picture" class="text-danger"></span>
+        </div>*@
+
+    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+    <hr />
+</form>
+
+<script>
+    $("#category-selector").on("change", function() {
+        const id = this.value;
+        const url = `/Categories/GetSubCategories/${id}`;
+
+        $.get(url, function(data, s) {
+            // console.log(data);
+            $("#subcategory-selector").find('option')
+                .remove()
+                .end()
+                .append('<option selected disabled">Choose SubCategory</option>');
+
+            for(const subCategory of data)
+            {
+                $("#subcategory-selector").append(new Option(subCategory.name, subCategory.id))
+            }
+        })
+    })
+</script>
