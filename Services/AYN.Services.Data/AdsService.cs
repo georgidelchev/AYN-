@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 
 using AYN.Data.Common.Repositories;
@@ -49,7 +50,7 @@ namespace AYN.Services.Data
 
                 ad.Pictures.Add(new Picture() { Extension = extension });
 
-                var fullPhysicalPath = physicalPath + $"{ad.Id}.{extension}";
+                var fullPhysicalPath = physicalPath + $"{ad.Id}-{Guid.NewGuid()}.{extension}";
 
                 await using var fileStream = new FileStream(fullPhysicalPath, FileMode.Create);
 

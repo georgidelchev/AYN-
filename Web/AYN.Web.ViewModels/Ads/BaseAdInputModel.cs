@@ -22,7 +22,7 @@ namespace AYN.Web.ViewModels.Ads
         [Range(typeof(decimal), "0.01", "10000")]
         public decimal? Weight { get; set; }
 
-        [Range(typeof(decimal), "0.01", "1000000")]
+        [Range(typeof(decimal), "0.01", "1000000.0")]
         public decimal Price { get; set; }
 
         [Required]
