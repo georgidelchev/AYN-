@@ -2,8 +2,9 @@
 {
     public enum ProductCondition
     {
-        New = 1,
-        Used = 2,
-        Damaged = 3,
+        Unknown = 1,
+        New = 2,
+        Used = 3,
+        Damaged = 4,
     }
 }

@@ -9,6 +9,7 @@ namespace AYN.Web.Controllers
         private readonly ICategoriesService categoriesService;
         private readonly ISubCategoriesService subCategoriesService;
         private readonly ITownsService townsService;
+        private readonly IAddressesService addressesService;
 
         public AdsController(
             ICategoriesService categoriesService,

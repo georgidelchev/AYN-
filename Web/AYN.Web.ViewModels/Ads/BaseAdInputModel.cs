@@ -26,6 +26,9 @@ namespace AYN.Web.ViewModels.Ads
         public int TownId { get; set; }
 
         [Required]
+        public int AddressId { get; set; }
+
+        [Required]
         public int CategoryId { get; set; }
 
         [Required]

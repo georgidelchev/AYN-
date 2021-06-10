@@ -2,7 +2,8 @@
 {
     public enum AdType
     {
-        Private = 1,
-        Business = 2,
+        Unknown = 1,
+        Private = 2,
+        Business = 3,
     }
 }

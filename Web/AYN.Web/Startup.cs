@@ -69,6 +69,7 @@ namespace AYN.Web
             services.AddTransient<ISubCategoriesService, SubCategoriesService>();
             services.AddTransient<IAdsService, AdsService>();
             services.AddTransient<ITownsService, TownsService>();
+            services.AddTransient<IAddressesService, AddressesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,11 +80,15 @@ namespace AYN.Web
             // Seed data on application startup
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
-                var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                var dbContext = serviceScope.ServiceProvider
+                    .GetRequiredService<ApplicationDbContext>();
 
                 dbContext.Database.Migrate();
 
-                new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
+                new ApplicationDbContextSeeder()
+                    .SeedAsync(dbContext, serviceScope.ServiceProvider)
+                    .GetAwaiter()
+                    .GetResult();
             }
 
             if (env.IsDevelopment())

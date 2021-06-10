@@ -29,6 +29,7 @@ namespace AYN.Data.Seeding
                           {
                               new RolesSeeder(),
                               new SettingsSeeder(),
+                              new TownsSeeder(),
                           };
 
             foreach (var seeder in seeders)

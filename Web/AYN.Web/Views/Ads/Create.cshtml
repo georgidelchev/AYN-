@@ -1,4 +1,5 @@
-﻿@model AYN.Web.ViewModels.Ads.CreateAdInputModel
+﻿@using AYN.Data.Models.Enumerations
+@model AYN.Web.ViewModels.Ads.CreateAdInputModel
 
 @{
     this.ViewData["Title"] = "Create Ad";
@@ -47,19 +48,43 @@
     </div>
 
     <div>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="CategoryId" class="input-group-text">
+                    <i class="fas fa-list-ol"></i>
+                </label>
+            </div>
+            <select id="category-selector" asp-for="CategoryId" class="form-control" asp-items="categories">
+                <option selected disabled>Choose Category</option>
+            </select>
+            &nbsp;
+            <span asp-validation-for="SubCategoryId" class="text-danger"></span>
+
+            <div class="input-group-prepend">
+                <label asp-for="SubCategoryId" class="input-group-text">
+                    <i class="fas fa-list-ul"></i>
+                </label>
+            </div>
+            <select id="subcategory-selector" asp-for="SubCategoryId" class="form-control">
+                <option selected disabled>Pick a Category first</option>
+            </select>
+        </div>
+    </div>
+
+    <div>
         <span asp-validation-for="Weight" class="text-danger"></span>
 
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label asp-for="Weight" class="input-group-text">
-                    <i class="fas fa-file-signature"></i>
+                    <i class="fas fa-weight"></i>
                 </label>
             </div>
-            <input asp-for="Weight" placeholder="Weight (optional)" class="form-control" />
+            <input type="number" step="0.1" asp-for="Weight" placeholder="Weight (optional)" class="form-control" />
         </div>
     </div>
-
-   
 
     <div>
         <span asp-validation-for="TownId" class="text-danger"></span>
@@ -67,11 +92,23 @@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label asp-for="TownId" class="input-group-text">
-                    <i class="fas fa-file-signature"></i>
+                    <i class="far fa-building"></i>
                 </label>
             </div>
-            <select asp-for="TownId" class="form-control" asp-items="towns">
+            <select id="town-selector" asp-for="TownId" class="form-control" asp-items="towns">
                 <option selected disabled>Choose Town</option>
+            </select>
+
+            &nbsp;
+            <span asp-validation-for="AddressId" class="text-danger"></span>
+
+            <div class="input-group-prepend">
+                <label asp-for="AddressId" class="input-group-text">
+                    <i class="fas fa-map-marked-alt"></i>
+                </label>
+            </div>
+            <select id="address-selector" asp-for="AddressId" class="form-control">
+                <option selected disabled>Pick a Town first</option>
             </select>
         </div>
     </div>
@@ -82,41 +119,34 @@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label asp-for="ProductCondition" class="input-group-text">
-                    <i class="fas fa-file-signature"></i>
+                    <i class="fas fa-chevron-up"></i>
                 </label>
             </div>
             <select asp-for="ProductCondition" class="form-control">
                 <option selected disabled>Choose the condition of the product</option>
-            </select>
-        </div>
-    </div>
-    
-    <div>
-        <span asp-validation-for="CategoryId" class="text-danger"></span>
-
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <label asp-for="CategoryId" class="input-group-text">
-                    <i class="fas fa-file-signature"></i>
-                </label>
-            </div>
-            <select id="category-selector" asp-for="CategoryId" class="form-control" asp-items="categories">
-                <option selected disabled>Choose Category</option>
+                @foreach (int productCondition in Enum.GetValues(typeof(ProductCondition)))
+                {
+                    <option value="@productCondition">@Enum.GetName(typeof(ProductCondition), productCondition)</option>
+                }
             </select>
         </div>
     </div>
 
     <div>
-        <span asp-validation-for="SubCategoryId" class="text-danger"></span>
+        <span asp-validation-for="AdType" class="text-danger"></span>
 
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <label asp-for="SubCategoryId" class="input-group-text">
-                    <i class="fas fa-file-signature"></i>
+                <label asp-for="AdType" class="input-group-text">
+                    <i class="fas fa-ad"></i>
                 </label>
             </div>
-            <select id="subcategory-selector" asp-for="SubCategoryId" class="form-control">
-                <option selected disabled>Please pick a SubCategory first.</option>
+            <select asp-for="AdType" class="form-control">
+                <option selected disabled>Choose the ad type</option>
+                @foreach (int adType in Enum.GetValues(typeof(AdType)))
+                {
+                    <option value="@adType">@Enum.GetName(typeof(AdType), adType)</option>
+                }
             </select>
         </div>
     </div>
@@ -132,21 +162,45 @@
 </form>
 
 <script>
-    $("#category-selector").on("change", function() {
+    $("#category-selector").on("change", function () {
         const id = this.value;
         const url = `/Categories/GetSubCategories/${id}`;
+        console.log(id);
+        $.get(url,
+            function (data, s) {
+                 console.log(data);
+                $("#subcategory-selector")
+                    .find('option')
+                    .remove()
+                    .end()
+                    .append('<option selected disabled">Choose SubCategory</option>');
 
-        $.get(url, function(data, s) {
-            // console.log(data);
-            $("#subcategory-selector").find('option')
-                .remove()
-                .end()
-                .append('<option selected disabled">Choose SubCategory</option>');
+                for (const subCategory of data) {
+                    $("#subcategory-selector")
+                        .append(new Option(subCategory.name, subCategory.id));
+                }
+            });
+    })
+</script>
 
-            for(const subCategory of data)
-            {
-                $("#subcategory-selector").append(new Option(subCategory.name, subCategory.id))
-            }
-        })
+<script>
+    $("#town-selector").on("change", function () {
+        const id = this.value;
+        const url = `/Towns/GetAddresses/${id}`;
+
+        $.get(url,
+            function (data, s) {
+                // console.log(data);
+                $("#address-selector")
+                    .find('option')
+                    .remove()
+                    .end()
+                    .append('<option selected disabled">Choose Address</option>');
+
+                for (const address of data) {
+                    $("#address-selector")
+                        .append(new Option(address.name, address.id));
+                }
+            });
     })
 </script>
