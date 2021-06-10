@@ -22,6 +22,9 @@ namespace AYN.Web.ViewModels.Ads
         [Range(typeof(decimal), "0.01", "10000")]
         public decimal? Weight { get; set; }
 
+        [Range(typeof(decimal), "0.01", "1000000")]
+        public decimal Price { get; set; }
+
         [Required]
         public int TownId { get; set; }
 
@@ -35,8 +38,6 @@ namespace AYN.Web.ViewModels.Ads
         public int SubCategoryId { get; set; }
 
         public IEnumerable<KeyValuePair<string, string>> Categories { get; set; }
-
-        public IEnumerable<KeyValuePair<string, string>> SubCategories { get; set; }
 
         public IEnumerable<KeyValuePair<string, string>> Towns { get; set; }
 

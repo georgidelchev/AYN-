@@ -19,31 +19,28 @@ namespace AYN.Services.Data
         private readonly IDeletableEntityRepository<Category> categoriesRepository;
         private readonly IDeletableEntityRepository<SubCategory> subCategoriesRepository;
         private readonly ISubCategoriesService subCategoriesService;
+        private readonly IImageProcessingService imageProcessingService;
         private readonly string[] allowedImageExtensions = { "jpg", "png", "jfif", "exif", "gif", "bmp", "ppm", "pgm", "pbm", "pnm", "heif", "bat" };
 
         public CategoriesService(
             IDeletableEntityRepository<Category> categoriesRepository,
             IDeletableEntityRepository<SubCategory> subCategoriesRepository,
-            ISubCategoriesService subCategoriesService)
+            ISubCategoriesService subCategoriesService,
+            IImageProcessingService imageProcessingService)
         {
             this.categoriesRepository = categoriesRepository;
             this.subCategoriesRepository = subCategoriesRepository;
             this.subCategoriesService = subCategoriesService;
+            this.imageProcessingService = imageProcessingService;
         }
 
         public async Task CreateAsync(CreateCategoryInputModel input, string imagePath)
         {
             var physicalPath = $"{imagePath}/img/CategoriesPictures/";
-
             Directory.CreateDirectory($"{physicalPath}");
 
-            var extension = Path
-                .GetExtension(input.Picture.FileName)
-                .TrimStart('.')
-                .TrimEnd()
-                .ToLower();
-
-            this.ImageExtensionValidator(extension);
+            var extension = this.imageProcessingService.GetImageExtension(input.Picture);
+            this.imageProcessingService.ValidateImageExtension(extension);
 
             var category = new Category()
             {
@@ -83,7 +80,7 @@ namespace AYN.Services.Data
             await input.Picture.CopyToAsync(fileStream);
             await fileStream.DisposeAsync();
 
-            await SaveCategoryPictureLocally(fullPhysicalPath);
+            await this.imageProcessingService.SaveImageLocallyAsync(fullPhysicalPath, 100, 100);
         }
 
         public IQueryable<T> GetAll<T>()
@@ -131,13 +128,8 @@ namespace AYN.Services.Data
                 Directory.CreateDirectory($"{physicalPath}");
                 File.Delete(physicalPath + $"{category.Id}.{category.PictureExtension}");
 
-                var extension = Path
-                    .GetExtension(input.Picture.FileName)
-                    .TrimStart('.')
-                    .TrimEnd()
-                    .ToLower();
-
-                this.ImageExtensionValidator(extension);
+                var extension = this.imageProcessingService.GetImageExtension(input.Picture);
+                this.imageProcessingService.ValidateImageExtension(extension);
 
                 category.PictureExtension = extension;
 
@@ -151,7 +143,7 @@ namespace AYN.Services.Data
                 await input.Picture.CopyToAsync(fileStream);
                 await fileStream.DisposeAsync();
 
-                await SaveCategoryPictureLocally(fullPhysicalPath);
+                await this.imageProcessingService.SaveImageLocallyAsync(fullPhysicalPath, 100, 100);
             }
         }
 
@@ -169,23 +161,6 @@ namespace AYN.Services.Data
             this.categoriesRepository.Delete(category);
 
             await this.categoriesRepository.SaveChangesAsync();
-        }
-
-        private static async Task SaveCategoryPictureLocally(string fullPhysicalPath)
-        {
-            using var categoryImage = await Image.LoadAsync(fullPhysicalPath);
-
-            categoryImage.Mutate(ci => ci.Resize(100, 100));
-
-            await categoryImage.SaveAsync($"{fullPhysicalPath}");
-        }
-
-        private void ImageExtensionValidator(string extension)
-        {
-            if (!this.allowedImageExtensions.Contains(extension))
-            {
-                throw new InvalidOperationException("Invalid image.");
-            }
         }
     }
 }

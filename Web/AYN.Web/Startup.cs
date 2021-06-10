@@ -70,6 +70,7 @@ namespace AYN.Web
             services.AddTransient<IAdsService, AdsService>();
             services.AddTransient<ITownsService, TownsService>();
             services.AddTransient<IAddressesService, AddressesService>();
+            services.AddTransient<IImageProcessingService, ImageProcessingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

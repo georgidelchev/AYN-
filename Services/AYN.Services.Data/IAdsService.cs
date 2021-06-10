@@ -6,6 +6,6 @@ namespace AYN.Services.Data
 {
     public interface IAdsService
     {
-        Task CreateAsync(CreateAdInputModel input);
+        Task CreateAsync(CreateAdInputModel input, string userId, string imagePath);
     }
 }
