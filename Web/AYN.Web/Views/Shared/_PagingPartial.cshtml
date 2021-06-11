@@ -1,18 +1,29 @@
 ﻿@model PagingViewModel
 
+@{
+    var queryString = new Dictionary<string, string>
+{
+        { "search", $"{this.Model.Search}" },
+        { "orderBy", $"{this.Model.OrderBy}" },
+        { "town", $"{this.Model.Town}" },
+    };
+}
+
 <nav aria-label="...">
     <ul class="pagination justify-content-center">
         <li class="page-item @if (!Model.HasPreviousPage) {<text>disabled</text>}">
-            <a class="page-link" asp-action="All" asp-route-id="1">&laquo;</a>
+            <a class="page-link" asp-all-route-data="queryString" asp-route-id="1">&laquo;</a>
         </li>
         <li class="page-item @if (!Model.HasPreviousPage) {<text>disabled</text>}">
-            <a class="page-link" asp-action="All" asp-route-id="@Model.PreviousPageNumber">&lsaquo;</a>
+            <a class="page-link" asp-all-route-data="queryString" asp-route-id="@Model.PreviousPageNumber">&lsaquo;</a>
         </li>
-        @for (int i = Model.PageNumber - 3; i < Model.PageNumber; i++)
+        @for (var i = Model.PageNumber - 3; i < Model.PageNumber; i++)
         {
             @if (i > 0)
             {
-                <li class="page-item"><a class="page-link" asp-action="All" asp-route-id="@i">@i</a></li>
+
+
+                <li class="page-item"><a class="page-link" asp-all-route-data="queryString" asp-route-id="@i">@i</a></li>
             }
         }
         <li class="page-item active">
@@ -21,18 +32,18 @@
                 <span class="sr-only">(current)</span>
             </span>
         </li>
-        @for (int i = Model.PageNumber + 1; i <= Model.PageNumber + 3; i++)
+        @for (var i = Model.PageNumber + 1; i <= Model.PageNumber + 3; i++)
         {
             if (i <= Model.PagesCount)
             {
-                <li class="page-item"><a class="page-link" asp-action="All" asp-route-id="@i">@i</a></li>
+                <li class="page-item"><a class="page-link" asp-all-route-data="queryString" asp-route-id="@i">@i</a></li>
             }
         }
         <li class="page-item @if (!Model.HasNextPage) {<text>disabled</text>}">
-            <a class="page-link" asp-action="All" asp-route-id="@Model.NextPageNumber">&rsaquo;</a>
+            <a class="page-link" asp-all-route-data="queryString" asp-route-id="@Model.NextPageNumber">&rsaquo;</a>
         </li>
         <li class="page-item @if (!Model.HasNextPage) {<text>disabled</text>}">
-            <a class="page-link" asp-action="All" asp-route-id="@Model.PagesCount">&raquo;</a>
+            <a class="page-link" asp-all-route-data="queryString" asp-route-id="@Model.PagesCount">&raquo;</a>
         </li>
     </ul>
 </nav>

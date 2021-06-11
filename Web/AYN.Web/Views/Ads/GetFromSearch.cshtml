@@ -1,8 +1,30 @@
-﻿@{
+﻿@model AYN.Web.ViewModels.Ads.ListGetFromSearchViewModel
+
+@{
     this.ViewData["Title"] = "Search Results";
 }
 
 <div class="text-center">
     <h1>@this.ViewData["Title"]</h1>
+    <h6>@this.Model.TotalResults Results Found!</h6>
 </div>
 
+<div class="row">
+    @foreach (var ad in this.Model.AllFromSearch)
+    {
+        <div class="card col-md-4">
+            <h5 class="card-title text-center">
+            </h5>
+            <img class="card-img-top" src="/img/AdsPictures/1-@ad.Id.@ad.PictureExtension" alt="Card image cap">
+            <hr />
+            <div class="card-body">
+                <div class="text-center">
+                    <a asp-controller="Ads" asp-action="Details" asp-route-id="@ad.Id">@ad.Name</a><br />
+                    @ad.Price$
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<partial name="_PagingPartial" model="this.Model" />

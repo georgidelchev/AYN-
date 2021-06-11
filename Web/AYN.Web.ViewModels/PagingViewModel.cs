@@ -24,5 +24,11 @@ namespace AYN.Web.ViewModels
 
         public int PagesCount
             => (int)Math.Ceiling((double)this.Count / this.ItemsPerPage);
+
+        public string Search { get; set; }
+
+        public string OrderBy { get; set; }
+
+        public string Town { get; set; }
     }
 }

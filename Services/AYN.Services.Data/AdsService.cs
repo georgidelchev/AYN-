@@ -94,9 +94,9 @@ namespace AYN.Services.Data
                 .All()
                 .Count();
 
-        public IEnumerable<T> GetFromSearch<T>(string search, string orderBy, string town, int page, int itemsPerPage)
+        public IEnumerable<T> GetFromSearch<T>(string search, string orderBy, string town)
         {
-            search = search.ToLower();
+            search = search.ToLower().Trim();
 
             var ads = this.adsRepository
                 .All()
@@ -120,7 +120,8 @@ namespace AYN.Services.Data
                 ads = ads.Where(a => a.TownId == townId);
             }
 
-            return ads.To<T>()
+            return ads
+                .To<T>()
                 .ToList();
         }
     }

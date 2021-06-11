@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 using AYN.Services.Data;
@@ -66,9 +67,23 @@ namespace AYN.Web.Controllers
             return this.View(viewModel);
         }
 
-        public IActionResult GetFromSearch(string search, string orderBy = "dateDesc", int id = 1)
+        public IActionResult GetFromSearch(string search, string town, string orderBy = "dateDesc", int id = 1)
         {
-            return this.View();
+            var ads = this.adsService.GetFromSearch<GetRecentAdsViewModel>(search, orderBy, town);
+            var itemsPerPage = 12;
+            var viewModel = new ListGetFromSearchViewModel()
+            {
+                Count = ads.Count(),
+                ItemsPerPage = itemsPerPage,
+                AllFromSearch = ads.Skip((id - 1) * itemsPerPage).Take(itemsPerPage),
+                PageNumber = id,
+                OrderBy = orderBy,
+                Town = town,
+                Search = search,
+                TotalResults = ads.Count(),
+            };
+
+            return this.View(viewModel);
         }
     }
 }
