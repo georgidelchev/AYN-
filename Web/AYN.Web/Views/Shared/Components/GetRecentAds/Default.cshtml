@@ -1,0 +1,18 @@
+﻿@model AYN.Web.ViewModels.Ads.ListRecentAdsViewModel
+
+<div class="row">
+    @foreach (var ad in this.Model.RecentAds)
+    {
+        <div class="card col-md-4">
+            <h5 class="card-title text-center">
+            </h5>
+            <img class="card-img-top" src="img/AdsPictures/1-@ad.Id.@ad.PictureExtension" width="100" height="300" alt="Card image cap">
+            <div class="card-body">
+                <div class="text-center">
+                    <a asp-controller="Ads" asp-action="Details" asp-route-id="@ad.Id">@ad.Name</a><br />
+                    @ad.Price$
+                </div>
+            </div>
+        </div>
+    }
+</div>

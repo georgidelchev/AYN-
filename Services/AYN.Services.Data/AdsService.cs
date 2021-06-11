@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
+using AYN.Services.Mapping;
 using AYN.Web.ViewModels.Ads;
 
 namespace AYN.Services.Data
@@ -12,13 +15,16 @@ namespace AYN.Services.Data
     {
         private readonly IDeletableEntityRepository<Ad> adsRepository;
         private readonly IImageProcessingService imageProcessingService;
+        private readonly IImageService imageService;
 
         public AdsService(
             IDeletableEntityRepository<Ad> adsRepository,
-            IImageProcessingService imageProcessingService)
+            IImageProcessingService imageProcessingService,
+            IImageService imageService)
         {
             this.adsRepository = adsRepository;
             this.imageProcessingService = imageProcessingService;
+            this.imageService = imageService;
         }
 
         public async Task CreateAsync(CreateAdInputModel input, string userId, string imagePath)
@@ -43,6 +49,7 @@ namespace AYN.Services.Data
             await this.adsRepository.AddAsync(ad);
             await this.adsRepository.SaveChangesAsync();
 
+            var index = 1;
             foreach (var picture in input.Pictures)
             {
                 var extension = this.imageProcessingService.GetImageExtension(picture);
@@ -50,7 +57,9 @@ namespace AYN.Services.Data
 
                 ad.Pictures.Add(new Picture() { Extension = extension });
 
-                var fullPhysicalPath = physicalPath + $"{ad.Id}-{Guid.NewGuid()}.{extension}";
+                await this.imageService.CreateAsync(ad.Id, extension);
+
+                var fullPhysicalPath = physicalPath + $"{index++}-{ad.Id}.{extension}";
 
                 await using var fileStream = new FileStream(fullPhysicalPath, FileMode.Create);
 
@@ -60,5 +69,12 @@ namespace AYN.Services.Data
                 await this.imageProcessingService.SaveImageLocallyAsync(fullPhysicalPath, 1000, 1000);
             }
         }
+
+        public IEnumerable<T> GetRecent12Ads<T>()
+            => this.adsRepository
+                .All()
+                .Take(12)
+                .To<T>()
+                .ToList();
     }
 }

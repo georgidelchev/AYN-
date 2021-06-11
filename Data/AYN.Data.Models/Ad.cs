@@ -9,8 +9,15 @@ using static AYN.Common.AttributeConstraints;
 
 namespace AYN.Data.Models
 {
-    public class Ad : BaseDeletableModel<int>
+    public class Ad : BaseDeletableModel<string>
     {
+        public Ad()
+        {
+            this.Id = Guid
+                .NewGuid()
+                .ToString();
+        }
+
         [Required]
         [MaxLength(AdNameMaxLength)]
         public string Name { get; set; }

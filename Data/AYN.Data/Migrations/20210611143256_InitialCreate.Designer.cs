@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AYN.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210605170056_AddPictureExtensionPropertyToCategory")]
-    partial class AddPictureExtensionPropertyToCategory
+    [Migration("20210611143256_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,10 +23,8 @@ namespace AYN.Data.Migrations
 
             modelBuilder.Entity("AYN.Data.Models.Ad", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AdType")
                         .HasColumnType("int");
@@ -107,6 +105,9 @@ namespace AYN.Data.Migrations
                     b.Property<int>("AdId")
                         .HasColumnType("int");
 
+                    b.Property<string>("AdId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -125,7 +126,7 @@ namespace AYN.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AdId");
+                    b.HasIndex("AdId1");
 
                     b.HasIndex("IsDeleted");
 
@@ -397,6 +398,9 @@ namespace AYN.Data.Migrations
                     b.Property<int>("AdId")
                         .HasColumnType("int");
 
+                    b.Property<string>("AdId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("AddedByUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -420,7 +424,7 @@ namespace AYN.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AdId");
+                    b.HasIndex("AdId1");
 
                     b.HasIndex("AddedByUserId");
 
@@ -480,6 +484,9 @@ namespace AYN.Data.Migrations
                     b.Property<int>("AdId")
                         .HasColumnType("int");
 
+                    b.Property<string>("AdId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -498,7 +505,7 @@ namespace AYN.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AdId");
+                    b.HasIndex("AdId1");
 
                     b.HasIndex("IsDeleted");
 
@@ -550,8 +557,9 @@ namespace AYN.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AdId")
-                        .HasColumnType("int");
+                    b.Property<string>("AdId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -684,6 +692,9 @@ namespace AYN.Data.Migrations
                     b.Property<int>("ReportedAdId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ReportedAdId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("ReportedUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -696,7 +707,7 @@ namespace AYN.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("ReportedAdId");
+                    b.HasIndex("ReportedAdId1");
 
                     b.HasIndex("ReportedUserId");
 
@@ -870,6 +881,9 @@ namespace AYN.Data.Migrations
                     b.Property<int>("AdId")
                         .HasColumnType("int");
 
+                    b.Property<string>("AdId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -888,7 +902,7 @@ namespace AYN.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AdId");
+                    b.HasIndex("AdId1");
 
                     b.HasIndex("IsDeleted");
 
@@ -899,8 +913,8 @@ namespace AYN.Data.Migrations
 
             modelBuilder.Entity("AdTag", b =>
                 {
-                    b.Property<int>("AdsId")
-                        .HasColumnType("int");
+                    b.Property<string>("AdsId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("TagsId")
                         .HasColumnType("int");
@@ -1085,9 +1099,7 @@ namespace AYN.Data.Migrations
                 {
                     b.HasOne("AYN.Data.Models.Ad", "Ad")
                         .WithMany()
-                        .HasForeignKey("AdId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("AdId1");
 
                     b.HasOne("AYN.Data.Models.ApplicationUser", "User")
                         .WithMany("AdArchives")
@@ -1115,9 +1127,7 @@ namespace AYN.Data.Migrations
                 {
                     b.HasOne("AYN.Data.Models.Ad", "Ad")
                         .WithMany("Comments")
-                        .HasForeignKey("AdId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("AdId1");
 
                     b.HasOne("AYN.Data.Models.ApplicationUser", "AddedByUser")
                         .WithMany()
@@ -1143,9 +1153,7 @@ namespace AYN.Data.Migrations
                 {
                     b.HasOne("AYN.Data.Models.Ad", "Ad")
                         .WithMany()
-                        .HasForeignKey("AdId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("AdId1");
 
                     b.HasOne("AYN.Data.Models.ApplicationUser", "User")
                         .WithMany("FavoritePosts")
@@ -1224,9 +1232,7 @@ namespace AYN.Data.Migrations
                 {
                     b.HasOne("AYN.Data.Models.Ad", "ReportedAd")
                         .WithMany("Reports")
-                        .HasForeignKey("ReportedAdId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("ReportedAdId1");
 
                     b.HasOne("AYN.Data.Models.ApplicationUser", "ReportedUser")
                         .WithMany()
@@ -1273,9 +1279,7 @@ namespace AYN.Data.Migrations
                 {
                     b.HasOne("AYN.Data.Models.Ad", "Ad")
                         .WithMany("Wishlists")
-                        .HasForeignKey("AdId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("AdId1");
 
                     b.HasOne("AYN.Data.Models.ApplicationUser", "User")
                         .WithMany()

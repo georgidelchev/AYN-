@@ -1,5 +1,4 @@
 ﻿using System;
-
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AYN.Data.Migrations
@@ -50,6 +49,7 @@ namespace AYN.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    PictureExtension = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -237,8 +237,7 @@ namespace AYN.Data.Migrations
                 name: "Ads",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
@@ -486,6 +485,7 @@ namespace AYN.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     AdId = table.Column<int>(type: "int", nullable: false),
+                    AdId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -495,8 +495,8 @@ namespace AYN.Data.Migrations
                 {
                     table.PrimaryKey("PK_AdArchives", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AdArchives_Ads_AdId",
-                        column: x => x.AdId,
+                        name: "FK_AdArchives_Ads_AdId1",
+                        column: x => x.AdId1,
                         principalTable: "Ads",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -512,7 +512,7 @@ namespace AYN.Data.Migrations
                 name: "AdTag",
                 columns: table => new
                 {
-                    AdsId = table.Column<int>(type: "int", nullable: false),
+                    AdsId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     TagsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -539,6 +539,7 @@ namespace AYN.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     AddedByUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     AdId = table.Column<int>(type: "int", nullable: false),
+                    AdId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Content = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -549,8 +550,8 @@ namespace AYN.Data.Migrations
                 {
                     table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comments_Ads_AdId",
-                        column: x => x.AdId,
+                        name: "FK_Comments_Ads_AdId1",
+                        column: x => x.AdId1,
                         principalTable: "Ads",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -569,6 +570,7 @@ namespace AYN.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     AdId = table.Column<int>(type: "int", nullable: false),
+                    AdId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -578,8 +580,8 @@ namespace AYN.Data.Migrations
                 {
                     table.PrimaryKey("PK_FavoritePosts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FavoritePosts_Ads_AdId",
-                        column: x => x.AdId,
+                        name: "FK_FavoritePosts_Ads_AdId1",
+                        column: x => x.AdId1,
                         principalTable: "Ads",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -598,7 +600,7 @@ namespace AYN.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Extension = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
-                    AdId = table.Column<int>(type: "int", nullable: false),
+                    AdId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -623,6 +625,7 @@ namespace AYN.Data.Migrations
                     ReportingUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ReportedUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ReportedAdId = table.Column<int>(type: "int", nullable: false),
+                    ReportedAdId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -633,8 +636,8 @@ namespace AYN.Data.Migrations
                 {
                     table.PrimaryKey("PK_Reports", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reports_Ads_ReportedAdId",
-                        column: x => x.ReportedAdId,
+                        name: "FK_Reports_Ads_ReportedAdId1",
+                        column: x => x.ReportedAdId1,
                         principalTable: "Ads",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -660,6 +663,7 @@ namespace AYN.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     AdId = table.Column<int>(type: "int", nullable: false),
+                    AdId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -669,8 +673,8 @@ namespace AYN.Data.Migrations
                 {
                     table.PrimaryKey("PK_Wishlists", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Wishlists_Ads_AdId",
-                        column: x => x.AdId,
+                        name: "FK_Wishlists_Ads_AdId1",
+                        column: x => x.AdId1,
                         principalTable: "Ads",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -735,9 +739,9 @@ namespace AYN.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AdArchives_AdId",
+                name: "IX_AdArchives_AdId1",
                 table: "AdArchives",
-                column: "AdId");
+                column: "AdId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdArchives_IsDeleted",
@@ -854,9 +858,9 @@ namespace AYN.Data.Migrations
                 column: "AddedByUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_AdId",
+                name: "IX_Comments_AdId1",
                 table: "Comments",
-                column: "AdId");
+                column: "AdId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_IsDeleted",
@@ -874,9 +878,9 @@ namespace AYN.Data.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FavoritePosts_AdId",
+                name: "IX_FavoritePosts_AdId1",
                 table: "FavoritePosts",
-                column: "AdId");
+                column: "AdId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_FavoritePosts_IsDeleted",
@@ -949,9 +953,9 @@ namespace AYN.Data.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reports_ReportedAdId",
+                name: "IX_Reports_ReportedAdId1",
                 table: "Reports",
-                column: "ReportedAdId");
+                column: "ReportedAdId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reports_ReportedUserId",
@@ -994,9 +998,9 @@ namespace AYN.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Wishlists_AdId",
+                name: "IX_Wishlists_AdId1",
                 table: "Wishlists",
-                column: "AdId");
+                column: "AdId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Wishlists_IsDeleted",

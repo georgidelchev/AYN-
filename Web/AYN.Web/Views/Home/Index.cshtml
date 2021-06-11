@@ -6,8 +6,7 @@
     <h4>Search products by our main categories</h4>
 </div>
 <br />
-
-@await Component.InvokeAsync("GetAllCategoriesWithTheirSubCategories");
+@await Component.InvokeAsync("GetAllCategoriesWithTheirSubCategories")
 
 <div class="text-center">
     <h3>Recent Promoted Ads</h3>
@@ -16,7 +15,4 @@
 <div class="text-center">
     <h3>Recent Ads</h3>
 </div>
-
-<div class="text-center">
-    <h3>All Ads</h3>
-</div>
+@await Component.InvokeAsync("GetRecentAds")

@@ -31,9 +31,6 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Create">Create Category</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Ads" asp-action="Create">Create Ad</a>
                         </li>
                     </ul>
@@ -44,6 +41,7 @@
 
     <div class="container">
         <partial name="_CookieConsentPartial" />
+
         <main role="main" class="pb-3">
             @this.RenderBody()
         </main>
