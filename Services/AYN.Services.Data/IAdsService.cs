@@ -10,5 +10,9 @@ namespace AYN.Services.Data
         Task CreateAsync(CreateAdInputModel input, string userId, string imagePath);
 
         IEnumerable<T> GetRecent12Ads<T>();
+
+        IEnumerable<T> GetAll<T>(int page, int itemsPerPage);
+
+        int GetCount();
     }
 }

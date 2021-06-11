@@ -76,5 +76,19 @@ namespace AYN.Services.Data
                 .Take(12)
                 .To<T>()
                 .ToList();
+
+        public IEnumerable<T> GetAll<T>(int page, int itemsPerPage)
+            => this.adsRepository
+                .All()
+                .OrderByDescending(a => a.CreatedOn)
+                .Skip((page - 1) * itemsPerPage)
+                .Take(itemsPerPage)
+                .To<T>()
+                .ToList();
+
+        public int GetCount()
+            => this.adsRepository
+                .All()
+                .Count();
     }
 }

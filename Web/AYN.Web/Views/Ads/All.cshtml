@@ -1,0 +1,30 @@
+﻿@model AYN.Web.ViewModels.Ads.ListAllAdsViewModel
+
+@{
+    this.ViewData["Title"] = "All Ads";
+}
+
+<div class="text-center">
+    <h1>@this.ViewData["Title"]</h1>
+</div>
+
+<div class="row">
+    @foreach (var ad in this.Model.AllAds)
+    {
+    <div class="card col-md-4">
+        <h5 class="card-title text-center">
+        </h5>
+        <img class="card-img-top" src="/img/AdsPictures/1-@ad.Id.@ad.PictureExtension" alt="Card image cap">
+        <hr />
+        <div class="card-body">
+            <div class="text-center">
+                <a asp-controller="Ads" asp-action="Details" asp-route-id="@ad.Id">@ad.Name</a><br />
+                @ad.Price$
+            </div>
+        </div>
+    </div>
+    }
+</div>
+<br/>
+
+<partial name="_PagingPartial" model="this.Model"/>

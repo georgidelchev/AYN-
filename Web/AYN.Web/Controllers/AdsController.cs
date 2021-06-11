@@ -55,5 +55,19 @@ namespace AYN.Web.Controllers
 
             return this.Redirect("/");
         }
+
+        [HttpGet]
+        public IActionResult All(int id = 1)
+        {
+            var viewModel = new ListAllAdsViewModel()
+            {
+                Count = this.adsService.GetCount(),
+                AllAds = this.adsService.GetAll<GetRecentAdsViewModel>(id, 12),
+                ItemsPerPage = 12,
+                PageNumber = id,
+            };
+
+            return this.View(viewModel);
+        }
     }
 }
