@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Threading.Tasks;
+
 using AYN.Services.Data;
 using AYN.Web.ViewModels.Ads;
 using Microsoft.AspNetCore.Hosting;
@@ -11,21 +11,17 @@ namespace AYN.Web.Controllers
     public class AdsController : Controller
     {
         private readonly ICategoriesService categoriesService;
-        private readonly ISubCategoriesService subCategoriesService;
         private readonly ITownsService townsService;
         private readonly IAdsService adsService;
         private readonly IWebHostEnvironment environment;
-        private readonly IAddressesService addressesService;
 
         public AdsController(
             ICategoriesService categoriesService,
-            ISubCategoriesService subCategoriesService,
             ITownsService townsService,
             IAdsService adsService,
             IWebHostEnvironment environment)
         {
             this.categoriesService = categoriesService;
-            this.subCategoriesService = subCategoriesService;
             this.townsService = townsService;
             this.adsService = adsService;
             this.environment = environment;
