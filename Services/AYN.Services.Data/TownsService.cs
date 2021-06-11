@@ -17,7 +17,7 @@ namespace AYN.Services.Data
         }
 
         public IEnumerable<KeyValuePair<string, string>> GetAllAsKeyValuePairs()
-            => this.townsRepository
+            => townsRepository
                 .All()
                 .Select(t => new
                 {
@@ -27,5 +27,11 @@ namespace AYN.Services.Data
                 .ToList()
                 .OrderBy(t => t.Name)
                 .Select(t => new KeyValuePair<string, string>(t.Id.ToString(), t.Name));
+
+        public int GetIdByName(string townName)
+            => townsRepository
+                .All()
+                .FirstOrDefault(t => t.Name == townName)
+                .Id;
     }
 }

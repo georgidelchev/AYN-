@@ -14,5 +14,7 @@ namespace AYN.Services.Data
         IEnumerable<T> GetAll<T>(int page, int itemsPerPage);
 
         int GetCount();
+
+        IEnumerable<T> GetFromSearch<T>(string search, string orderBy, string town, int page, int itemsPerPage);
     }
 }

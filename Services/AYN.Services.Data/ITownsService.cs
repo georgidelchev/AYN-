@@ -5,5 +5,7 @@ namespace AYN.Services.Data
     public interface ITownsService
     {
         IEnumerable<KeyValuePair<string, string>> GetAllAsKeyValuePairs();
+
+        int GetIdByName(string townName);
     }
 }

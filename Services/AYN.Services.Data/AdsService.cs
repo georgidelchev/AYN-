@@ -16,15 +16,18 @@ namespace AYN.Services.Data
         private readonly IDeletableEntityRepository<Ad> adsRepository;
         private readonly IImageProcessingService imageProcessingService;
         private readonly IImageService imageService;
+        private readonly ITownsService townsService;
 
         public AdsService(
             IDeletableEntityRepository<Ad> adsRepository,
             IImageProcessingService imageProcessingService,
-            IImageService imageService)
+            IImageService imageService,
+            ITownsService townsService)
         {
             this.adsRepository = adsRepository;
             this.imageProcessingService = imageProcessingService;
             this.imageService = imageService;
+            this.townsService = townsService;
         }
 
         public async Task CreateAsync(CreateAdInputModel input, string userId, string imagePath)
@@ -90,5 +93,35 @@ namespace AYN.Services.Data
             => this.adsRepository
                 .All()
                 .Count();
+
+        public IEnumerable<T> GetFromSearch<T>(string search, string orderBy, string town, int page, int itemsPerPage)
+        {
+            search = search.ToLower();
+
+            var ads = this.adsRepository
+                .All()
+                .Where(a => a.Name.ToLower().Contains(search) ||
+                            a.Description.ToLower().Contains(search));
+
+            ads = orderBy switch
+            {
+                "dateDesc" => ads.OrderByDescending(a => a.CreatedOn),
+                "dateAsc" => ads.OrderBy(a => a.CreatedOn),
+                "priceDesc" => ads.OrderByDescending(a => a.Price),
+                "priceAsc" => ads.OrderBy(a => a.Price),
+                _ => throw new ArgumentOutOfRangeException(nameof(orderBy), orderBy, null),
+            };
+
+            if (town != null)
+            {
+                var townId = this.townsService
+                    .GetIdByName(town);
+
+                ads = ads.Where(a => a.TownId == townId);
+            }
+
+            return ads.To<T>()
+                .ToList();
+        }
     }
 }

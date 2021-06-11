@@ -65,5 +65,10 @@ namespace AYN.Web.Controllers
 
             return this.View(viewModel);
         }
+
+        public IActionResult GetFromSearch(string search, string orderBy = "dateDesc", int id = 1)
+        {
+            return this.View();
+        }
     }
 }
