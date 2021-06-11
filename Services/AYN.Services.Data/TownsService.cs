@@ -31,7 +31,7 @@ namespace AYN.Services.Data
         public int GetIdByName(string townName)
             => townsRepository
                 .All()
-                .FirstOrDefault(t => t.Name == townName)
+                .FirstOrDefault(t => t.Name.ToLower() == townName.ToLower())
                 .Id;
     }
 }
