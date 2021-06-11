@@ -4,11 +4,12 @@
     this.ViewData["Title"] = "All Ads";
 }
 
+@await Component.InvokeAsync("GetAllCategoriesWithTheirSubCategories")
+
 <div class="text-center">
     <h1>@this.ViewData["Title"]</h1>
 </div>
-
-@await Component.InvokeAsync("GetAllCategoriesWithTheirSubCategories")
+<br/>
 
 <div class="row">
     @foreach (var ad in this.Model.AllAds)

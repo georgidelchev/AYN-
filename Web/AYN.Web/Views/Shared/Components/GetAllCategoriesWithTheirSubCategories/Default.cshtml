@@ -12,50 +12,60 @@
         });
     });
 </script>
-
-<div class="row">
-    @foreach (var (key, value) in this.Model.AllCategoriesWithAllSubCategories)
-    {
-        <div class="col-md-3 nav-item text-center">
-            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+<div class="card col-md-12">
+    <hr />
+    <div class="card-body">
+        <div class="text-center">
+            <h4>Search products by our main categories</h4>
+        </div>
+        <br />
+        <div class="row">
+            @foreach (var (key, value) in this.Model.AllCategoriesWithAllSubCategories)
             {
-                <div>
-                    <a class="text-decoration-none" asp-controller="Categories" asp-action="AddSubCategory" asp-route-id="@key.Id">
-                        <button class="btn btn-sm" data-toggle="tooltip" data-placement="bottom" title="Add SubCategory">
-                            <i class="fas fa-plus text-decoration-none text-warning"></i>
-                        </button>
-                    </a>
-                    <a class="text-decoration-none" asp-controller="Categories" asp-action="Edit" asp-route-id="@key.Id">
-                        <button class="btn btn-sm" data-toggle="tooltip" data-placement="bottom" title="Edit" href="#">
-                            <i class="fas fa-edit text-decoration-none text-primary"></i>
-                        </button>
-                    </a>
-                    <form method="post" id="deleteForm" asp-controller="Categories" asp-action="Delete" asp-route-id="@key.Id">
-                    </form>
-                    <button class="btn btn-sm" data-toggle="modal" data-target="#deleteModal">
-                        <i class="fas fa-times text-decoration-none text-danger"></i>
-                    </button>
-                </div>
-            }
-            <div class="dropdown mb-5">
-                <div class="text-center">
-                    <img src="/img/CategoriesPictures/@key.Id.@key.PictureExtension" class="rounded-circle category-image" alt="@key.Name">
-                    <h6>@key.Name</h6>
-                    <h6>@value.Sum(v => v.AdsCount) Ads</h6>
+                <div class="col-md-3 nav-item text-center">
+                    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                    {
+                        <div>
+                            <a class="text-decoration-none" asp-controller="Categories" asp-action="AddSubCategory" asp-route-id="@key.Id">
+                                <button class="btn btn-sm" data-toggle="tooltip" data-placement="bottom" title="Add SubCategory">
+                                    <i class="fas fa-plus text-decoration-none text-warning"></i>
+                                </button>
+                            </a>
+                            <a class="text-decoration-none" asp-controller="Categories" asp-action="Edit" asp-route-id="@key.Id">
+                                <button class="btn btn-sm" data-toggle="tooltip" data-placement="bottom" title="Edit" href="#">
+                                    <i class="fas fa-edit text-decoration-none text-primary"></i>
+                                </button>
+                            </a>
+                            <form method="post" id="deleteForm" asp-controller="Categories" asp-action="Delete" asp-route-id="@key.Id">
+                            </form>
+                            <button class="btn btn-sm" data-toggle="modal" data-target="#deleteModal">
+                                <i class="fas fa-times text-decoration-none text-danger"></i>
+                            </button>
+                        </div>
+                    }
+                    <div class="dropdown mb-5">
+                        <div class="text-center">
+                            <img src="/img/CategoriesPictures/@key.Id.@key.PictureExtension" class="rounded-circle category-image" alt="@key.Name">
+                            <h6>@key.Name</h6>
+                            <h6>@value.Sum(v => v.AdsCount) Ads</h6>
 
-                </div>
-                @if (value.Any())
-                {
-                    <div class="dropdown-menu">
-                        @foreach (var subCategory in value)
+                        </div>
+                        @if (value.Any())
                         {
-                            <a href="/">@subCategory.Name</a><text> - @subCategory.AdsCount Ads</text><br>
+                            <div class="dropdown-menu">
+                                @foreach (var subCategory in value)
+                                {
+                                    <a href="/">@subCategory.Name</a><text> - @subCategory.AdsCount Ads</text><br>
+                                }
+                            </div>
                         }
                     </div>
-                }
-            </div>
+                </div>
+            }
         </div>
-    }
+    </div>
+    <hr />
 </div>
+<br />
 
 <partial name="_DeleteConfirmationPartial" />
