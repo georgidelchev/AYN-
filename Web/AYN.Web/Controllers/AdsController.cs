@@ -1,11 +1,15 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
 using AYN.Services.Data;
 using AYN.Web.ViewModels.Ads;
+using AYN.Web.ViewModels.Categories;
+using AYN.Web.ViewModels.SubCategories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AYN.Web.Controllers
 {
@@ -15,17 +19,20 @@ namespace AYN.Web.Controllers
         private readonly ITownsService townsService;
         private readonly IAdsService adsService;
         private readonly IWebHostEnvironment environment;
+        private readonly ISubCategoriesService subCategoriesService;
 
         public AdsController(
             ICategoriesService categoriesService,
             ITownsService townsService,
             IAdsService adsService,
-            IWebHostEnvironment environment)
+            IWebHostEnvironment environment,
+            ISubCategoriesService subCategoriesService)
         {
             this.categoriesService = categoriesService;
             this.townsService = townsService;
             this.adsService = adsService;
             this.environment = environment;
+            this.subCategoriesService = subCategoriesService;
         }
 
         [HttpGet]
@@ -67,9 +74,11 @@ namespace AYN.Web.Controllers
             return this.View(viewModel);
         }
 
-        public IActionResult GetFromSearch(string search, string town, string orderBy = "newest", int id = 1)
+        [HttpGet]
+        public async Task<IActionResult> GetFromSearch(string search, string town, string orderBy = "newest", int id = 1)
         {
             var ads = this.adsService.GetFromSearch<GetRecentAdsViewModel>(search, orderBy, town);
+
             var itemsPerPage = 12;
             var viewModel = new ListGetFromSearchViewModel()
             {
@@ -81,7 +90,27 @@ namespace AYN.Web.Controllers
                 Town = town,
                 Search = search,
                 TotalResults = ads.Count(),
+                AllCategoriesWithAllSubCategories = new Dictionary<CategoryViewModel, List<SubCategoryViewModel>>(),
             };
+            var categories = this.categoriesService
+                .GetAll<CategoryViewModel>();
+
+            foreach (var category in categories)
+            {
+                var subCategories = await this.subCategoriesService
+                    .GetAllByCategoryId<SubCategoryViewModel>(category.Id)
+                    .ToListAsync();
+
+                var categoryViewModel = new CategoryViewModel()
+                {
+                    Id = category.Id,
+                    Name = category.Name,
+                    PictureExtension = category.PictureExtension,
+                };
+
+                viewModel.AllCategoriesWithAllSubCategories
+                    .Add(categoryViewModel, subCategories);
+            }
 
             return this.View(viewModel);
         }

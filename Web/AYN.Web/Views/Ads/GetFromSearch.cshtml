@@ -10,8 +10,8 @@
 
 
 @{
-    Func<GetRecentAdsViewModel, IHtmlContent> BrowserInfo(GetRecentAdsViewModel item) =>
-    @<div class="card col-sm-12 col-md-5 col-lg-5">
+    Func<GetRecentAdsViewModel, IHtmlContent> DisplayAds() =>
+    @<div class="card col-sm-12 col-md-5 col-lg-5 mr-5 mb-5">
         <h5 class="card-title text-center">
         </h5>
         <img class="card-img-top" src="/img/AdsPictures/1-@item.Id.@item.PictureExtension" alt="Card image cap">
@@ -71,53 +71,40 @@
 
 @if (resultsFound != 0)
 {
-    <partial name="_SortingsPartial" model="@this.Model" />
+    <partial name="_SortingsPartial" model="this.Model" />
     <partial name="_PagingPartial" model="this.Model" />
 
-
-<div class="float-right">
-    <div class="g-mb-20">
-        <nav class="sidebar card py-4 mb-4">
-            <ul class="nav flex-column" id="nav_accordion">
-                <li class="nav-item">
-                    <a class="nav-link" href="#"> Link name </a>
-                </li>
-                <li class="nav-item has-submenu">
-                    <a class="nav-link" href="#"> Submenu links </a>
-                    <ul class="submenu collapse">
-                        <li><a class="nav-link" href="#">Submenu item 1 </a></li>
-                        <li><a class="nav-link" href="#">Submenu item 2 </a></li>
-                        <li><a class="nav-link" href="#">Submenu item 3 </a> </li>
-                    </ul>
-                </li>
-                <li class="nav-item has-submenu">
-                    <a class="nav-link" href="#"> More menus </a>
-                    <ul class="submenu collapse">
-                        <li><a class="nav-link" href="#">Submenu item 4 </a></li>
-                        <li><a class="nav-link" href="#">Submenu item 5 </a></li>
-                        <li><a class="nav-link" href="#">Submenu item 6 </a></li>
-                        <li><a class="nav-link" href="#">Submenu item 7 </a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"> Something </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"> Other link </a>
-                </li>
-            </ul>
-        </nav>
+    <div class="float-right" style="width: 300px;height: 300px">
+        <div class="g-mb-20">
+            <nav class="sidebar card py-4 mb-4">
+                <ul class="nav flex-column" id="nav_accordion">
+                    <li class="nav-item">
+                        <h3 class="text-center">Categories</h3>
+                        <hr />
+                    </li>
+                    @foreach (var (key, value) in this.Model.AllCategoriesWithAllSubCategories)
+                    {
+                        <li class="nav-item has-submenu">
+                            <a class="nav-link font-weight-bolder text-warning" href="#">
+                                @key.Name <i class="fas fa-level-down-alt"></i> </a>
+                            <ul class="submenu collapse">
+                                @foreach (var subCategory in value)
+                                {
+                                    <li><a class="nav-link text-warning" href="#"> <i class="fas fa-chevron-right"></i> @subCategory.Name </a></li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
     </div>
-</div>
 }
 <div class="row">
-    @for (var i = 0; i < 6; i++)
+    @foreach (var ad in this.Model.AllFromSearch)
     {
-        var item = Model.AllFromSearch.ElementAt(i);
-        @BrowserInfo(item)(item)
-        @i
+        @DisplayAds()(ad)
     }
-
 </div>
 <br />
 
