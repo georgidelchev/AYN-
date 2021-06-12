@@ -67,7 +67,7 @@ namespace AYN.Web.Controllers
             return this.View(viewModel);
         }
 
-        public IActionResult GetFromSearch(string search, string town, string orderBy = "dateDesc", int id = 1)
+        public IActionResult GetFromSearch(string search, string town, string orderBy = "newest", int id = 1)
         {
             var ads = this.adsService.GetFromSearch<GetRecentAdsViewModel>(search, orderBy, town);
             var itemsPerPage = 12;
