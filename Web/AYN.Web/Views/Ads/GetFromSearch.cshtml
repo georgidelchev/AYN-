@@ -1,31 +1,127 @@
-﻿@model AYN.Web.ViewModels.Ads.ListGetFromSearchViewModel
+﻿@using Microsoft.AspNetCore.Html
+@using AYN.Web.ViewModels.Ads
+
+@model AYN.Web.ViewModels.Ads.ListGetFromSearchViewModel
 
 @{
     this.ViewData["Title"] = "Search Results";
+    var resultsFound = this.Model.TotalResults;
 }
 
-<div class="text-center">
-    <h1>#@this.Model.TotalResults Results Found!</h1>
-</div>
 
-<partial name="_SortingsPartial" model="@this.Model"/>
-
-<div class="row">
-    @foreach (var ad in this.Model.AllFromSearch)
-    {
-        <div class="card col-md-4">
-            <h5 class="card-title text-center">
-            </h5>
-            <img class="card-img-top" src="/img/AdsPictures/1-@ad.Id.@ad.PictureExtension" alt="Card image cap">
-            <hr />
-            <div class="card-body">
-                <div class="text-center">
-                    <a asp-controller="Ads" asp-action="Details" asp-route-id="@ad.Id">@ad.Name</a><br />
-                    @ad.Price$
-                </div>
+@{
+    Func<GetRecentAdsViewModel, IHtmlContent> BrowserInfo(GetRecentAdsViewModel item) =>
+    @<div class="card col-sm-12 col-md-5 col-lg-5">
+        <h5 class="card-title text-center">
+        </h5>
+        <img class="card-img-top" src="/img/AdsPictures/1-@item.Id.@item.PictureExtension" alt="Card image cap">
+        <hr />
+        <div class="card-body">
+            <div class="text-center">
+                <a asp-controller="Ads" asp-action="Details" asp-route-id="@item.Id">@item.Name</a><br />
+                @item.Price$
             </div>
         </div>
+    </div>;
+}
+
+<style>
+    .sidebar li .submenu {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
+</style>
+<div class="text-center">
+    <h1>#@resultsFound Results Found!</h1>
 </div>
 
-<partial name="_PagingPartial" model="this.Model" />
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll('.sidebar .nav-link').forEach(function (element) {
+
+            element.addEventListener('click', function (e) {
+
+                let nextEl = element.nextElementSibling;
+                let parentEl = element.parentElement;
+
+                if (nextEl) {
+                    e.preventDefault();
+                    let mycollapse = new bootstrap.Collapse(nextEl);
+
+                    if (nextEl.classList.contains('show')) {
+                        mycollapse.hide();
+                    } else {
+                        mycollapse.show();
+                        // find other submenus with class=show
+                        var opened_submenu = parentEl.parentElement.querySelector('.submenu.show');
+                        // if it exists, then close all of them
+                        if (opened_submenu) {
+                            new bootstrap.Collapse(opened_submenu);
+                        }
+                    }
+                }
+            }); // addEventListener
+        }) // forEach
+    });
+// DOMContentLoaded  end
+</script>
+
+@if (resultsFound != 0)
+{
+    <partial name="_SortingsPartial" model="@this.Model" />
+    <partial name="_PagingPartial" model="this.Model" />
+
+
+<div class="float-right">
+    <div class="g-mb-20">
+        <nav class="sidebar card py-4 mb-4">
+            <ul class="nav flex-column" id="nav_accordion">
+                <li class="nav-item">
+                    <a class="nav-link" href="#"> Link name </a>
+                </li>
+                <li class="nav-item has-submenu">
+                    <a class="nav-link" href="#"> Submenu links </a>
+                    <ul class="submenu collapse">
+                        <li><a class="nav-link" href="#">Submenu item 1 </a></li>
+                        <li><a class="nav-link" href="#">Submenu item 2 </a></li>
+                        <li><a class="nav-link" href="#">Submenu item 3 </a> </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-submenu">
+                    <a class="nav-link" href="#"> More menus </a>
+                    <ul class="submenu collapse">
+                        <li><a class="nav-link" href="#">Submenu item 4 </a></li>
+                        <li><a class="nav-link" href="#">Submenu item 5 </a></li>
+                        <li><a class="nav-link" href="#">Submenu item 6 </a></li>
+                        <li><a class="nav-link" href="#">Submenu item 7 </a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"> Something </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"> Other link </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+}
+<div class="row">
+    @for (var i = 0; i < 6; i++)
+    {
+        var item = Model.AllFromSearch.ElementAt(i);
+        @BrowserInfo(item)(item)
+        @i
+    }
+
+</div>
+<br />
+
+@if (resultsFound != 0)
+{
+    <partial name="_PagingPartial" model="this.Model" />
+}
