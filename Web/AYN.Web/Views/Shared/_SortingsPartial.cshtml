@@ -6,8 +6,8 @@
         </div>
 
         <div class="card-body">
-            <a class="btn btn-primary btn-sm mr-3" asp-route-search="@Model.Search" asp-route-orderBy="newest"><i class="fas fa-angle-double-up"></i> Newest</a>
-            <a class="btn btn-primary btn-sm mr-3" asp-route-search="@Model.Search" asp-route-orderBy="oldest"><i class="fas fa-angle-double-down"></i> Oldest</a>
+            <a class="btn btn-primary btn-sm mr-3" asp-route-search="@Model.Search" asp-route-orderBy="createdOnDesc"><i class="fas fa-angle-double-up"></i> Newest</a>
+            <a class="btn btn-primary btn-sm mr-3" asp-route-search="@Model.Search" asp-route-orderBy="createdOnAsc"><i class="fas fa-angle-double-down"></i> Oldest</a>
             <a class="btn btn-primary btn-sm mr-3" asp-route-search="@Model.Search" asp-route-orderBy="nameAsc"><i class="fas fa-sort-alpha-up"></i> Name alphabetically</a>
             <a class="btn btn-primary btn-sm mr-3" asp-route-search="@Model.Search" asp-route-orderBy="nameDesc"><i class="fas fa-sort-alpha-down"></i> Name reversed alphabetically</a>
             <a class="btn btn-primary btn-sm mr-3" asp-route-search="@Model.Search" asp-route-orderBy="priceAsc"><i class="fas fa-sort-numeric-up"></i> Cheapest</a>

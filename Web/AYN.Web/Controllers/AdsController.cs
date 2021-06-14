@@ -75,7 +75,7 @@ namespace AYN.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetFromSearch(string search, string town, string orderBy = "newest", int id = 1)
+        public async Task<IActionResult> GetFromSearch(string search, string town, string orderBy = "priceDesc", int id = 1)
         {
             var ads = this.adsService.GetFromSearch<GetRecentAdsViewModel>(search, orderBy, town);
 
@@ -113,6 +113,12 @@ namespace AYN.Web.Controllers
             }
 
             return this.View(viewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetByCategory(string category, int id = 1)
+        {
+            return this.RedirectToAction(nameof(this.GetFromSearch), new { search = "a" });
         }
     }
 }

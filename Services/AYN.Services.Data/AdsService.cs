@@ -103,24 +103,21 @@ namespace AYN.Services.Data
                 .Where(a => a.Name.ToLower().Contains(search) ||
                             a.Description.ToLower().Contains(search));
 
-            ads = orderBy switch
-            {
-                "newest" => ads.OrderByDescending(a => a.CreatedOn),
-                "oldest" => ads.OrderBy(a => a.CreatedOn),
-                "priceDesc" => ads.OrderByDescending(a => a.Price),
-                "priceAsc" => ads.OrderBy(a => a.Price),
-                "nameDesc" => ads.OrderByDescending(a => a.Name),
-                "nameAsc" => ads.OrderBy(a => a.Name),
-                _ => throw new ArgumentOutOfRangeException(nameof(orderBy), orderBy, null),
-            };
+            // order parameter (desc or asc)(orderBy)
+            ads = orderBy.Contains("Desc") ?
+                ads.OrderByDescendingDynamic(a => $"a.{orderBy.Substring(0, orderBy.Length - 4)}") :
+                ads.OrderByDynamic(a => $"a.{orderBy.Substring(0, orderBy.Length - 3)}");
 
-            if (town != null)
-            {
-                var townId = this.townsService
-                    .GetIdByName(town);
-
-                ads = ads.Where(a => a.TownId == townId);
-            }
+            //ads = orderBy switch
+            //{
+            //    "newest" => ads.OrderByDescending(a => a.CreatedOn),
+            //    "oldest" => ads.OrderBy(a => a.CreatedOn),
+            //    "priceDesc" => ads.OrderByDescending(a => a.Price),
+            //    "priceAsc" => ads.OrderBy(a => a.Price),
+            //    "nameDesc" => ads.OrderByDescending(a => a.Name),
+            //    "nameAsc" => ads.OrderBy(a => a.Name),
+            //    _ => throw new ArgumentOutOfRangeException(nameof(orderBy), orderBy, null),
+            //};
 
             return ads
                 .To<T>()
