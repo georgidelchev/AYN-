@@ -8,7 +8,7 @@ using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Services.Mapping;
 using AYN.Web.ViewModels.Categories;
-
+using Microsoft.EntityFrameworkCore;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 
@@ -88,27 +88,27 @@ namespace AYN.Services.Data
                 .All()
                 .To<T>();
 
-        public IEnumerable<KeyValuePair<string, string>> GetAllAsKeyValuePairs()
-            => this.categoriesRepository
+        public async Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKeyValuePairsAsync()
+            => await this.categoriesRepository
                 .All()
                 .Select(c => new
                 {
                     c.Id,
                     c.Name,
                 })
-                .ToList()
                 .OrderBy(c => c.Name)
-                .Select(c => new KeyValuePair<string, string>(c.Id.ToString(), c.Name));
+                .Select(c => new KeyValuePair<string, string>(c.Id.ToString(), c.Name))
+                .ToListAsync();
 
         public async Task AddSubCategoryAsync(AddSubCategoryViewModel input, int categoryId)
             => await this.subCategoriesService.CreateAsync(input, categoryId);
 
-        public T GetById<T>(int categoryId)
-            => this.categoriesRepository
+        public async Task<T> GetByIdAsync<T>(int categoryId)
+            => await this.categoriesRepository
                 .All()
                 .Where(c => c.Id == categoryId)
                 .To<T>()
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
         public async Task UpdateAsync(EditCategoryInputModel input, int categoryId, string imagePath)
         {

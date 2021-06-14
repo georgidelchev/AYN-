@@ -9,12 +9,12 @@ namespace AYN.Services.Data
     {
         Task CreateAsync(CreateAdInputModel input, string userId, string imagePath);
 
-        IEnumerable<T> GetRecent12Ads<T>();
+        Task<IEnumerable<T>> GetRecent12AdsAsync<T>();
 
-        IEnumerable<T> GetAll<T>(int page, int itemsPerPage);
+        Task<IEnumerable<T>> GetAllAsync<T>(int page, int itemsPerPage);
 
         int GetCount();
 
-        IEnumerable<T> GetFromSearch<T>(string search, string orderBy, string town);
+        Task<IEnumerable<T>> GetFromSearchAsync<T>(string search, string orderBy, string town);
     }
 }

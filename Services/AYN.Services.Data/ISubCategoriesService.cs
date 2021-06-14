@@ -12,7 +12,7 @@ namespace AYN.Services.Data
 
         IQueryable<T> GetAllByCategoryId<T>(int categoryId);
 
-        IEnumerable<KeyValuePair<string, string>> GetAllAsKeyValuePairs();
+        Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKeyValuePairsAsync();
 
         bool IsSubCategoryExisting(string subCategoryName);
     }

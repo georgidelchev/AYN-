@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AYN.Services.Data
 {
     public interface IAddressesService
     {
-        IEnumerable<T> GetAllByTownId<T>(int townId);
+        Task<IEnumerable<T>> GetAllByTownIdAsync<T>(int townId);
     }
 }

@@ -8,6 +8,7 @@ using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Services.Mapping;
 using AYN.Web.ViewModels.Ads;
+using Microsoft.EntityFrameworkCore;
 
 namespace AYN.Services.Data
 {
@@ -73,28 +74,28 @@ namespace AYN.Services.Data
             }
         }
 
-        public IEnumerable<T> GetRecent12Ads<T>()
-            => this.adsRepository
+        public async Task<IEnumerable<T>> GetRecent12AdsAsync<T>()
+            => await this.adsRepository
                 .All()
                 .Take(12)
                 .To<T>()
-                .ToList();
+                .ToListAsync();
 
-        public IEnumerable<T> GetAll<T>(int page, int itemsPerPage)
-            => this.adsRepository
+        public async Task<IEnumerable<T>> GetAllAsync<T>(int page, int itemsPerPage)
+            => await this.adsRepository
                 .All()
                 .OrderByDescending(a => a.CreatedOn)
                 .Skip((page - 1) * itemsPerPage)
                 .Take(itemsPerPage)
                 .To<T>()
-                .ToList();
+                .ToListAsync();
 
         public int GetCount()
             => this.adsRepository
                 .All()
                 .Count();
 
-        public IEnumerable<T> GetFromSearch<T>(string search, string orderBy, string town)
+        public async Task<IEnumerable<T>> GetFromSearchAsync<T>(string search, string orderBy, string town)
         {
             search = search.ToLower().Trim();
 
@@ -118,10 +119,9 @@ namespace AYN.Services.Data
             //    "nameAsc" => ads.OrderBy(a => a.Name),
             //    _ => throw new ArgumentOutOfRangeException(nameof(orderBy), orderBy, null),
             //};
-
-            return ads
+            return await ads
                 .To<T>()
-                .ToList();
+                .ToListAsync();
         }
     }
 }

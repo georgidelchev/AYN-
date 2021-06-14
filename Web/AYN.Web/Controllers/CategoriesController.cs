@@ -91,7 +91,7 @@ namespace AYN.Web.Controllers
         public IActionResult Edit(int id)
         {
             var viewModel = this.categoriesService
-                .GetById<EditCategoryInputModel>(id);
+                .GetByIdAsync<EditCategoryInputModel>(id);
 
             return this.View(viewModel);
         }

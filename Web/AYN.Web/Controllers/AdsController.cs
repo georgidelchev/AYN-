@@ -36,12 +36,12 @@ namespace AYN.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             var viewModel = new CreateAdInputModel()
             {
-                Categories = this.categoriesService.GetAllAsKeyValuePairs(),
-                Towns = this.townsService.GetAllAsKeyValuePairs(),
+                Categories = await this.categoriesService.GetAllAsKeyValuePairsAsync(),
+                Towns = await this.townsService.GetAllAsKeyValuePairsAsync(),
             };
 
             return this.View(viewModel);
@@ -61,12 +61,12 @@ namespace AYN.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult All(int id = 1)
+        public async Task<IActionResult> All(int id = 1)
         {
             var viewModel = new ListAllAdsViewModel()
             {
                 Count = this.adsService.GetCount(),
-                AllAds = this.adsService.GetAll<GetRecentAdsViewModel>(id, 12),
+                AllAds = await this.adsService.GetAllAsync<GetRecentAdsViewModel>(id, 12),
                 ItemsPerPage = 12,
                 PageNumber = id,
             };
@@ -77,7 +77,7 @@ namespace AYN.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetFromSearch(string search, string town, string orderBy = "priceDesc", int id = 1)
         {
-            var ads = this.adsService.GetFromSearch<GetRecentAdsViewModel>(search, orderBy, town);
+            var ads = await this.adsService.GetFromSearchAsync<GetRecentAdsViewModel>(search, orderBy, town);
 
             var itemsPerPage = 12;
             var viewModel = new ListGetFromSearchViewModel()

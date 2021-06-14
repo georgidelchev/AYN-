@@ -1,4 +1,5 @@
-﻿using AYN.Common;
+﻿using System.Threading.Tasks;
+using AYN.Common;
 using AYN.Services.Data;
 using AYN.Web.ViewModels.Addresses;
 using Microsoft.AspNetCore.Authorization;
@@ -17,10 +18,10 @@ namespace AYN.Web.Controllers
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult GetAddresses(int id)
+        public async Task<IActionResult> GetAddresses(int id)
         {
-            var addresses = this.addressesService
-                .GetAllByTownId<GetAddressesViewModel>(id);
+            var addresses = await this.addressesService
+                .GetAllByTownIdAsync<GetAddressesViewModel>(id);
 
             return this.Json(addresses);
         }

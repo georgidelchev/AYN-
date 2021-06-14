@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AYN.Services.Data
 {
@@ -16,20 +18,20 @@ namespace AYN.Services.Data
             this.townsRepository = townsRepository;
         }
 
-        public IEnumerable<KeyValuePair<string, string>> GetAllAsKeyValuePairs()
-            => townsRepository
+        public async Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKeyValuePairsAsync()
+            => await this.townsRepository
                 .All()
                 .Select(t => new
                 {
                     t.Id,
                     t.Name,
                 })
-                .ToList()
                 .OrderBy(t => t.Name)
-                .Select(t => new KeyValuePair<string, string>(t.Id.ToString(), t.Name));
+                .Select(t => new KeyValuePair<string, string>(t.Id.ToString(), t.Name))
+                .ToListAsync();
 
         public int GetIdByName(string townName)
-            => townsRepository
+            => this.townsRepository
                 .All()
                 .FirstOrDefault(t => t.Name.ToLower() == townName.ToLower())
                 .Id;

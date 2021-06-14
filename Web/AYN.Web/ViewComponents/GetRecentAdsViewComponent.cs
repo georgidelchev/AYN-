@@ -19,7 +19,7 @@ namespace AYN.Web.ViewComponents
         {
             var viewModel = new ListRecentAdsViewModel()
             {
-                RecentAds = this.adsService.GetRecent12Ads<GetRecentAdsViewModel>(),
+                RecentAds = await this.adsService.GetRecent12AdsAsync<GetRecentAdsViewModel>(),
             };
 
             return this.View(viewModel);

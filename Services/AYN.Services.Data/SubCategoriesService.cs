@@ -7,6 +7,7 @@ using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Services.Mapping;
 using AYN.Web.ViewModels.SubCategories;
+using Microsoft.EntityFrameworkCore;
 
 namespace AYN.Services.Data
 {
@@ -44,17 +45,17 @@ namespace AYN.Services.Data
                 .OrderBy(sc => sc.Name)
                 .To<T>();
 
-        public IEnumerable<KeyValuePair<string, string>> GetAllAsKeyValuePairs()
-            => this.subCategoriesRepository
+        public async Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKeyValuePairsAsync()
+            => await this.subCategoriesRepository
                 .All()
                 .Select(sc => new
                 {
                     sc.Id,
                     sc.Name,
                 })
-                .ToList()
                 .OrderBy(sc => sc.Name)
-                .Select(sc => new KeyValuePair<string, string>(sc.Id.ToString(), sc.Name));
+                .Select(sc => new KeyValuePair<string, string>(sc.Id.ToString(), sc.Name))
+                .ToListAsync();
 
         public bool IsSubCategoryExisting(string subCategoryName)
             => this.subCategoriesRepository

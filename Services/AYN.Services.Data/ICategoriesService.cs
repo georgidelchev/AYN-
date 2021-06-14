@@ -12,11 +12,11 @@ namespace AYN.Services.Data
 
         IQueryable<T> GetAll<T>();
 
-        IEnumerable<KeyValuePair<string, string>> GetAllAsKeyValuePairs();
+        Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKeyValuePairsAsync();
 
         Task AddSubCategoryAsync(AddSubCategoryViewModel input, int categoryId);
 
-        T GetById<T>(int categoryId);
+        Task<T> GetByIdAsync<T>(int categoryId);
 
         Task UpdateAsync(EditCategoryInputModel input, int categoryId, string imagePath);
 
