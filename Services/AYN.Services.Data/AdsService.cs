@@ -81,21 +81,28 @@ namespace AYN.Services.Data
                 .To<T>()
                 .ToListAsync();
 
-        public async Task<IEnumerable<T>> GetAllAsync<T>(int page, int itemsPerPage)
-            => await this.adsRepository
-                .All()
-                .OrderByDescending(a => a.CreatedOn)
-                .Skip((page - 1) * itemsPerPage)
-                .Take(itemsPerPage)
+        public async Task<IEnumerable<T>> GetAllAsync<T>(string search, string orderBy)
+        {
+            //search = search.ToLower().Trim();
+
+            var ads = this.adsRepository.All();
+
+            // order parameter (desc or asc)(orderBy)
+            ads = orderBy.Contains("Desc") ?
+                ads.OrderByDescendingDynamic(a => $"a.{orderBy.Substring(0, orderBy.Length - 4)}") :
+                ads.OrderByDynamic(a => $"a.{orderBy.Substring(0, orderBy.Length - 3)}");
+
+            return await ads
                 .To<T>()
                 .ToListAsync();
+        }
 
         public int GetCount()
             => this.adsRepository
                 .All()
                 .Count();
 
-        public async Task<IEnumerable<T>> GetFromSearchAsync<T>(string search, string orderBy, string town)
+        public async Task<IEnumerable<T>> GetFromSearchAsync<T>(string search, string orderBy)
         {
             search = search.ToLower().Trim();
 

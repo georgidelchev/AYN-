@@ -11,10 +11,10 @@ namespace AYN.Services.Data
 
         Task<IEnumerable<T>> GetRecent12AdsAsync<T>();
 
-        Task<IEnumerable<T>> GetAllAsync<T>(int page, int itemsPerPage);
+        Task<IEnumerable<T>> GetAllAsync<T>(string search, string orderBy);
 
         int GetCount();
 
-        Task<IEnumerable<T>> GetFromSearchAsync<T>(string search, string orderBy, string town);
+        Task<IEnumerable<T>> GetFromSearchAsync<T>(string search, string orderBy);
     }
 }
