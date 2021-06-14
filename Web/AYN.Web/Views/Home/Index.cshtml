@@ -1,9 +1,11 @@
-﻿@{
+﻿@model AYN.Web.ViewModels.Home.IndexViewModel
+
+@{
     this.ViewData["Title"] = "Home";
 }
 
-<form method="get" asp-controller="Ads" asp-action="GetFromSearch" class="px-3">
-    <partial name="_SearchBarPartial"/>
+<form method="get" asp-controller="Ads" asp-action="All" class="px-3">
+    <partial name="_SearchBarPartial" model="this.Model" />
 </form>
 
 @await Component.InvokeAsync("GetAllCategoriesWithTheirSubCategories")

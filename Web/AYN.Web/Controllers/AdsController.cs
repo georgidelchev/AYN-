@@ -103,51 +103,9 @@ namespace AYN.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetFromSearch(string search, string town, string orderBy = "createdOnDesc", int id = 1)
-        {
-            var ads = await this.adsService.GetFromSearchAsync<GetRecentAdsViewModel>(search, orderBy);
-
-            var itemsPerPage = 12;
-            var viewModel = new ListGetFromSearchViewModel()
-            {
-                Count = ads.Count(),
-                ItemsPerPage = itemsPerPage,
-                AllFromSearch = ads.Skip((id - 1) * itemsPerPage).Take(itemsPerPage),
-                PageNumber = id,
-                OrderBy = orderBy,
-                Town = town,
-                Search = search,
-                TotalResults = ads.Count(),
-                AllCategoriesWithAllSubCategories = new Dictionary<CategoryViewModel, List<SubCategoryViewModel>>(),
-            };
-
-            var categories = this.categoriesService
-                .GetAll<CategoryViewModel>();
-
-            foreach (var category in categories)
-            {
-                var subCategories = await this.subCategoriesService
-                    .GetAllByCategoryId<SubCategoryViewModel>(category.Id)
-                    .ToListAsync();
-
-                var categoryViewModel = new CategoryViewModel()
-                {
-                    Id = category.Id,
-                    Name = category.Name,
-                    PictureExtension = category.PictureExtension,
-                };
-
-                viewModel.AllCategoriesWithAllSubCategories
-                    .Add(categoryViewModel, subCategories);
-            }
-
-            return this.View(viewModel);
-        }
-
-        [HttpGet]
         public async Task<IActionResult> GetByCategory(string category, int id = 1)
         {
-            return this.RedirectToAction(nameof(this.GetFromSearch), new { search = "a" });
+            return this.View();
         }
     }
 }

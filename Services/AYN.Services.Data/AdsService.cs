@@ -83,9 +83,16 @@ namespace AYN.Services.Data
 
         public async Task<IEnumerable<T>> GetAllAsync<T>(string search, string orderBy)
         {
-            //search = search.ToLower().Trim();
-
             var ads = this.adsRepository.All();
+
+            if (search is not null)
+            {
+                search = search.ToLower().Trim();
+
+                ads = ads
+                    .Where(a => a.Name.ToLower().Contains(search) ||
+                                a.Description.ToLower().Contains(search));
+            }
 
             // order parameter (desc or asc)(orderBy)
             ads = orderBy.Contains("Desc") ?
@@ -101,34 +108,5 @@ namespace AYN.Services.Data
             => this.adsRepository
                 .All()
                 .Count();
-
-        public async Task<IEnumerable<T>> GetFromSearchAsync<T>(string search, string orderBy)
-        {
-            search = search.ToLower().Trim();
-
-            var ads = this.adsRepository
-                .All()
-                .Where(a => a.Name.ToLower().Contains(search) ||
-                            a.Description.ToLower().Contains(search));
-
-            // order parameter (desc or asc)(orderBy)
-            ads = orderBy.Contains("Desc") ?
-                ads.OrderByDescendingDynamic(a => $"a.{orderBy.Substring(0, orderBy.Length - 4)}") :
-                ads.OrderByDynamic(a => $"a.{orderBy.Substring(0, orderBy.Length - 3)}");
-
-            //ads = orderBy switch
-            //{
-            //    "newest" => ads.OrderByDescending(a => a.CreatedOn),
-            //    "oldest" => ads.OrderBy(a => a.CreatedOn),
-            //    "priceDesc" => ads.OrderByDescending(a => a.Price),
-            //    "priceAsc" => ads.OrderBy(a => a.Price),
-            //    "nameDesc" => ads.OrderByDescending(a => a.Name),
-            //    "nameAsc" => ads.OrderBy(a => a.Name),
-            //    _ => throw new ArgumentOutOfRangeException(nameof(orderBy), orderBy, null),
-            //};
-            return await ads
-                .To<T>()
-                .ToListAsync();
-        }
     }
 }

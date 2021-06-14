@@ -50,11 +50,13 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+<footer>
+    <div class="container">
+        <div class="card-body bg-light p-3">
+            <div class="float-center"><a href="/">AYN.com</a> 2021-@DateTime.Now.Year - <a href="https://github.com/georgidelchev/AYN-" target="_blank">Open source system</a></div>
         </div>
-    </footer>
+    </div>
+</footer>
 
     <script src="/vendor/jquery/jquery.min.js" asp-append-version="true"></script>
     <script src="/vendor/popper/popper.min.js" asp-append-version="true"></script>

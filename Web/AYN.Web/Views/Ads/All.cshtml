@@ -1,31 +1,110 @@
-﻿@model AYN.Web.ViewModels.Ads.ListAllAdsViewModel
+﻿@using AYN.Web.ViewModels.Ads
+@using Microsoft.AspNetCore.Html
+@model AYN.Web.ViewModels.Ads.ListAllAdsViewModel
 
 @{
     this.ViewData["Title"] = "All Ads";
 }
 
 <div class="text-center">
-    <h1>@this.ViewData["Title"]</h1>
+    <h1>Ads</h1>
+    <h4>@this.Model.TotalResults Results Found!</h4>
 </div>
 <br />
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll('.sidebar .nav-link').forEach(function (element) {
+
+            element.addEventListener('click', function (e) {
+
+                let nextEl = element.nextElementSibling;
+                let parentEl = element.parentElement;
+
+                if (nextEl) {
+                    e.preventDefault();
+                    let mycollapse = new bootstrap.Collapse(nextEl);
+
+                    if (nextEl.classList.contains('show')) {
+                        mycollapse.hide();
+                    } else {
+                        mycollapse.show();
+                        // find other submenus with class=show
+                        var opened_submenu = parentEl.parentElement.querySelector('.submenu.show');
+                        // if it exists, then close all of them
+                        if (opened_submenu) {
+                            new bootstrap.Collapse(opened_submenu);
+                        }
+                    }
+                }
+            }); // addEventListener
+        }) // forEach
+    });
+// DOMContentLoaded  end
+</script>
+<style>
+    .sidebar li .submenu {
+        list-style: none;
+        margin: 10px;
+        padding: 10px;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+</style>
+
+<form method="get" asp-controller="Ads" asp-action="All" class="px-3">
+    <partial name="_SearchBarPartial" />
+</form>
+
 <partial name="_SortingsPartial" model="@this.Model" />
+
+<div class="float-right" style="width: 300px;height: 300px">
+    <div class="g-mb-20">
+        <nav class="sidebar card py-4 mb-4">
+            <ul class="nav flex-column" id="nav_accordion">
+                <li class="nav-item">
+                    <h3 class="text-center">Categories</h3>
+                    <hr />
+                </li>
+                @foreach (var (key, value) in this.Model.AllCategoriesWithAllSubCategories)
+                {
+                    <li class="nav-item has-submenu">
+                        <a class="nav-link font-weight-bolder text-warning" href="#">
+                            @key.Name <i class="fas fa-level-down-alt"></i>
+                        </a>
+                        <ul class="submenu collapse">
+                            @foreach (var subCategory in value)
+                            {
+                                <li><a class="nav-link text-warning" href="#"> <i class="fas fa-chevron-right"></i> @subCategory.Name </a></li>
+                            }
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
+</div>
+
+@{
+    Func<GetRecentAdsViewModel, IHtmlContent> DisplayAds() =>
+    @<div class="card col-sm-12 col-md-5 col-lg-5 mr-5 mb-5">
+        <h5 class="card-title text-center">
+        </h5>
+        <img class="card-img-top" src="/img/AdsPictures/1-@item.Id.@item.PictureExtension" alt="Card image cap">
+        <hr />
+        <div class="card-body">
+            <div class="text-center">
+                <a asp-controller="Ads" asp-action="Details" asp-route-id="@item.Id">@item.Name</a><br />
+                @item.Price$
+            </div>
+        </div>
+    </div>;
+}
 
 <div class="row">
     @foreach (var ad in this.Model.AllFromSearch)
     {
-        <div class="card col-md-4">
-            <h5 class="card-title text-center">
-            </h5>
-            <img class="card-img-top" src="/img/AdsPictures/1-@ad.Id.@ad.PictureExtension" alt="Card image cap">
-            <hr />
-            <div class="card-body">
-                <div class="text-center">
-                    <a asp-controller="Ads" asp-action="Details" asp-route-id="@ad.Id">@ad.Name</a><br />
-                    @ad.Price$
-                </div>
-            </div>
-        </div>
+        @DisplayAds()(ad)
     }
 </div>
 <br />

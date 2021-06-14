@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 
 using AYN.Web.ViewModels;
-
+using AYN.Web.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AYN.Web.Controllers
@@ -10,7 +10,7 @@ namespace AYN.Web.Controllers
     {
         public IActionResult Index()
         {
-            return this.View();
+            return this.View(new IndexViewModel(){Search = ""});
         }
 
         public IActionResult Privacy()
