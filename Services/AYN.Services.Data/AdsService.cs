@@ -51,6 +51,7 @@ namespace AYN.Services.Data
                 Price = input.Price,
                 Description = input.Description,
                 IsPromoted = false,
+                ProductCondition = input.ProductCondition,
             };
 
             await this.adsRepository.AddAsync(ad);
