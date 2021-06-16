@@ -81,6 +81,7 @@ namespace AYN.Services.Data
         public async Task<IEnumerable<T>> GetRecent12AdsAsync<T>()
             => await this.adsRepository
                 .All()
+                .OrderByDescending(a => a.CreatedOn)
                 .Take(12)
                 .To<T>()
                 .ToListAsync();
