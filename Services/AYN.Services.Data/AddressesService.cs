@@ -13,7 +13,8 @@ namespace AYN.Services.Data
     {
         private readonly IDeletableEntityRepository<Address> addressesRepository;
 
-        public AddressesService(IDeletableEntityRepository<Address> addressesRepository)
+        public AddressesService(
+            IDeletableEntityRepository<Address> addressesRepository)
         {
             this.addressesRepository = addressesRepository;
         }

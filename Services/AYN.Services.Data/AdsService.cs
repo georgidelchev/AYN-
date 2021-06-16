@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,21 +16,15 @@ namespace AYN.Services.Data
         private readonly IDeletableEntityRepository<Ad> adsRepository;
         private readonly IImageProcessingService imageProcessingService;
         private readonly IImageService imageService;
-        private readonly ICategoriesService categoriesService;
-        private readonly ISubCategoriesService subCategoriesService;
 
         public AdsService(
             IDeletableEntityRepository<Ad> adsRepository,
             IImageProcessingService imageProcessingService,
-            IImageService imageService,
-            ICategoriesService categoriesService,
-            ISubCategoriesService subCategoriesService)
+            IImageService imageService)
         {
             this.adsRepository = adsRepository;
             this.imageProcessingService = imageProcessingService;
             this.imageService = imageService;
-            this.categoriesService = categoriesService;
-            this.subCategoriesService = subCategoriesService;
         }
 
         public async Task CreateAsync(CreateAdInputModel input, string userId, string imagePath)

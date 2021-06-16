@@ -11,7 +11,8 @@ namespace AYN.Services.Data
     {
         private readonly IDeletableEntityRepository<Setting> settingsRepository;
 
-        public SettingsService(IDeletableEntityRepository<Setting> settingsRepository)
+        public SettingsService(
+            IDeletableEntityRepository<Setting> settingsRepository)
         {
             this.settingsRepository = settingsRepository;
         }

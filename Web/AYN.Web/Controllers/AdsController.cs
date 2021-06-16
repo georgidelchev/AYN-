@@ -106,5 +106,10 @@ namespace AYN.Web.Controllers
 
             return this.View(viewModel);
         }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            return this.View();
+        }
     }
 }

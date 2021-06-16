@@ -20,7 +20,6 @@ namespace AYN.Services.Data
         private readonly IDeletableEntityRepository<SubCategory> subCategoriesRepository;
         private readonly ISubCategoriesService subCategoriesService;
         private readonly IImageProcessingService imageProcessingService;
-        private readonly string[] allowedImageExtensions = { "jpg", "png", "jfif", "exif", "gif", "bmp", "ppm", "pgm", "pbm", "pnm", "heif", "bat" };
 
         public CategoriesService(
             IDeletableEntityRepository<Category> categoriesRepository,
