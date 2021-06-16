@@ -14,6 +14,8 @@ namespace AYN.Services.Data
 
         Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKeyValuePairsAsync();
 
+        Task<T> GetByIdAsync<T>(int id);
+
         bool IsSubCategoryExisting(string subCategoryName);
     }
 }

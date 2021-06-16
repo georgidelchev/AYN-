@@ -11,7 +11,7 @@ namespace AYN.Services.Data
 
         Task<IEnumerable<T>> GetRecent12AdsAsync<T>();
 
-        Task<IEnumerable<T>> GetAllAsync<T>(string search, string orderBy);
+        Task<IEnumerable<T>> GetAllAsync<T>(string search, string orderBy, int? categoryId);
 
         int GetCount();
     }

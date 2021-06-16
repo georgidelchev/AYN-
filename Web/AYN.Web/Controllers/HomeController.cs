@@ -10,7 +10,7 @@ namespace AYN.Web.Controllers
     {
         public IActionResult Index()
         {
-            return this.View(new IndexViewModel(){Search = ""});
+            return this.View(new IndexViewModel() { Search = string.Empty });
         }
 
         public IActionResult Privacy()

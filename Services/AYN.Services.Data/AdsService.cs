@@ -17,18 +17,21 @@ namespace AYN.Services.Data
         private readonly IDeletableEntityRepository<Ad> adsRepository;
         private readonly IImageProcessingService imageProcessingService;
         private readonly IImageService imageService;
-        private readonly ITownsService townsService;
+        private readonly ICategoriesService categoriesService;
+        private readonly ISubCategoriesService subCategoriesService;
 
         public AdsService(
             IDeletableEntityRepository<Ad> adsRepository,
             IImageProcessingService imageProcessingService,
             IImageService imageService,
-            ITownsService townsService)
+            ICategoriesService categoriesService,
+            ISubCategoriesService subCategoriesService)
         {
             this.adsRepository = adsRepository;
             this.imageProcessingService = imageProcessingService;
             this.imageService = imageService;
-            this.townsService = townsService;
+            this.categoriesService = categoriesService;
+            this.subCategoriesService = subCategoriesService;
         }
 
         public async Task CreateAsync(CreateAdInputModel input, string userId, string imagePath)
@@ -81,7 +84,7 @@ namespace AYN.Services.Data
                 .To<T>()
                 .ToListAsync();
 
-        public async Task<IEnumerable<T>> GetAllAsync<T>(string search, string orderBy)
+        public async Task<IEnumerable<T>> GetAllAsync<T>(string search, string orderBy, int? categoryId)
         {
             var ads = this.adsRepository.All();
 
@@ -92,6 +95,12 @@ namespace AYN.Services.Data
                 ads = ads
                     .Where(a => a.Name.ToLower().Contains(search) ||
                                 a.Description.ToLower().Contains(search));
+            }
+
+            if (categoryId is not null)
+            {
+                ads = ads.Where(a => a.CategoryId == categoryId.Value ||
+                                     a.SubCategoryId == categoryId.Value);
             }
 
             // order parameter (desc or asc)(orderBy)

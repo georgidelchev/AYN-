@@ -57,6 +57,13 @@ namespace AYN.Services.Data
                 .Select(sc => new KeyValuePair<string, string>(sc.Id.ToString(), sc.Name))
                 .ToListAsync();
 
+        public async Task<T> GetByIdAsync<T>(int id)
+            => await this.subCategoriesRepository
+                .All()
+                .Where(sc => sc.Id == id)
+                .To<T>()
+                .FirstOrDefaultAsync();
+
         public bool IsSubCategoryExisting(string subCategoryName)
             => this.subCategoriesRepository
                 .All()

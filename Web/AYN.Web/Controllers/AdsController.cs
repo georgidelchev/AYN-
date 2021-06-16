@@ -61,9 +61,14 @@ namespace AYN.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> All(string search, string town, string orderBy = "createdOnDesc", int id = 1)
+        public async Task<IActionResult> All(
+            string search,
+            string town,
+            int? categoryId,
+            string orderBy = "createdOnDesc",
+            int id = 1)
         {
-            var ads = await this.adsService.GetAllAsync<GetRecentAdsViewModel>(search, orderBy);
+            var ads = await this.adsService.GetAllAsync<GetRecentAdsViewModel>(search, orderBy, categoryId);
 
             var itemsPerPage = 12;
             var viewModel = new ListAllAdsViewModel()
@@ -100,12 +105,6 @@ namespace AYN.Web.Controllers
             }
 
             return this.View(viewModel);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetByCategory(string category, int id = 1)
-        {
-            return this.View();
         }
     }
 }
