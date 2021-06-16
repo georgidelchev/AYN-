@@ -67,7 +67,7 @@ namespace AYN.Services.Data
                 await picture.CopyToAsync(fileStream);
                 await fileStream.DisposeAsync();
 
-                await this.imageProcessingService.SaveImageLocallyAsync(fullPhysicalPath, 1000, 1000);
+                await this.imageProcessingService.SaveImageLocallyAsync(fullPhysicalPath, 900, 600);
             }
         }
 

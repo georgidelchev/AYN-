@@ -6,11 +6,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@this.ViewData["Title"] - @GlobalConstants.SystemName</title>
-    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/lazy.css">
-    <link href="~/css/site.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer" asp-append-version="true"></script>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" asp-append-version="true" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous" asp-append-version="true">
+    <link rel="stylesheet" href="/css/lazy.css" asp-append-version="true">
+    <link href="/css/site.css" rel="stylesheet" asp-append-version="true" />
 </head>
 <body>
     <header>
@@ -50,13 +50,13 @@
         </main>
     </div>
 
-<footer>
-    <div class="container">
-        <div class="card-body bg-light p-3">
-            <div class="float-center"><a href="/">AYN.com</a> 2021-@DateTime.Now.Year - <a href="https://github.com/georgidelchev/AYN-" target="_blank">Open source system</a></div>
+    <footer>
+        <div class="container">
+            <div class="card-body bg-light p-3">
+                <div class="float-center"><a href="/">AYN.com</a> 2021-@DateTime.Now.Year - <a href="https://github.com/georgidelchev/AYN-" target="_blank">Open source system</a></div>
+            </div>
         </div>
-    </div>
-</footer>
+    </footer>
 
     <script src="/vendor/jquery/jquery.min.js" asp-append-version="true"></script>
     <script src="/vendor/popper/popper.min.js" asp-append-version="true"></script>
@@ -67,6 +67,7 @@
     <script src="~/js/site.min.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
     <script src="/js/lazy.js" asp-append-version="true"></script>
+
 
     @await this.RenderSectionAsync("Scripts", required: false)
 </body>
