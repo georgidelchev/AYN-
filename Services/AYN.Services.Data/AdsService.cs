@@ -56,8 +56,6 @@ namespace AYN.Services.Data
                 var extension = this.imageProcessingService.GetImageExtension(picture);
                 this.imageProcessingService.ValidateImageExtension(extension);
 
-                ad.Pictures.Add(new Picture() { Extension = extension });
-
                 await this.imageService.CreateAsync(ad.Id, extension);
 
                 var fullPhysicalPath = physicalPath + $"{index++}-{ad.Id}.{extension}";

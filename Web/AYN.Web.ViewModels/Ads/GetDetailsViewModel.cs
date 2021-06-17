@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+
 using AutoMapper;
 using AYN.Data.Models;
 using AYN.Data.Models.Enumerations;
@@ -46,6 +48,8 @@ namespace AYN.Web.ViewModels.Ads
 
         public int ActiveAdsCount { get; set; }
 
+        public IEnumerable<string> PictureExtensions { get; set; }
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration
@@ -53,7 +57,8 @@ namespace AYN.Web.ViewModels.Ads
                 .ForMember(m => m.Category, opt => opt.MapFrom(o => o.Category.Name))
                 .ForMember(m => m.SubCategory, opt => opt.MapFrom(o => o.SubCategory.Name))
                 .ForMember(m => m.Town, opt => opt.MapFrom(o => o.Town.Name))
-                .ForMember(m => m.ActiveAdsCount, opt => opt.MapFrom(o => o.AddedByUser.Ads.Count(a => !a.IsDeleted)));
+                .ForMember(m => m.ActiveAdsCount, opt => opt.MapFrom(o => o.AddedByUser.Ads.Count(a => !a.IsDeleted)))
+                .ForMember(m => m.PictureExtensions, opt => opt.MapFrom(o => o.Pictures.Select(a => a.Extension)));
         }
     }
 }
