@@ -1,4 +1,6 @@
-﻿@{
+﻿@model AYN.Web.ViewModels.Ads.GetDetailsViewModel
+
+@{
     this.ViewData["Title"] = "Ad Details";
 }
 
@@ -38,8 +40,8 @@
             </div>
             <br />
             <div class="text-center">
-                <h3 class="text-primary font-weight-bolder">Some name here....<br /></h3>
-                <hr/>
+                <h3 class="text-primary font-weight-bolder">@Model.Name<br /></h3>
+                <hr />
                 <h6>
                     <span class="float-left font-weight-normal pl-2">
                         <a class="text-danger font-weight-bolder" href="">
@@ -48,27 +50,27 @@
                     </span>
                     <span class="float-left font-weight-normal pl-5">
                         <a class="text-warning font-weight-bolder" href="">
-                            <i class="fas fa-list-ol"></i><br /> Igrachki
+                            <i class="fas fa-list-ol"></i><br /> @Model.Category
                         </a>
                     </span>
                     <span class="float-left font-weight-normal pl-5">
                         <a class="text-warning font-weight-bolder" href="">
-                            <i class="fas fa-list-ul"></i><br /> Kamioncheta
+                            <i class="fas fa-list-ul"></i><br /> @Model.SubCategory
                         </a>
                     </span>
                     <span class="float-left font-weight-normal pl-5">
                         <a class="text-primary font-weight-bolder" href="">
-                            <i class="fas fa-weight"></i><br /> 5 kg
+                            <i class="fas fa-weight"></i><br /> @Model.Weight kg
                         </a>
                     </span>
                     <span class="float-left font-weight-normal pl-5">
                         <a class="text-info font-weight-bolder" href="">
-                            <i class="fas fa-chevron-up"></i><br /> New
+                            <i class="fas fa-chevron-up"></i><br /> @Model.ProductCondition
                         </a>
                     </span>
                     <span class="float-left font-weight-normal pl-5">
                         <a class="text-success font-weight-bolder" href="">
-                            <i class="fas fa-ad"></i><br /> Business
+                            <i class="fas fa-ad"></i><br /> @Model.AdType
                         </a>
                     </span>
                 </h6>
@@ -76,7 +78,7 @@
             <hr />
             <div>
                 <span class="float-left text-primary font-weight-normal">
-                    <i class="fas fa-map-marked"></i> Stara Zagora<br />
+                    <i class="fas fa-map-marked"></i> @Model.Town<br />
                     <i class="fas fa-truck"></i> Buyer
                 </span>
                 <span class="text-primary font-weight-normal float-right">
@@ -87,26 +89,26 @@
             <hr />
             <div class="text-center">
                 <h6 class=" text-primary">Description</h6>
-                <p class="font-italic ">Some description here.</p>
+                <p class="font-italic ">@Model.Description</p>
             </div>
         </div>
     </div>
     <div class="col-md-3">
         <div class="bg-primary font-weight-bolder">
-            <h1 class="text-white text-center"><i class="fas fa-tag"></i> 5 $</h1>
+            <h1 class="text-white text-center"><i class="fas fa-tag"></i> @Model.Price $</h1>
         </div>
         <div class="bg-primary font-weight-bolder">
-            <h2 class="text-white text-center"><i class="fas fa-mobile-alt"></i> 1234567890</h2>
+            <h2 class="text-white text-center"><i class="fas fa-mobile-alt"></i> @Model.AddedByUserPhoneNumber</h2>
         </div>
         <div class="card-deck">
             <div class="card">
                 <img class="card-img-top" src="/img/AdsPictures/2-286c4f21-1875-4363-be62-ddc8ac514257.jpg" alt="Card image cap">
                 <div class="card-body">
-                    <h5 class="card-title text-center">Gosko123</h5>
-                    <p class="card-text text-center"><small class="text-muted">In AYN Since: 21/05/2020</small></p>
+                    <h5 class="card-title text-center">@Model.AddedByUserUsername</h5>
+                    <p class="card-text text-center"><small class="text-muted">In AYN Since: @Model.AddedByUserCreatedOnAsString</small></p>
                     <hr />
                     <div class="text-center">
-                        <a href="" class="text-primary text-center">123 active ads</a>
+                        <a href="" class="text-primary text-center">@Model.ActiveAdsCount active ads</a>
                     </div>
                 </div>
             </div>

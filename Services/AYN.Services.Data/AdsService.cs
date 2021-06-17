@@ -112,5 +112,12 @@ namespace AYN.Services.Data
             => this.adsRepository
                 .All()
                 .Count();
+
+        public async Task<T> GetDetails<T>(string id)
+            => await this.adsRepository
+                .All()
+                .Where(a => a.Id == id)
+                .To<T>()
+                .FirstOrDefaultAsync();
     }
 }

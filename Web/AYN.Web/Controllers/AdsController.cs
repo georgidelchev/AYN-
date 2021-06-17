@@ -107,9 +107,7 @@ namespace AYN.Web.Controllers
             return this.View(viewModel);
         }
 
-        public async Task<IActionResult> Details(int id)
-        {
-            return this.View();
-        }
+        public async Task<IActionResult> Details(string id)
+            => this.View(await this.adsService.GetDetails<GetDetailsViewModel>(id));
     }
 }

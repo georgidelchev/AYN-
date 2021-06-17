@@ -14,5 +14,7 @@ namespace AYN.Services.Data
         Task<IEnumerable<T>> GetAllAsync<T>(string search, string orderBy, int? categoryId);
 
         int GetCount();
+
+        Task<T> GetDetails<T>(string id);
     }
 }
