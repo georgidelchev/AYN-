@@ -62,6 +62,9 @@ namespace AYN.Data.Models
         [Required]
         public AdType AdType { get; set; }
 
+        [Required]
+        public DeliveryTake DeliveryTake { get; set; }
+
         public virtual SubCategory SubCategory { get; set; }
 
         public virtual ICollection<Picture> Pictures { get; set; }
