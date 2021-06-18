@@ -83,6 +83,7 @@ namespace AYN.Web.Controllers
                 PageNumber = id,
                 OrderBy = orderBy,
                 Town = town,
+                CategoryId = categoryId,
                 Search = search,
                 TotalResults = ads.Count(),
                 AllCategoriesWithAllSubCategories = new Dictionary<CategoryViewModel, List<SubCategoryViewModel>>(),

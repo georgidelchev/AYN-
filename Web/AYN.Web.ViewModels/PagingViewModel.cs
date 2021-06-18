@@ -30,5 +30,7 @@ namespace AYN.Web.ViewModels
         public string OrderBy { get; set; }
 
         public string Town { get; set; }
+
+        public int? CategoryId { get; set; }
     }
 }
