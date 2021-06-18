@@ -1,4 +1,5 @@
-﻿@model AYN.Web.ViewModels.Ads.GetDetailsViewModel
+﻿@using System.Security.Claims
+@model AYN.Web.ViewModels.Ads.GetDetailsViewModel
 
 @{
     this.ViewData["Title"] = "Ad Details";
@@ -156,9 +157,14 @@
             </div>
         </div>
         <br />
-        <div class="text-center">
-            <a asp-controller="Reports" asp-action="Create" asp-route-id="@this.Model.Id" asp-route-reportedUser="@this.Model.AddedByUserId" class="text-danger text-center"><i class="fas fa-flag"></i> Report this ad</a>
-        </div>
+        @if (this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value != this.Model.AddedByUserId)
+        {
+            <div class="text-center">
+                <a asp-controller="Reports" asp-action="Create" asp-route-id="@this.Model.Id" asp-route-reportedUser="@this.Model.AddedByUserId" class="text-danger text-center">
+                    <i class="fas fa-flag"></i> Report this ad
+                </a>
+            </div>
+        }
         <br />
     </div>
 </div>

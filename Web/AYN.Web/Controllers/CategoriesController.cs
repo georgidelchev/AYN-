@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AYN.Web.Controllers
 {
-    [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     public class CategoriesController : Controller
     {
         private readonly ICategoriesService categoriesService;
@@ -30,12 +29,14 @@ namespace AYN.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public IActionResult Create()
         {
             return this.View();
         }
 
         [HttpPost]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Create(CreateCategoryInputModel input)
         {
             if (!this.ModelState.IsValid)
@@ -60,12 +61,14 @@ namespace AYN.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public IActionResult AddSubCategory()
         {
             return this.View();
         }
 
         [HttpPost]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> AddSubCategory(AddSubCategoryViewModel input, int id)
         {
             if (!this.ModelState.IsValid)
@@ -88,6 +91,7 @@ namespace AYN.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public IActionResult Edit(int id)
         {
             var viewModel = this.categoriesService
@@ -97,6 +101,7 @@ namespace AYN.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Edit(EditCategoryInputModel input, int id)
         {
             var wwwrootPath = this.environment
@@ -108,6 +113,7 @@ namespace AYN.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult GetSubCategories(int id)
         {
             var sc = this.subCategoriesService
@@ -117,6 +123,7 @@ namespace AYN.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Delete(int id)
         {
             try

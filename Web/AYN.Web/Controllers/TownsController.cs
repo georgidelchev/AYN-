@@ -18,7 +18,7 @@ namespace AYN.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        [Authorize]
         public async Task<IActionResult> GetAddresses(int id)
         {
             var addresses = await this.addressesService
