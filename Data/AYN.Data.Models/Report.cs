@@ -27,7 +27,7 @@ namespace AYN.Data.Models
         public virtual ApplicationUser ReportedUser { get; set; }
 
         [Required]
-        public int ReportedAdId { get; set; }
+        public string ReportedAdId { get; set; }
 
         public virtual Ad ReportedAd { get; set; }
 

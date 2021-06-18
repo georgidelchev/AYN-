@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AYN.Web.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
         public IActionResult Index()
         {

@@ -31,7 +31,13 @@ namespace AYN.Web.ViewModels.Ads
 
         public DateTime CreatedOn { get; set; }
 
+        public string CreatedOnAsString
+            => this.CreatedOn.ToString("d");
+
         public DateTime ModifiedOn { get; set; }
+
+        public string ModifiedOnAsString
+            => this.ModifiedOn.ToString("d");
 
         public ProductCondition ProductCondition { get; set; }
 

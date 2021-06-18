@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AYN.Web.Controllers
 {
-    public class SettingsController : BaseController
+    public class SettingsController : Controller
     {
         private readonly ISettingsService settingsService;
 

@@ -30,6 +30,7 @@
         public const int PictureExtensionMaxLength = 6;
 
         // Report model
+        public const int ReportContentMinLength = 20;
         public const int ReportContentMaxLength = 1000;
 
         // Tag model

@@ -14,7 +14,7 @@
             <small class="text-muted">123 views</small>
             <div id="carouselExampleIndicators" class="carousel slide" data-interval="false" data-ride="carousel">
                 <ol class="carousel-indicators">
-                    @for (int i = 1; i <= this.Model.PictureExtensions.Count(); i++)
+                    @for (var i = 1; i <= this.Model.PictureExtensions.Count(); i++)
                     {
                         <li data-target="#carouselExampleIndicators" data-slide-to="@i" @(i == 1 ? "class='active'" : "")></li>
                     }
@@ -82,8 +82,17 @@
                     <i class="fas fa-truck"></i> @Model.DeliveryTake
                 </span>
                 <span class="text-primary font-weight-normal float-right">
-                    <i class="fas fa-cloud-upload-alt"></i> 15/02/2020<br />
-                    <i class="fas fa-sync-alt"></i> 15/02/2020
+                    <i class="fas fa-cloud-upload-alt"></i> @this.Model.CreatedOnAsString<br />
+                    <i class="fas fa-sync-alt"></i> @{
+                        if (this.Model.ModifiedOn.Year == 0001)
+                        {
+                            <text>never updated</text>
+                        }
+                        else
+                        {
+                            <text> @this.Model.ModifiedOnAsString</text>
+                        }
+                    }
                 </span>
             </div>
             <hr />
@@ -148,9 +157,8 @@
         </div>
         <br />
         <div class="text-center">
-            <a href="" class="text-danger text-center">Report this ad</a>
+            <a asp-controller="Reports" asp-action="Create" asp-route-id="@this.Model.Id" asp-route-reportedUser="@this.Model.AddedByUserId" class="text-danger text-center"><i class="fas fa-flag"></i> Report this ad</a>
         </div>
         <br />
     </div>
 </div>
-

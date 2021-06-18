@@ -7,6 +7,7 @@ using AYN.Services.Data;
 using AYN.Web.ViewModels.Ads;
 using AYN.Web.ViewModels.Categories;
 using AYN.Web.ViewModels.SubCategories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +37,7 @@ namespace AYN.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Create()
         {
             var viewModel = new CreateAdInputModel()
@@ -48,6 +50,7 @@ namespace AYN.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(CreateAdInputModel input)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -61,6 +64,7 @@ namespace AYN.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> All(
             string search,
             string town,
@@ -107,6 +111,8 @@ namespace AYN.Web.Controllers
             return this.View(viewModel);
         }
 
+        [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Details(string id)
             => this.View(await this.adsService.GetDetails<GetDetailsViewModel>(id));
     }

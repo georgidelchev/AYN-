@@ -108,7 +108,6 @@ namespace AYN.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public IActionResult GetSubCategories(int id)
         {
             var sc = this.subCategoriesService
