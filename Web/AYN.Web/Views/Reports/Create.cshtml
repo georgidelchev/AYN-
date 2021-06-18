@@ -1,4 +1,6 @@
-﻿@model AYN.Web.ViewModels.Reports.CreateReportInputModel
+﻿@using AYN.Data.Models.Enumerations
+
+@model AYN.Web.ViewModels.Reports.CreateReportInputModel
 
 @{
     this.ViewData["Title"] = "Report Ad";
@@ -22,7 +24,26 @@
                     <i class="fas fa-file-signature"></i>
                 </label>
             </div>
-            <input asp-for="Description" placeholder="Description" class="form-control" />
+            <textarea asp-for="Description" rows="5" placeholder="Description" class="form-control"></textarea>
+        </div>
+    </div>
+    
+    <div>
+        <span asp-validation-for="ReportType" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="ReportType" class="input-group-text">
+                    <i class="fas fa-flag"></i>
+                </label>
+            </div>
+            <select asp-for="ReportType" class="form-control">
+                <option selected disabled>Choose report type</option>
+                @foreach (int reportType in Enum.GetValues(typeof(ReportType)))
+                {
+                    <option value="@reportType">@Enum.GetName(typeof(ReportType), reportType)</option>
+                }
+            </select>
         </div>
     </div>
 

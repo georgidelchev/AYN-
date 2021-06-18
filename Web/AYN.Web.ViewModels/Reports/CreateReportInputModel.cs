@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
+using AYN.Data.Models.Enumerations;
 using static AYN.Common.AttributeConstraints;
 
 namespace AYN.Web.ViewModels.Reports
@@ -10,5 +10,8 @@ namespace AYN.Web.ViewModels.Reports
         [MinLength(ReportContentMinLength)]
         [MaxLength(ReportContentMaxLength)]
         public string Description { get; set; }
+
+        [Required]
+        public ReportType ReportType { get; set; }
     }
 }

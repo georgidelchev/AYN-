@@ -23,6 +23,7 @@ namespace AYN.Services.Data
                 ReportedAdId = adId,
                 ReportedUserId = reportedUserId,
                 ReportingUserId = reportingUserId,
+                ReportType = input.ReportType,
             };
 
             await this.reportsRepository.AddAsync(report);

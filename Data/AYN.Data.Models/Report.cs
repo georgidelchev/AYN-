@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 
 using AYN.Data.Common.Models;
-
+using AYN.Data.Models.Enumerations;
 using static AYN.Common.AttributeConstraints;
 
 namespace AYN.Data.Models
@@ -15,6 +15,13 @@ namespace AYN.Data.Models
                 .NewGuid()
                 .ToString();
         }
+
+        [Required]
+        [MaxLength(ReportContentMaxLength)]
+        public string Description { get; set; }
+
+        [Required]
+        public ReportType ReportType { get; set; }
 
         [Required]
         public string ReportingUserId { get; set; }
@@ -30,9 +37,5 @@ namespace AYN.Data.Models
         public string ReportedAdId { get; set; }
 
         public virtual Ad ReportedAd { get; set; }
-
-        [Required]
-        [MaxLength(ReportContentMaxLength)]
-        public string Description { get; set; }
     }
 }
