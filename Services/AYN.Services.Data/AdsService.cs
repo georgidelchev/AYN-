@@ -45,6 +45,7 @@ namespace AYN.Services.Data
                 Description = input.Description,
                 IsPromoted = false,
                 ProductCondition = input.ProductCondition,
+                DeliveryTake = input.DeliveryTake,
             };
 
             await this.adsRepository.AddAsync(ad);

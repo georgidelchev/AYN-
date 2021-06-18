@@ -1,4 +1,5 @@
 ﻿@using AYN.Data.Models.Enumerations
+
 @model AYN.Web.ViewModels.Ads.CreateAdInputModel
 
 @{
@@ -159,6 +160,25 @@
                 @foreach (int adType in Enum.GetValues(typeof(AdType)))
                 {
                     <option value="@adType">@Enum.GetName(typeof(AdType), adType)</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div>
+        <span asp-validation-for="DeliveryTake" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="DeliveryTake" class="input-group-text">
+                    <i class="fas fa-truck"></i>
+                </label>
+            </div>
+            <select asp-for="DeliveryTake" class="form-control">
+                <option selected disabled>Choose the delivery take</option>
+                @foreach (int deliveryTake in Enum.GetValues(typeof(DeliveryTake)))
+                {
+                    <option value="@deliveryTake">@Enum.GetName(typeof(DeliveryTake), deliveryTake)</option>
                 }
             </select>
         </div>

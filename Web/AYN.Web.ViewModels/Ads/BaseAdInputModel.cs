@@ -46,5 +46,8 @@ namespace AYN.Web.ViewModels.Ads
 
         [Required]
         public AdType AdType { get; set; }
+
+        [Required]
+        public DeliveryTake DeliveryTake { get; set; }
     }
 }

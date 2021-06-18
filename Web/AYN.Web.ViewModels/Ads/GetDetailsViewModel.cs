@@ -37,6 +37,8 @@ namespace AYN.Web.ViewModels.Ads
 
         public AdType AdType { get; set; }
 
+        public DeliveryTake DeliveryTake { get; set; }
+
         public string AddedByUserPhoneNumber { get; set; }
 
         public string AddedByUserUsername { get; set; }
