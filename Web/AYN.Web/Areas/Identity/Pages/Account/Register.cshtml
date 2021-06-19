@@ -57,7 +57,7 @@
                             <i class="far fa-building"></i>
                         </label>
                     </div>
-                    <select id="town-selector" asp-for="Input.TownId" class="form-control" asp-items="towns">
+                    <select asp-for="Input.TownId" class="form-control" asp-items="towns">
                         <option selected disabled>Choose Town</option>
                     </select>
                 </div>
@@ -73,6 +73,7 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
+
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
     </div>

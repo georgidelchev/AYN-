@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -9,6 +10,8 @@ using AYN.Data.Models;
 using AYN.Services.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -28,19 +31,25 @@ namespace AYN.Web.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> logger;
         private readonly IEmailSender emailSender;
         private readonly ITownsService townsService;
+        private readonly IImageProcessingService imageProcessingService;
+        private readonly IWebHostEnvironment environment;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            ITownsService townsService)
+            ITownsService townsService,
+            IImageProcessingService imageProcessingService,
+            IWebHostEnvironment environment)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.logger = logger;
             this.emailSender = emailSender;
             this.townsService = townsService;
+            this.imageProcessingService = imageProcessingService;
+            this.environment = environment;
         }
 
         [BindProperty]
@@ -116,6 +125,8 @@ namespace AYN.Web.Areas.Identity.Pages.Account
                     FirstName = this.Input.FirstName,
                     LastName = this.Input.LastName,
                     TownId = this.Input.TownId,
+                    AvatarExtension = "NoAvatar",
+                    ThumbnailExtension = "NoThumbnail",
                 };
 
                 var result = await this.userManager.CreateAsync(user, this.Input.Password);
