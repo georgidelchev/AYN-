@@ -73,6 +73,7 @@ namespace AYN.Web
             services.AddTransient<IImageProcessingService, ImageProcessingService>();
             services.AddTransient<IImageService, ImageService>();
             services.AddTransient<IReportsService, ReportsService>();
+            services.AddTransient<IUsersService, UsersService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

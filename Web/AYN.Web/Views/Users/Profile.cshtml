@@ -1,16 +1,20 @@
-﻿@{
+﻿@model AYN.Web.ViewModels.Users.GetUserProfileDetailsViewModel
+
+@{
     this.ViewData["Title"] = "Profile";
 }
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
 <main>
-    <div class="img" style="    background-image: linear-gradient(150deg, rgba(63, 174, 255, .3)15%, rgba(63, 174, 255, .3)70%, rgba(63, 174, 255, .3)94%), url(https://bootdey.com/img/Content/flores-amarillas-wallpaper.jpeg);height: 350px;background-size: cover;"></div>
+    <div class="img" style="background-image: linear-gradient(150deg, rgba(63, 174, 255, .3)15%, rgba(63, 174, 255, .3)70%, rgba(63, 174, 255, .3)94%), url(https://bootdey.com/img/Content/flores-amarillas-wallpaper.jpeg);height: 350px;background-size: cover;"></div>
     <div class="card social-prof">
         <div class="card-body">
             <div class="wrapper">
                 <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="" class="user-profile">
-                <h3>Jane Smith</h3>
-                <button class="btn btn-danger btn-sm"><i class="fas fa-star"></i> Follow</button>
+                <h3>@Model.FirstName @Model.LastName</h3>
+                <form method="post" id="followForm" asp-controller="Users" asp-action="Follow" asp-route-id="@Model.Id">
+                    <button onclick="followForm.submit()" class="btn btn-danger btn-sm"><i class="fas fa-star"></i> Follow</button>
+                </form>
             </div>
             <div class="row ">
                 <div class="col-lg-12">
@@ -32,13 +36,13 @@
                 <div class="card-body">
                     <div class="h7">
                         <strong>About:</strong>
-                        <p>lorem lorem lorem lorem lorem </p>
+                        <p>@Model.About</p>
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         <div class="h6 text-muted">Followers</div>
-                        <a href="#" class="h5">12345</a>
+                        <a href="#" class="h5">@Model.FollowersCount</a>
                     </li>
                     <li class="list-group-item">
                         <div class="h6 text-muted">Following</div>
