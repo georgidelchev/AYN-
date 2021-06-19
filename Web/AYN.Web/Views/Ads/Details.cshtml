@@ -114,7 +114,7 @@
             <div class="card">
                 <img class="card-img-top" src="/img/AdsPictures/2-286c4f21-1875-4363-be62-ddc8ac514257.jpg" alt="Card image cap">
                 <div class="card-body">
-                    <h5 class="card-title text-center">@Model.AddedByUserUsername</h5>
+                    <a asp-controller="Users" asp-action="Profile" asp-route-id="@Model.AddedByUserId">@Model.AddedByUserUsername</a>
                     <p class="card-text text-center"><small class="text-muted">In AYN Since: @Model.AddedByUserCreatedOnAsString</small></p>
                     <hr />
                     <div class="text-center">

@@ -17,11 +17,9 @@ namespace AYN.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Profile()
+        public IActionResult Profile(string id)
         {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            var viewModel = await this.usersService.GetProfileDetails<GetUserProfileDetailsViewModel>(userId);
+            var viewModel = this.usersService.GetProfileDetails<GetUserProfileDetailsViewModel>(id);
 
             return this.View(viewModel);
         }
@@ -31,11 +29,22 @@ namespace AYN.Web.Controllers
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
+            if (this.usersService.IsAlreadyFollower(userId, id))
+            {
+                this.TempData["Message"] = "Already following this user!";
+                return this.Redirect($"/Users/Profile?id={id}");
+            }
+
+            if (userId == id)
+            {
+                this.TempData["Message"] = "You cannot follow yourself";
+                return this.Redirect($"/Users/Profile?id={id}");
+            }
+
             await this.usersService.Follow(userId, id);
 
-            var viewModel = await this.usersService.GetProfileDetails<GetUserProfileDetailsViewModel>(userId);
-
-            return this.RedirectToAction(nameof(this.Profile), viewModel);
+            this.TempData["Message"] = "Successfully followed!";
+            return this.Redirect($"/Users/Profile?id={id}");
         }
     }
 }
