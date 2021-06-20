@@ -90,5 +90,12 @@ namespace AYN.Web.Controllers
 
             return this.View(viewModel);
         }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> EditGeneralInfo(EditUserViewModel model, string id)
+        {
+            return this.RedirectToAction(nameof(this.Profile), id);
+        }
     }
 }
