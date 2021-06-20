@@ -11,10 +11,14 @@ namespace AYN.Web.Controllers
     public class UsersController : Controller
     {
         private readonly IUsersService usersService;
+        private readonly ITownsService townsService;
 
-        public UsersController(IUsersService usersService)
+        public UsersController(
+            IUsersService usersService,
+            ITownsService townsService)
         {
             this.usersService = usersService;
+            this.townsService = townsService;
         }
 
         [HttpGet]
@@ -78,7 +82,11 @@ namespace AYN.Web.Controllers
         [Authorize]
         public async Task<IActionResult> EditGeneralInfo(string id)
         {
-            var viewModel = await this.usersService.GetByIdAsync<EditUserGeneralInfoViewModel>(id);
+            var viewModel = new EditUserViewModel()
+            {
+                EditUserGeneralInfoViewModel = await this.usersService.GetByIdAsync<EditUserGeneralInfoViewModel>(id),
+                Towns = await this.townsService.GetAllAsKeyValuePairsAsync(),
+            };
 
             return this.View(viewModel);
         }

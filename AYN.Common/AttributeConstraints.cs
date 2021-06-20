@@ -41,6 +41,7 @@
         public const int TownNameMaxLength = 30;
 
         // ApplicationUser Model
+        public const int ApplicationUserUserNameMinLength = 3;
         public const int ApplicationUserUserNameMaxLength = 10;
 
         public const int ApplicationUserFirstNameMinLength = 3;
