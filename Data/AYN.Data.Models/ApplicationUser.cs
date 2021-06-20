@@ -109,13 +109,13 @@ namespace AYN.Data.Models
         public virtual ICollection<PostVote> PostVotes { get; set; }
             = new HashSet<PostVote>();
 
-        public ICollection<AdArchive> AdArchives { get; set; }
+        public virtual ICollection<AdArchive> AdArchives { get; set; }
             = new HashSet<AdArchive>();
 
-        public ICollection<FavoritePost> FavoritePosts { get; set; }
+        public virtual ICollection<FavoritePost> FavoritePosts { get; set; }
             = new HashSet<FavoritePost>();
 
-        public ICollection<UserRating> UserRatings { get; set; }
+        public virtual ICollection<UserRating> UserRatings { get; set; }
             = new HashSet<UserRating>();
     }
 }

@@ -9,8 +9,6 @@ using AYN.Data.Models;
 using AYN.Services.Mapping;
 using AYN.Web.ViewModels.Categories;
 using Microsoft.EntityFrameworkCore;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Processing;
 
 namespace AYN.Services.Data
 {
