@@ -7,6 +7,7 @@ using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
@@ -36,8 +37,8 @@ namespace AYN.Web.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> logger;
         private readonly IEmailSender emailSender;
         private readonly ITownsService townsService;
-        private readonly IImageProcessingService imageProcessingService;
         private readonly IWebHostEnvironment environment;
+        private readonly IUsersService usersService;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
@@ -45,16 +46,16 @@ namespace AYN.Web.Areas.Identity.Pages.Account
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
             ITownsService townsService,
-            IImageProcessingService imageProcessingService,
-            IWebHostEnvironment environment)
+            IWebHostEnvironment environment,
+            IUsersService usersService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.logger = logger;
             this.emailSender = emailSender;
             this.townsService = townsService;
-            this.imageProcessingService = imageProcessingService;
             this.environment = environment;
+            this.usersService = usersService;
         }
 
         [BindProperty]
@@ -134,34 +135,7 @@ namespace AYN.Web.Areas.Identity.Pages.Account
                     ThumbnailExtension = "png",
                 };
 
-                var backgroundColors = new List<string> { "3C79B2", "FF8F88", "6FB9FF", "C0CC44", "AFB28C" };
-                var avatarString = $"{this.Input.FirstName[0]}{this.Input.LastName[0]}".ToUpper();
-                var randomIndex = new Random().Next(0, backgroundColors.Count - 1);
-                var bgColor = backgroundColors[randomIndex];
-
-                var bmp = new Bitmap(192, 192);
-                var sf = new StringFormat();
-
-                sf.Alignment = StringAlignment.Center;
-                sf.LineAlignment = StringAlignment.Center;
-
-                var font = new Font("Arial", 48, FontStyle.Bold, GraphicsUnit.Pixel);
-                var graphics = Graphics.FromImage(bmp);
-
-                graphics.Clear((Color)new ColorConverter().ConvertFromString("#" + bgColor));
-                graphics.SmoothingMode = SmoothingMode.AntiAlias;
-                graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-                graphics.DrawString(avatarString, font, new SolidBrush(Color.WhiteSmoke), new RectangleF(0, 0, 192, 192), sf);
-                graphics.Flush();
-
-                var physicalPath = $"{this.environment.WebRootPath}/img/UsersAvatars/";
-                Directory.CreateDirectory($"{physicalPath}");
-
-                var fullPhysicalPath = physicalPath + $"{user.Id}.png";
-
-                await using var fileStream = new FileStream(fullPhysicalPath, FileMode.Create);
-
-                bmp.Save(fileStream, ImageFormat.Png);
+                await this.usersService.GenerateDefaultAvatar(this.Input.FirstName, this.Input.LastName, user.Id, this.environment.WebRootPath);
 
                 var result = await this.userManager.CreateAsync(user, this.Input.Password);
 

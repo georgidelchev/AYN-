@@ -9,5 +9,7 @@ namespace AYN.Services.Data
         Task Follow(string followerId, string followeeId);
 
         bool IsAlreadyFollower(string followerId, string followeeId);
+
+        Task GenerateDefaultAvatar(string firstName, string lastName, string userId, string wwwRootPath);
     }
 }
