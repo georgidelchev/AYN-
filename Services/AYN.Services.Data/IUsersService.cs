@@ -13,5 +13,7 @@ namespace AYN.Services.Data
         bool IsFollower(string followerId, string followeeId);
 
         Task GenerateDefaultAvatar(string firstName, string lastName, string userId, string wwwRootPath);
+
+        Task<T> GetByIdAsync<T>(string id);
     }
 }

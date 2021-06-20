@@ -1,0 +1,87 @@
+﻿@model AYN.Web.ViewModels.Users.EditUserGeneralInfoViewModel
+
+@{
+    this.ViewData["Title"] = "Edit Profile General Info";
+}
+
+<div class="text-center">
+    <h1>
+        @this.ViewData["Title"]
+    </h1>
+</div>
+
+<form method="post" class="col-md-6 offset-md-3 text-center" enctype="multipart/form-data">
+    <hr />
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div>
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="FirstName" class="input-group-text">
+                    <i class="fas fa-file-signature"></i>
+                </label>
+            </div>
+
+            <input asp-for="FirstName" placeholder="First name" class="form-control" />
+        </div>
+    </div>
+
+    <div>
+        <span asp-validation-for="MiddleName" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="MiddleName" class="input-group-text">
+                    <i class="fas fa-file-signature"></i>
+                </label>
+            </div>
+
+            <input asp-for="MiddleName" placeholder="Middle name (optional)" class="form-control" />
+        </div>
+    </div>
+
+    <div>
+        <span asp-validation-for="LastName" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="LastName" class="input-group-text">
+                    <i class="fas fa-file-signature"></i>
+                </label>
+            </div>
+
+            <input asp-for="FirstName" placeholder="Last name" class="form-control" />
+        </div>
+    </div>
+
+    <div>
+        <span asp-validation-for="About" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="About" class="input-group-text">
+                    <i class="fas fa-file-signature"></i>
+                </label>
+            </div>
+
+            <input asp-for="About" placeholder="Last name" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="customFile">Change the avatar<br />(optional)</label>
+        <input type="file" class="form-control-file" id="customFile" asp-for="Avatar" />
+        <span asp-validation-for="Avatar" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="customFile">Change the thumbnail<br />(optional)</label>
+        <input type="file" class="form-control-file" id="customFile" asp-for="Thumbnail" />
+        <span asp-validation-for="Thumbnail" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+    <hr />
+</form>

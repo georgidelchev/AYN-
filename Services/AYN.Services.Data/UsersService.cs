@@ -108,5 +108,12 @@ namespace AYN.Services.Data
 
             bmp.Save(fileStream, ImageFormat.Png);
         }
+
+        public async Task<T> GetByIdAsync<T>(string id)
+            => await this.applicationUserRepository
+                .All()
+                .Where(a => a.Id == id)
+                .To<T>()
+                .FirstOrDefaultAsync();
     }
 }

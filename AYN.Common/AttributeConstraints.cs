@@ -42,11 +42,22 @@
 
         // ApplicationUser Model
         public const int ApplicationUserUserNameMaxLength = 10;
+
+        public const int ApplicationUserFirstNameMinLength = 3;
         public const int ApplicationUserFirstNameMaxLength = 20;
+
+        public const int ApplicationUserMiddleNameMinLength = 3;
         public const int ApplicationUserMiddleNameMaxLength = 20;
+
+        public const int ApplicationUserLastNameMinLength = 3;
         public const int ApplicationUserLastNameMaxLength = 20;
+
+        public const int ApplicationUserAboutMinLength = 10;
         public const int ApplicationUserAboutMaxLength = 250;
+
         public const int ApplicationUserSocialContactUrlMaxLength = 25;
+
+        public const int ApplicationUserBlockReasonMinLength = 5;
         public const int ApplicationUserBlockReasonMaxLength = 500;
     }
 }

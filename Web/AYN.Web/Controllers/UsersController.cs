@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using AYN.Services.Data;
 using AYN.Web.ViewModels.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AYN.Web.Controllers
@@ -17,6 +18,7 @@ namespace AYN.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult Profile(string id)
         {
             var viewModel = this.usersService.GetProfileDetails<GetUserProfileDetailsViewModel>(id);
@@ -25,6 +27,7 @@ namespace AYN.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Follow(string id)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -48,6 +51,7 @@ namespace AYN.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Unfollow(string id)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -68,6 +72,15 @@ namespace AYN.Web.Controllers
 
             this.TempData["Message"] = "Successfully unfollowed!";
             return this.Redirect($"/Users/Profile?id={id}");
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> EditGeneralInfo(string id)
+        {
+            var viewModel = await this.usersService.GetByIdAsync<EditUserGeneralInfoViewModel>(id);
+
+            return this.View(viewModel);
         }
     }
 }

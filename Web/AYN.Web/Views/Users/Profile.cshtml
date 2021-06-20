@@ -27,7 +27,7 @@
                 @if (this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value == @Model.Id)
                 {
                     <h6>
-                        <a class="text-primary" href="">
+                        <a class="text-primary" asp-controller="Users" asp-action="EditGeneralInfo" asp-route-id="@Model.Id">
                             <i class="fas fa-user-edit"></i>
                         </a>
                     </h6>

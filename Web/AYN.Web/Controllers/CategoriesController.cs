@@ -92,9 +92,9 @@ namespace AYN.Web.Controllers
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var viewModel = this.categoriesService
+            var viewModel = await this.categoriesService
                 .GetByIdAsync<EditCategoryInputModel>(id);
 
             return this.View(viewModel);
