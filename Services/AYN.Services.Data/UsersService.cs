@@ -59,7 +59,19 @@ namespace AYN.Services.Data
             await this.followerFolloweesRepository.SaveChangesAsync();
         }
 
-        public bool IsAlreadyFollower(string followerId, string followeeId)
+        public async Task Unfollow(string followerId, string followeeId)
+        {
+            var followerFollowee = this.followerFolloweesRepository
+                .All()
+                .FirstOrDefault(ff => ff.FollowerId == followerId &&
+                                      ff.FolloweeId == followeeId);
+
+            this.followerFolloweesRepository.Delete(followerFollowee);
+
+            await this.followerFolloweesRepository.SaveChangesAsync();
+        }
+
+        public bool IsFollower(string followerId, string followeeId)
             => this.followerFolloweesRepository
                 .All()
                 .Any(ff => ff.FollowerId == followerId &&

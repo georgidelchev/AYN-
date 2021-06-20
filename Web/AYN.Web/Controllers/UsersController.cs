@@ -29,7 +29,7 @@ namespace AYN.Web.Controllers
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if (this.usersService.IsAlreadyFollower(userId, id))
+            if (this.usersService.IsFollower(userId, id))
             {
                 this.TempData["Message"] = "Already following this user!";
                 return this.Redirect($"/Users/Profile?id={id}");
@@ -37,13 +37,36 @@ namespace AYN.Web.Controllers
 
             if (userId == id)
             {
-                this.TempData["Message"] = "You cannot follow yourself";
+                this.TempData["Message"] = "You cannot follow yourself!";
                 return this.Redirect($"/Users/Profile?id={id}");
             }
 
             await this.usersService.Follow(userId, id);
 
             this.TempData["Message"] = "Successfully followed!";
+            return this.Redirect($"/Users/Profile?id={id}");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Unfollow(string id)
+        {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (!this.usersService.IsFollower(userId, id))
+            {
+                this.TempData["Message"] = "You're not following this user!";
+                return this.Redirect($"/Users/Profile?id={id}");
+            }
+
+            if (userId == id)
+            {
+                this.TempData["Message"] = "You cannot unfollow yourself!";
+                return this.Redirect($"/Users/Profile?id={id}");
+            }
+
+            await this.usersService.Unfollow(userId, id);
+
+            this.TempData["Message"] = "Successfully unfollowed!";
             return this.Redirect($"/Users/Profile?id={id}");
         }
     }
