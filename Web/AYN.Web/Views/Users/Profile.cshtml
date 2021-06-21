@@ -17,10 +17,11 @@
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
 <main>
-<div class="card social-prof">
-        <div class="img" style="background-image: linear-gradient(150deg, rgba(63, 174, 255, .3)15%, rgba(63, 174, 255, .3)70%, rgba(63, 174, 255, .3)94%), url(https://bootdey.com/img/Content/flores-amarillas-wallpaper.jpeg);height: 350px;background-size: cover;"></div>
 
-        <div class="card-body">
+    <div class="card ">
+
+        <img src="/img/UsersThumbnails/@if (this.Model.ThumbnailExtension == null){<text>@this.Model.Id.ToString()_DEFAULT.png</text>}else{<text>@this.Model.Id.@this.Model.ThumbnailExtension</text>}" alt="">
+        <div class="card-body social-prof">
             <div class="wrapper">
                 <img src="/img/UsersAvatars/@if (this.Model.AvatarExtension == null){<text>@this.Model.Id.ToString()_DEFAULT.png</text>}else{<text>@this.Model.Id.@this.Model.AvatarExtension</text>}" alt="" class="user-profile">
                 @if (this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value == this.Model.Id)

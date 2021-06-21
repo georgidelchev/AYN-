@@ -16,6 +16,8 @@ namespace AYN.Services.Data
 
         Task GenerateDefaultAvatar(string firstName, string lastName, string userId, string wwwRootPath);
 
+        Task GenerateDefaultThumbnail(string firstName, string lastName, string userId, string wwwRootPath);
+
         Task<T> GetByIdAsync<T>(string id);
 
         Task EditAsync(EditUserViewModel model,string wwwRootPath);

@@ -126,6 +126,7 @@ namespace AYN.Web.Areas.Identity.Pages.Account
                 };
 
                 await this.usersService.GenerateDefaultAvatar(this.Input.FirstName, this.Input.LastName, user.Id, this.environment.WebRootPath);
+                await this.usersService.GenerateDefaultThumbnail(this.Input.FirstName, this.Input.LastName, user.Id, this.environment.WebRootPath);
 
                 var result = await this.userManager.CreateAsync(user, this.Input.Password);
 

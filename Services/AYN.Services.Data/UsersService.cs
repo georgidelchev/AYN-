@@ -86,29 +86,21 @@ namespace AYN.Services.Data
             var physicalPath = $"{wwwRootPath}/img/UsersAvatars/";
             Directory.CreateDirectory($"{physicalPath}");
             var fullPhysicalPath = physicalPath + $"{userId}_DEFAULT.png";
-
             File.Delete(fullPhysicalPath);
 
-            var backgroundColors = new List<string> { "3C79B2", "FF8F88", "6FB9FF", "C0CC44", "AFB28C" };
-            var avatarString = $"{firstName[0]}{lastName[0]}".ToUpper();
-            var randomIndex = new Random().Next(0, backgroundColors.Count - 1);
-            var bgColor = backgroundColors[randomIndex];
+            var text = $"{firstName[0]}{lastName[0]}".ToUpper();
+            await ProcessDefaultImage(text, fullPhysicalPath, 192, 192, "Arial", 40, FontStyle.Bold);
+        }
 
-            var bmp = new Bitmap(192, 192);
-            var sf = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
+        public async Task GenerateDefaultThumbnail(string firstName, string lastName, string userId, string wwwRootPath)
+        {
+            var physicalPath = $"{wwwRootPath}/img/UsersThumbnails/";
+            Directory.CreateDirectory($"{physicalPath}");
+            var fullPhysicalPath = physicalPath + $"{userId}_DEFAULT.png";
+            File.Delete(fullPhysicalPath);
 
-            var font = new Font("Arial", 48, FontStyle.Bold, GraphicsUnit.Pixel);
-            var graphics = Graphics.FromImage(bmp);
-
-            graphics.Clear((Color)new ColorConverter().ConvertFromString("#" + bgColor));
-            graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-            graphics.DrawString(avatarString, font, new SolidBrush(Color.WhiteSmoke), new RectangleF(0, 0, 192, 192), sf);
-            graphics.Flush();
-
-            await using var fileStream = new FileStream(fullPhysicalPath, FileMode.Create);
-
-            bmp.Save(fileStream, ImageFormat.Png);
+            var text = $"AYN - All you need!{Environment.NewLine}{firstName} {lastName}".ToUpper();
+            await ProcessDefaultImage(text, fullPhysicalPath, 1110, 350, "Arial", 40, FontStyle.Bold);
         }
 
         public async Task<T> GetByIdAsync<T>(string id)
@@ -144,6 +136,10 @@ namespace AYN.Services.Data
                 await this.imageProcessingService.SaveImageLocallyAsync(fullPhysicalPath, 192, 192);
             }
 
+            if (model.EditUserGeneralInfoViewModel.Thumbnail is not null)
+            {
+            }
+
             if (user.FirstName != model.EditUserGeneralInfoViewModel.FirstName ||
                 user.LastName != model.EditUserGeneralInfoViewModel.LastName)
             {
@@ -165,9 +161,31 @@ namespace AYN.Services.Data
 
             this.applicationUserRepository.Update(user);
             await this.applicationUserRepository.SaveChangesAsync();
+        }
 
-            this.applicationUserRepository.Update(user);
-            await this.applicationUserRepository.SaveChangesAsync();
+        private static async Task ProcessDefaultImage(string text, string fullPhysicalPath, int width, int height, string fontName, int emSize, FontStyle fontStyle)
+        {
+            var backgroundColors = new List<string> { "3C79B2", "FF8F88", "6FB9FF", "C0CC44", "AFB28C" };
+
+            var backgroundColor = backgroundColors[new Random().Next(0, backgroundColors.Count - 1)];
+
+            var bmp = new Bitmap(width, height);
+            var sf = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
+
+            var font = new Font(fontName, emSize, fontStyle, GraphicsUnit.Pixel);
+            var graphics = Graphics.FromImage(bmp);
+
+            graphics.Clear((Color)new ColorConverter().ConvertFromString("#" + backgroundColor));
+
+            graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+
+            graphics.DrawString(text, font, new SolidBrush(Color.WhiteSmoke), new RectangleF(0, 0, width, height), sf);
+            graphics.Flush();
+
+            await using var fileStream = new FileStream(fullPhysicalPath, FileMode.Create);
+
+            bmp.Save(fileStream, ImageFormat.Png);
         }
     }
 }
