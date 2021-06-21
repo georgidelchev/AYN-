@@ -99,6 +99,11 @@ namespace AYN.Web.Controllers
         [Authorize]
         public async Task<IActionResult> EditGeneralInfo(EditUserViewModel model, string id)
         {
+            if (!this.usersService.IsUserExisting(model.EditUserGeneralInfoViewModel.Id))
+            {
+                return this.NotFound();
+            }
+
             await this.usersService.EditAsync(model, this.environment.WebRootPath);
 
             return this.Redirect($"/Users/Profile?id={id}");

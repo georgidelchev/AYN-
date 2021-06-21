@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
+using AYN.Data.Models;
 using AYN.Web.ViewModels.Users;
 
 namespace AYN.Services.Data
@@ -14,12 +16,16 @@ namespace AYN.Services.Data
 
         bool IsFollower(string followerId, string followeeId);
 
+        bool IsUserExisting(string userId);
+
         Task GenerateDefaultAvatar(string firstName, string lastName, string userId, string wwwRootPath);
 
         Task GenerateDefaultThumbnail(string firstName, string lastName, string userId, string wwwRootPath);
 
         Task<T> GetByIdAsync<T>(string id);
 
-        Task EditAsync(EditUserViewModel model,string wwwRootPath);
+        Task EditAsync(EditUserViewModel model, string wwwRootPath);
+
+        Task<IEnumerable<T>> GetSuggestionPeople<T>(string userId);
     }
 }

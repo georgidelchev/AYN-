@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using AYN.Data.Models;
 
 using AYN.Services.Mapping;

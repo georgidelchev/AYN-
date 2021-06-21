@@ -33,23 +33,13 @@ namespace AYN.Services.Data
         }
 
         public T GetProfileDetails<T>(string id)
-        {
-            var user = applicationUserRepository
+            => this.applicationUserRepository
                 .All()
-                .Include(au => au.Followers)
-                .Include(au => au.Followings)
-                .FirstOrDefault(au => au.Id == id);
-            ;
-            return this.applicationUserRepository
-                .All()
-                .Include(au => au.Followers)
-                .Include(au => au.Followings)
                 .Where(au => au.Id == id)
                 .Include(au => au.Followers)
                 .Include(au => au.Followings)
                 .To<T>()
                 .FirstOrDefault();
-        }
 
         public async Task Follow(string followerId, string followeeId)
         {
@@ -70,7 +60,7 @@ namespace AYN.Services.Data
                 .FirstOrDefault(ff => ff.FollowerId == followerId &&
                                       ff.FolloweeId == followeeId);
 
-            this.followerFolloweesRepository.Delete(followerFollowee);
+            this.followerFolloweesRepository.HardDelete(followerFollowee);
 
             await this.followerFolloweesRepository.SaveChangesAsync();
         }
@@ -80,6 +70,11 @@ namespace AYN.Services.Data
                 .All()
                 .Any(ff => ff.FollowerId == followerId &&
                            ff.FolloweeId == followeeId);
+
+        public bool IsUserExisting(string userId)
+            => this.applicationUserRepository
+                .All()
+                .Any(au => au.Id == userId);
 
         public async Task GenerateDefaultAvatar(string firstName, string lastName, string userId, string wwwRootPath)
         {
@@ -181,6 +176,17 @@ namespace AYN.Services.Data
             this.applicationUserRepository.Update(user);
             await this.applicationUserRepository.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<T>> GetSuggestionPeople<T>(string userId)
+            => await this.applicationUserRepository
+                .All()
+                .Where(au => au.Town.Name == this.applicationUserRepository
+                    .All()
+                    .FirstOrDefault(au => au.Id == userId).Town.Name &&
+                             au.Id != userId &&
+                             au.Followings.All(f => f.FollowerId != userId))
+                .To<T>()
+                .ToListAsync();
 
         private static async Task ProcessDefaultImage(string text, string fullPhysicalPath, int width, int height, string fontName, int emSize, FontStyle fontStyle)
         {

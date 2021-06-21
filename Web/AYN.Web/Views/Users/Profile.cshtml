@@ -1,4 +1,8 @@
 ﻿@using System.Security.Claims
+@using AYN.Data.Models
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Identity
+
 @model AYN.Web.ViewModels.Users.GetUserProfileDetailsViewModel
 
 @{
@@ -33,11 +37,11 @@
                     </h6>
                 }
                 <h3>@Model.FirstName @Model.LastName</h3>
-                <form method="post" id="followForm" asp-controller="Users" asp-action="Follow" asp-route-id="@this.Model.Id">
-                    <button onclick="followForm.submit()" class="btn btn-danger btn-sm"><i class="fas fa-star"></i> Follow</button>
-                </form>
                 <form method="post" id="followForm" asp-controller="Users" asp-action="Unfollow" asp-route-id="@this.Model.Id">
                     <button onclick="followForm.submit()" class="btn btn-danger btn-sm"><i class="fas fa-star"></i> Unfollow</button>
+                </form>
+                <form method="post" id="followForm" asp-controller="Users" asp-action="Follow" asp-route-id="@this.Model.Id">
+                    <button onclick="followForm.submit()" class="btn btn-success btn-sm"><i class="fas fa-star"></i> Follow</button>
                 </form>
             </div>
             <div class="row ">
@@ -335,96 +339,6 @@
             </div>
             <!-- Post /////-->
         </div>
-        <div class="col-lg-3">
-            <div class="card social-timeline-card">
-                <div class="card-body">
-                    <h5 class="card-title">People you may know</h5>
-                    <ul class="friend-list">
-                        <li>
-                            <div class="left">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
-                            </div>
-                            <div class="right">
-                                <h3>John Doe</h3>
-                                <p>10 Friends</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="left">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="">
-                            </div>
-                            <div class="right">
-                                <h3>John Doe</h3>
-                                <p>10 Friends</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="left">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="">
-                            </div>
-                            <div class="right">
-                                <h3>John Doe</h3>
-                                <p>10 Friends</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="left">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="">
-                            </div>
-                            <div class="right">
-                                <h3>John Doe</h3>
-                                <p>10 Friends</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="left">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="">
-                            </div>
-                            <div class="right">
-                                <h3>John Doe</h3>
-                                <p>10 Friends</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="left">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="">
-                            </div>
-                            <div class="right">
-                                <h3>John Doe</h3>
-                                <p>10 Friends</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="left">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="">
-                            </div>
-                            <div class="right">
-                                <h3>John Doe</h3>
-                                <p>10 Friends</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="left">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="">
-                            </div>
-                            <div class="right">
-                                <h3>John Doe</h3>
-                                <p>10 Friends</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="left">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="">
-                            </div>
-                            <div class="right">
-                                <h3>John Doe</h3>
-                                <p>10 Friends</p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+        @await this.Component.InvokeAsync("GetSuggestionPeople", new { currentUserId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value })
     </div>
 </main>

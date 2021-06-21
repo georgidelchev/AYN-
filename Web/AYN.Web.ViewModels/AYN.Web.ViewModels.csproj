@@ -27,7 +27,6 @@
 
   <ItemGroup>
     <Folder Include="Home\" />
-    <Folder Include="Users\" />
     <Folder Include="SubCategories\" />
   </ItemGroup>
 

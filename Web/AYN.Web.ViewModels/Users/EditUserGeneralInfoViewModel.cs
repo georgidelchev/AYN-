@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using AYN.Data.Models;
@@ -34,14 +33,19 @@ namespace AYN.Web.ViewModels.Users
         [MaxLength(ApplicationUserAboutMaxLength)]
         public string About { get; set; }
 
+        [Url]
         public string FacebookUrl { get; set; }
 
+        [Url]
         public string InstagramUrl { get; set; }
 
+        [Url]
         public string TikTokUrl { get; set; }
 
+        [Url]
         public string TwitterUrl { get; set; }
 
+        [Url]
         public string WebsiteUrl { get; set; }
 
         [Required]

@@ -27,7 +27,7 @@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label asp-for="@Model.EditUserGeneralInfoViewModel.FirstName" class="input-group-text">
-                    <i class="fas fa-file-signature"></i>
+                    <i class="fas fa-grin"></i>
                 </label>
             </div>
 
@@ -42,7 +42,7 @@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label asp-for="@Model.EditUserGeneralInfoViewModel.MiddleName" class="input-group-text">
-                    <i class="fas fa-file-signature"></i>
+                    <i class="fas fa-grin"></i>
                 </label>
             </div>
 
@@ -57,7 +57,7 @@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label asp-for="@Model.EditUserGeneralInfoViewModel.LastName" class="input-group-text">
-                    <i class="fas fa-file-signature"></i>
+                    <i class="fas fa-grin"></i>
                 </label>
             </div>
 
@@ -72,7 +72,7 @@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label asp-for="@Model.EditUserGeneralInfoViewModel.About" class="input-group-text">
-                    <i class="fas fa-file-signature"></i>
+                    <i class="fas fa-info"></i>
                 </label>
             </div>
 
@@ -87,7 +87,7 @@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label asp-for="@Model.EditUserGeneralInfoViewModel.FacebookUrl" class="input-group-text">
-                    <i class="fas fa-file-signature"></i>
+                    <i class="fab fa-facebook"></i>
                 </label>
             </div>
 
@@ -102,7 +102,7 @@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label asp-for="@Model.EditUserGeneralInfoViewModel.InstagramUrl" class="input-group-text">
-                    <i class="fas fa-file-signature"></i>
+                    <i class="fab fa-instagram"></i>
                 </label>
             </div>
 
@@ -117,7 +117,7 @@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label asp-for="@Model.EditUserGeneralInfoViewModel.TikTokUrl" class="input-group-text">
-                    <i class="fas fa-file-signature"></i>
+                    <i class="fab fa-tiktok"></i>
                 </label>
             </div>
 
@@ -132,7 +132,7 @@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label asp-for="@Model.EditUserGeneralInfoViewModel.TwitterUrl" class="input-group-text">
-                    <i class="fas fa-file-signature"></i>
+                    <i class="fab fa-twitter"></i>
                 </label>
             </div>
 
@@ -147,7 +147,7 @@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label asp-for="@Model.EditUserGeneralInfoViewModel.WebsiteUrl" class="input-group-text">
-                    <i class="fas fa-file-signature"></i>
+                    <i class="fas fa-globe"></i>
                 </label>
             </div>
 
@@ -162,7 +162,7 @@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label asp-for="@Model.EditUserGeneralInfoViewModel.BirthDay" class="input-group-text">
-                    <i class="fas fa-file-signature"></i>
+                    <i class="fas fa-birthday-cake"></i>
                 </label>
             </div>
 
@@ -173,10 +173,11 @@
     <div>
         <span asp-validation-for="@Model.EditUserGeneralInfoViewModel.Gender" class="text-danger"></span>
 
+        Gender
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label asp-for="@Model.EditUserGeneralInfoViewModel.Gender" class="input-group-text">
-                    <i class="fas fa-chevron-up"></i>
+                    <i class="fas fa-venus-mars"></i>
                 </label>
             </div>
             <select asp-for="@Model.EditUserGeneralInfoViewModel.Gender" class="form-control">
@@ -192,10 +193,11 @@
     <div>
         <span asp-validation-for="@Model.EditUserGeneralInfoViewModel.TownId" class="text-danger"></span>
 
+        Town
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label asp-for="@Model.EditUserGeneralInfoViewModel.TownId" class="input-group-text">
-                    <i class="far fa-building"></i>
+                    <i class="fas fa-building"></i>
                 </label>
             </div>
             <select asp-for="@Model.EditUserGeneralInfoViewModel.TownId" class="form-control" asp-items="towns">
@@ -204,17 +206,25 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <label for="customFile">Change the avatar<br />(optional)</label>
-        <input type="file" class="form-control-file" id="customFile" asp-for="@Model.EditUserGeneralInfoViewModel.Avatar" />
-        <span asp-validation-for="@Model.EditUserGeneralInfoViewModel.Avatar" class="text-danger"></span>
+    Avatar
+    <div class="input-group">
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="inputGroupFile02" asp-for="@Model.EditUserGeneralInfoViewModel.Avatar">
+            <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Change your avatar (optional)</label>
+            <span asp-validation-for="@Model.EditUserGeneralInfoViewModel.Avatar" class="text-danger"></span>
+        </div>
     </div>
+    <br />
 
-    <div class="form-group">
-        <label for="customFile">Change the thumbnail<br />(optional)</label>
-        <input type="file" class="form-control-file" id="customFile" asp-for="@Model.EditUserGeneralInfoViewModel.Thumbnail" />
-        <span asp-validation-for="@Model.EditUserGeneralInfoViewModel.Thumbnail" class="text-danger"></span>
+    Thumbnail
+    <div class="input-group">
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="inputGroupFile02" asp-for="@Model.EditUserGeneralInfoViewModel.Thumbnail">
+            <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Change your thumbnail (optional)</label>
+            <span asp-validation-for="@Model.EditUserGeneralInfoViewModel.Thumbnail" class="text-danger"></span>
+        </div>
     </div>
+    <br />
     <input type="hidden" asp-for="@Model.EditUserGeneralInfoViewModel.Id" />
     <button type="submit" class="btn btn-primary btn-sm">Submit</button>
     <hr />
