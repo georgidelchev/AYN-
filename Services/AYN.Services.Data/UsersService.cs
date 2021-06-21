@@ -123,8 +123,9 @@ namespace AYN.Services.Data
 
                 var physicalPath = $"{wwwRootPath}/img/UsersAvatars/";
                 Directory.CreateDirectory($"{physicalPath}");
+                File.Delete(physicalPath + $"{user.Id}.{user.AvatarExtension}");
+
                 var fullPhysicalPath = physicalPath + $"{user.Id}.{avatarExtension}";
-                File.Delete(fullPhysicalPath);
 
                 user.AvatarExtension = avatarExtension;
 
@@ -138,12 +139,30 @@ namespace AYN.Services.Data
 
             if (model.EditUserGeneralInfoViewModel.Thumbnail is not null)
             {
+                var thumbnailExtension = this.imageProcessingService.GetImageExtension(model.EditUserGeneralInfoViewModel.Thumbnail);
+                this.imageProcessingService.ValidateImageExtension(thumbnailExtension);
+
+                var physicalPath = $"{wwwRootPath}/img/UsersThumbnails/";
+                Directory.CreateDirectory($"{physicalPath}");
+                File.Delete(physicalPath + $"{user.Id}.{user.ThumbnailExtension}");
+
+                var fullPhysicalPath = physicalPath + $"{user.Id}.{thumbnailExtension}";
+
+                user.ThumbnailExtension = thumbnailExtension;
+
+                await using var fileStream = new FileStream(fullPhysicalPath, FileMode.Create);
+
+                await model.EditUserGeneralInfoViewModel.Thumbnail.CopyToAsync(fileStream);
+                await fileStream.DisposeAsync();
+
+                await this.imageProcessingService.SaveImageLocallyAsync(fullPhysicalPath, 1110, 350);
             }
 
             if (user.FirstName != model.EditUserGeneralInfoViewModel.FirstName ||
                 user.LastName != model.EditUserGeneralInfoViewModel.LastName)
             {
                 await this.GenerateDefaultAvatar(model.EditUserGeneralInfoViewModel.FirstName, model.EditUserGeneralInfoViewModel.LastName, user.Id, wwwRootPath);
+                await this.GenerateDefaultThumbnail(model.EditUserGeneralInfoViewModel.FirstName, model.EditUserGeneralInfoViewModel.LastName, user.Id, wwwRootPath);
             }
 
             user.FirstName = model.EditUserGeneralInfoViewModel.FirstName;
