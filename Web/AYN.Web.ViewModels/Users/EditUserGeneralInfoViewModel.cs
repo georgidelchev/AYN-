@@ -20,7 +20,6 @@ namespace AYN.Web.ViewModels.Users
         [MaxLength(ApplicationUserFirstNameMaxLength)]
         public string FirstName { get; set; }
 
-        [Required]
         [MinLength(ApplicationUserMiddleNameMinLength)]
         [MaxLength(ApplicationUserMiddleNameMaxLength)]
         public string MiddleName { get; set; }

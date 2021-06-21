@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AYN.Services.Data;
 using AYN.Web.ViewModels.Users;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AYN.Web.Controllers
@@ -12,13 +13,16 @@ namespace AYN.Web.Controllers
     {
         private readonly IUsersService usersService;
         private readonly ITownsService townsService;
+        private readonly IWebHostEnvironment environment;
 
         public UsersController(
             IUsersService usersService,
-            ITownsService townsService)
+            ITownsService townsService,
+            IWebHostEnvironment environment)
         {
             this.usersService = usersService;
             this.townsService = townsService;
+            this.environment = environment;
         }
 
         [HttpGet]
@@ -95,7 +99,9 @@ namespace AYN.Web.Controllers
         [Authorize]
         public async Task<IActionResult> EditGeneralInfo(EditUserViewModel model, string id)
         {
-            return this.RedirectToAction(nameof(this.Profile), id);
+            await this.usersService.EditAsync(model, this.environment.WebRootPath);
+
+            return this.Redirect($"/Users/Profile?id={id}");
         }
     }
 }

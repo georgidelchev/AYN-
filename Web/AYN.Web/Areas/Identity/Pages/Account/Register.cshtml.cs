@@ -123,8 +123,6 @@ namespace AYN.Web.Areas.Identity.Pages.Account
                     FirstName = this.Input.FirstName,
                     LastName = this.Input.LastName,
                     TownId = this.Input.TownId,
-                    AvatarExtension = "png",
-                    ThumbnailExtension = "png",
                 };
 
                 await this.usersService.GenerateDefaultAvatar(this.Input.FirstName, this.Input.LastName, user.Id, this.environment.WebRootPath);

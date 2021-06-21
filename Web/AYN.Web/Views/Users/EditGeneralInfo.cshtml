@@ -61,7 +61,7 @@
                 </label>
             </div>
 
-            <input asp-for="@Model.EditUserGeneralInfoViewModel.FirstName" placeholder="Last name" class="form-control" />
+            <input asp-for="@Model.EditUserGeneralInfoViewModel.LastName" placeholder="Last name" class="form-control" />
         </div>
     </div>
 
@@ -188,21 +188,21 @@
             </select>
         </div>
     </div>
-    
-<div>
-    <span asp-validation-for="@Model.EditUserGeneralInfoViewModel.TownId" class="text-danger"></span>
 
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <label asp-for="@Model.EditUserGeneralInfoViewModel.TownId" class="input-group-text">
-                <i class="far fa-building"></i>
-            </label>
+    <div>
+        <span asp-validation-for="@Model.EditUserGeneralInfoViewModel.TownId" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="@Model.EditUserGeneralInfoViewModel.TownId" class="input-group-text">
+                    <i class="far fa-building"></i>
+                </label>
+            </div>
+            <select asp-for="@Model.EditUserGeneralInfoViewModel.TownId" class="form-control" asp-items="towns">
+                <option selected disabled>Choose Town</option>
+            </select>
         </div>
-        <select asp-for="@Model.EditUserGeneralInfoViewModel.TownId" class="form-control" asp-items="towns">
-            <option selected disabled>Choose Town</option>
-        </select>
     </div>
-</div>
 
     <div class="form-group">
         <label for="customFile">Change the avatar<br />(optional)</label>
@@ -215,7 +215,7 @@
         <input type="file" class="form-control-file" id="customFile" asp-for="@Model.EditUserGeneralInfoViewModel.Thumbnail" />
         <span asp-validation-for="@Model.EditUserGeneralInfoViewModel.Thumbnail" class="text-danger"></span>
     </div>
-
+    <input type="hidden" asp-for="@Model.EditUserGeneralInfoViewModel.Id" />
     <button type="submit" class="btn btn-primary btn-sm">Submit</button>
     <hr />
 </form>
