@@ -27,9 +27,9 @@ namespace AYN.Web.Controllers
 
         [HttpGet]
         [Authorize]
-        public IActionResult Profile(string id)
+        public async Task<IActionResult> Profile(string id)
         {
-            var viewModel = this.usersService.GetProfileDetails<GetUserProfileDetailsViewModel>(id);
+            var viewModel = await this.usersService.GetProfileDetails<GetUserProfileDetailsViewModel>(id);
 
             return this.View(viewModel);
         }

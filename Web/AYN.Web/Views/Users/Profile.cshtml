@@ -339,6 +339,6 @@
             </div>
             <!-- Post /////-->
         </div>
-        @await this.Component.InvokeAsync("GetSuggestionPeople", new { currentUserId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value })
+        @await this.Component.InvokeAsync("GetSuggestionPeople", new { currentUserId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value, openedUserId = this.Model.Id })
     </div>
 </main>

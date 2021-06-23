@@ -6,6 +6,7 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
 using AYN.Data.Models;
+using AYN.Data.Models.Enumerations;
 using AYN.Services.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -78,26 +79,34 @@ namespace AYN.Web.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             [Required]
+            [MinLength(ApplicationUserUserNameMinLength)]
             [MaxLength(ApplicationUserUserNameMaxLength)]
             public string UserName { get; set; }
 
             [Required]
+            [MinLength(ApplicationUserAboutMinLength)]
             [MaxLength(ApplicationUserAboutMaxLength)]
             public string About { get; set; }
 
             [Required]
+            [MinLength(ApplicationUserFirstNameMinLength)]
             [MaxLength(ApplicationUserFirstNameMaxLength)]
             public string FirstName { get; set; }
 
+            [MinLength(ApplicationUserMiddleNameMinLength)]
             [MaxLength(ApplicationUserMiddleNameMaxLength)]
             public string MiddleName { get; set; }
 
             [Required]
+            [MinLength(ApplicationUserLastNameMinLength)]
             [MaxLength(ApplicationUserLastNameMaxLength)]
             public string LastName { get; set; }
 
             [Required]
             public int TownId { get; set; }
+
+            [Required]
+            public Gender Gender { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -123,6 +132,7 @@ namespace AYN.Web.Areas.Identity.Pages.Account
                     FirstName = this.Input.FirstName,
                     LastName = this.Input.LastName,
                     TownId = this.Input.TownId,
+                    Gender = this.Input.Gender,
                 };
 
                 await this.usersService.GenerateDefaultAvatar(this.Input.FirstName, this.Input.LastName, user.Id, this.environment.WebRootPath);

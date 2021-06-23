@@ -32,14 +32,14 @@ namespace AYN.Services.Data
             this.imageProcessingService = imageProcessingService;
         }
 
-        public T GetProfileDetails<T>(string id)
-            => this.applicationUserRepository
+        public async Task<T> GetProfileDetails<T>(string id)
+            => await this.applicationUserRepository
                 .All()
                 .Where(au => au.Id == id)
                 .Include(au => au.Followers)
                 .Include(au => au.Followings)
                 .To<T>()
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
         public async Task Follow(string followerId, string followeeId)
         {
@@ -177,14 +177,15 @@ namespace AYN.Services.Data
             await this.applicationUserRepository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<T>> GetSuggestionPeople<T>(string userId)
+        public async Task<IEnumerable<T>> GetSuggestionPeople<T>(string userId, string openedUserId)
             => await this.applicationUserRepository
                 .All()
                 .Where(au => au.Town.Name == this.applicationUserRepository
                     .All()
                     .FirstOrDefault(au => au.Id == userId).Town.Name &&
                              au.Id != userId &&
-                             au.Followings.All(f => f.FollowerId != userId))
+                             au.Followings.All(f => f.FollowerId != userId) &&
+                             au.Id != openedUserId)
                 .To<T>()
                 .ToListAsync();
 

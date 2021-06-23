@@ -1,0 +1,26 @@
+﻿@model AYN.Web.ViewModels.Users.ListSuggestionPeopleViewModel
+
+<div class="col-lg-3">
+    <div class="card social-timeline-card">
+        <div class="card-body">
+            <h5 class="card-title text-center">People you may know</h5>
+            <hr />
+            <ul class="friend-list">
+                @foreach (var people in this.Model.SuggestionPeople)
+                {
+                    <a asp-controller="Users" asp-action="Profile" asp-route-id="@people.Id">
+                        <li>
+                            <div class="left">
+                                <img src="/img/UsersAvatars/@people.Id.@people.AvatarExtension">
+                            </div>
+                            <div class="right">
+                                <h3>@people.FirstName @people.LastName</h3>
+                                <p>Followers: @people.FollowersCount</p>
+                            </div>
+                        </li>
+                    </a>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

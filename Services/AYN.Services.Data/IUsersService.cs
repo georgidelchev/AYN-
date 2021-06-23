@@ -8,7 +8,7 @@ namespace AYN.Services.Data
 {
     public interface IUsersService
     {
-        T GetProfileDetails<T>(string id);
+        Task<T> GetProfileDetails<T>(string id);
 
         Task Follow(string followerId, string followeeId);
 
@@ -26,6 +26,6 @@ namespace AYN.Services.Data
 
         Task EditAsync(EditUserViewModel model, string wwwRootPath);
 
-        Task<IEnumerable<T>> GetSuggestionPeople<T>(string userId);
+        Task<IEnumerable<T>> GetSuggestionPeople<T>(string userId, string openedUserId);
     }
 }

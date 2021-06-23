@@ -1,5 +1,6 @@
 ﻿@page
 
+@using AYN.Data.Models.Enumerations
 @model RegisterModel
 
 @{
@@ -49,7 +50,6 @@
                 <span asp-validation-for="Input.About" class="text-danger"></span>
             </div>
             <div>
-                <span asp-validation-for="Input.TownId" class="text-danger"></span>
                 <label asp-for="Input.TownId"></label>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -61,8 +61,19 @@
                         <option selected disabled>Choose Town</option>
                     </select>
                 </div>
+                <span asp-validation-for="Input.TownId" class="text-danger"></span>
             </div>
-
+            <div class="form-group">
+                <label asp-for="Input.Gender"></label>
+                <select asp-for="Input.Gender" class="form-control">
+                    <option selected disabled>Choose your gender</option>
+                    @foreach (int gender in Enum.GetValues(typeof(Gender)))
+                    {
+                        <option value="@gender">@Enum.GetName(typeof(Gender), gender)</option>
+                    }
+                </select>
+                <span asp-validation-for="Input.Gender" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Input.Password"></label>
                 <input asp-for="Input.Password" class="form-control" />
