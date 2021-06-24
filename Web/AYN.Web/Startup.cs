@@ -58,22 +58,23 @@ namespace AYN.Web
             services.AddSingleton(this.configuration);
 
             // Data repositories
-            services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
-            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
+            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+            services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
 
             // Application services
-            services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<ISettingsService, SettingsService>();
-            services.AddTransient<ICategoriesService, CategoriesService>();
-            services.AddTransient<ISubCategoriesService, SubCategoriesService>();
             services.AddTransient<IAdsService, AdsService>();
             services.AddTransient<ITownsService, TownsService>();
-            services.AddTransient<IAddressesService, AddressesService>();
-            services.AddTransient<IImageProcessingService, ImageProcessingService>();
             services.AddTransient<IImageService, ImageService>();
-            services.AddTransient<IReportsService, ReportsService>();
             services.AddTransient<IUsersService, UsersService>();
+            services.AddTransient<IPostsService, PostsService>();
+            services.AddTransient<IReportsService, ReportsService>();
+            services.AddTransient<IEmailSender, NullMessageSender>();
+            services.AddTransient<ISettingsService, SettingsService>();
+            services.AddTransient<IAddressesService, AddressesService>();
+            services.AddTransient<ICategoriesService, CategoriesService>();
+            services.AddTransient<ISubCategoriesService, SubCategoriesService>();
+            services.AddTransient<IImageProcessingService, ImageProcessingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
