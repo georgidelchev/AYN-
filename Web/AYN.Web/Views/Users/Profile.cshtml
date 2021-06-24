@@ -1,6 +1,6 @@
 ﻿@using System.Security.Claims
 
-@model AYN.Web.ViewModels.Users.GetUserProfileDetailsViewModel
+@model AYN.Web.ViewModels.Users.GetUserProfileBaseDetailsViewModel
 
 @{
     this.ViewData["Title"] = "Profile";
@@ -163,7 +163,7 @@
                             <div class="tab-content" id="myTabContent">
                                 <div class="tab-pane fade active show" id="posts" role="tabpanel" aria-labelledby="posts-tab">
                                     <div class="form-group">
-                                        <input class="form-control" name="title" placeholder="Title"/>
+                                        <input class="form-control" name="title" placeholder="Title" />
                                     </div>
                                 </div>
                                 <div class="tab-pane fade active show" id="posts" role="tabpanel" aria-labelledby="posts-tab">
@@ -198,6 +198,50 @@
                     </form>
                 </div>
                 <!-- Post /////-->
+            }
+            @foreach (var post in this.Model.Posts)
+            {
+                <div class="card social-timeline-card">
+                    <div class="card-header pb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="mr-2">
+                                    <img class="rounded-circle" width="45" src="/img/UsersAvatars/@if (this.Model.AvatarExtension == null){<text>@this.Model.Id.ToString()_DEFAULT.png</text>}else{<text>@this.Model.Id.@this.Model.AvatarExtension</text>}" alt="">
+                                </div>
+                                <div class="ml-2">
+                                    <div class="h5 m-0 text-blue">@Model.FirstName @Model.LastName</div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="dropdown">
+                                    <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop11" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-ellipsis-h"></i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop11">
+                                        <div class="h6 dropdown-header">Configuration</div>
+                                        <a class="dropdown-item" href="#">Save</a>
+                                        <a class="dropdown-item" href="#">Hide</a>
+                                        <a class="dropdown-item" href="#">Report</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>@post.CreatedOn</div>
+                        <a class="card-link" href="#">
+                            <h5 class="card-title">@post.Title</h5>
+                            <h5 class="card-title">@post.Content</h5>
+                        </a>
+                        <img src="img/gallery/1a.jpg" alt="" class="img-fluid">
+
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>
+                        <a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
+                        <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
+                    </div>
+                </div>
             }
         </div>
         @await this.Component.InvokeAsync("GetSuggestionPeople", new { currentUserId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value, openedUserId = this.Model.Id })
