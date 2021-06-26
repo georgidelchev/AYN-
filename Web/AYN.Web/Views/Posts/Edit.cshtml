@@ -1,0 +1,41 @@
+﻿@model AYN.Web.ViewModels.Posts.EditPostInputModel
+
+@{
+    this.ViewData["Title"] = "Edit post";
+}
+
+<form method="post" class="col-md-6 offset-md-3 text-center" enctype="multipart/form-data">
+    <hr />
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <br />
+    <div>
+        <span asp-validation-for="Title" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="Title" class="input-group-text">
+                    <i class="fas fa-file-signature"></i>
+                </label>
+            </div>
+
+            <input asp-for="Title" placeholder="Title" class="form-control" />
+        </div>
+    </div>
+
+    <div>
+        <span asp-validation-for="Content" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="Title" class="input-group-text">
+                    <i class="fas fa-file-signature"></i>
+                </label>
+            </div>
+
+            <textarea asp-for="Content" rows="4" placeholder="Content" class="form-control"></textarea>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+    <hr />
+</form>

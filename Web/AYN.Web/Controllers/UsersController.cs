@@ -97,7 +97,7 @@ namespace AYN.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> EditGeneralInfo(EditUserViewModel model, string id)
+        public async Task<IActionResult> EditGeneralInfo(EditUserViewModel model)
         {
             if (!this.usersService.IsUserExisting(model.EditUserGeneralInfoViewModel.Id))
             {
@@ -106,7 +106,7 @@ namespace AYN.Web.Controllers
 
             await this.usersService.EditAsync(model, this.environment.WebRootPath);
 
-            return this.Redirect($"/Users/Profile?id={id}");
+            return this.Redirect($"/Users/Profile?id={this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value}");
         }
     }
 }

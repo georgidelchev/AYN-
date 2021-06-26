@@ -24,7 +24,35 @@ namespace AYN.Web.Controllers
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             await this.postsService.CreateAsync(title, content, userId);
+
             return this.Redirect($"/Users/Profile?id={userId}");
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var viewModel = await this.postsService.GetById<EditPostInputModel>(id);
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Edit(EditPostInputModel input)
+        {
+            await this.postsService.EditAsync(input);
+
+            return this.Redirect($"/Users/Profile?id={this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value}");
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await this.postsService.DeleteAsync(id);
+
+            return this.Redirect($"/Users/Profile?id={this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value}");
         }
     }
 }

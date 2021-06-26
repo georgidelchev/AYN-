@@ -79,8 +79,10 @@ namespace AYN.Web.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             [Required]
+            [Display(Name = "Username")]
             [MinLength(ApplicationUserUserNameMinLength)]
             [MaxLength(ApplicationUserUserNameMaxLength)]
+            [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessage = "Username must be combination of letters and numbers only.")]
             public string UserName { get; set; }
 
             [Required]
@@ -121,6 +123,7 @@ namespace AYN.Web.Areas.Identity.Pages.Account
             returnUrl ??= this.Url.Content("~/");
 
             this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            this.Towns = await this.townsService.GetAllAsKeyValuePairsAsync();
 
             if (this.ModelState.IsValid)
             {
@@ -131,18 +134,18 @@ namespace AYN.Web.Areas.Identity.Pages.Account
                     About = this.Input.About,
                     FirstName = this.Input.FirstName,
                     LastName = this.Input.LastName,
-                    TownId = this.Input.TownId,
+                    TownId = 1,
                     Gender = this.Input.Gender,
                 };
-
-                await this.usersService.GenerateDefaultAvatar(this.Input.FirstName, this.Input.LastName, user.Id, this.environment.WebRootPath);
-                await this.usersService.GenerateDefaultThumbnail(this.Input.FirstName, this.Input.LastName, user.Id, this.environment.WebRootPath);
 
                 var result = await this.userManager.CreateAsync(user, this.Input.Password);
 
                 if (result.Succeeded)
                 {
                     this.logger.LogInformation("User created a new account with password.");
+
+                    await this.usersService.GenerateDefaultAvatar(this.Input.FirstName, this.Input.LastName, user.Id, this.environment.WebRootPath);
+                    await this.usersService.GenerateDefaultThumbnail(this.Input.FirstName, this.Input.LastName, user.Id, this.environment.WebRootPath);
 
                     var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
 

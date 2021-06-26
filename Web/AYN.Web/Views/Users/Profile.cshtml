@@ -16,11 +16,8 @@
     </div>
 }
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
 <main>
-
     <div class="card ">
-
         <img src="/img/UsersThumbnails/@if (this.Model.ThumbnailExtension == null){<text>@this.Model.Id.ToString()_DEFAULT.png</text>}else{<text>@this.Model.Id.@this.Model.ThumbnailExtension</text>}" alt="">
         <div class="card-body social-prof">
             <div class="wrapper">
@@ -148,16 +145,6 @@
             {
                 <!--- \\\\\\\Post-->
                 <div class="card social-timeline-card">
-                    <div class="card-header">
-                        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">Share your insights</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="images-tab" data-toggle="tab" role="tab" aria-controls="images" aria-selected="false" href="#images">Share Images</a>
-                            </li>
-                        </ul>
-                    </div>
                     <form method="post" id="postForm" asp-controller="Posts" asp-action="Create">
                         <div class="card-body">
                             <div class="tab-content" id="myTabContent">
@@ -170,15 +157,6 @@
                                     <div class="form-group">
                                         <textarea class="form-control" name="content" rows="3" placeholder="What are you thinking?"></textarea>
                                     </div>
-                                </div>
-                                <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
-                                    <div class="form-group">
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="customFile">
-                                            <label class="custom-file-label" for="customFile">Upload image</label>
-                                        </div>
-                                    </div>
-                                    <div class="py-4"></div>
                                 </div>
                             </div>
                             <div class="btn-toolbar justify-content-between">
@@ -199,14 +177,16 @@
                 </div>
                 <!-- Post /////-->
             }
-            @foreach (var post in this.Model.Posts)
+            @foreach (var post in this.Model.Posts
+        .OrderByDescending(p => p.ModifiedOn)
+        .ThenByDescending(p => p.CreatedOn))
             {
                 <div class="card social-timeline-card">
                     <div class="card-header pb-3">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="mr-2">
-                                    <img class="rounded-circle" width="45" src="/img/UsersAvatars/@if (this.Model.AvatarExtension == null){<text>@this.Model.Id.ToString()_DEFAULT.png</text>}else{<text>@this.Model.Id.@this.Model.AvatarExtension</text>}" alt="">
+                                    <img class="rounded-circle" width="45" src="/img/UsersAvatars/@if (this.Model.AvatarExtension == null){<text>@this.Model.Id?.ToString()_DEFAULT.png</text>}else{<text>@this.Model.Id.@this.Model.AvatarExtension</text>}" alt="">
                                 </div>
                                 <div class="ml-2">
                                     <div class="h5 m-0 text-blue">@Model.FirstName @Model.LastName</div>
@@ -218,10 +198,19 @@
                                         <i class="fa fa-ellipsis-h"></i>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop11">
-                                        <div class="h6 dropdown-header">Configuration</div>
-                                        <a class="dropdown-item" href="#">Save</a>
-                                        <a class="dropdown-item" href="#">Hide</a>
-                                        <a class="dropdown-item" href="#">Report</a>
+                                        <div class="h6 dropdown-header text-center">Actions</div>
+                                        @if (this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value == this.Model.Id)
+                                        {
+                                            <a type="submit" asp-controller="Posts" asp-action="Edit" asp-route-id="@post.Id" class="dropdown-item text-center">Edit</a>
+                                            <form method="post" id="postDeleteFrom" asp-controller="Posts" asp-action="Delete" asp-route-id="@post.Id">
+                                                <a onclick="postDeleteFrom.submit()" class="dropdown-item text-center" style="cursor: pointer">Delete</a>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            // TODO: Implement Post Report
+                                            <a class="dropdown-item" href="#">Report</a>
+                                        }
                                     </div>
                                 </div>
                             </div>

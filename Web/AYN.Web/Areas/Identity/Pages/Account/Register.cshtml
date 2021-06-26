@@ -1,15 +1,8 @@
 ﻿@page
 
 @using AYN.Data.Models.Enumerations
+
 @model RegisterModel
-
-@{
-    ViewData["Title"] = "Register";
-
-    var towns = this.Model
-        .Towns
-        .Select(t => new SelectListItem(t.Value, t.Key));
-}
 
 <h1>@ViewData["Title"]</h1>
 
@@ -19,6 +12,7 @@
             <h4>Create a new account.</h4>
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
+
             <div class="form-group">
                 <label asp-for="Input.UserName"></label>
                 <input asp-for="Input.UserName" class="form-control" />
@@ -57,7 +51,7 @@
                             <i class="far fa-building"></i>
                         </label>
                     </div>
-                    <select asp-for="Input.TownId" class="form-control" asp-items="towns">
+                    <select asp-for="Input.TownId" class="form-control" asp-items="this.Model.Towns.Select(t => new SelectListItem(t.Value, t.Key))">
                         <option selected disabled>Choose Town</option>
                     </select>
                 </div>
