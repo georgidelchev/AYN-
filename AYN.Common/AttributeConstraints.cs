@@ -16,7 +16,9 @@
         public const int AddressNameMaxLength = 50;
 
         // Post model
-        public const int PostTitleMaxLength = 30;
+        public const int PostTitleMinLength = 3;
+        public const int PostTitleMaxLength = 20;
+        public const int PostContentMinLength = 5;
         public const int PostContentMaxLength = 1000;
 
         // Comment model

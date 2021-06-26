@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using AYN.Data.Models;
 using AYN.Web.ViewModels.Users;
 
 namespace AYN.Services.Data
@@ -13,6 +12,10 @@ namespace AYN.Services.Data
         Task Follow(string followerId, string followeeId);
 
         Task Unfollow(string followerId, string followeeId);
+
+        Task<T> GetFollowers<T>(string userId);
+
+        Task<T> GetFollowings<T>(string userId);
 
         bool IsFollower(string followerId, string followeeId);
 

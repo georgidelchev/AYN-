@@ -33,13 +33,18 @@ namespace AYN.Services.Data
         }
 
         public async Task<T> GetProfileDetails<T>(string id)
-            => await this.applicationUserRepository
+        {
+            var profileDetails= await this.applicationUserRepository
                 .All()
                 .Where(au => au.Id == id)
                 .Include(au => au.Followers)
                 .Include(au => au.Followings)
+                .Include(au => au.Posts)
                 .To<T>()
                 .FirstOrDefaultAsync();
+
+            return profileDetails;
+        }
 
         public async Task Follow(string followerId, string followeeId)
         {
@@ -63,6 +68,19 @@ namespace AYN.Services.Data
             this.followerFolloweesRepository.HardDelete(followerFollowee);
 
             await this.followerFolloweesRepository.SaveChangesAsync();
+        }
+
+        public async Task<T> GetFollowers<T>(string userId)
+            => await this.applicationUserRepository
+                .All()
+                .Where(au => au.Id == userId)
+                .Select(au => au.Followers)
+                .To<T>()
+                .FirstOrDefaultAsync();
+
+        public Task<T> GetFollowings<T>(string userId)
+        {
+            throw new NotImplementedException();
         }
 
         public bool IsFollower(string followerId, string followeeId)

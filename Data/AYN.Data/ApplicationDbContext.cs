@@ -100,6 +100,16 @@ namespace AYN.Data
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
+            builder
+                .Entity<Post>(post =>
+                {
+                    post
+                        .HasOne(p => p.ApplicationUser)
+                        .WithMany(a => a.Posts)
+                        .HasForeignKey(f => f.AddedByUserId)
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
 
