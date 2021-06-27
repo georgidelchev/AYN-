@@ -117,5 +117,8 @@ namespace AYN.Data.Models
 
         public virtual ICollection<UserRating> UserRatings { get; set; }
             = new HashSet<UserRating>();
+
+        public virtual ICollection<PostReact> PostReacts { get; set; }
+            = new HashSet<PostReact>();
     }
 }

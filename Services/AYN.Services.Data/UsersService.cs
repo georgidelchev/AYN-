@@ -34,7 +34,7 @@ namespace AYN.Services.Data
 
         public async Task<T> GetProfileDetails<T>(string id)
         {
-            var profileDetails= await this.applicationUserRepository
+            var profileDetails = await this.applicationUserRepository
                 .All()
                 .Where(au => au.Id == id)
                 .Include(au => au.Followers)

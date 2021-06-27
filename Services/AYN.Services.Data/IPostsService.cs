@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+
+using AYN.Web.ViewModels.Posts;
 
 namespace AYN.Services.Data
 {
@@ -7,6 +8,10 @@ namespace AYN.Services.Data
     {
         Task CreateAsync(string title, string content, string userId);
 
-        Task<ICollection<T>> GetAllPostsByUserId<T>(string userId);
+        Task EditAsync(EditPostInputModel input);
+
+        Task<T> GetById<T>(int id);
+
+        Task DeleteAsync(int postId);
     }
 }

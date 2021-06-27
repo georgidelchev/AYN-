@@ -27,5 +27,8 @@ namespace AYN.Data.Models
 
         public virtual ICollection<PostVote> PostVotes { get; set; }
             = new HashSet<PostVote>();
+
+        public virtual ICollection<PostReact> PostReacts { get; set; }
+            = new HashSet<PostReact>();
     }
 }

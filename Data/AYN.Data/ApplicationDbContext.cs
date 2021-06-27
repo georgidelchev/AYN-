@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using AYN.Data.Common.Models;
+using AYN.Data.Configurations;
 using AYN.Data.Models;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -46,6 +47,8 @@ namespace AYN.Data
 
         public DbSet<PostVote> PostVotes { get; set; }
 
+        public DbSet<PostReact> PostsReacts { get; set; }
+
         public DbSet<Report> Reports { get; set; }
 
         public DbSet<SubCategory> SubCategories { get; set; }
@@ -84,31 +87,8 @@ namespace AYN.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder
-                .Entity<FollowerFollowee>(followerFollowee =>
-                {
-                    followerFollowee
-                        .HasOne(ff => ff.Followee)
-                        .WithMany(ff => ff.Followings)
-                        .HasForeignKey(ff => ff.FolloweeId)
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    followerFollowee
-                        .HasOne(ff => ff.Follower)
-                        .WithMany(ff => ff.Followers)
-                        .HasForeignKey(ff => ff.FollowerId)
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            builder
-                .Entity<Post>(post =>
-                {
-                    post
-                        .HasOne(p => p.ApplicationUser)
-                        .WithMany(a => a.Posts)
-                        .HasForeignKey(f => f.AddedByUserId)
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
+            builder.ApplyConfiguration(new FollowerFolloweeConfiguration());
+            builder.ApplyConfiguration(new PostConfiguration());
 
             // Needed for Identity models configuration
             base.OnModelCreating(builder);

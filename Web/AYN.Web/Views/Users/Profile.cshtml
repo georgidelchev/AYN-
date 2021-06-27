@@ -140,7 +140,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 gedf-main">
+        <div class="col-lg-6 gedf-main text-center">
             @if (this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value == this.Model.Id)
             {
                 <!--- \\\\\\\Post-->
@@ -177,14 +177,15 @@
                 </div>
                 <!-- Post /////-->
             }
+
             @foreach (var post in this.Model.Posts
-        .OrderByDescending(p => p.ModifiedOn)
-        .ThenByDescending(p => p.CreatedOn))
+              .OrderByDescending(p => p.ModifiedOn)
+              .ThenByDescending(p => p.CreatedOn))
             {
                 <div class="card social-timeline-card">
                     <div class="card-header pb-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center text-center">
+                            <div class="d-flex justify-content-between align-items-center text-center">
                                 <div class="mr-2">
                                     <img class="rounded-circle" width="45" src="/img/UsersAvatars/@if (this.Model.AvatarExtension == null){<text>@this.Model.Id?.ToString()_DEFAULT.png</text>}else{<text>@this.Model.Id.@this.Model.AvatarExtension</text>}" alt="">
                                 </div>
@@ -217,18 +218,45 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>@post.CreatedOn</div>
-                        <a class="card-link" href="#">
-                            <h5 class="card-title">@post.Title</h5>
-                            <h5 class="card-title">@post.Content</h5>
-                        </a>
-                        <img src="img/gallery/1a.jpg" alt="" class="img-fluid">
-
+                        <div class="text-muted mb-2"> <i class="fa fa-clock-o"></i>@post.CreatedOn.ToLocalTime().ToString("g")</div>
+                        <h1>@post.Title</h1>
+                        <h6>@post.Content</h6>
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>
-                        <a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
-                        <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
+                        <div class="feed">
+                            <a class="like-btn">
+                                Reactions
+                                <div class="reaction-box">
+                                    <div class="reaction-icon">
+                                        <img src="/img/reacts/like.gif" style="width: 50px; height: 50px;" />
+                                        <label>Like</label>
+                                    </div>
+                                    <div class="reaction-icon">
+                                        <img src="/img/reacts/love.gif" style="width: 50px; height: 50px;" />
+                                        <label>Love</label>
+                                    </div>
+                                    <div class="reaction-icon">
+                                        <img src="/img/reacts/haha.gif" style="width: 50px; height: 50px;" />
+                                        <label>Haha</label>
+                                    </div>
+                                    <div class="reaction-icon">
+                                        <img src="/img/reacts/wow.gif" style="width: 50px; height: 50px;" />
+                                        <label>Wow</label>
+                                    </div>
+                                    <div class="reaction-icon">
+                                        <img src="/img/reacts/sad.gif" style="width: 50px; height: 50px;" />
+                                        <label>Sad</label>
+                                    </div>
+                                    <div class="reaction-icon">
+                                        <img src="/img/reacts/angry.gif" style="width: 50px; height: 50px;" />
+                                        <label>Angry</label>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" class="card-link text-left"><i class="fa fa-comment"></i> Comment</a>
+                            <a href="#" class="card-link"><i class="fas fa-share"></i> Share</a>
+                        </div>
+
                     </div>
                 </div>
             }
@@ -236,3 +264,17 @@
         @await this.Component.InvokeAsync("GetSuggestionPeople", new { currentUserId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value, openedUserId = this.Model.Id })
     </div>
 </main>
+
+<script>
+    $(function () {
+        $(".like-btn").hover(function () {
+            $(".reaction-icon").each(function (i, e) {
+                setTimeout(function () {
+                    $(e).addClass("show");
+                }, i * 100);
+            });
+        }, function () {
+            $(".reaction-icon").removeClass("show")
+        });
+    })
+</script>

@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Services.Mapping;
+using AYN.Web.ViewModels.Posts;
 using Microsoft.EntityFrameworkCore;
 
 namespace AYN.Services.Data
@@ -33,12 +33,34 @@ namespace AYN.Services.Data
             await this.postsRepository.SaveChangesAsync();
         }
 
-        public async Task<ICollection<T>> GetAllPostsByUserId<T>(string userId)
+        public async Task EditAsync(EditPostInputModel input)
+        {
+            var post = this.postsRepository
+                .All()
+                .FirstOrDefault(p => p.Id == input.Id);
+
+            post.Title = input.Title;
+            post.Content = input.Content;
+
+            this.postsRepository.Update(post);
+            await this.postsRepository.SaveChangesAsync();
+        }
+
+        public async Task<T> GetById<T>(int id)
             => await this.postsRepository
                 .All()
-                .Where(p => p.AddedByUserId == userId)
-                .Include(a => a.ApplicationUser)
+                .Where(p => p.Id == id)
                 .To<T>()
-                .ToListAsync();
+                .FirstOrDefaultAsync();
+
+        public async Task DeleteAsync(int postId)
+        {
+            var post = this.postsRepository
+                .All()
+                .FirstOrDefault(p => p.Id == postId);
+
+            this.postsRepository.Delete(post);
+            await this.postsRepository.SaveChangesAsync();
+        }
     }
 }
