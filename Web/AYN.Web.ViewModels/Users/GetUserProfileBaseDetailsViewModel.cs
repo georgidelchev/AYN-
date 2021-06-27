@@ -26,7 +26,7 @@ namespace AYN.Web.ViewModels.Users
 
         public int FollowingsCount { get; set; }
 
-        public ICollection<Post> Posts { get; set; }
+        public IEnumerable<GetUserPostsViewModel> Posts { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

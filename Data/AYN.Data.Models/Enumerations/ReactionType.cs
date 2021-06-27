@@ -4,9 +4,10 @@
     {
         Like = 1,
         Love = 2,
-        Haha = 3,
-        Sad = 4,
-        Wow = 5,
-        Angry = 6,
+        Care = 3,
+        Haha = 4,
+        Sad = 5,
+        Wow = 6,
+        Angry = 7,
     }
 }

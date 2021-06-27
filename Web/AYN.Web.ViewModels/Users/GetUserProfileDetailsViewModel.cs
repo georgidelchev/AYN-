@@ -8,6 +8,5 @@ namespace AYN.Web.ViewModels.Users
     {
         public GetUserProfileBaseDetailsViewModel User { get; set; }
 
-        public IEnumerable<GetUserPostsViewModel> Posts { get; set; }
     }
 }

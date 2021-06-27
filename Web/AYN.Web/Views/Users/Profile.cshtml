@@ -16,6 +16,7 @@
     </div>
 }
 
+
 <main>
     <div class="card ">
         <img src="/img/UsersThumbnails/@if (this.Model.ThumbnailExtension == null){<text>@this.Model.Id.ToString()_DEFAULT.png</text>}else{<text>@this.Model.Id.@this.Model.ThumbnailExtension</text>}" alt="">
@@ -179,8 +180,7 @@
             }
 
             @foreach (var post in this.Model.Posts
-              .OrderByDescending(p => p.ModifiedOn)
-              .ThenByDescending(p => p.CreatedOn))
+        .OrderByDescending(p => p.CreatedOn))
             {
                 <div class="card social-timeline-card">
                     <div class="card-header pb-3">
@@ -203,8 +203,9 @@
                                         @if (this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value == this.Model.Id)
                                         {
                                             <a type="submit" asp-controller="Posts" asp-action="Edit" asp-route-id="@post.Id" class="dropdown-item text-center">Edit</a>
+
                                             <form method="post" id="postDeleteFrom" asp-controller="Posts" asp-action="Delete" asp-route-id="@post.Id">
-                                                <a onclick="postDeleteFrom.submit()" class="dropdown-item text-center" style="cursor: pointer">Delete</a>
+                                                <button type="submit" class="dropdown-item text-center" style="cursor: pointer">Delete</button>
                                             </form>
                                         }
                                         else
@@ -225,30 +226,34 @@
                     <div class="card-footer">
                         <div class="feed">
                             <a class="like-btn">
-                                Reactions
+                                <i class="fas fa-thumbs-up"></i> Like
                                 <div class="reaction-box">
                                     <div class="reaction-icon">
-                                        <img src="/img/reacts/like.gif" style="width: 50px; height: 50px;" />
+                                        <img src="/img/reacts/like.gif" postId="@post.Id" data-react="1" style="width: 60px; height: 50px;" />
                                         <label>Like</label>
                                     </div>
                                     <div class="reaction-icon">
-                                        <img src="/img/reacts/love.gif" style="width: 50px; height: 50px;" />
+                                        <img src="/img/reacts/love.gif" postId="@post.Id" data-react="2" style="width: 60px; height: 50px;" />
                                         <label>Love</label>
                                     </div>
                                     <div class="reaction-icon">
-                                        <img src="/img/reacts/haha.gif" style="width: 50px; height: 50px;" />
+                                        <img src="/img/reacts/care.gif" postId="@post.Id" data-react="3" style="width: 60px; height: 50px;" />
+                                        <label>Care</label>
+                                    </div>
+                                    <div class="reaction-icon">
+                                        <img src="/img/reacts/haha.gif" postId="@post.Id" data-react="4" style="width: 60px; height: 50px;" />
                                         <label>Haha</label>
                                     </div>
                                     <div class="reaction-icon">
-                                        <img src="/img/reacts/wow.gif" style="width: 50px; height: 50px;" />
+                                        <img src="/img/reacts/wow.gif" postId="@post.Id" data-react="5" style="width: 60px; height: 50px;" />
                                         <label>Wow</label>
                                     </div>
                                     <div class="reaction-icon">
-                                        <img src="/img/reacts/sad.gif" style="width: 50px; height: 50px;" />
+                                        <img src="/img/reacts/sad.gif" postId="@post.Id" data-react="6" style="width: 60px; height: 50px;" />
                                         <label>Sad</label>
                                     </div>
                                     <div class="reaction-icon">
-                                        <img src="/img/reacts/angry.gif" style="width: 50px; height: 50px;" />
+                                        <img src="/img/reacts/angry.gif" postId="@post.Id" data-react="7" style="width: 60px; height: 50px;" />
                                         <label>Angry</label>
                                     </div>
                                 </div>
@@ -256,7 +261,9 @@
                             <a href="#" class="card-link text-left"><i class="fa fa-comment"></i> Comment</a>
                             <a href="#" class="card-link"><i class="fas fa-share"></i> Share</a>
                         </div>
-
+                        <div class="text-left ml-2">
+                            <a id="totalReacts-@post.Id" href="" class="text-primary">@post.TotalReacts reacts</a>
+                        </div>
                     </div>
                 </div>
             }
@@ -274,7 +281,64 @@
                 }, i * 100);
             });
         }, function () {
-            $(".reaction-icon").removeClass("show")
+            $(".reaction-icon").removeClass("show");
         });
     })
 </script>
+
+<form method="post" id="antiForgeryForm"></form>
+<script>
+    $("img[data-react]").on("click", function (el) {
+        var reactValue = $(this).attr("data-react");
+        var postId = $(this).attr("postId");
+        var antiForgeryToken = $('#antiForgeryForm input[name=__RequestVerificationToken]').val();
+        var data = { postId: postId, reactValue: reactValue };
+
+        console.log(postId);
+        console.log(reactValue);
+        console.log(data);
+
+        $.ajax({
+            type: "POST",
+            url: "/api/PostReacts",
+            data: JSON.stringify(data),
+            headers: {
+                'X-CSRF-TOKEN': antiForgeryToken
+            },
+            success: function (data) {
+                $(`#totalReacts-${postId}`).html(data.totalReacts + " reacts");
+            },
+            contentType: 'application/json',
+        });
+    });
+</script>
+
+@*@section Scripts {
+        <script>
+            $("img[data-react]").each(function (el) {
+                $(this).click(function () {
+                    var reactValue = $(this).attr("data-react");
+                    var postId = $(this).attr("postId");
+                    var antiForgeryToken = $('#antiForgeryForm input[name=__RequestVerificationToken]').val();
+                    var data = { postId: postId, reactValue: reactValue };
+
+                    console.log(postId);
+                    console.log(reactValue);
+                    console.log(data);
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/PostReacts",
+                        data: JSON.stringify(data),
+                        headers: {
+                            'X-CSRF-TOKEN': antiForgeryToken
+                        },
+                        success: function (data) {
+                            $('#totalReacts').html(data.totalReacts);
+                        },
+                        contentType: 'application/json',
+                    });
+                });
+            });
+        </script>
+    }*@

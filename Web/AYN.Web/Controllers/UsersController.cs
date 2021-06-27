@@ -29,7 +29,8 @@ namespace AYN.Web.Controllers
         [Authorize]
         public async Task<IActionResult> Profile(string id)
         {
-            var viewModel = await this.usersService.GetProfileDetails<GetUserProfileBaseDetailsViewModel>(id);
+            var viewModel = await this.usersService
+                .GetProfileDetails<GetUserProfileBaseDetailsViewModel>(id);
 
             return this.View(viewModel);
         }

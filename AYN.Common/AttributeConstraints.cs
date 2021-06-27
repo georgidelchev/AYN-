@@ -21,6 +21,10 @@
         public const int PostContentMinLength = 5;
         public const int PostContentMaxLength = 1000;
 
+        // Notification model
+        public const int NotificationTextMinLength = 5;
+        public const int NotificationTextMaxLength = 50;
+
         // Comment model
         public const int CommentContentMaxLength = 1000;
 

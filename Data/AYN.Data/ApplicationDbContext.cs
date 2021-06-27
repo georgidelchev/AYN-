@@ -61,6 +61,10 @@ namespace AYN.Data
 
         public DbSet<Wishlist> Wishlists { get; set; }
 
+        public DbSet<Notification> Notifications { get; set; }
+
+        public DbSet<UserNotification> UsersNotifications { get; set; }
+
         public DbSet<Setting> Settings { get; set; }
 
         public override int SaveChanges()

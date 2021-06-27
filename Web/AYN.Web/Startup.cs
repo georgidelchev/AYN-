@@ -53,6 +53,10 @@ namespace AYN.Web
                         options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                     }).AddRazorRuntimeCompilation();
             services.AddRazorPages();
+            services.AddAntiforgery(options =>
+            {
+                options.HeaderName = "X-CSRF-TOKEN";
+            });
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddSingleton(this.configuration);
@@ -73,6 +77,7 @@ namespace AYN.Web
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IAddressesService, AddressesService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
+            services.AddTransient<IPostReactsService, PostReactsService>();
             services.AddTransient<ISubCategoriesService, SubCategoriesService>();
             services.AddTransient<IImageProcessingService, ImageProcessingService>();
         }

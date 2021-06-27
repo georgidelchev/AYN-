@@ -449,12 +449,6 @@ a {
 
 /*end social*/
 
-html,
-body {
-    padding: 20px;
-    font-family: sans-serif;
-}
-
 .feed {
     width: 500px;
     position: relative;
@@ -463,7 +457,6 @@ body {
        
         position: absolute;
         left: 13px;
-        cursor: pointer;
     }
         .feed .like-btn::before {
             content: ".";
@@ -478,8 +471,8 @@ body {
 
         .feed .like-btn .reaction-box {
             position: absolute;
-            width: 412px;
-            height: 65px;
+            width: 460px;
+            height: 45px;
             background: whitesmoke;
             border-radius: 18px;
             left: -25px;
@@ -492,8 +485,9 @@ body {
                 height: 50px;
                 display: inline-block;
                 border-radius: 20px;
-                margin: 8px -1px 0 8px;
+                margin: 0px -1px 0 8px;
                 text-align: center;
+                cursor: pointer;  
                 transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
                 opacity: 0;
                 transform: translate(0, 100px) scale(0);
