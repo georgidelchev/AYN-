@@ -40,6 +40,7 @@ namespace AYN.Services.Data
                 .Include(au => au.Followers)
                 .Include(au => au.Followings)
                 .Include(au => au.Posts)
+                .Include(au => au.PostReacts)
                 .To<T>()
                 .FirstOrDefaultAsync();
 

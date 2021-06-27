@@ -20,15 +20,22 @@ namespace AYN.Services.Data
 
         public async Task SetReactAsync(int postId, string userId, int reactValue)
         {
-            //if (this.postReactsRepository
-            //    .AllAsNoTracking()
-            //    .Any(v => v.PostId == postId &&
-            //              v.ApplicationUserId == userId))
-            //{
-            //    return;
-            //}
+            var react = this.postReactsRepository
+                .AllAsNoTracking()
+                .FirstOrDefault(v => v.PostId == postId &&
+                          v.ApplicationUserId == userId);
 
-            var react = new PostReact()
+            if (react != null)
+            {
+                react.ReactionType = (ReactionType)reactValue;
+
+                this.postReactsRepository.Update(react);
+                await this.postReactsRepository.SaveChangesAsync();
+
+                return;
+            }
+
+            react = new PostReact()
             {
                 ApplicationUserId = userId,
                 PostId = postId,

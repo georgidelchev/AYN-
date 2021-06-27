@@ -18,19 +18,6 @@ namespace AYN.Web.Controllers
             this.postsService = postsService;
         }
 
-        [HttpGet]
-        [Authorize]
-        public async Task<PartialViewResult> GetAllPosts()
-        {
-            var viewModel = new ListUserPostsViewModel()
-            {
-                UserPosts = await this.postsService
-                    .GetUserAllPostsAsync<GetUserPostsViewModel>(this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value),
-            };
-
-            return this.PartialView("_GetAllPostsPartial", viewModel);
-        }
-
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Create(string title, string content)
