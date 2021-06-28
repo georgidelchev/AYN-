@@ -21,22 +21,11 @@ namespace AYN.Services.Data
         }
 
         public async Task<IEnumerable<T>> GetUserAllPostsAsync<T>(string userId)
-        {
-            var posts = this.postsRepository
+            => await this.postsRepository
                 .All()
-                .Where(p => p.AddedByUserId == userId);
-
-            //=> await this.postsRepository
-            //.All()
-            //.Where(p => p.AddedByUserId == userId)
-            //.To<T>()
-            //.ToListAsync();
-
-            return await posts
+                .Where(p => p.AddedByUserId == userId)
                 .To<T>()
                 .ToListAsync();
-        }
-
 
         public async Task CreateAsync(string title, string content, string userId)
         {

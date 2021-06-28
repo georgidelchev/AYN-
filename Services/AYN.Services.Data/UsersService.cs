@@ -33,8 +33,7 @@ namespace AYN.Services.Data
         }
 
         public async Task<T> GetProfileDetails<T>(string id)
-        {
-            var profileDetails = await this.applicationUserRepository
+            => await this.applicationUserRepository
                 .All()
                 .Where(au => au.Id == id)
                 .Include(au => au.Followers)
@@ -43,9 +42,6 @@ namespace AYN.Services.Data
                 .Include(au => au.PostReacts)
                 .To<T>()
                 .FirstOrDefaultAsync();
-
-            return profileDetails;
-        }
 
         public async Task Follow(string followerId, string followeeId)
         {
@@ -210,6 +206,21 @@ namespace AYN.Services.Data
 
         private static async Task ProcessDefaultImage(string text, string fullPhysicalPath, int width, int height, string fontName, int emSize, FontStyle fontStyle)
         {
+            if (string.IsNullOrEmpty(text))
+            {
+                throw new ArgumentException($"'{nameof(text)}' cannot be null or empty.", nameof(text));
+            }
+
+            if (string.IsNullOrEmpty(fullPhysicalPath))
+            {
+                throw new ArgumentException($"'{nameof(fullPhysicalPath)}' cannot be null or empty.", nameof(fullPhysicalPath));
+            }
+
+            if (string.IsNullOrEmpty(fontName))
+            {
+                throw new ArgumentException($"'{nameof(fontName)}' cannot be null or empty.", nameof(fontName));
+            }
+
             var backgroundColors = new List<string> { "3C79B2", "FF8F88", "6FB9FF", "C0CC44", "AFB28C" };
 
             var backgroundColor = backgroundColors[new Random().Next(0, backgroundColors.Count - 1)];
