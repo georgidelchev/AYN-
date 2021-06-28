@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
-
+using AYN.Data.Models.Enumerations;
 using AYN.Services.Data;
 using AYN.Web.ViewModels.PostReacts;
 using Microsoft.AspNetCore.Authorization;
@@ -28,6 +28,7 @@ namespace AYN.Web.Controllers
 
             await this.postReactsService.SetReactAsync(input.PostId, userId, input.ReactValue);
             var totalReacts = this.postReactsService.GetTotalReacts(input.PostId);
+
 
             return new PostReactResponseModel() { TotalReacts = totalReacts };
         }

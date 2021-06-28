@@ -11,11 +11,17 @@ namespace AYN.Services.Data
     public class PostReactsService : IPostReactsService
     {
         private readonly IDeletableEntityRepository<PostReact> postReactsRepository;
+        private readonly INotificationsService notificationsService;
+        private readonly IPostsService postsService;
 
         public PostReactsService(
-            IDeletableEntityRepository<PostReact> postReactsRepository)
+            IDeletableEntityRepository<PostReact> postReactsRepository,
+            INotificationsService notificationsService,
+            IPostsService postsService)
         {
             this.postReactsRepository = postReactsRepository;
+            this.notificationsService = notificationsService;
+            this.postsService = postsService;
         }
 
         public async Task SetReactAsync(int postId, string userId, int reactValue)
@@ -44,6 +50,8 @@ namespace AYN.Services.Data
 
             await this.postReactsRepository.AddAsync(react);
             await this.postReactsRepository.SaveChangesAsync();
+
+            await this.notificationsService.CreateAsync($"You've got new {(ReactionType)reactValue} reaction to your post!", $"/Users/Profile?id={userId}#{postId}", userId);
         }
 
         public int GetTotalReacts(int postId)

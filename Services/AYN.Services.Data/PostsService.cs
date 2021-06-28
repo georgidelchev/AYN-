@@ -80,5 +80,11 @@ namespace AYN.Services.Data
             this.postsRepository.Delete(post);
             await this.postsRepository.SaveChangesAsync();
         }
+
+        public string GetTitleById(int postId)
+            => this.postsRepository
+                .All()
+                .FirstOrDefault(p => p.Id == postId)
+                ?.Title;
     }
 }

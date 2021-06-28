@@ -12,85 +12,86 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous" asp-append-version="true">
     <link rel="stylesheet" href="/css/lazy.css" asp-append-version="true">
     <link href="/css/site.css" rel="stylesheet" asp-append-version="true" />
-    <link href="/css/reactions.scss" rel="stylesheet" asp-append-version="true"/>
+    <link href="/css/reactions.scss" rel="stylesheet" asp-append-version="true" />
 </head>
 <body>
-<header>
-    <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial" />
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Ads" asp-action="All">All Ads</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Create">Create Category</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Ads" asp-action="Create">Create Ad</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Notifications" asp-action="All">
+                                <i class="fas fa-bell btn-pink" style="font-size: 1.2rem;"></i>
+                                <span class="badge badge-light ml-1 text-success" id="notificationsCount">0</span>
+                                <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId" />
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <partial name="_CookieConsentPartial" />
+
+        <main role="main" class="pb-3">
+            @this.RenderBody()
+        </main>
+    </div>
+
+    <footer>
         <div class="container">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                <partial name="_LoginPartial" />
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Ads" asp-action="All">All Ads</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Create">Create Category</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Ads" asp-action="Create">Create Ad</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Notification" asp-action="All">
-                            <i class="fas fa-bell btn-pink" style="font-size: 1.2rem;"></i>
-                            <span class="badge badge-light ml-1 text-success" id="notificationsCount">0</span>
-                            <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId" />
-                            <script src="~/js/notifications.js"></script>
-                        </a>
-                    </li>
-                </ul>
+            <div class="card-body bg-light p-3">
+                <div class="float-center"><a href="/">AYN.com</a> 2021-@DateTime.Now.Year - <a href="https://github.com/georgidelchev/AYN-" target="_blank">Open source system</a></div>
             </div>
         </div>
-    </nav>
-</header>
+    </footer>
 
-<div class="container">
-    <partial name="_CookieConsentPartial" />
+    <script src="/vendor/jquery/jquery.min.js" asp-append-version="true"></script>
+    <script src="/vendor/popper/popper.min.js" asp-append-version="true"></script>
+    <script src="/vendor/bootstrap/bootstrap.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
+    <script src="~/js/site.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
+    <script src="/js/lazy.js" asp-append-version="true"></script>
 
-    <main role="main" class="pb-3">
-        @this.RenderBody()
-    </main>
-</div>
-
-<footer>
-    <div class="container">
-        <div class="card-body bg-light p-3">
-            <div class="float-center"><a href="/">AYN.com</a> 2021-@DateTime.Now.Year - <a href="https://github.com/georgidelchev/AYN-" target="_blank">Open source system</a></div>
-        </div>
-    </div>
-</footer>
-
-<script src="/vendor/jquery/jquery.min.js" asp-append-version="true"></script>
-<script src="/vendor/popper/popper.min.js" asp-append-version="true"></script>
-<script src="/vendor/bootstrap/bootstrap.min.js" asp-append-version="true"></script>
-<script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
-<script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
-<script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
-<script src="~/js/site.min.js" asp-append-version="true"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
-<script src="/js/lazy.js" asp-append-version="true"></script>
-
-@await this.RenderSectionAsync("Scripts", required: false)
+    @await this.RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
 
 <script>
     document.addEventListener("DOMContentLoaded",
-        () => {
+        function getNotificationsCount() {
             let notificationCounter = document.getElementById("notificationsCount");
             let userId = document.getElementById("userId").value;
 
             fetch(`/Notifications/Count?userId=${userId}`)
                 .then(response => response.json())
                 .then(notificationsCount => notificationCounter.textContent = notificationsCount)
-                .catch(err => console.log(err));
+                .then().then(function () {
+                    setTimeout(function () { getNotificationsCount(); }, 2000);
+                })
         });
 </script>

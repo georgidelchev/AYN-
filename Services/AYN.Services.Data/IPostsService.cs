@@ -16,5 +16,7 @@ namespace AYN.Services.Data
         Task<T> GetById<T>(int id);
 
         Task DeleteAsync(int postId);
+
+        string GetTitleById(int postId);
     }
 }

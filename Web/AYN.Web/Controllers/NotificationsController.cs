@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using AYN.Services.Data;
+using AYN.Web.ViewModels.Notifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +23,10 @@ namespace AYN.Web.Controllers
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            var viewModel = 1;
+            var viewModel = new ListAllNotificationsViewModel()
+            {
+                Notifications = await this.notificationsService.GetAll<GetAllNotificationsForUserViewModel>(userId),
+            };
 
             return this.View(viewModel);
         }
@@ -35,18 +39,23 @@ namespace AYN.Web.Controllers
             return this.Json(data);
         }
 
-        [HttpGet]
+        [HttpPost]
         [Authorize]
-        public async Task<IActionResult> MarkAsRead(string notificationId)
+        public async Task<IActionResult> MarkAsRead(string id)
         {
-            return this.Redirect($"/Notifications/All");
+            await this.notificationsService.MarkAsRead(id);
+
+            return this.Redirect("/Notifications/All");
         }
 
-        [HttpGet]
+        [HttpPost]
         [Authorize]
-        public async Task<IActionResult> MarkAllAsRead(string userId)
+        public async Task<IActionResult> MarkAllAsRead()
         {
-            return this.Redirect($"/Notifications/All");
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            await this.notificationsService.MarkAllAsRead(userId);
+
+            return this.Redirect("/Notifications/All");
         }
     }
 }

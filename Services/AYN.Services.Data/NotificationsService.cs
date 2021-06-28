@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Services.Mapping;
+using AYN.Web.ViewModels.Notifications;
 using Microsoft.EntityFrameworkCore;
 
 namespace AYN.Services.Data
@@ -12,18 +13,35 @@ namespace AYN.Services.Data
     public class NotificationsService : INotificationsService
     {
         private readonly IDeletableEntityRepository<UserNotification> userNotificationsRepository;
+        private readonly IDeletableEntityRepository<Notification> notificationsRepository;
 
         public NotificationsService(
-            IDeletableEntityRepository<UserNotification> userNotificationsRepository)
+            IDeletableEntityRepository<UserNotification> userNotificationsRepository,
+            IDeletableEntityRepository<Notification> notificationsRepository)
         {
             this.userNotificationsRepository = userNotificationsRepository;
+            this.notificationsRepository = notificationsRepository;
+        }
+
+        public async Task CreateAsync(string text, string redirectUrl, string toUserId)
+        {
+            var notification = new Notification()
+            {
+                RedirectUrl = redirectUrl,
+                Text = text,
+            };
+
+            await this.notificationsRepository.AddAsync(notification);
+            await this.notificationsRepository.SaveChangesAsync();
+
+            await this.NotifyAsync(notification.Id, toUserId);
         }
 
         public async Task<IEnumerable<T>> GetAll<T>(string userId)
         {
             var notifications = await this.userNotificationsRepository
                 .All()
-                .Where(n => n.ApplicationUserId == userId)
+                .Where(n => n.ApplicationUserId == userId && !n.IsRead)
                 .Select(n => n.Notification)
                 .OrderByDescending(n => n.CreatedOn)
                 .To<T>()
@@ -36,16 +54,16 @@ namespace AYN.Services.Data
         {
             var notificationsCount = this.userNotificationsRepository
                 .All()
-                .Count(n => n.ApplicationUserId == userId);
+                .Count(n => n.ApplicationUserId == userId && !n.IsRead);
 
             return notificationsCount;
         }
 
         public async Task MarkAsRead(string notificationId)
         {
-            var notification = this.userNotificationsRepository
+            var notification = await this.userNotificationsRepository
                 .All()
-                .FirstOrDefault(n => n.NotificationId == notificationId);
+                .SingleOrDefaultAsync(n => n.NotificationId == notificationId);
 
             notification.IsRead = true;
 
@@ -67,6 +85,20 @@ namespace AYN.Services.Data
                 this.userNotificationsRepository.Update(notification);
                 await this.userNotificationsRepository.SaveChangesAsync();
             }
+        }
+
+        // Helper method
+        private async Task NotifyAsync(string notificationId, string toUserId)
+        {
+            var userNotification = new UserNotification()
+            {
+                ApplicationUserId = toUserId,
+                IsRead = false,
+                NotificationId = notificationId,
+            };
+
+            await this.userNotificationsRepository.AddAsync(userNotification);
+            await this.userNotificationsRepository.SaveChangesAsync();
         }
     }
 }

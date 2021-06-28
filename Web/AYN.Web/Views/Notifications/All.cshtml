@@ -1,0 +1,42 @@
+﻿@model AYN.Web.ViewModels.Notifications.ListAllNotificationsViewModel
+
+@{
+    this.ViewData["Title"] = "All Notifications";
+}
+
+@if (this.Model.Notifications.Any())
+{
+    <div class="text-center text-primary">
+        <h1>All of your notifications</h1>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <form method="post" asp-controller="Notifications" asp-action="MarkAllAsRead">
+            <button type="submit" class="btn btn-danger btn-sm">Mark All as Read</button>
+        </form>
+    </div>
+    <br />
+    <table class="table table-striped">
+        <tbody>
+            @foreach (var notification in this.Model.Notifications)
+            {
+                <tr>
+                    <td>@notification.Text</td>
+                    <td>@notification.CreatedOn</td>
+                    <td><a href="@notification.RedirectUrl" class="btn btn-danger btn-sm">Check</a></td>
+                    <td>
+                        <form method="post" asp-controller="Notifications" asp-action="MarkAsRead" asp-route-id="@notification.Id">
+                            <button type="submit" class="btn btn-danger btn-sm">Mark as Read</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="text-center text-primary">
+        <h1>You don't have any notifications right now!</h1>
+    </div>
+}
