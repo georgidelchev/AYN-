@@ -6,7 +6,7 @@ using AYN.Services.Mapping;
 
 namespace AYN.Web.ViewModels.Ads
 {
-    public class GetRecentAdsViewModel : IMapFrom<Ad>, IHaveCustomMappings
+    public class GetAdsViewModel : IMapFrom<Ad>, IHaveCustomMappings
     {
         public string Id { get; set; }
 
@@ -19,7 +19,7 @@ namespace AYN.Web.ViewModels.Ads
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration
-                .CreateMap<Ad, GetRecentAdsViewModel>()
+                .CreateMap<Ad, GetAdsViewModel>()
                 .ForMember(m => m.PictureExtension, opt => opt.MapFrom(o => o.Pictures.FirstOrDefault().Extension));
         }
     }

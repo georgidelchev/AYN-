@@ -1,8 +1,14 @@
-﻿using AYN.Web.ViewModels.SubCategories;
+﻿using System.ComponentModel.DataAnnotations;
+
+using static AYN.Common.AttributeConstraints;
 
 namespace AYN.Web.ViewModels.Categories
 {
-    public class AddSubCategoryViewModel : CreateSubCategoryInputModel
+    public class AddSubCategoryViewModel
     {
+        [Required]
+        [MinLength(CategoryNameMinLength)]
+        [MaxLength(CategoryNameMaxLength)]
+        public string Name { get; set; }
     }
 }

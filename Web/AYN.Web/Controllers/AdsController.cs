@@ -72,7 +72,7 @@ namespace AYN.Web.Controllers
             string orderBy = "createdOnDesc",
             int id = 1)
         {
-            var ads = await this.adsService.GetAllAsync<GetRecentAdsViewModel>(search, orderBy, categoryId);
+            var ads = await this.adsService.GetAllAsync<GetAdsViewModel>(search, orderBy, categoryId);
 
             var itemsPerPage = 12;
             var viewModel = new ListAllAdsViewModel()

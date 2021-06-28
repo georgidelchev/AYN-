@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Services.Mapping;
+using AYN.Web.ViewModels.Categories;
 using AYN.Web.ViewModels.SubCategories;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,7 +22,7 @@ namespace AYN.Services.Data
             this.subCategoriesRepository = subCategoriesRepository;
         }
 
-        public async Task CreateAsync(CreateSubCategoryInputModel input, int categoryId)
+        public async Task CreateAsync(AddSubCategoryViewModel input, int categoryId)
         {
             if (this.IsSubCategoryExisting(input.Name))
             {

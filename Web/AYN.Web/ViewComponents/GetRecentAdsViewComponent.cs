@@ -17,9 +17,9 @@ namespace AYN.Web.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var viewModel = new ListRecentAdsViewModel()
+            var viewModel = new ListAdsViewModel()
             {
-                RecentAds = await this.adsService.GetRecent12AdsAsync<GetRecentAdsViewModel>(),
+                RecentAds = await this.adsService.GetRecent12AdsAsync<GetAdsViewModel>(),
             };
 
             return this.View(viewModel);

@@ -2,13 +2,13 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-using AYN.Web.ViewModels.SubCategories;
+using AYN.Web.ViewModels.Categories;
 
 namespace AYN.Services.Data
 {
     public interface ISubCategoriesService
     {
-        Task CreateAsync(CreateSubCategoryInputModel input, int categoryId);
+        Task CreateAsync(AddSubCategoryViewModel input, int categoryId);
 
         IQueryable<T> GetAllByCategoryId<T>(int categoryId);
 
