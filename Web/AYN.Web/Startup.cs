@@ -79,6 +79,7 @@ namespace AYN.Web
             services.AddTransient<ICategoriesService, CategoriesService>();
             services.AddTransient<IPostReactsService, PostReactsService>();
             services.AddTransient<ISubCategoriesService, SubCategoriesService>();
+            services.AddTransient<INotificationsService, NotificationsService>();
             services.AddTransient<IImageProcessingService, ImageProcessingService>();
         }
 
