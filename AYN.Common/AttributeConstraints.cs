@@ -23,7 +23,7 @@
 
         // Notification model
         public const int NotificationTextMinLength = 5;
-        public const int NotificationTextMaxLength = 50;
+        public const int NotificationTextMaxLength = 200;
 
         // Comment model
         public const int CommentContentMaxLength = 1000;
