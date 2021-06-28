@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 
 using AYN.Data.Common.Repositories;
@@ -51,7 +50,8 @@ namespace AYN.Services.Data
             await this.postReactsRepository.AddAsync(react);
             await this.postReactsRepository.SaveChangesAsync();
 
-            await this.notificationsService.CreateAsync($"You've got new {(ReactionType)reactValue} reaction to your post!", $"/Users/Profile?id={userId}#{postId}", userId);
+            var postTitle = this.postsService.GetTitleById(postId);
+            await this.notificationsService.CreateAsync($"You've got new {(ReactionType)reactValue} reaction to your post \'{postTitle}\'!", $"/Users/Profile?id={userId}#{postId}", userId);
         }
 
         public int GetTotalReacts(int postId)
