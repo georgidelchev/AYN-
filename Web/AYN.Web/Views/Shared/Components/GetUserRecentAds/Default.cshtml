@@ -6,19 +6,16 @@
             <h3 class="card-title">Recent Ads</h3>
         </div>
         <div id="carouselExampleIndicators1" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-                @for (var i = 1; i <= this.Model.Ads.Count(); i++)
-                {
-                    <li data-target="#carouselExampleIndicators1" data-slide-to="@i" @(i == 1 ? "class='active'" : "")></li>
-                }
-            </ol>
             <div class="carousel-inner">
                 @{ var counter = 1;}
                 @foreach (var pictureExtension in this.Model.Ads)
                 {
-                    <div class="carousel-@(counter == 1 ? "item active" : "item")">
-                        <a asp-controller="Ads" asp-action="Details" asp-route-id="@pictureExtension.Id"><img class="d-block w-100" src="/img/AdsPictures/1-@pictureExtension.Id.@pictureExtension.PictureExtension"></a>
+                <div class="carousel-@(counter == 1 ? "item active" : "item")">
+                    <a asp-controller="Ads" asp-action="Details" asp-route-id="@pictureExtension.Id"><img class="d-block w-100" src="/img/AdsPictures/1-@pictureExtension.Id.@pictureExtension.PictureExtension"></a>
+                    <div class="text-center">
+                        <h6 class="text-danger">@pictureExtension.Name</h6><br />
                     </div>
+                </div>
                     counter++;
                 }
             </div>
