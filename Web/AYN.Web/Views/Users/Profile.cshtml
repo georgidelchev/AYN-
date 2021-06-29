@@ -176,7 +176,7 @@
                     </form>
                 </div>
             }
-            @await this.Component.InvokeAsync("GetUserPosts", new { userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value,id=1 })
+            @await this.Component.InvokeAsync("GetUserPosts", new { userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value, routeId = @Model.Id, id = Model.PagingId })
         </div>
         @await this.Component.InvokeAsync("GetSuggestionPeople", new { currentUserId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value, openedUserId = this.Model.Id })
     </div>

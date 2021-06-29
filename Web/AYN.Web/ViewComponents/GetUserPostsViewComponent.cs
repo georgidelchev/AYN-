@@ -17,16 +17,17 @@ namespace AYN.Web.ViewComponents
             this.postsService = postsService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(string userId, int id = 1)
+        public async Task<IViewComponentResult> InvokeAsync(string userId, int id)
         {
             var posts = await this.postsService.GetUserAllPostsAsync<GetUserPostsViewModel>(userId);
 
             var viewModel = new ListUserPostsViewModel()
             {
-                UserPosts = posts.Skip((id - 1) * 12).Take(12),
+                UserPosts = posts.Skip((id - 1) * 6).Take(6),
                 Count = this.postsService.GetCount(userId),
-                ItemsPerPage = 12,
+                ItemsPerPage = 6,
                 PageNumber = id,
+                PagedId = id,
             };
 
             return this.View(viewModel);

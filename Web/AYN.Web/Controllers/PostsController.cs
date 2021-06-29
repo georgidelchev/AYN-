@@ -25,7 +25,7 @@ namespace AYN.Web.Controllers
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             await this.postsService.CreateAsync(title, content, userId);
 
-            return this.Redirect($"/Users/Profile?id={userId}");
+            return this.Redirect($"/Users/Profile/{userId}");
         }
 
         [HttpGet]

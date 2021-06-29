@@ -6,7 +6,8 @@
         { "search", $"{this.Model.Search}" },
         { "orderBy", $"{this.Model.OrderBy}" },
         { "town", $"{this.Model.Town}" },
-    };
+        { "pagedId", $"{this.Model.PagedId}" },
+};
 }
 
 <nav aria-label="...">
@@ -21,8 +22,6 @@
         {
             @if (i > 0)
             {
-
-
                 <li class="page-item"><a class="page-link" asp-all-route-data="queryString" asp-route-id="@i">@i</a></li>
             }
         }

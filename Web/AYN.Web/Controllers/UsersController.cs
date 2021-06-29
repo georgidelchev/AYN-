@@ -27,10 +27,12 @@ namespace AYN.Web.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> Profile(string id)
+        public async Task<IActionResult> Profile(string id, int pagedId = 1)
         {
             var viewModel = await this.usersService
                 .GetProfileDetails<GetUserProfileBaseDetailsViewModel>(id);
+
+            viewModel.PagingId = pagedId;
 
             return this.View(viewModel);
         }

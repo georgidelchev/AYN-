@@ -32,5 +32,7 @@ namespace AYN.Web.ViewModels
         public string Town { get; set; }
 
         public int? CategoryId { get; set; }
+
+        public int PagedId { get; set; }
     }
 }
