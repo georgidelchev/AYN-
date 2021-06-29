@@ -51,13 +51,9 @@ namespace AYN.Services.Data
         }
 
         public int GetCount(string userId)
-        {
-            var notificationsCount = this.userNotificationsRepository
+            => this.userNotificationsRepository
                 .All()
                 .Count(n => n.ApplicationUserId == userId && !n.IsRead);
-
-            return notificationsCount;
-        }
 
         public async Task MarkAsRead(string notificationId)
         {

@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 using AYN.Services.Data;
@@ -20,13 +21,19 @@ namespace AYN.Web.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All(int id = 1)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
+            var notifications = await this.notificationsService
+                .GetAll<GetAllNotificationsForUserViewModel>(userId);
+
             var viewModel = new ListAllNotificationsViewModel()
             {
-                Notifications = await this.notificationsService.GetAll<GetAllNotificationsForUserViewModel>(userId),
+                Notifications = notifications.Skip((id - 1) * 12).Take(12),
+                Count = this.notificationsService.GetCount(userId),
+                ItemsPerPage = 12,
+                PageNumber = id,
             };
 
             return this.View(viewModel);

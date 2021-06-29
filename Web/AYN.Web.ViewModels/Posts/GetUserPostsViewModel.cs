@@ -8,7 +8,7 @@ using AYN.Services.Mapping;
 
 namespace AYN.Web.ViewModels.Posts
 {
-    public class GetUserPostsViewModel : IMapFrom<Post>, IHaveCustomMappings
+    public class GetUserPostsViewModel : PagingViewModel, IMapFrom<Post>, IHaveCustomMappings
     {
         public int Id { get; set; }
 

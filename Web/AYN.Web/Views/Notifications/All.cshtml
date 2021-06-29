@@ -16,6 +16,8 @@
         </form>
     </div>
     <br />
+    <partial name="_PagingPartial" model="@this.Model" />
+
     <table class="table table-striped">
         <tbody>
             @foreach (var notification in this.Model.Notifications)
@@ -33,6 +35,8 @@
             }
         </tbody>
     </table>
+
+    <partial name="_PagingPartial" model="@this.Model" />
 }
 else
 {

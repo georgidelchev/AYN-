@@ -2,7 +2,7 @@
 
 namespace AYN.Web.ViewModels.Notifications
 {
-    public class ListAllNotificationsViewModel
+    public class ListAllNotificationsViewModel : PagingViewModel
     {
         public IEnumerable<GetAllNotificationsForUserViewModel> Notifications { get; set; }
     }
