@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 
-using AYN.Services.Data;
+using AYN.Services.Data.Interfaces;
 using AYN.Web.ViewModels.Posts;
 using Microsoft.AspNetCore.Mvc;
 

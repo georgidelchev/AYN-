@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Services.Data;
+using AYN.Services.Data.Interfaces;
 using AYN.Web.ViewModels.Settings;
 
 using Microsoft.AspNetCore.Mvc;

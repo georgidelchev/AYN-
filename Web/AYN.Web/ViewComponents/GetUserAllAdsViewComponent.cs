@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AYN.Web.ViewComponents
 {
-    public class GetUserRecentAdsViewComponent : ViewComponent
+    public class GetUserAllAdsViewComponent : ViewComponent
     {
         private readonly IAdsService adsService;
 
-        public GetUserRecentAdsViewComponent(
+        public GetUserAllAdsViewComponent(
             IAdsService adsService)
         {
             this.adsService = adsService;
@@ -21,7 +21,7 @@ namespace AYN.Web.ViewComponents
         {
             var viewModel = new ListUserAdsViewModel()
             {
-                Ads = await this.adsService.GetUserRecentAds<GetAdViewModel>(userId),
+                Ads = await this.adsService.GetUserAllAds<GetAdViewModel>(userId),
             };
 
             return this.View(viewModel);
