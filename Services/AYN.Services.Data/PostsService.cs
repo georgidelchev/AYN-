@@ -21,11 +21,25 @@ namespace AYN.Services.Data
         }
 
         public async Task<IEnumerable<T>> GetUserAllPostsAsync<T>(string userId)
-            => await this.postsRepository
+        {
+            var posts = await this.postsRepository
                 .All()
                 .Where(p => p.AddedByUserId == userId)
+                .Include(p => p.ApplicationUser)
+                .Include(p => p.PostReacts)
+                .Include(p => p.PostVotes)
+                .OrderByDescending(p => p.CreatedOn)
                 .To<T>()
                 .ToListAsync();
+
+            return posts;
+
+            //return await this.postsRepository
+            //    .All()
+            //    .Where(p => p.AddedByUserId == userId)
+            //    .To<T>()
+            //    .ToListAsync();
+        }
 
         public async Task CreateAsync(string title, string content, string userId)
         {
@@ -75,5 +89,10 @@ namespace AYN.Services.Data
                 .All()
                 .FirstOrDefault(p => p.Id == postId)
                 ?.Title;
+
+        public int GetCount(string userId)
+            => this.postsRepository
+                .All()
+                .Count(p => p.AddedByUserId == userId);
     }
 }

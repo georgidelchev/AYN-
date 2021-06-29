@@ -18,5 +18,7 @@ namespace AYN.Services.Data
         Task DeleteAsync(int postId);
 
         string GetTitleById(int postId);
+
+        int GetCount(string userId);
     }
 }

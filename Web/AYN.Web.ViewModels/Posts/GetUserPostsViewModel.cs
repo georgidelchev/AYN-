@@ -8,7 +8,7 @@ using AYN.Services.Mapping;
 
 namespace AYN.Web.ViewModels.Posts
 {
-    public class GetUserPostsViewModel : PagingViewModel, IMapFrom<Post>, IHaveCustomMappings
+    public class GetUserPostsViewModel : IMapFrom<Post>, IHaveCustomMappings
     {
         public int Id { get; set; }
 
@@ -23,6 +23,14 @@ namespace AYN.Web.ViewModels.Posts
         public int TotalReacts { get; set; }
 
         public ReactionType ReactionType { get; set; }
+
+        public string ApplicationUserId { get; set; }
+
+        public string ApplicationUserFirstName { get; set; }
+
+        public string ApplicationUserLastName { get; set; }
+
+        public string ApplicationUserAvatarExtension { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

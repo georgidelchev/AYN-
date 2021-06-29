@@ -2,7 +2,7 @@
 
 namespace AYN.Web.ViewModels.Posts
 {
-    public class ListUserPostsViewModel
+    public class ListUserPostsViewModel : PagingViewModel
     {
         public IEnumerable<GetUserPostsViewModel> UserPosts { get; set; }
     }

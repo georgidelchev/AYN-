@@ -30,6 +30,15 @@ namespace AYN.Web.Controllers
 
         [HttpGet]
         [Authorize]
+        public async Task<IActionResult> All()
+        {
+            var vm = await this.postsService.GetUserAllPostsAsync<GetUserPostsViewModel>(this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+            return this.View();
+        }
+
+        [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Edit(int id)
         {
             var viewModel = await this.postsService.GetById<EditPostInputModel>(id);
