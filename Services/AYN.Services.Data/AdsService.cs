@@ -118,5 +118,15 @@ namespace AYN.Services.Data
                 .Where(a => a.Id == id)
                 .To<T>()
                 .FirstOrDefaultAsync();
+
+        public async Task<IEnumerable<T>> GetUserRecentAds<T>(string userId)
+            => await this.adsRepository
+                .All()
+                .Where(u => u.AddedByUserId == userId)
+                .OrderByDescending(a => a.CreatedOn)
+                .Take(12)
+                .Include(a => a.AddedByUser)
+                .To<T>()
+                .ToListAsync();
     }
 }

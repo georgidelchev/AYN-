@@ -16,5 +16,7 @@ namespace AYN.Services.Data
         int GetCount();
 
         Task<T> GetDetails<T>(string id);
+
+        Task<IEnumerable<T>> GetUserRecentAds<T>(string userId);
     }
 }

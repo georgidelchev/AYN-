@@ -1,4 +1,5 @@
 ﻿@using System.Security.Claims
+
 @model AYN.Web.ViewModels.Ads.GetDetailsViewModel
 
 @{
@@ -27,6 +28,7 @@
                         <div class="carousel-@(counter == 1 ? "item active" : "item")">
                             <img class="d-block w-100" src="/img/AdsPictures/@counter-@this.Model.Id.@pictureExtension" alt="@this.Model.Name">
                         </div>
+
                         counter++;
                     }
                 </div>
