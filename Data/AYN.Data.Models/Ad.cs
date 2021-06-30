@@ -39,6 +39,11 @@ namespace AYN.Data.Models
         public DateTime? PromotedUntil { get; set; }
 
         [Required]
+        public bool IsArchived { get; set; }
+
+        public DateTime? ArchivedOn { get; set; }
+
+        [Required]
         public string AddedByUserId { get; set; }
 
         public virtual ApplicationUser AddedByUser { get; set; }
@@ -56,18 +61,16 @@ namespace AYN.Data.Models
         [Required]
         public int SubCategoryId { get; set; }
 
+        public virtual SubCategory SubCategory { get; set; }
+
         [Required]
         public ProductCondition ProductCondition { get; set; }
 
         [Required]
         public AdType AdType { get; set; }
 
-        public bool IsArchived { get; set; }
-
         [Required]
         public DeliveryTake DeliveryTake { get; set; }
-
-        public virtual SubCategory SubCategory { get; set; }
 
         public virtual ICollection<Picture> Pictures { get; set; }
             = new HashSet<Picture>();

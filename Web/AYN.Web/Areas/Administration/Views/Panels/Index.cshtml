@@ -18,7 +18,14 @@
                         <h6 class="font-weight-bold text-warning">Banned - @Model.UsersCounts.Item2</h6>
                         <h6 class="font-weight-bold text-success">Non-banned - @Model.UsersCounts.Item3</h6>
                         <hr />
-                        <button class="btn btn-primary btn-sm font-weight-bold">Actions</button>
+                        <div class="dropdown">
+                            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Actions
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <a asp-controller="Users" asp-action="All" class="dropdown-item" >All Users</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -36,7 +43,14 @@
                         <h6 class="font-weight-bold text-warning">Banned - @Model.AdsCount.Item3</h6>
                         <h6 class="font-weight-bold text-success">Archived - @Model.AdsCount.Item4</h6>
                         <hr />
-                        <button class="btn btn-primary btn-sm font-weight-bold">Actions</button>
+                        <div class="dropdown">
+                            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Actions
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <button class="dropdown-item" type="button">All Ads</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -52,7 +66,14 @@
                         <h6 class="font-weight-bold text-danger">Active - @Model.ReportsCount.Item1</h6>
                         <h6 class="font-weight-bold text-primary">Deleted - @Model.ReportsCount.Item2</h6>
                         <hr />
-                        <button class="btn btn-primary btn-sm font-weight-bold">Actions</button>
+                        <div class="dropdown">
+                            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Actions
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <button class="dropdown-item" type="button">All Reports</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -68,7 +89,14 @@
                         <h6 class="font-weight-bold text-danger">Active - @Model.CategoriesCount.Item1</h6>
                         <h6 class="font-weight-bold text-primary">Deleted - @Model.CategoriesCount.Item2</h6>
                         <hr />
-                        <button class="btn btn-primary btn-sm font-weight-bold">Actions</button>
+                        <div class="dropdown">
+                            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Actions
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <button class="dropdown-item" type="button">All Categories</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

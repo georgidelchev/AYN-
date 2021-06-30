@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 using AYN.Services.Data.Interfaces;
@@ -35,7 +34,7 @@ namespace AYN.Web.Areas.Administration.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Ban()
+        public IActionResult Ban()
         {
             return this.View();
         }

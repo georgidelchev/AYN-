@@ -76,6 +76,7 @@ namespace AYN.Web.Controllers
             var ads = await this.adsService.GetAllAsync<GetAdsViewModel>(search, orderBy, categoryId);
 
             var itemsPerPage = 12;
+
             var viewModel = new ListAllAdsViewModel()
             {
                 Count = ads.Count(),

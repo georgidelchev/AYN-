@@ -1,11 +1,11 @@
-﻿@model AYN.Web.ViewModels.Administration.Users.ListAllUserViewModel
+﻿@model AYN.Web.ViewModels.Administration.Ads.ListAllAdsViewModel
 
 @{
-    this.ViewData["Title"] = "All Users";
+    this.ViewData["Title"] = "All Ads";
 }
 
 <div class="text-center">
-    <h1>All Users</h1>
+    <h1>All Ads</h1>
 </div>
 
 <partial name="_PagingPartial" model="@this.Model" />
@@ -24,11 +24,10 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var user in this.Model.AllUsers)
+            @foreach (var user in this.Model.AllAds)
             {
                 <tr>
                     <th>
-                        <img src="/img/UsersAvatars/@if (user.AvatarExtension == null){<text>@user.Id.ToString()_DEFAULT.png</text>}else{<text>@user.Id.@user.AvatarExtension</text>}" alt="" style="width: 30px; height: 30px;">
                     </th>
                     <th><a asp-area="" asp-controller="Users" asp-action="Profile" asp-route-id="@user.Id">@user.Username</a></th>
                     <th>@user.FirstName</th>
