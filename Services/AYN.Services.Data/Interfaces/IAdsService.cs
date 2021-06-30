@@ -23,5 +23,17 @@ namespace AYN.Services.Data.Interfaces
         Task<IEnumerable<T>> GetUserRecentAds<T>(string userId);
 
         Tuple<int, int, int, int> GetCounts();
+
+        Task Archive(string adId);
+
+        Task UnArchive(string adId);
+
+        Task Delete(string adId);
+
+        Task UnDelete(string adId);
+
+        Task Promote(string adId);
+
+        Task UnPromote(string adId);
     }
 }

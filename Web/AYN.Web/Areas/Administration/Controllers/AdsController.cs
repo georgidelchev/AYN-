@@ -32,5 +32,47 @@ namespace AYN.Web.Areas.Administration.Controllers
 
             return this.View(viewModel);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Archive(string id)
+        {
+
+            return this.Redirect("/Administration/Ads/All");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UnArchive(string id)
+        {
+
+            return this.Redirect("/Administration/Ads/All");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+
+            return this.Redirect("/Administration/Ads/All");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UnDelete(string id)
+        {
+
+            return this.Redirect("/Administration/Ads/All");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Promote(string id)
+        {
+
+            return this.Redirect("/Administration/Ads/All");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UnPromote(string id)
+        {
+
+            return this.Redirect("/Administration/Ads/All");
+        }
     }
 }

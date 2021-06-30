@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+
 using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Services.Data.Interfaces;
@@ -158,6 +159,36 @@ namespace AYN.Services.Data.Implementations
                 .Count(a => a.IsArchived);
 
             return new Tuple<int, int, int, int>(totalAdsCount, activeAdsCount, bannedAdsCount, archivedAdsCount);
+        }
+
+        public async Task Archive(string adId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UnArchive(string adId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task Delete(string adId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task UnDelete(string adId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task Promote(string adId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task UnPromote(string adId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

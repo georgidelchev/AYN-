@@ -7,6 +7,8 @@ namespace AYN.Web.ViewModels.Administration.Ads
 {
     public class GetAllAdsViewModel : IMapFrom<Ad>
     {
+        public string Id { get; set; }
+
         public string Name { get; set; }
 
         public string AddedByUserId { get; set; }

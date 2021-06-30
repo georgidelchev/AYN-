@@ -68,9 +68,12 @@
                                 Dropleft
                             </button>
                             <div class="dropdown-menu">
-                                <button class="dropdown-item" type="button">Archive</button>
-                                <button class="dropdown-item" type="button">Delete</button>
-                                <button class="dropdown-item" type="button">Promote</button>
+                                <a asp-controller="Ads" asp-action="Archive" asp-route-id="@ad.Id" class="dropdown-item">Archive</a>
+                                <a asp-controller="Ads" asp-action="UnArchive" asp-route-id="@ad.Id" class="dropdown-item">UnArchive</a>
+                                <a asp-controller="Ads" asp-action="Delete" asp-route-id="@ad.Id" class="dropdown-item">Delete</a>
+                                <a asp-controller="Ads" asp-action="UnDelete" asp-route-id="@ad.Id" class="dropdown-item">UnDelete</a>
+                                <a asp-controller="Ads" asp-action="Promote" asp-route-id="@ad.Id" class="dropdown-item">Promote</a>
+                                <a asp-controller="Ads" asp-action="UnPromote" asp-route-id="@ad.Id" class="dropdown-item">UnPromote</a>
                             </div>
                         </div>
                     </th>
