@@ -9,6 +9,8 @@ namespace AYN.Web.ViewModels.Administration.Ads
     {
         public string Name { get; set; }
 
+        public string AddedByUserId { get; set; }
+
         public string AddedByUserUsername { get; set; }
 
         public DateTime CreatedOn { get; set; }

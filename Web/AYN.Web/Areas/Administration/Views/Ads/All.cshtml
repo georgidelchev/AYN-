@@ -13,39 +13,66 @@
     <table class="table table-sm table-hover ">
         <thead>
             <tr>
-                <th scope="col">Image</th>
-                <th scope="col">Username</th>
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
+                <th scope="col">Name</th>
+                <th scope="col">Owner</th>
                 <th scope="col">Created On</th>
-                <th scope="col">Email</th>
-                <th scope="col">Phone Number</th>
-                <th scope="col">Action</th>
+                <th scope="col">Archived</th>
+                <th scope="col">Deleted</th>
+                <th scope="col">Promoted</th>
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var user in this.Model.AllAds)
+            @foreach (var ad in this.Model.AllAds)
             {
                 <tr>
+                    <th><a asp-area="" asp-controller="Users" asp-action="Profile" asp-route-id="@ad.AddedByUserId">@ad.AddedByUserUsername</a></th>
+                    <th>@ad.Name</th>
+                    <th>@ad.CreatedOn.ToString("d")</th>
                     <th>
-                    </th>
-                    <th><a asp-area="" asp-controller="Users" asp-action="Profile" asp-route-id="@user.Id">@user.Username</a></th>
-                    <th>@user.FirstName</th>
-                    <th>@user.LastName</th>
-                    <th>@user.CreatedOn.ToString("d")</th>
-                    <th>@user.Email</th>
-                    <th>@user.PhoneNumber</th>
-                    <th>
-                        @if (user.IsBanned)
+                        @if (ad.IsArchived)
                         {
-                            <form method="post" asp-controller="Users" asp-action="Unban" asp-route-id="@user.Id">
-                                <button type="submit" class="btn btn-danger btn-sm">Unban</button>
-                            </form>
                         }
                         else
                         {
-                            <a class="btn btn-danger btn-sm" asp-controller="Users" asp-action="Ban" asp-route-id="@user.Id">Ban</a>
+                            <div class="pl-4">
+                                <i class="fas fa-times text-primary"></i>
+                            </div>
                         }
+                    </th>
+                    <th>
+                        @if (ad.IsDeleted)
+                        {
+                        }
+                        else
+                        {
+                            <div class="pl-4">
+                                <i class="fas fa-times text-primary"></i>
+                            </div>
+                        }
+                    </th>
+                    <th>
+                        @if (ad.IsPromoted)
+                        {
+                        }
+                        else
+                        {
+                            <div class="pl-4">
+                                <i class="fas fa-times text-primary"></i>
+                            </div>
+                        }
+                    </th>
+                    <th>
+                        <div class="dropdown dropleft">
+                            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Dropleft
+                            </button>
+                            <div class="dropdown-menu">
+                                <button class="dropdown-item" type="button">Archive</button>
+                                <button class="dropdown-item" type="button">Delete</button>
+                                <button class="dropdown-item" type="button">Promote</button>
+                            </div>
+                        </div>
                     </th>
                 </tr>
             }

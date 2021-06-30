@@ -18,7 +18,7 @@ namespace AYN.Web.Areas.Administration.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> All(int id)
+        public async Task<IActionResult> All(int id = 1)
         {
             var ads = await this.adsService.GetAllAsync<GetAllAdsViewModel>(string.Empty, "createdOnDesc", null);
 
