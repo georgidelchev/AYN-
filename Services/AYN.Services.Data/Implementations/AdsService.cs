@@ -2,14 +2,14 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-
 using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
+using AYN.Services.Data.Interfaces;
 using AYN.Services.Mapping;
 using AYN.Web.ViewModels.Ads;
 using Microsoft.EntityFrameworkCore;
 
-namespace AYN.Services.Data
+namespace AYN.Services.Data.Implementations
 {
     public class AdsService : IAdsService
     {
@@ -118,6 +118,15 @@ namespace AYN.Services.Data
                 .Where(a => a.Id == id)
                 .To<T>()
                 .FirstOrDefaultAsync();
+
+        public async Task<IEnumerable<T>> GetUserAllAds<T>(string userId)
+            => await this.adsRepository
+                .All()
+                .Where(u => u.AddedByUserId == userId)
+                .OrderByDescending(a => a.CreatedOn)
+                .Include(a => a.AddedByUser)
+                .To<T>()
+                .ToListAsync();
 
         public async Task<IEnumerable<T>> GetUserRecentAds<T>(string userId)
             => await this.adsRepository

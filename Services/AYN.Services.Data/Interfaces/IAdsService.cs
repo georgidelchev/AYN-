@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-
 using AYN.Web.ViewModels.Ads;
 
-namespace AYN.Services.Data
+namespace AYN.Services.Data.Interfaces
 {
     public interface IAdsService
     {
@@ -16,6 +15,8 @@ namespace AYN.Services.Data
         int GetCount();
 
         Task<T> GetDetails<T>(string id);
+
+        Task<IEnumerable<T>> GetUserAllAds<T>(string userId);
 
         Task<IEnumerable<T>> GetUserRecentAds<T>(string userId);
     }

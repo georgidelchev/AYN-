@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace AYN.Services.Data
+namespace AYN.Services.Data.Interfaces
 {
     public interface IAddressesService
     {

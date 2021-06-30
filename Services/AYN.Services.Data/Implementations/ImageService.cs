@@ -2,8 +2,9 @@
 
 using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
+using AYN.Services.Data.Interfaces;
 
-namespace AYN.Services.Data
+namespace AYN.Services.Data.Implementations
 {
     public class ImageService : IImageService
     {

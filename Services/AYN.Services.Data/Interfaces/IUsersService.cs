@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-
 using AYN.Web.ViewModels.Users;
 
-namespace AYN.Services.Data
+namespace AYN.Services.Data.Interfaces
 {
     public interface IUsersService
     {

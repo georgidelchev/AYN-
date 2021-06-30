@@ -19,7 +19,6 @@ namespace AYN.Data
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
             builder.UseSqlServer(connectionString);
-
             return new ApplicationDbContext(builder.Options);
         }
     }

@@ -10,7 +10,7 @@
     @if (this.SignInManager.IsSignedIn(this.User))
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="Users" asp-action="Profile" asp-route-id="@this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value" title="Manage">Hello @this.User.Identity?.Name!</a>
+            <a class="nav-link text-dark"  asp-area="" asp-controller="Users" asp-action="Profile" asp-route-id="@this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value" title="Manage">Hello @this.User.Identity?.Name!</a>
         </li>
         if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
         {

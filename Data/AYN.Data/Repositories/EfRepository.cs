@@ -14,7 +14,6 @@ namespace AYN.Data.Repositories
         public EfRepository(ApplicationDbContext context)
         {
             this.Context = context ?? throw new ArgumentNullException(nameof(context));
-
             this.DbSet = this.Context.Set<TEntity>();
         }
 

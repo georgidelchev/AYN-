@@ -3,11 +3,12 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
+using AYN.Services.Data.Interfaces;
 using Microsoft.AspNetCore.Http;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 
-namespace AYN.Services.Data
+namespace AYN.Services.Data.Implementations
 {
     public class ImageProcessingService : IImageProcessingService
     {

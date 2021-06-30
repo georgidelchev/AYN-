@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
+using AYN.Services.Data.Interfaces;
 using AYN.Services.Mapping;
 using AYN.Web.ViewModels.Categories;
 using Microsoft.EntityFrameworkCore;
 
-namespace AYN.Services.Data
+namespace AYN.Services.Data.Implementations
 {
     public class CategoriesService : ICategoriesService
     {

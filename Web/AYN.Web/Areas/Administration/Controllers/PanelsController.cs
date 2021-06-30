@@ -1,16 +1,15 @@
-﻿using AYN.Services.Data;
-using AYN.Services.Data.Interfaces;
+﻿using AYN.Services.Data.Interfaces;
 using AYN.Web.ViewModels.Administration.Dashboard;
 
 using Microsoft.AspNetCore.Mvc;
 
 namespace AYN.Web.Areas.Administration.Controllers
 {
-    public class DashboardController : AdministrationController
+    public class PanelsController : AdministrationController
     {
         private readonly ISettingsService settingsService;
 
-        public DashboardController(ISettingsService settingsService)
+        public PanelsController(ISettingsService settingsService)
         {
             this.settingsService = settingsService;
         }

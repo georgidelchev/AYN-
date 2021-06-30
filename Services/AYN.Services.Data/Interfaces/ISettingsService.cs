@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AYN.Services.Data
+namespace AYN.Services.Data.Interfaces
 {
     public interface ISettingsService
     {

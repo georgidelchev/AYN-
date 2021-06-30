@@ -2,9 +2,10 @@
 
 using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
+using AYN.Services.Data.Interfaces;
 using AYN.Web.ViewModels.Reports;
 
-namespace AYN.Services.Data
+namespace AYN.Services.Data.Implementations
 {
     public class ReportsService : IReportsService
     {

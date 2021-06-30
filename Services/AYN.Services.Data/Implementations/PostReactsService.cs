@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-
 using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Data.Models.Enumerations;
+using AYN.Services.Data.Interfaces;
 
-namespace AYN.Services.Data
+namespace AYN.Services.Data.Implementations
 {
     public class PostReactsService : IPostReactsService
     {

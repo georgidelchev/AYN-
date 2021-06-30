@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Http;
 
-namespace AYN.Services.Data
+namespace AYN.Services.Data.Interfaces
 {
     public interface IImageProcessingService
     {

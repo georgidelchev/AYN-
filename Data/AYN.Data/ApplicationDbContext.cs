@@ -73,7 +73,6 @@ namespace AYN.Data
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
             this.ApplyAuditInfoRules();
-
             return base.SaveChanges(acceptAllChangesOnSuccess);
         }
 
@@ -85,7 +84,6 @@ namespace AYN.Data
             CancellationToken cancellationToken = default)
         {
             this.ApplyAuditInfoRules();
-
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
@@ -127,9 +125,7 @@ namespace AYN.Data
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)
             where T : class, IDeletableEntity
-        {
-            builder.Entity<T>().HasQueryFilter(e => !e.IsDeleted);
-        }
+            => builder.Entity<T>().HasQueryFilter(e => !e.IsDeleted);
 
         // Applies configurations
         private void ConfigureUserIdentityRelations(ModelBuilder builder)

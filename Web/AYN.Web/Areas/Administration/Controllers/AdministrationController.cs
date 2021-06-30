@@ -1,5 +1,4 @@
 ﻿using AYN.Common;
-using AYN.Web.Controllers;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
