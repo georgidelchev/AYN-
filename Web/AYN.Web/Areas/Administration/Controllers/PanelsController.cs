@@ -1,6 +1,5 @@
 ﻿using AYN.Services.Data.Interfaces;
-using AYN.Web.Areas.Administration.ViewModels.Panels;
-
+using AYN.Web.ViewModels.Administration.Panels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AYN.Web.Areas.Administration.Controllers

@@ -12,6 +12,7 @@ using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Services.Data.Interfaces;
 using AYN.Services.Mapping;
+using AYN.Web.ViewModels.Administration.Users;
 using AYN.Web.ViewModels.Users;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,6 +33,14 @@ namespace AYN.Services.Data.Implementations
             this.followerFolloweesRepository = followerFolloweesRepository;
             this.imageProcessingService = imageProcessingService;
         }
+
+        public async Task<IEnumerable<T>> GetAll<T>()
+            => await this.applicationUserRepository
+                .All()
+                .OrderBy(au => au.FirstName)
+                .ThenBy(au => au.LastName)
+                .To<T>()
+                .ToListAsync();
 
         public async Task<T> GetProfileDetails<T>(string id)
             => await this.applicationUserRepository
@@ -220,6 +229,34 @@ namespace AYN.Services.Data.Implementations
                 .Count(au => !au.IsBanned);
 
             return new Tuple<int, int, int>(registeredUsersCount, bannedUsersCount, nonBannedUsers);
+        }
+
+        public async Task Ban(BanUserInputModel input, string userId)
+        {
+            var user = this.applicationUserRepository
+                .All()
+                .FirstOrDefault(au => au.Id == userId);
+
+            user.IsBanned = true;
+            user.BannedOn = DateTime.UtcNow;
+            user.BlockReason = input.BanReason;
+
+            this.applicationUserRepository.Update(user);
+            await this.applicationUserRepository.SaveChangesAsync();
+        }
+
+        public async Task Unban(string userId)
+        {
+            var user = this.applicationUserRepository
+                .All()
+                .FirstOrDefault(au => au.Id == userId);
+
+            user.IsBanned = false;
+            user.BannedOn = null;
+            user.BlockReason = null;
+
+            this.applicationUserRepository.Update(user);
+            await this.applicationUserRepository.SaveChangesAsync();
         }
 
         private static async Task ProcessDefaultImage(string text, string fullPhysicalPath, int width, int height, string fontName, int emSize, FontStyle fontStyle)

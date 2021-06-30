@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
+using AYN.Web.ViewModels.Administration.Users;
 using AYN.Web.ViewModels.Users;
 
 namespace AYN.Services.Data.Interfaces
 {
     public interface IUsersService
     {
+        Task<IEnumerable<T>> GetAll<T>();
+
         Task<T> GetProfileDetails<T>(string id);
 
         Task Follow(string followerId, string followeeId);
@@ -33,5 +35,9 @@ namespace AYN.Services.Data.Interfaces
         Task<IEnumerable<T>> GetSuggestionPeople<T>(string userId, string openedUserId);
 
         Tuple<int, int, int> GetCounts();
+
+        Task Ban(BanUserInputModel input, string userId);
+
+        Task Unban(string userId);
     }
 }

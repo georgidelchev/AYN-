@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AYN.Web.Areas.Administration.ViewModels.Panels
+namespace AYN.Web.ViewModels.Administration.Panels
 {
     public class IndexViewModel
     {
