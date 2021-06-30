@@ -7,16 +7,25 @@ namespace AYN.Web.Areas.Administration.Controllers
 {
     public class PanelsController : AdministrationController
     {
-        private readonly ISettingsService settingsService;
+        private readonly IUsersService usersService;
+        private readonly IAdsService adsService;
+        private readonly IReportsService reportsService;
 
-        public PanelsController(ISettingsService settingsService)
+        public PanelsController(
+            IUsersService usersService,
+            IAdsService adsService,
+            IReportsService reportsService)
         {
-            this.settingsService = settingsService;
+            this.usersService = usersService;
+            this.adsService = adsService;
+            this.reportsService = reportsService;
         }
 
         public IActionResult Index()
         {
-            var viewModel = new IndexViewModel { SettingsCount = this.settingsService.GetCount(), };
+            var viewModel = new IndexViewModel()
+            {
+            };
 
             return this.View(viewModel);
         }
