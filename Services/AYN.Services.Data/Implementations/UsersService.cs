@@ -205,6 +205,23 @@ namespace AYN.Services.Data.Implementations
                 .To<T>()
                 .ToListAsync();
 
+        public Tuple<int, int, int> GetCounts()
+        {
+            var registeredUsersCount = this.applicationUserRepository
+                .AllWithDeleted()
+                .Count();
+
+            var bannedUsersCount = this.applicationUserRepository
+                .All()
+                .Count(au => au.IsBanned);
+
+            var nonBannedUsers = this.applicationUserRepository
+                .All()
+                .Count(au => !au.IsBanned);
+
+            return new Tuple<int, int, int>(registeredUsersCount, bannedUsersCount, nonBannedUsers);
+        }
+
         private static async Task ProcessDefaultImage(string text, string fullPhysicalPath, int width, int height, string fontName, int emSize, FontStyle fontStyle)
         {
             if (string.IsNullOrEmpty(text))

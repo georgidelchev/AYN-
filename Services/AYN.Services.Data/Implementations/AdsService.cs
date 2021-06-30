@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -137,5 +138,26 @@ namespace AYN.Services.Data.Implementations
                 .Include(a => a.AddedByUser)
                 .To<T>()
                 .ToListAsync();
+
+        public Tuple<int, int, int, int> GetCounts()
+        {
+            var totalAdsCount = this.adsRepository
+                .AllWithDeleted()
+                .Count();
+
+            var activeAdsCount = this.adsRepository
+                .All()
+                .Count(a => !a.IsArchived && !a.IsDeleted);
+
+            var bannedAdsCount = this.adsRepository
+                .All()
+                .Count(a => a.IsDeleted);
+
+            var archivedAdsCount = this.adsRepository
+                .All()
+                .Count(a => a.IsArchived);
+
+            return new Tuple<int, int, int, int>(totalAdsCount, activeAdsCount, bannedAdsCount, archivedAdsCount);
+        }
     }
 }

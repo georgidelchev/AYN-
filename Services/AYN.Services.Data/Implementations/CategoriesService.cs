@@ -160,5 +160,18 @@ namespace AYN.Services.Data.Implementations
 
             await this.categoriesRepository.SaveChangesAsync();
         }
+
+        public Tuple<int, int> GetCounts()
+        {
+            var activeCategories = this.categoriesRepository
+                .All()
+                .Count(c => !c.IsDeleted);
+
+            var deletedCategories = this.categoriesRepository
+                .AllWithDeleted()
+                .Count(c => c.IsDeleted);
+
+            return new Tuple<int, int>(activeCategories, deletedCategories);
+        }
     }
 }

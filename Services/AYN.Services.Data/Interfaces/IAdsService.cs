@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using AYN.Web.ViewModels.Ads;
 
 namespace AYN.Services.Data.Interfaces
@@ -19,5 +21,7 @@ namespace AYN.Services.Data.Interfaces
         Task<IEnumerable<T>> GetUserAllAds<T>(string userId);
 
         Task<IEnumerable<T>> GetUserRecentAds<T>(string userId);
+
+        Tuple<int, int, int, int> GetCounts();
     }
 }

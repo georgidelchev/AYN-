@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
@@ -29,6 +31,19 @@ namespace AYN.Services.Data.Implementations
 
             await this.reportsRepository.AddAsync(report);
             await this.reportsRepository.SaveChangesAsync();
+        }
+
+        public Tuple<int, int> GetCounts()
+        {
+            var activeReports = this.reportsRepository
+                .All()
+                .Count(r => !r.IsDeleted);
+
+            var deletedReports = this.reportsRepository
+                .AllWithDeleted()
+                .Count(r => r.IsDeleted);
+
+            return new Tuple<int, int>(activeReports, deletedReports);
         }
     }
 }

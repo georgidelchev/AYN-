@@ -27,8 +27,6 @@ namespace AYN.Data
 
         public DbSet<Ad> Ads { get; set; }
 
-        public DbSet<AdArchive> AdArchives { get; set; }
-
         public DbSet<Address> Addresses { get; set; }
 
         public DbSet<Category> Categories { get; set; }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,5 +22,7 @@ namespace AYN.Services.Data.Interfaces
         Task UpdateAsync(EditCategoryInputModel input, int categoryId, string imagePath);
 
         Task DeleteAsync(int id);
+
+        Tuple<int, int> GetCounts();
     }
 }

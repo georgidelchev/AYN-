@@ -62,6 +62,8 @@ namespace AYN.Data.Models
         [Required]
         public AdType AdType { get; set; }
 
+        public bool IsArchived { get; set; }
+
         [Required]
         public DeliveryTake DeliveryTake { get; set; }
 

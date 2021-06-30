@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using AYN.Web.ViewModels.Users;
 
 namespace AYN.Services.Data.Interfaces
@@ -29,5 +31,7 @@ namespace AYN.Services.Data.Interfaces
         Task EditAsync(EditUserViewModel model, string wwwRootPath);
 
         Task<IEnumerable<T>> GetSuggestionPeople<T>(string userId, string openedUserId);
+
+        Tuple<int, int, int> GetCounts();
     }
 }

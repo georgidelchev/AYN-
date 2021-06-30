@@ -1,7 +1,77 @@
-﻿@model AYN.Web.ViewModels.Administration.Dashboard.IndexViewModel
+﻿@model AYN.Web.Areas.Administration.ViewModels.Panels.IndexViewModel
+
 @{
     this.ViewData["Title"] = "Admin dashboard";
 }
 
 <h1>@this.ViewData["Title"]</h1>
-Settings: @this.Model.SettingsCount
+
+<div class="row">
+    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+                <h3 class="text-muted mb-4">Users</h3>
+                <hr />
+                <div class="d-flex justify-content-center">
+                    <div class="text-center">
+                        <h6 class="font-weight-bold text-primary">Registered - @Model.UsersCounts.Item1</h6>
+                        <h6 class="font-weight-bold text-warning">Banned - @Model.UsersCounts.Item2</h6>
+                        <h6 class="font-weight-bold text-success">Non-banned - @Model.UsersCounts.Item3</h6>
+                        <hr />
+                        <button class="btn btn-primary btn-sm font-weight-bold">Actions</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+                <h3 class="text-muted mb-4">Ads</h3>
+                <hr />
+                <div class="d-flex justify-content-center">
+                    <div class="text-center">
+                        <h6 class="font-weight-bold text-primary">Total - @Model.AdsCount.Item1</h6>
+                        <h6 class="font-weight-bold text-primary">Active - @Model.AdsCount.Item2</h6>
+                        <h6 class="font-weight-bold text-warning">Banned - @Model.AdsCount.Item3</h6>
+                        <h6 class="font-weight-bold text-success">Archived - @Model.AdsCount.Item4</h6>
+                        <hr />
+                        <button class="btn btn-primary btn-sm font-weight-bold">Actions</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+                <h3 class="text-muted mb-4">Reports</h3>
+                <hr />
+                <div class="d-flex justify-content-center">
+                    <div class="text-center">
+                        <h6 class="font-weight-bold text-danger">Active - @Model.ReportsCount.Item1</h6>
+                        <h6 class="font-weight-bold text-primary">Deleted - @Model.ReportsCount.Item2</h6>
+                        <hr />
+                        <button class="btn btn-primary btn-sm font-weight-bold">Actions</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+                <h3 class="text-muted mb-4">Categories</h3>
+                <hr />
+                <div class="d-flex justify-content-center">
+                    <div class="text-center">
+                        <h6 class="font-weight-bold text-danger">Active - @Model.CategoriesCount.Item1</h6>
+                        <h6 class="font-weight-bold text-primary">Deleted - @Model.CategoriesCount.Item2</h6>
+                        <hr />
+                        <button class="btn btn-primary btn-sm font-weight-bold">Actions</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

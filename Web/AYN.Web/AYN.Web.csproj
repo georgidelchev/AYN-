@@ -46,4 +46,9 @@
     <ProjectReference Include="..\AYN.Web.Infrastructure\AYN.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\AYN.Web.ViewModels\AYN.Web.ViewModels.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Administration\ViewModels\Panels\" />
+    <Folder Include="Areas\Administration\Views\Users\" />
+  </ItemGroup>
 </Project>
