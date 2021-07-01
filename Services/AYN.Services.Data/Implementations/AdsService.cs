@@ -10,6 +10,7 @@ using AYN.Services.Data.Interfaces;
 using AYN.Services.Mapping;
 using AYN.Web.ViewModels.Ads;
 using Microsoft.EntityFrameworkCore;
+using DateTime = System.DateTime;
 
 namespace AYN.Services.Data.Implementations
 {
@@ -163,32 +164,67 @@ namespace AYN.Services.Data.Implementations
 
         public async Task Archive(string adId)
         {
-            throw new NotImplementedException();
+            var ad = this.adsRepository
+                .All()
+                .FirstOrDefault(a => a.Id == adId);
+
+            ad.IsArchived = true;
+            ad.ArchivedOn = DateTime.UtcNow;
+
+            this.adsRepository.Update(ad);
+            await this.adsRepository.SaveChangesAsync();
         }
 
-        public Task UnArchive(string adId)
+        public async Task UnArchive(string adId)
         {
-            throw new NotImplementedException();
+            var ad = this.adsRepository
+                .All()
+                .FirstOrDefault(a => a.Id == adId);
+
+
+            ad.IsArchived = false;
+            ad.ArchivedOn = null;
+
+            this.adsRepository.Update(ad);
+            await this.adsRepository.SaveChangesAsync();
         }
 
         public async Task Delete(string adId)
         {
-            throw new NotImplementedException();
+            var ad = this.adsRepository
+                .All()
+                .FirstOrDefault(a => a.Id == adId);
+
+            this.adsRepository.Delete(ad);
+            await this.adsRepository.SaveChangesAsync();
         }
 
-        public async Task UnDelete(string adId)
+        public async Task Promote(DateTime promoteUntil, string adId)
         {
-            throw new NotImplementedException();
-        }
+            var ad = this.adsRepository
+                .All()
+                .FirstOrDefault(a => a.Id == adId);
 
-        public async Task Promote(string adId)
-        {
-            throw new NotImplementedException();
+            ad.IsPromoted = true;
+            ad.PromotedOn = DateTime.UtcNow;
+            ad.PromotedUntil = promoteUntil;
+
+            this.adsRepository.Update(ad);
+            await this.adsRepository.SaveChangesAsync();
         }
 
         public async Task UnPromote(string adId)
         {
-            throw new NotImplementedException();
+            var ad = this.adsRepository
+                .All()
+                .FirstOrDefault(a => a.Id == adId);
+
+            ad.IsPromoted = false;
+            ad.PromotedOn = null;
+            ad.PromotedUntil = null;
+
+            this.adsRepository.Update(ad);
+            await this.adsRepository.SaveChangesAsync();
         }
     }
 }

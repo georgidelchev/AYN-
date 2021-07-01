@@ -30,9 +30,7 @@ namespace AYN.Services.Data.Interfaces
 
         Task Delete(string adId);
 
-        Task UnDelete(string adId);
-
-        Task Promote(string adId);
+        Task Promote(DateTime promoteUntil, string adId);
 
         Task UnPromote(string adId);
     }

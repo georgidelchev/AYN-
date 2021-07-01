@@ -36,42 +36,41 @@ namespace AYN.Web.Areas.Administration.Controllers
         [HttpPost]
         public async Task<IActionResult> Archive(string id)
         {
-
+            await this.adsService.Archive(id);
             return this.Redirect("/Administration/Ads/All");
         }
 
         [HttpPost]
         public async Task<IActionResult> UnArchive(string id)
         {
-
+            await this.adsService.UnArchive(id);
             return this.Redirect("/Administration/Ads/All");
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
-
+            await this.adsService.Delete(id);
             return this.Redirect("/Administration/Ads/All");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> UnDelete(string id)
+        [HttpGet]
+        public IActionResult Promote()
         {
-
-            return this.Redirect("/Administration/Ads/All");
+            return this.View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Promote(string id)
+        public async Task<IActionResult> Promote(PromoteAdInputModel input, string id)
         {
-
+            await this.adsService.Promote(input.PromoteUntil, id);
             return this.Redirect("/Administration/Ads/All");
         }
 
         [HttpPost]
         public async Task<IActionResult> UnPromote(string id)
         {
-
+            await this.adsService.UnPromote(id);
             return this.Redirect("/Administration/Ads/All");
         }
     }

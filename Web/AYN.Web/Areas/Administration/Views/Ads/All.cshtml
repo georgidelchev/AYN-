@@ -17,7 +17,6 @@
                 <th scope="col">Owner</th>
                 <th scope="col">Created On</th>
                 <th scope="col">Archived</th>
-                <th scope="col">Deleted</th>
                 <th scope="col">Promoted</th>
                 <th scope="col">Actions</th>
             </tr>
@@ -26,54 +25,55 @@
             @foreach (var ad in this.Model.AllAds)
             {
                 <tr>
-                    <th><a asp-area="" asp-controller="Users" asp-action="Profile" asp-route-id="@ad.AddedByUserId">@ad.AddedByUserUsername</a></th>
                     <th>@ad.Name</th>
+                    <th><a asp-area="" asp-controller="Users" asp-action="Profile" asp-route-id="@ad.AddedByUserId">@ad.AddedByUserUsername</a></th>
                     <th>@ad.CreatedOn.ToString("d")</th>
                     <th>
-                        @if (ad.IsArchived)
-                        {
-                        }
-                        else
-                        {
-                            <div class="pl-4">
+                        <div class="pl-4">
+                            @if (ad.IsArchived)
+                            {
+                                <i class="fas fa-check" data-toggle="tooltip" data-placement="top" title="On: @ad.ArchivedOn?.ToLocalTime().ToString("g")"></i>
+                            }
+                            else
+                            {
                                 <i class="fas fa-times text-primary"></i>
-                            </div>
-                        }
+                            }
+                        </div>
                     </th>
                     <th>
-                        @if (ad.IsDeleted)
-                        {
-                        }
-                        else
-                        {
-                            <div class="pl-4">
+                        <div class="pl-4">
+                            @if (ad.IsPromoted)
+                            {
+
+                                <i class="fas fa-check" data-toggle="tooltip" data-html="true" data-placement="top" title="On: @ad.PromotedOn?.ToLocalTime().ToString("g")<br> Until: @ad.PromotedUntil?.ToLocalTime().ToString("g")">
+
+                                </i>
+                            }
+                            else
+                            {
                                 <i class="fas fa-times text-primary"></i>
-                            </div>
-                        }
-                    </th>
-                    <th>
-                        @if (ad.IsPromoted)
-                        {
-                        }
-                        else
-                        {
-                            <div class="pl-4">
-                                <i class="fas fa-times text-primary"></i>
-                            </div>
-                        }
+                            }
+                        </div>
                     </th>
                     <th>
                         <div class="dropdown dropleft">
                             <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Dropleft
+                                <i class="fas fa-hand-pointer"></i>
                             </button>
                             <div class="dropdown-menu">
-                                <a asp-controller="Ads" asp-action="Archive" asp-route-id="@ad.Id" class="dropdown-item">Archive</a>
-                                <a asp-controller="Ads" asp-action="UnArchive" asp-route-id="@ad.Id" class="dropdown-item">UnArchive</a>
-                                <a asp-controller="Ads" asp-action="Delete" asp-route-id="@ad.Id" class="dropdown-item">Delete</a>
-                                <a asp-controller="Ads" asp-action="UnDelete" asp-route-id="@ad.Id" class="dropdown-item">UnDelete</a>
-                                <a asp-controller="Ads" asp-action="Promote" asp-route-id="@ad.Id" class="dropdown-item">Promote</a>
-                                <a asp-controller="Ads" asp-action="UnPromote" asp-route-id="@ad.Id" class="dropdown-item">UnPromote</a>
+                                <form method="post" asp-controller="Ads" asp-action="Archive" asp-route-id="@ad.Id">
+                                    <button type="submit" class="dropdown-item">Archive</button>
+                                </form>
+                                <form method="post" asp-controller="Ads" asp-action="UnArchive" asp-route-id="@ad.Id">
+                                    <button class="dropdown-item">UnArchive</button>
+                                </form>
+                                <form method="post" asp-controller="Ads" asp-action="Delete" asp-route-id="@ad.Id">
+                                    <button class="btn btn-danger btn-sm dropdown-item">Delete</button>
+                                </form>
+                                    <a asp-controller="Ads" asp-action="Promote" asp-route-id="@ad.Id" class="dropdown-item">Promote</a>
+                                <form method="post" asp-controller="Ads" asp-action="UnPromote" asp-route-id="@ad.Id">
+                                    <button class="dropdown-item">UnPromote</button>
+                                </form>
                             </div>
                         </div>
                     </th>
