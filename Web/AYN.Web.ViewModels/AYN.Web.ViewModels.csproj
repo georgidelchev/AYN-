@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <Folder Include="Administration\Ads\" />
+    <Folder Include="Administration\Reports\" />
     <Folder Include="Home\" />
     <Folder Include="SubCategories\" />
   </ItemGroup>

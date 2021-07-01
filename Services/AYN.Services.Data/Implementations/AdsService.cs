@@ -10,7 +10,6 @@ using AYN.Services.Data.Interfaces;
 using AYN.Services.Mapping;
 using AYN.Web.ViewModels.Ads;
 using Microsoft.EntityFrameworkCore;
-using DateTime = System.DateTime;
 
 namespace AYN.Services.Data.Implementations
 {
@@ -151,15 +150,15 @@ namespace AYN.Services.Data.Implementations
                 .All()
                 .Count(a => !a.IsArchived && !a.IsDeleted);
 
-            var bannedAdsCount = this.adsRepository
-                .All()
+            var deletedAdsCount = this.adsRepository
+                .AllWithDeleted()
                 .Count(a => a.IsDeleted);
 
             var archivedAdsCount = this.adsRepository
                 .All()
                 .Count(a => a.IsArchived);
 
-            return new Tuple<int, int, int, int>(totalAdsCount, activeAdsCount, bannedAdsCount, archivedAdsCount);
+            return new Tuple<int, int, int, int>(totalAdsCount, activeAdsCount, deletedAdsCount, archivedAdsCount);
         }
 
         public async Task Archive(string adId)

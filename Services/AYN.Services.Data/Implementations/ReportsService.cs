@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Services.Data.Interfaces;
+using AYN.Services.Mapping;
 using AYN.Web.ViewModels.Reports;
+using Microsoft.EntityFrameworkCore;
 
 namespace AYN.Services.Data.Implementations
 {
@@ -32,6 +35,13 @@ namespace AYN.Services.Data.Implementations
             await this.reportsRepository.AddAsync(report);
             await this.reportsRepository.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<T>> GetAll<T>()
+            => await this.reportsRepository
+                .All()
+                .OrderByDescending(r => r.CreatedOn)
+                .To<T>()
+                .ToListAsync();
 
         public Tuple<int, int> GetCounts()
         {

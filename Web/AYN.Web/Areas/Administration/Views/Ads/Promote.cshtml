@@ -1,0 +1,30 @@
+﻿@model AYN.Web.ViewModels.Administration.Ads.PromoteAdInputModel
+
+@{
+    this.ViewData["Title"] = "Promote Ad";
+}
+
+<div class="text-center">
+    <h1>@this.ViewData["Title"]</h1>
+</div>
+
+<form method="post" class="col-md-6 offset-md-3 text-center" enctype="multipart/form-data">
+    <hr />
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div>
+        <span asp-validation-for="PromoteUntil" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="PromoteUntil" class="input-group-text">
+                    <i class="fas fa-file-signature"></i>
+                </label>
+            </div>
+            <input asp-for="PromoteUntil" placeholder="Promote Until" class="form-control" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+    <hr />
+</form>
