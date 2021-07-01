@@ -44,7 +44,7 @@
                     <th>@Enum.GetName(typeof(ReportType), report.ReportType)</th>
                     <th>
                         <a asp-controller="Reports" asp-action="Approve" asp-route-reportId="@report.Id" asp-route-adId="@report.ReportedAdId" class="pl-2 text-success" data-toggle="tooltip" data-placement="right" title="Approve the request"><i class="fas fa-check"></i></a>
-                        <a asp-controller="Reports" asp-action="Delete" class="pl-2 text-danger" data-toggle="tooltip" data-placement="right" title="Delete the request"><i class="fas fa-times"></i></a>
+                        <a asp-controller="Reports" asp-action="Delete" asp-route-id="@report.ReportedAdId" class="pl-2 text-danger" data-toggle="tooltip" data-placement="right" title="Delete the request"><i class="fas fa-times"></i></a>
                     </th>
                 </tr>
             }

@@ -1,0 +1,55 @@
+﻿@model AYN.Web.ViewModels.Administration.Categories.ListAllCategoriesViewModel
+
+@{
+    this.ViewData["Title"] = "All Categories";
+}
+
+<div class="text-center">
+    <h1>@this.ViewData["Title"]</h1>
+</div>
+
+
+<partial name="_PagingPartial" model="@this.Model" />
+<div class="table-responsive">
+    <table class="table table-sm table-hover ">
+        <thead>
+            <tr>
+                <th scope="col">Picture</th>
+                <th scope="col">Name</th>
+                <th scope="col">Created On</th>
+                <th scope="col">Deleted</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in this.Model.AllCategories)
+            {
+                <tr>
+                    <th>
+                        <img src="/img/CategoriesPictures/@category.Id.@category.PictureExtension" class="rounded-circle category-image" style="width: 30px; height: 30px;" alt="@category.Name">
+                    </th>
+                    <th>@category.Name</th>
+                    <th>@category.CreatedOn.ToString("d")</th>
+                    <th>
+                        <div class="pl-4">
+                            @if (category.IsDeleted)
+                            {
+                                <i class="fas fa-check text-primary" data-toggle="tooltip" data-html="true" data-placement="top" title="@category.DeletedOn.ToString("g")"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-times text-primary"></i>
+                            }
+                        </div>
+                    </th>
+                    <th>
+                        <a asp-controller="Categories" asp-action="Delete" class="pl-2 text-danger" data-toggle="tooltip" data-placement="right" title="Delete the category"><i class="fas fa-times"></i></a>
+                        <a asp-controller="Categories" asp-action="Delete" class="pl-2 text-primary" data-toggle="tooltip" data-placement="right" title="Edit the category"><i class="fas fa-edit"></i></a>
+                        <a asp-controller="Categories" asp-action="Delete" class="pl-2 text-success" data-toggle="tooltip" data-placement="right" title="Add a subcategory"><i class="fas fa-plus"></i></a>
+                    </th>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<partial name="_PagingPartial" model="@this.Model" />

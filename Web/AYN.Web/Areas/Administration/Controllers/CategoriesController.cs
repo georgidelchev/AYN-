@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 using AYN.Services.Data.Interfaces;
-using AYN.Web.ViewModels.Categories;
+using AYN.Web.ViewModels.Administration.Categories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AYN.Web.Areas.Administration.Controllers
@@ -16,25 +17,20 @@ namespace AYN.Web.Areas.Administration.Controllers
             this.categoriesService = categoriesService;
         }
 
-        public async Task<IActionResult> AddSubCategory(AddSubCategoryViewModel input, int id)
+        [HttpGet]
+        public IActionResult All(int id = 1)
         {
-            if (!this.ModelState.IsValid)
-            {
-                return this.View(input);
-            }
+            var categories = this.categoriesService.GetAll<GetAllCategoriesViewModel>().ToList();
 
-            try
+            var viewModel = new ListAllCategoriesViewModel()
             {
-                await this.categoriesService.AddSubCategoryAsync(input, id);
-            }
-            catch (InvalidOperationException ioe)
-            {
-                this.ModelState.AddModelError(string.Empty, ioe.Message);
+                AllCategories = categories.Skip((id - 1) * 12).Take(12),
+                Count = this.categoriesService.GetCounts().Item1,
+                ItemsPerPage = 12,
+                PageNumber = id,
+            };
 
-                return this.View(input);
-            }
-
-            return this.Redirect("/");
+            return this.View(viewModel);
         }
     }
 }
