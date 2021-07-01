@@ -82,7 +82,9 @@ namespace AYN.Services.Data.Implementations
 
         public async Task<IEnumerable<T>> GetAllAsync<T>(string search, string orderBy, int? categoryId)
         {
-            var ads = this.adsRepository.All();
+            var ads = this.adsRepository
+                .All()
+                .Where(a => !a.IsArchived);
 
             if (search is not null)
             {

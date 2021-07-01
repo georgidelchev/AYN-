@@ -39,7 +39,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Ads" asp-action="Create">Create Ad</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Notifications" asp-action="All">
+                            <a class="nav-link" asp-area="" asp-controller="Notifications" asp-action="All">
                                 <i class="fas fa-bell btn-pink" style="font-size: 1.2rem;"></i>
                                 <span class="badge badge-light ml-1 text-success" id="notificationsCount">0</span>
                                 <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId" />
