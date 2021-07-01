@@ -1,0 +1,54 @@
+﻿@using AYN.Data.Models.Enumerations
+@model AYN.Web.ViewModels.Administration.Reports.ListAllReportsViewModel
+
+@{
+    this.ViewData["Title"] = "All Reports";
+}
+
+<div class="text-center">
+    <h1>@this.ViewData["Title"]</h1>
+</div>
+
+<partial name="_PagingPartial" model="@this.Model" />
+<div class="table-responsive">
+    <table class="table table-sm table-hover ">
+        <thead>
+            <tr>
+                <th scope="col">Reporting User</th>
+                <th scope="col">Reported User</th>
+                <th scope="col">Reported Ad</th>
+                <th scope="col">Description</th>
+                <th scope="col">Created On</th>
+                <th scope="col">Report Type</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var report in this.Model.AllReports)
+            {
+                <tr>
+                    <th><a asp-area="" asp-controller="Users" asp-action="Profile" asp-route-id="@report.ReportingUserId">@report.ReportingUserUsername</a></th>
+                    <th><a asp-area="" asp-controller="Users" asp-action="Profile" asp-route-id="@report.ReportedUserId">@report.ReportedUserUsername</a></th>
+                    <th><a asp-area="" asp-controller="Ads" asp-action="Details" asp-route-id="@report.ReportedAdId">@report.ReportedAdName</a></th>
+                    <th>
+                        @if (report.Description.Length > 20)
+                        {
+                            <text>@report.Description.Substring(0, 20)<a data-toggle="tooltip" data-placement="top" title="@report.Description" style="cursor: pointer;"> <i class="fas fa-hand-pointer"></i></a></text>
+                        }
+                        else
+                        {
+                            @report.Description;
+                        }
+                    </th>
+                    <th>@report.CreatedOn.ToString("d")</th>
+                    <th>@Enum.GetName(typeof(ReportType), report.ReportType)</th>
+                    <th>
+                        <a asp-controller="Reports" asp-action="Approve" asp-route-reportId="@report.Id" asp-route-adId="@report.ReportedAdId" class="pl-2 text-success" data-toggle="tooltip" data-placement="right" title="Approve the request"><i class="fas fa-check"></i></a>
+                        <a asp-controller="Reports" asp-action="Delete" class="pl-2 text-danger" data-toggle="tooltip" data-placement="right" title="Delete the request"><i class="fas fa-times"></i></a>
+                    </th>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<partial name="_PagingPartial" model="@this.Model" />

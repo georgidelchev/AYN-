@@ -43,6 +43,11 @@ namespace AYN.Services.Data.Implementations
                 .To<T>()
                 .ToListAsync();
 
+        public int GetCount()
+            => this.reportsRepository
+                .All()
+                .Count();
+
         public Tuple<int, int> GetCounts()
         {
             var activeReports = this.reportsRepository
@@ -54,6 +59,20 @@ namespace AYN.Services.Data.Implementations
                 .Count(r => r.IsDeleted);
 
             return new Tuple<int, int>(activeReports, deletedReports);
+        }
+
+        public async Task DeleteAllByAdId(string adId)
+        {
+            var reports = this.reportsRepository
+                .All()
+                .Where(r => r.ReportedAdId == adId)
+                .ToList();
+
+            foreach (var report in reports)
+            {
+                this.reportsRepository.Delete(report);
+                await this.reportsRepository.SaveChangesAsync();
+            }
         }
     }
 }

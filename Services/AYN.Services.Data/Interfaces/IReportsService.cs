@@ -12,6 +12,10 @@ namespace AYN.Services.Data.Interfaces
 
         Task<IEnumerable<T>> GetAll<T>();
 
+        int GetCount();
+
         Tuple<int, int> GetCounts();
+
+        Task DeleteAllByAdId(string adId);
     }
 }

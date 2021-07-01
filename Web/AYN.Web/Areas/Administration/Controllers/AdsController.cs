@@ -48,10 +48,10 @@ namespace AYN.Web.Areas.Administration.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string id, string returnUrl = "/Administration/Ads/All")
         {
             await this.adsService.Delete(id);
-            return this.Redirect("/Administration/Ads/All");
+            return this.Redirect(returnUrl);
         }
 
         [HttpGet]
