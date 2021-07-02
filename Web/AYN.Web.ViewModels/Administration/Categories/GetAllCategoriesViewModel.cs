@@ -1,7 +1,8 @@
 ﻿using System;
-
+using System.Collections.Generic;
 using AYN.Data.Models;
 using AYN.Services.Mapping;
+using AYN.Web.ViewModels.Administration.SubCategories;
 
 namespace AYN.Web.ViewModels.Administration.Categories
 {
@@ -18,5 +19,7 @@ namespace AYN.Web.ViewModels.Administration.Categories
         public bool IsDeleted { get; set; }
 
         public DateTime DeletedOn { get; set; }
+
+        public ICollection<SubCategoryViewModel> SubCategories { get; set; }
     }
 }

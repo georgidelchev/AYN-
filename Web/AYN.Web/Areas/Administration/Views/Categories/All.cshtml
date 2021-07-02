@@ -3,6 +3,15 @@
 @{
     this.ViewData["Title"] = "All Categories";
 }
+<style>
+    tr {
+        display: none;
+    }
+
+        tr.header {
+            display: table-row;
+        }
+</style>
 
 <div class="text-center">
     <h1>@this.ViewData["Title"]</h1>
@@ -11,13 +20,12 @@
 <div class="text-center">
     <a asp-controller="Categories" asp-action="Create" class="pl-2 text-success" data-toggle="tooltip" data-placement="top" title="Create new category"><i class="fas fa-plus"></i></a>
 </div>
-<br/>
-
+<br />
 <partial name="_PagingPartial" model="@this.Model" />
 <div class="table-responsive">
-    <table class="table table-sm table-hover ">
+    <table class="table table-sm table-hover table-bordered text-center">
         <thead>
-            <tr>
+            <tr class="header">
                 <th scope="col">Picture</th>
                 <th scope="col">Name</th>
                 <th scope="col">Created On</th>
@@ -28,23 +36,21 @@
         <tbody>
             @foreach (var category in this.Model.AllCategories)
             {
-                <tr>
+                <tr class="header">
                     <th>
                         <img src="/img/CategoriesPictures/@category.Id.@category.PictureExtension" class="rounded-circle category-image" style="width: 30px; height: 30px;" alt="@category.Name">
                     </th>
                     <th>@category.Name</th>
                     <th>@category.CreatedOn.ToString("d")</th>
                     <th>
-                        <div class="pl-4">
-                            @if (category.IsDeleted)
-                            {
-                                <i class="fas fa-check text-primary" data-toggle="tooltip" data-html="true" data-placement="top" title="@category.DeletedOn.ToString("g")"></i>
-                            }
-                            else
-                            {
-                                <i class="fas fa-times text-primary"></i>
-                            }
-                        </div>
+                        @if (category.IsDeleted)
+                        {
+                            <i class="fas fa-check text-primary" data-toggle="tooltip" data-html="true" data-placement="top" title="@category.DeletedOn.ToString("g")"></i>
+                        }
+                        else
+                        {
+                            <i class="fas fa-times text-primary"></i>
+                        }
                     </th>
                     <th>
                         @if (category.IsDeleted)
@@ -57,11 +63,33 @@
                         }
                         <a asp-controller="Categories" asp-action="Edit" asp-route-id="@category.Id" class="pl-2 text-primary" data-toggle="tooltip" data-placement="right" title="Edit the category"><i class="fas fa-edit"></i></a>
                         <a asp-controller="Categories" asp-action="AddSubCategory" asp-route-id="@category.Id" class="pl-2 text-success" data-toggle="tooltip" data-placement="right" title="Add a subCategory"><i class="fas fa-plus"></i></a>
-                        <a asp-controller="Categories" asp-action="Delete" class="pl-2 text-info" data-toggle="tooltip" data-placement="right" title="Get list of subCategories"><i class="fas fa-list-ol"></i></a>
+                        <a colspan="2" class="pl-2 text-info" data-toggle="tooltip" data-placement="right" title="Show subCategories" style="cursor: pointer;"><i class="fas fa-list-ol"></i></a>
                     </th>
-                </tr>
-            }
+                    @foreach (var subCategory in category.SubCategories)
+                    {
+                    <tr>
+                        <td>1.</td>
+                        <td>@subCategory.Name</td>
+                        <td>@subCategory.CreatedOn.ToString("g")</td>
+                        <td>
+                            <i class="fas fa-times text-primary"></i>
+                        </td>
+                        <td>
+                            <a asp-controller="Categories" asp-action="Delete" asp-route-id="@category.Id" class="pl-2 text-danger" data-toggle="tooltip" data-placement="right" title="Delete the subCategory"><i class="fas fa-times"></i></a>
+                            <a asp-controller="Categories" asp-action="Edit" asp-route-id="@category.Id" class="pl-2 text-primary" data-toggle="tooltip" data-placement="right" title="Edit the subCategory"><i class="fas fa-edit"></i></a>
+                        </td>
+                    </tr>
+                }
+                    </tr>
+                }
         </tbody>
     </table>
 </div>
 <partial name="_PagingPartial" model="@this.Model" />
+<script>
+    $('tr.header').click(function () {
+        $(this).nextUntil('tr.header').css('display', function (i, v) {
+            return this.style.display === 'table-row' ? 'none' : 'table-row';
+        });
+    });
+</script>
