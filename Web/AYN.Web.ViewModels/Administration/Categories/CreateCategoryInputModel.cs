@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 
 using static AYN.Common.AttributeConstraints;
 
-namespace AYN.Web.ViewModels.Categories
+namespace AYN.Web.ViewModels.Administration.Categories
 {
     public class CreateCategoryInputModel
     {

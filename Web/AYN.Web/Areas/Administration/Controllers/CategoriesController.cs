@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 using AYN.Services.Data.Interfaces;
 using AYN.Web.ViewModels.Administration.Categories;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AYN.Web.Areas.Administration.Controllers
@@ -11,10 +12,14 @@ namespace AYN.Web.Areas.Administration.Controllers
     public class CategoriesController : AdministrationController
     {
         private readonly ICategoriesService categoriesService;
+        private readonly IWebHostEnvironment environment;
 
-        public CategoriesController(ICategoriesService categoriesService)
+        public CategoriesController(
+            ICategoriesService categoriesService,
+            IWebHostEnvironment environment)
         {
             this.categoriesService = categoriesService;
+            this.environment = environment;
         }
 
         [HttpGet]
@@ -32,6 +37,71 @@ namespace AYN.Web.Areas.Administration.Controllers
             };
 
             return this.View(viewModel);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateCategoryInputModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(input);
+            }
+
+            var wwwrootPath = this.environment
+                .WebRootPath;
+
+            try
+            {
+                await this.categoriesService.CreateAsync(input, wwwrootPath);
+            }
+            catch (InvalidOperationException ioe)
+            {
+                this.ModelState.AddModelError(string.Empty, ioe.Message);
+
+                return this.View(input);
+            }
+
+            return this.Redirect("/");
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var viewModel = await this.categoriesService
+                .GetByIdAsync<EditCategoryInputModel>(id);
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditCategoryInputModel input, int id)
+        {
+            var wwwrootPath = this.environment
+                .WebRootPath;
+
+            await this.categoriesService.UpdateAsync(input, id, wwwrootPath);
+
+            return this.Redirect("/Administration/Categories/All");
+        }
+
+        [HttpGet]
+        public IActionResult AddSubCategory()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddSubCategory(AddSubCategoryInputModel input, int id)
+        {
+            await this.categoriesService.AddSubCategoryAsync(input, id);
+            return this.Redirect("/Administration/Categories/All");
         }
 
         [HttpGet]

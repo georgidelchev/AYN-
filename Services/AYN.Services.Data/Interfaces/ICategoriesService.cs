@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using AYN.Web.ViewModels.Administration.Categories;
 using AYN.Web.ViewModels.Categories;
+
+using EditCategoryInputModel = AYN.Web.ViewModels.Administration.Categories.EditCategoryInputModel;
 
 namespace AYN.Services.Data.Interfaces
 {
@@ -17,7 +19,7 @@ namespace AYN.Services.Data.Interfaces
 
         Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKeyValuePairsAsync();
 
-        Task AddSubCategoryAsync(AddSubCategoryViewModel input, int categoryId);
+        Task AddSubCategoryAsync(AddSubCategoryInputModel input, int categoryId);
 
         Task<T> GetByIdAsync<T>(int categoryId);
 

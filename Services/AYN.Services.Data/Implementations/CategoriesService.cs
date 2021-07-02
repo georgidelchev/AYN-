@@ -8,8 +8,10 @@ using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Services.Data.Interfaces;
 using AYN.Services.Mapping;
+using AYN.Web.ViewModels.Administration.Categories;
 using AYN.Web.ViewModels.Categories;
 using Microsoft.EntityFrameworkCore;
+using EditCategoryInputModel = AYN.Web.ViewModels.Administration.Categories.EditCategoryInputModel;
 
 namespace AYN.Services.Data.Implementations
 {
@@ -104,7 +106,7 @@ namespace AYN.Services.Data.Implementations
                 .Select(c => new KeyValuePair<string, string>(c.Id.ToString(), c.Name))
                 .ToListAsync();
 
-        public async Task AddSubCategoryAsync(AddSubCategoryViewModel input, int categoryId)
+        public async Task AddSubCategoryAsync(AddSubCategoryInputModel input, int categoryId)
             => await this.subCategoriesService.CreateAsync(input, categoryId);
 
         public async Task<T> GetByIdAsync<T>(int categoryId)

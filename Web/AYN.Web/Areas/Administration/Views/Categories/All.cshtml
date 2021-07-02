@@ -8,6 +8,10 @@
     <h1>@this.ViewData["Title"]</h1>
 </div>
 
+<div class="text-center">
+    <a asp-controller="Categories" asp-action="Create" class="pl-2 text-success" data-toggle="tooltip" data-placement="top" title="Create new category"><i class="fas fa-plus"></i></a>
+</div>
+<br/>
 
 <partial name="_PagingPartial" model="@this.Model" />
 <div class="table-responsive">
@@ -51,8 +55,8 @@
                         {
                             <a asp-controller="Categories" asp-action="Delete" asp-route-id="@category.Id" class="pl-2 text-danger" data-toggle="tooltip" data-placement="right" title="Delete the category"><i class="fas fa-times"></i></a>
                         }
-                        <a asp-controller="Categories" asp-action="Delete" class="pl-2 text-primary" data-toggle="tooltip" data-placement="right" title="Edit the category"><i class="fas fa-edit"></i></a>
-                        <a asp-controller="Categories" asp-action="Delete" class="pl-2 text-success" data-toggle="tooltip" data-placement="right" title="Add a subCategory"><i class="fas fa-plus"></i></a>
+                        <a asp-controller="Categories" asp-action="Edit" asp-route-id="@category.Id" class="pl-2 text-primary" data-toggle="tooltip" data-placement="right" title="Edit the category"><i class="fas fa-edit"></i></a>
+                        <a asp-controller="Categories" asp-action="AddSubCategory" asp-route-id="@category.Id" class="pl-2 text-success" data-toggle="tooltip" data-placement="right" title="Add a subCategory"><i class="fas fa-plus"></i></a>
                         <a asp-controller="Categories" asp-action="Delete" class="pl-2 text-info" data-toggle="tooltip" data-placement="right" title="Get list of subCategories"><i class="fas fa-list-ol"></i></a>
                     </th>
                 </tr>
