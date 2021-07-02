@@ -86,6 +86,12 @@ namespace AYN.Services.Data.Implementations
                 .All()
                 .To<T>();
 
+        public async Task<IEnumerable<T>> GetAllWithDeletedAsync<T>()
+            => await this.categoriesRepository
+                .AllWithDeleted()
+                .To<T>()
+                .ToListAsync();
+
         public async Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKeyValuePairsAsync()
             => await this.categoriesRepository
                 .All()
@@ -161,6 +167,19 @@ namespace AYN.Services.Data.Implementations
             await this.categoriesRepository.SaveChangesAsync();
         }
 
+        public async Task UnDeleteAsync(int id)
+        {
+            var category = this.categoriesRepository
+                .AllWithDeleted()
+                .FirstOrDefault(c => c.Id == id);
+
+            category.IsDeleted = false;
+            category.DeletedOn = null;
+
+            this.categoriesRepository.Update(category);
+            await this.categoriesRepository.SaveChangesAsync();
+        }
+
         public Tuple<int, int> GetCounts()
         {
             var activeCategories = this.categoriesRepository
@@ -173,5 +192,10 @@ namespace AYN.Services.Data.Implementations
 
             return new Tuple<int, int>(activeCategories, deletedCategories);
         }
+
+        public int GetTotalCount()
+            => this.categoriesRepository
+                .AllWithDeleted()
+                .Count();
     }
 }

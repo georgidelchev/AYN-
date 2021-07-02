@@ -13,6 +13,8 @@ namespace AYN.Services.Data.Interfaces
 
         IQueryable<T> GetAll<T>();
 
+        Task<IEnumerable<T>> GetAllWithDeletedAsync<T>();
+
         Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKeyValuePairsAsync();
 
         Task AddSubCategoryAsync(AddSubCategoryViewModel input, int categoryId);
@@ -23,6 +25,10 @@ namespace AYN.Services.Data.Interfaces
 
         Task DeleteAsync(int id);
 
+        Task UnDeleteAsync(int id);
+
         Tuple<int, int> GetCounts();
+
+        int GetTotalCount();
     }
 }

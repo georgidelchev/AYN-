@@ -18,19 +18,34 @@ namespace AYN.Web.Areas.Administration.Controllers
         }
 
         [HttpGet]
-        public IActionResult All(int id = 1)
+        public async Task<IActionResult> All(int id = 1)
         {
-            var categories = this.categoriesService.GetAll<GetAllCategoriesViewModel>().ToList();
+            var categories = await this.categoriesService
+                .GetAllWithDeletedAsync<GetAllCategoriesViewModel>();
 
             var viewModel = new ListAllCategoriesViewModel()
             {
                 AllCategories = categories.Skip((id - 1) * 12).Take(12),
-                Count = this.categoriesService.GetCounts().Item1,
+                Count = this.categoriesService.GetTotalCount(),
                 ItemsPerPage = 12,
                 PageNumber = id,
             };
 
             return this.View(viewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await this.categoriesService.DeleteAsync(id);
+            return this.Redirect("/Administration/Categories/All");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UnDelete(int id)
+        {
+            await this.categoriesService.UnDeleteAsync(id);
+            return this.Redirect("/Administration/Categories/All");
         }
     }
 }
