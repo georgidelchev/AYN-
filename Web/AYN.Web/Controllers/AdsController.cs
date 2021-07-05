@@ -124,9 +124,9 @@ namespace AYN.Web.Controllers
 
                 return this.View(viewModel);
             }
-            catch (Exception e)
+            catch
             {
-                return this.View();
+                return this.Redirect($"/Ads/All?search={search}");
             }
         }
 

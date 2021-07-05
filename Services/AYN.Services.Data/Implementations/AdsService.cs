@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
+using AYN.Data.Models.Enumerations;
 using AYN.Services.Data.Interfaces;
 using AYN.Services.Mapping;
 using AYN.Web.ViewModels.Ads;
@@ -19,7 +20,6 @@ namespace AYN.Services.Data.Implementations
         private readonly IImageProcessingService imageProcessingService;
         private readonly IImageService imageService;
         private readonly ICategoriesService categoriesService;
-        private readonly ISubCategoriesService subCategoriesService;
         private readonly ITownsService townsService;
 
         public AdsService(
@@ -27,14 +27,12 @@ namespace AYN.Services.Data.Implementations
             IImageProcessingService imageProcessingService,
             IImageService imageService,
             ICategoriesService categoriesService,
-            ISubCategoriesService subCategoriesService,
             ITownsService townsService)
         {
             this.adsRepository = adsRepository;
             this.imageProcessingService = imageProcessingService;
             this.imageService = imageService;
             this.categoriesService = categoriesService;
-            this.subCategoriesService = subCategoriesService;
             this.townsService = townsService;
         }
 
@@ -86,6 +84,16 @@ namespace AYN.Services.Data.Implementations
         public async Task<IEnumerable<T>> GetRecent12AdsAsync<T>()
             => await this.adsRepository
                 .All()
+                .OrderBy(a => a.IsPromoted)
+                .ThenByDescending(a => a.CreatedOn)
+                .Take(12)
+                .To<T>()
+                .ToListAsync();
+
+        public async Task<IEnumerable<T>> GetRecent12PromotedAdsAsync<T>()
+            => await this.adsRepository
+                .All()
+                .Where(a => a.IsPromoted)
                 .OrderByDescending(a => a.CreatedOn)
                 .Take(12)
                 .To<T>()
@@ -112,10 +120,16 @@ namespace AYN.Services.Data.Implementations
                                      a.SubCategoryId == categoryId.Value);
             }
 
-            // order parameter (desc or asc)(orderBy)
-            ads = orderBy.Contains("Desc") ?
-                ads.OrderByDescendingDynamic(a => $"a.{orderBy.Substring(0, orderBy.Length - 4)}") :
-                ads.OrderByDynamic(a => $"a.{orderBy.Substring(0, orderBy.Length - 3)}");
+            ads = orderBy switch
+            {
+                "createdOnDesc" => ads.OrderByDescending(a => a.CreatedOn),
+                "createdOnAsc" => ads.OrderBy(a => a.CreatedOn),
+                "nameAsc" => ads.OrderBy(a => a.Name),
+                "nameDesc" => ads.OrderByDescending(a => a.Name),
+                "priceAsc" => ads.OrderBy(a => a.Price),
+                "priceDesc" => ads.OrderByDescending(a => a.Price),
+                _ => throw new ArgumentException("Invalid order type"),
+            };
 
             return await ads
                 .To<T>()
@@ -259,6 +273,21 @@ namespace AYN.Services.Data.Implementations
             if (!this.townsService.IsTownContainsGivenAddress(input.TownId, input.AddressId))
             {
                 throw new ArgumentException("This town doesn't contains this address.");
+            }
+
+            if (!Enum.IsDefined(typeof(ProductCondition), input.ProductCondition))
+            {
+                throw new ArgumentException("Invalid product condition.");
+            }
+
+            if (!Enum.IsDefined(typeof(DeliveryTake), input.DeliveryTake))
+            {
+                throw new ArgumentException("Invalid delivery take.");
+            }
+
+            if (!Enum.IsDefined(typeof(AdType), input.AdType))
+            {
+                throw new ArgumentException("Invalid ad type.");
             }
         }
     }

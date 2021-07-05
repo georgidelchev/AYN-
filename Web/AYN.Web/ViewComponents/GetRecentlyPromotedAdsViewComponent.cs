@@ -1,17 +1,17 @@
 ﻿using System.Threading.Tasks;
 
-using AYN.Services.Data;
 using AYN.Services.Data.Interfaces;
 using AYN.Web.ViewModels.Ads;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AYN.Web.ViewComponents
 {
-    public class GetRecentAdsViewComponent : ViewComponent
+    public class GetRecentlyPromotedAdsViewComponent : ViewComponent
     {
         private readonly IAdsService adsService;
 
-        public GetRecentAdsViewComponent(IAdsService adsService)
+        public GetRecentlyPromotedAdsViewComponent(
+            IAdsService adsService)
         {
             this.adsService = adsService;
         }
@@ -20,8 +20,7 @@ namespace AYN.Web.ViewComponents
         {
             var viewModel = new ListAdsViewModel()
             {
-                Ads = await this.adsService
-                    .GetRecent12AdsAsync<GetAdsViewModel>(),
+                Ads = await this.adsService.GetRecent12PromotedAdsAsync<GetAdsViewModel>(),
             };
 
             return this.View(viewModel);
