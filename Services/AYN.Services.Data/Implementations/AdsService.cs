@@ -18,19 +18,30 @@ namespace AYN.Services.Data.Implementations
         private readonly IDeletableEntityRepository<Ad> adsRepository;
         private readonly IImageProcessingService imageProcessingService;
         private readonly IImageService imageService;
+        private readonly ICategoriesService categoriesService;
+        private readonly ISubCategoriesService subCategoriesService;
+        private readonly ITownsService townsService;
 
         public AdsService(
             IDeletableEntityRepository<Ad> adsRepository,
             IImageProcessingService imageProcessingService,
-            IImageService imageService)
+            IImageService imageService,
+            ICategoriesService categoriesService,
+            ISubCategoriesService subCategoriesService,
+            ITownsService townsService)
         {
             this.adsRepository = adsRepository;
             this.imageProcessingService = imageProcessingService;
             this.imageService = imageService;
+            this.categoriesService = categoriesService;
+            this.subCategoriesService = subCategoriesService;
+            this.townsService = townsService;
         }
 
         public async Task CreateAsync(CreateAdInputModel input, string userId, string imagePath)
         {
+            this.ValidateInput(input);
+
             var physicalPath = $"{imagePath}/img/AdsPictures/";
             Directory.CreateDirectory(physicalPath);
 
@@ -226,6 +237,29 @@ namespace AYN.Services.Data.Implementations
 
             this.adsRepository.Update(ad);
             await this.adsRepository.SaveChangesAsync();
+        }
+
+        private void ValidateInput(CreateAdInputModel input)
+        {
+            if (!this.categoriesService.IsExisting(input.CategoryId))
+            {
+                throw new ArgumentException("Invalid category.");
+            }
+
+            if (!this.categoriesService.IsCategoryContainsGivenSubCategory(input.CategoryId, input.SubCategoryId))
+            {
+                throw new ArgumentException("This category doesn't contains this subCategory.");
+            }
+
+            if (!this.townsService.IsExisting(input.TownId))
+            {
+                throw new ArgumentException("Invalid town.");
+            }
+
+            if (!this.townsService.IsTownContainsGivenAddress(input.TownId, input.AddressId))
+            {
+                throw new ArgumentException("This town doesn't contains this address.");
+            }
         }
     }
 }

@@ -1,5 +1,9 @@
 ﻿@using AYN.Common
 @using System.Security.Claims
+@using AYN.Data.Models
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<ApplicationUser> SignInManager
 
 <!DOCTYPE html>
 <html lang="en">
@@ -26,22 +30,29 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1 ml-5" style="font-size: 1.5rem;">
-                        <li class="nav-item">
-                            <a class="nav-link text-primary ml-5" data-toggle="tooltip" data-placement="top" title="Home" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-warning ml-5" data-toggle="tooltip" data-placement="top" title="All Ads" asp-area="" asp-controller="Ads" asp-action="All"><i class="fas fa-store"></i></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-success ml-5" data-toggle="tooltip" data-placement="top" title="Create Ad" asp-area="" asp-controller="Ads" asp-action="Create"><i class="fas fa-plus"></i></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-info ml-5" data-toggle="tooltip" data-placement="top" title="Your notifications" asp-area="" asp-controller="Notifications" asp-action="All">
-                                <i class="fas fa-bell"></i>
-                                <span class="badge badge-light text-success" id="notificationsCount">0</span>
-                                <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId" />
-                            </a>
-                        </li>
+                        @if (this.User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-primary ml-5" data-toggle="tooltip" data-placement="top" title="Home" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i></a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-warning ml-5" data-toggle="tooltip" data-placement="top" title="All Ads" asp-area="" asp-controller="Ads" asp-action="All"><i class="fas fa-store"></i></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-success ml-5" data-toggle="tooltip" data-placement="top" title="Create Ad" asp-area="" asp-controller="Ads" asp-action="Create"><i class="fas fa-plus"></i></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-info ml-5" data-toggle="tooltip" data-placement="top" title="Your notifications" asp-area="" asp-controller="Notifications" asp-action="All">
+                                    <i class="fas fa-bell"></i>
+                                    <span class="badge badge-light text-success" id="notificationsCount"></span>
+                                    <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId" />
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-secondary ml-5" data-toggle="tooltip" data-placement="top" title="Messages" asp-area="" asp-controller="Ads" asp-action="Create"><i class="fas fa-envelope-open"></i></a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

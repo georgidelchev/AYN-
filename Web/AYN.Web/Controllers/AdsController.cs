@@ -47,6 +47,7 @@ namespace AYN.Web.Controllers
                 Categories = await this.categoriesService.GetAllAsKeyValuePairsAsync(),
                 Towns = await this.townsService.GetAllAsKeyValuePairsAsync(),
             };
+
             return this.View(viewModel);
         }
 
@@ -55,7 +56,20 @@ namespace AYN.Web.Controllers
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            await this.adsService.CreateAsync(input, userId, this.environment.WebRootPath);
+            try
+            {
+                await this.adsService.CreateAsync(input, userId, this.environment.WebRootPath);
+            }
+            catch (Exception e)
+            {
+                input.Categories = await this.categoriesService.GetAllAsKeyValuePairsAsync();
+                input.Towns = await this.townsService.GetAllAsKeyValuePairsAsync();
+
+                this.ModelState.AddModelError(string.Empty, e.Message);
+
+                return this.View(input);
+            }
+
             return this.Redirect("/");
         }
 

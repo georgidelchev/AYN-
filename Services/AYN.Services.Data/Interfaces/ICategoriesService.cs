@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using AYN.Web.ViewModels.Administration.Categories;
-using AYN.Web.ViewModels.Categories;
 
 using EditCategoryInputModel = AYN.Web.ViewModels.Administration.Categories.EditCategoryInputModel;
 
@@ -32,5 +32,9 @@ namespace AYN.Services.Data.Interfaces
         Tuple<int, int> GetCounts();
 
         int GetTotalCount();
+
+        bool IsExisting(int categoryId);
+
+        bool IsCategoryContainsGivenSubCategory(int categoryId, int subCategoryId);
     }
 }

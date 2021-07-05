@@ -8,5 +8,9 @@ namespace AYN.Services.Data.Interfaces
         Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKeyValuePairsAsync();
 
         int GetIdByName(string townName);
+
+        bool IsExisting(int townId);
+
+        bool IsTownContainsGivenAddress(int townId, int addressId);
     }
 }

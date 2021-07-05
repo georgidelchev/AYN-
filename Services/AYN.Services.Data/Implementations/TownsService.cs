@@ -36,5 +36,20 @@ namespace AYN.Services.Data.Implementations
                 .All()
                 .FirstOrDefault(t => t.Name.ToLower() == townName.ToLower())
                 .Id;
+
+        public bool IsExisting(int townId)
+            => this.townsRepository
+                .All()
+                .Any(t => t.Id == townId);
+
+        public bool IsTownContainsGivenAddress(int townId, int addressId)
+        {
+            var town = this.townsRepository
+                .All()
+                .Include(t => t.Addresses)
+                .FirstOrDefault(t => t.Id == townId);
+
+            return town.Addresses.Any(a => a.Id == addressId);
+        }
     }
 }

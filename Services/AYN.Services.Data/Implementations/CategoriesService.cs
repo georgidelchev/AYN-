@@ -199,5 +199,20 @@ namespace AYN.Services.Data.Implementations
             => this.categoriesRepository
                 .AllWithDeleted()
                 .Count();
+
+        public bool IsExisting(int categoryId)
+            => this.categoriesRepository
+                .All()
+                .Any(c => c.Id == categoryId);
+
+        public bool IsCategoryContainsGivenSubCategory(int categoryId, int subCategoryId)
+        {
+            var category = this.categoriesRepository
+                .All()
+                .Include(c => c.SubCategories)
+                .FirstOrDefault(c => c.Id == categoryId);
+
+            return category.SubCategories.Any(sc => sc.Id == subCategoryId);
+        }
     }
 }
