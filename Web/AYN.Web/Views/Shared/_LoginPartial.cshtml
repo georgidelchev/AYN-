@@ -5,22 +5,29 @@
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@{
+    var user = this.UserManager
+        .Users
+        .FirstOrDefault(u => u.Id == this.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+}
 
 <ul class="navbar-nav">
     @if (this.SignInManager.IsSignedIn(this.User))
     {
         <li class="nav-item">
-            <a class="nav-link text-dark"  asp-area="" asp-controller="Users" asp-action="Profile" asp-route-id="@this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value" title="Manage">Hello @this.User.Identity?.Name!</a>
+            <a class="nav-link text-dark" data-toggle="tooltip" data-placement="top" title="Profile" asp-area="" asp-controller="Users" asp-action="Profile" asp-route-id="@user?.Id">
+                <img src="/img/UsersAvatars/@if (user?.AvatarExtension == null){<text>@user?.Id.ToString()_DEFAULT.png</text>}else{<text>@user.Id.@user.AvatarExtension</text>}" alt="" class="user-profile img-fluid rounded-circle" style="width: 50px;height: 50px">
+            </a>
         </li>
-        if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
         {
             <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Administration" asp-controller="Panels" asp-action="Index" title="Admin">Admin</a>
+                <a class="nav-link text-danger" data-toggle="tooltip" data-placement="top" title="Administration Settings" asp-area="Administration" asp-controller="Panels" asp-action="Index"><i class="fas fa-tools" style="font-size: 1.5rem;"></i></a>
             </li>
         }
         <li class="nav-item">
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@this.Url.Action("Index", "Home", new { area = string.Empty })">
-                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            <form class="form-inline" data-toggle="tooltip" data-placement="top" title="Logout" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@this.Url.Action("Index", "Home", new { area = string.Empty })">
+                <button type="submit" class="nav-link btn btn-link text-muted"><i class="fas fa-sign-out-alt" style="font-size: 1.5rem;"></i></button>
             </form>
         </li>
     }
