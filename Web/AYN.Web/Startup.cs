@@ -83,7 +83,6 @@ namespace AYN.Web
             services.AddTransient<IPostReactsService, PostReactsService>();
             services.AddTransient<ISubCategoriesService, SubCategoriesService>();
             services.AddTransient<INotificationsService, NotificationsService>();
-            services.AddTransient<IImageProcessingService, ImageProcessingService>();
             services.AddTransient<IValidator<CreateAdInputModel>, CreateAdValidator>();
         }
 

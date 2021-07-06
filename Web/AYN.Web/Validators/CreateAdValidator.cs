@@ -11,16 +11,16 @@ namespace AYN.Web.Validators
     {
         private readonly ICategoriesService categoriesService;
         private readonly ITownsService townsService;
-        private readonly IImageProcessingService imageProcessingService;
+        private readonly IImageService imageService;
 
         public CreateAdValidator(
             ICategoriesService categoriesService,
             ITownsService townsService,
-            IImageProcessingService imageProcessingService)
+            IImageService imageService)
         {
             this.categoriesService = categoriesService;
             this.townsService = townsService;
-            this.imageProcessingService = imageProcessingService;
+            this.imageService = imageService;
         }
 
         public string Validate(CreateAdInputModel entity)
@@ -59,9 +59,9 @@ namespace AYN.Web.Validators
             {
                 foreach (var picture in entity.Pictures)
                 {
-                    var extension = this.imageProcessingService.GetImageExtension(picture);
+                    var extension = this.imageService.GetImageExtension(picture);
 
-                    if (!this.imageProcessingService.IsExtensionValid(extension))
+                    if (!this.imageService.IsExtensionValid(extension))
                     {
                         errorMessage = "Invalid Image.";
                     }
