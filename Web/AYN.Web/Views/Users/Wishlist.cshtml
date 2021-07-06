@@ -1,4 +1,6 @@
-﻿@{
+﻿@model AYN.Web.ViewModels.Users.UserWishlistViewModel
+
+@{
     this.ViewData["Title"] = "Wishlist";
 }
 
@@ -6,3 +8,19 @@
     <h1>@this.ViewData["Title"]</h1>
 </div>
 
+<div class="row">
+
+    @foreach (var ad in this.Model.AdsWishlist)
+    {
+    <div class="col-md-3">
+        <div class="card">
+            <img class="card-img-top" src="/img/AdsPictures/1-@ad.Id.@ad.PictureExtension" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@ad.Name</h5>
+                <p class="card-text">@ad.Description</p>
+                <a asp-controller="Users" asp-action="Profile" asp-route-id="@ad.AddedByUserId">@ad.AddedByUserUsername</a>
+            </div>
+        </div>
+    </div>
+    }
+</div>

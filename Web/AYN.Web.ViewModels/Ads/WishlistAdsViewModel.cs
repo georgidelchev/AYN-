@@ -1,13 +1,18 @@
 ﻿using System;
-
+using System.Linq;
+using AutoMapper;
 using AYN.Data.Models;
 using AYN.Services.Mapping;
 
 namespace AYN.Web.ViewModels.Ads
 {
-    public class WishlistAdsViewModel : IMapFrom<Ad>
+    public class WishlistAdsViewModel : IMapFrom<Ad>, IHaveCustomMappings
     {
         public string Id { get; set; }
+
+        public string Name { get; set; }
+
+        public string Description { get; set; }
 
         public string PictureExtension { get; set; }
 
@@ -20,5 +25,11 @@ namespace AYN.Web.ViewModels.Ads
         public string AddedByUserId { get; set; }
 
         public string AddedByUserUsername { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<Ad, WishlistAdsViewModel>()
+                .ForMember(m => m.PictureExtension, opt => opt.MapFrom(o => o.Pictures.FirstOrDefault().Extension));
+        }
     }
 }

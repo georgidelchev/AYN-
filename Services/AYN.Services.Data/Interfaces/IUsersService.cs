@@ -40,9 +40,5 @@ namespace AYN.Services.Data.Interfaces
         Task Ban(BanUserInputModel input, string userId);
 
         Task Unban(string userId);
-
-        Task AddAdToWishlist(string adId, string userId);
-
-        Task<IEnumerable<T>> Wishlist<T>(string userId);
     }
 }

@@ -123,7 +123,7 @@ namespace AYN.Web.Controllers
         public async Task<IActionResult> Wishlist(int id = 1)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var wishlist = await this.usersService.Wishlist<WishlistAdsViewModel>(userId);
+            var wishlist = await this.wishlistsService.Wishlist<WishlistAdsViewModel>(userId);
             var viewModel = new UserWishlistViewModel()
             {
                 AdsWishlist = wishlist.Skip((id - 1) * 12).Take(12),
@@ -140,7 +140,7 @@ namespace AYN.Web.Controllers
         public async Task<IActionResult> AddToWishlist(string adId)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            await this.usersService.AddAdToWishlist(adId, userId);
+            await this.wishlistsService.AddAsync(adId, userId);
             return this.Redirect($"/Ads/Details?id={adId}");
         }
     }

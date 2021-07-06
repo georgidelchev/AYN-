@@ -262,36 +262,6 @@ namespace AYN.Services.Data.Implementations
             await this.applicationUserRepository.SaveChangesAsync();
         }
 
-        public async Task AddAdToWishlist(string adId, string userId)
-        {
-            var user = this.applicationUserRepository
-                .All()
-                .Include(au => au.Wishlist)
-                .FirstOrDefault(au => au.Id == userId);
-
-            if (user.Wishlist.Any(wl => wl.UserId == userId && wl.AdId == adId))
-            {
-                return;
-            }
-
-            user?.Wishlist.Add(new Wishlist()
-            {
-                AdId = adId,
-                UserId = userId,
-            });
-
-            this.applicationUserRepository.Update(user);
-            await this.applicationUserRepository.SaveChangesAsync();
-        }
-
-        public async Task<IEnumerable<T>> Wishlist<T>(string userId)
-            => await this.applicationUserRepository
-                .All()
-                .Where(au => au.Id == userId)
-                .Include(au => au.Wishlist)
-                .To<T>()
-                .ToListAsync();
-
         private static async Task ProcessDefaultImage(string text, string fullPhysicalPath, int width, int height, string fontName, int emSize, FontStyle fontStyle)
         {
             if (string.IsNullOrEmpty(text))
