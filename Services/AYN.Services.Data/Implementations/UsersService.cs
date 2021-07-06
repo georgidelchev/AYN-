@@ -22,16 +22,16 @@ namespace AYN.Services.Data.Implementations
     {
         private readonly IDeletableEntityRepository<ApplicationUser> applicationUserRepository;
         private readonly IDeletableEntityRepository<FollowerFollowee> followerFolloweesRepository;
-        private readonly IImageProcessingService imageProcessingService;
+        private readonly IImageService imageService;
 
         public UsersService(
             IDeletableEntityRepository<ApplicationUser> applicationUserRepository,
             IDeletableEntityRepository<FollowerFollowee> followerFolloweesRepository,
-            IImageProcessingService imageProcessingService)
+            IImageService imageService)
         {
             this.applicationUserRepository = applicationUserRepository;
             this.followerFolloweesRepository = followerFolloweesRepository;
-            this.imageProcessingService = imageProcessingService;
+            this.imageService = imageService;
         }
 
         public async Task<IEnumerable<T>> GetAll<T>()
@@ -138,8 +138,8 @@ namespace AYN.Services.Data.Implementations
 
             if (model.EditUserGeneralInfoViewModel.Avatar is not null)
             {
-                var avatarExtension = this.imageProcessingService.GetImageExtension(model.EditUserGeneralInfoViewModel.Avatar);
-                this.imageProcessingService.IsExtensionValid(avatarExtension);
+                var avatarExtension = this.imageService.GetImageExtension(model.EditUserGeneralInfoViewModel.Avatar);
+                this.imageService.IsExtensionValid(avatarExtension);
 
                 var physicalPath = $"{wwwRootPath}/img/UsersAvatars/";
                 Directory.CreateDirectory($"{physicalPath}");
@@ -154,13 +154,13 @@ namespace AYN.Services.Data.Implementations
                 await model.EditUserGeneralInfoViewModel.Avatar.CopyToAsync(fileStream);
                 await fileStream.DisposeAsync();
 
-                await this.imageProcessingService.SaveImageLocallyAsync(fullPhysicalPath, 192, 192);
+                await this.imageService.SaveImageLocallyAsync(fullPhysicalPath, 192, 192);
             }
 
             if (model.EditUserGeneralInfoViewModel.Thumbnail is not null)
             {
-                var thumbnailExtension = this.imageProcessingService.GetImageExtension(model.EditUserGeneralInfoViewModel.Thumbnail);
-                this.imageProcessingService.IsExtensionValid(thumbnailExtension);
+                var thumbnailExtension = this.imageService.GetImageExtension(model.EditUserGeneralInfoViewModel.Thumbnail);
+                this.imageService.IsExtensionValid(thumbnailExtension);
 
                 var physicalPath = $"{wwwRootPath}/img/UsersThumbnails/";
                 Directory.CreateDirectory($"{physicalPath}");
@@ -175,14 +175,14 @@ namespace AYN.Services.Data.Implementations
                 await model.EditUserGeneralInfoViewModel.Thumbnail.CopyToAsync(fileStream);
                 await fileStream.DisposeAsync();
 
-                await this.imageProcessingService.SaveImageLocallyAsync(fullPhysicalPath, 1110, 350);
+                await this.imageService.SaveImageLocallyAsync(fullPhysicalPath, 1110, 350);
             }
 
-            if (user.FirstName != model.EditUserGeneralInfoViewModel.FirstName ||
-                user.LastName != model.EditUserGeneralInfoViewModel.LastName)
+            if (user?.FirstName != model.EditUserGeneralInfoViewModel.FirstName ||
+                user?.LastName != model.EditUserGeneralInfoViewModel.LastName)
             {
-                await this.GenerateDefaultAvatar(model.EditUserGeneralInfoViewModel.FirstName, model.EditUserGeneralInfoViewModel.LastName, user.Id, wwwRootPath);
-                await this.GenerateDefaultThumbnail(model.EditUserGeneralInfoViewModel.FirstName, model.EditUserGeneralInfoViewModel.LastName, user.Id, wwwRootPath);
+                await this.GenerateDefaultAvatar(model.EditUserGeneralInfoViewModel.FirstName, model.EditUserGeneralInfoViewModel.LastName, user?.Id, wwwRootPath);
+                await this.GenerateDefaultThumbnail(model.EditUserGeneralInfoViewModel.FirstName, model.EditUserGeneralInfoViewModel.LastName, user?.Id, wwwRootPath);
             }
 
             user.FirstName = model.EditUserGeneralInfoViewModel.FirstName;

@@ -17,20 +17,17 @@ namespace AYN.Services.Data.Implementations
     public class AdsService : IAdsService
     {
         private readonly IDeletableEntityRepository<Ad> adsRepository;
-        private readonly IImageProcessingService imageProcessingService;
         private readonly IImageService imageService;
         private readonly ICategoriesService categoriesService;
         private readonly ITownsService townsService;
 
         public AdsService(
             IDeletableEntityRepository<Ad> adsRepository,
-            IImageProcessingService imageProcessingService,
             IImageService imageService,
             ICategoriesService categoriesService,
             ITownsService townsService)
         {
             this.adsRepository = adsRepository;
-            this.imageProcessingService = imageProcessingService;
             this.imageService = imageService;
             this.categoriesService = categoriesService;
             this.townsService = townsService;
@@ -41,7 +38,7 @@ namespace AYN.Services.Data.Implementations
             var physicalPath = $"{imagePath}/img/AdsPictures/";
             Directory.CreateDirectory(physicalPath);
 
-            var ad = new Ad()
+            var ad = new Ad
             {
                 AdType = input.AdType,
                 AddedByUserId = userId,
@@ -60,26 +57,13 @@ namespace AYN.Services.Data.Implementations
             await this.adsRepository.AddAsync(ad);
             await this.adsRepository.SaveChangesAsync();
 
-            var index = 1;
-            foreach (var picture in input.Pictures)
-            {
-                var extension = this.imageProcessingService.GetImageExtension(picture);
-                await this.imageService.CreateAsync(ad.Id, extension);
-
-                var fullPhysicalPath = physicalPath + $"{index++}-{ad.Id}.{extension}";
-
-                await using var fileStream = new FileStream(fullPhysicalPath, FileMode.Create);
-
-                await picture.CopyToAsync(fileStream);
-                await fileStream.DisposeAsync();
-
-                await this.imageProcessingService.SaveImageLocallyAsync(fullPhysicalPath, 900, 600);
-            }
+            await this.SaveImagesLocally(input, ad, physicalPath);
         }
 
         public async Task<IEnumerable<T>> GetRecent12AdsAsync<T>()
             => await this.adsRepository
                 .All()
+                .Where(a => !a.IsArchived)
                 .OrderBy(a => a.IsPromoted)
                 .ThenByDescending(a => a.CreatedOn)
                 .Take(12)
@@ -89,7 +73,7 @@ namespace AYN.Services.Data.Implementations
         public async Task<IEnumerable<T>> GetRecent12PromotedAdsAsync<T>()
             => await this.adsRepository
                 .All()
-                .Where(a => a.IsPromoted)
+                .Where(a => a.IsPromoted && !a.IsArchived)
                 .OrderByDescending(a => a.CreatedOn)
                 .Take(12)
                 .To<T>()
@@ -97,9 +81,7 @@ namespace AYN.Services.Data.Implementations
 
         public async Task<IEnumerable<T>> GetAllAsync<T>(string search, string orderBy, int? categoryId)
         {
-            var ads = this.adsRepository
-                .All()
-                .Where(a => !a.IsArchived);
+            var ads = this.adsRepository.All().Where(a => !a.IsArchived);
 
             if (search is not null)
             {
@@ -118,36 +100,34 @@ namespace AYN.Services.Data.Implementations
 
             ads = orderBy switch
             {
-                "createdOnDesc" => ads.OrderByDescending(a => a.CreatedOn),
-                "createdOnAsc" => ads.OrderBy(a => a.CreatedOn),
-                "nameAsc" => ads.OrderBy(a => a.Name),
-                "nameDesc" => ads.OrderByDescending(a => a.Name),
-                "priceAsc" => ads.OrderBy(a => a.Price),
-                "priceDesc" => ads.OrderByDescending(a => a.Price),
-                _ => throw new ArgumentException("Invalid order type"),
+                "createdOnDesc" => ads.OrderBy(a => a.IsPromoted).ThenByDescending(a => a.CreatedOn),
+                "createdOnAsc" => ads.OrderBy(a => a.IsPromoted).ThenBy(a => a.CreatedOn),
+                "nameAsc" => ads.OrderBy(a => a.IsPromoted).ThenBy(a => a.Name),
+                "nameDesc" => ads.OrderBy(a => a.IsPromoted).ThenByDescending(a => a.Name),
+                "priceAsc" => ads.OrderBy(a => a.IsPromoted).ThenBy(a => a.Price),
+                "priceDesc" => ads.OrderBy(a => a.IsPromoted).ThenByDescending(a => a.Price),
+                _ => throw new ArgumentException(),
             };
 
-            return await ads
-                .To<T>()
-                .ToListAsync();
+            return await ads.To<T>().ToListAsync();
         }
 
         public int GetCount()
             => this.adsRepository
                 .All()
-                .Count();
+                .Count(a => !a.IsArchived);
 
         public async Task<T> GetDetails<T>(string id)
             => await this.adsRepository
                 .All()
-                .Where(a => a.Id == id)
+                .Where(a => a.Id == id && !a.IsArchived)
                 .To<T>()
                 .FirstOrDefaultAsync();
 
         public async Task<IEnumerable<T>> GetUserAllAds<T>(string userId)
             => await this.adsRepository
                 .All()
-                .Where(u => u.AddedByUserId == userId)
+                .Where(u => u.AddedByUserId == userId && !u.IsArchived)
                 .OrderByDescending(a => a.CreatedOn)
                 .Include(a => a.AddedByUser)
                 .To<T>()
@@ -156,7 +136,7 @@ namespace AYN.Services.Data.Implementations
         public async Task<IEnumerable<T>> GetUserRecentAds<T>(string userId)
             => await this.adsRepository
                 .All()
-                .Where(u => u.AddedByUserId == userId)
+                .Where(u => u.AddedByUserId == userId && !u.IsArchived)
                 .OrderByDescending(a => a.CreatedOn)
                 .Take(12)
                 .Include(a => a.AddedByUser)
@@ -247,6 +227,27 @@ namespace AYN.Services.Data.Implementations
 
             this.adsRepository.Update(ad);
             await this.adsRepository.SaveChangesAsync();
+        }
+
+        // Helper methods
+        private async Task SaveImagesLocally(CreateAdInputModel input, Ad ad, string physicalPath)
+        {
+            var index = 1;
+            foreach (var picture in input.Pictures)
+            {
+                var extension = this.imageService.GetImageExtension(picture);
+
+                await this.imageService.CreateAsync(ad.Id, extension);
+
+                var fullPhysicalPath = physicalPath + $"{index++}-{ad.Id}.{extension}";
+
+                await using var fileStream = new FileStream(fullPhysicalPath, FileMode.Create);
+
+                await picture.CopyToAsync(fileStream);
+                await fileStream.DisposeAsync();
+
+                await this.imageService.SaveImageLocallyAsync(fullPhysicalPath, 900, 600);
+            }
         }
     }
 }

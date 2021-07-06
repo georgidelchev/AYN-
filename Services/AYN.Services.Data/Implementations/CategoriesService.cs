@@ -9,8 +9,8 @@ using AYN.Data.Models;
 using AYN.Services.Data.Interfaces;
 using AYN.Services.Mapping;
 using AYN.Web.ViewModels.Administration.Categories;
-using AYN.Web.ViewModels.Categories;
 using Microsoft.EntityFrameworkCore;
+
 using EditCategoryInputModel = AYN.Web.ViewModels.Administration.Categories.EditCategoryInputModel;
 
 namespace AYN.Services.Data.Implementations
@@ -20,18 +20,18 @@ namespace AYN.Services.Data.Implementations
         private readonly IDeletableEntityRepository<Category> categoriesRepository;
         private readonly IDeletableEntityRepository<SubCategory> subCategoriesRepository;
         private readonly ISubCategoriesService subCategoriesService;
-        private readonly IImageProcessingService imageProcessingService;
+        private readonly IImageService imageService;
 
         public CategoriesService(
             IDeletableEntityRepository<Category> categoriesRepository,
             IDeletableEntityRepository<SubCategory> subCategoriesRepository,
             ISubCategoriesService subCategoriesService,
-            IImageProcessingService imageProcessingService)
+            IImageService imageService)
         {
             this.categoriesRepository = categoriesRepository;
             this.subCategoriesRepository = subCategoriesRepository;
             this.subCategoriesService = subCategoriesService;
-            this.imageProcessingService = imageProcessingService;
+            this.imageService = imageService;
         }
 
         public async Task CreateAsync(CreateCategoryInputModel input, string imagePath)
@@ -39,8 +39,8 @@ namespace AYN.Services.Data.Implementations
             var physicalPath = $"{imagePath}/img/CategoriesPictures/";
             Directory.CreateDirectory($"{physicalPath}");
 
-            var extension = this.imageProcessingService.GetImageExtension(input.Picture);
-            this.imageProcessingService.IsExtensionValid(extension);
+            var extension = this.imageService.GetImageExtension(input.Picture);
+            this.imageService.IsExtensionValid(extension);
 
             var category = new Category()
             {
@@ -80,7 +80,7 @@ namespace AYN.Services.Data.Implementations
             await input.Picture.CopyToAsync(fileStream);
             await fileStream.DisposeAsync();
 
-            await this.imageProcessingService.SaveImageLocallyAsync(fullPhysicalPath, 100, 100);
+            await this.imageService.SaveImageLocallyAsync(fullPhysicalPath, 100, 100);
         }
 
         public IQueryable<T> GetAll<T>()
@@ -134,8 +134,8 @@ namespace AYN.Services.Data.Implementations
                 Directory.CreateDirectory($"{physicalPath}");
                 File.Delete(physicalPath + $"{category.Id}.{category.PictureExtension}");
 
-                var extension = this.imageProcessingService.GetImageExtension(input.Picture);
-                this.imageProcessingService.IsExtensionValid(extension);
+                var extension = this.imageService.GetImageExtension(input.Picture);
+                this.imageService.IsExtensionValid(extension);
 
                 category.PictureExtension = extension;
 
@@ -149,7 +149,7 @@ namespace AYN.Services.Data.Implementations
                 await input.Picture.CopyToAsync(fileStream);
                 await fileStream.DisposeAsync();
 
-                await this.imageProcessingService.SaveImageLocallyAsync(fullPhysicalPath, 100, 100);
+                await this.imageService.SaveImageLocallyAsync(fullPhysicalPath, 100, 100);
             }
         }
 
