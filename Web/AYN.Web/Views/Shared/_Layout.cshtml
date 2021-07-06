@@ -19,78 +19,94 @@
     <link href="/css/reactions.scss" rel="stylesheet" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName - All You Need</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1 ml-5" style="font-size: 1.5rem;">
-                        @if (this.User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-primary ml-5" data-toggle="tooltip" data-placement="top" title="Home" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i></a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-warning ml-5" data-toggle="tooltip" data-placement="top" title="All Ads" asp-area="" asp-controller="Ads" asp-action="All"><i class="fas fa-store"></i></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-success ml-5" data-toggle="tooltip" data-placement="top" title="Create Ad" asp-area="" asp-controller="Ads" asp-action="Create"><i class="fas fa-plus"></i></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-info ml-5" data-toggle="tooltip" data-placement="top" title="Your notifications" asp-area="" asp-controller="Notifications" asp-action="All">
-                                    <i class="fas fa-bell"></i>
-                                    <span class="badge badge-light text-success" id="notificationsCount"></span>
-                                    <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId" />
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-secondary ml-5" data-toggle="tooltip" data-placement="top" title="Messages" asp-area="" asp-controller="Ads" asp-action="Create"><i class="fas fa-envelope-open"></i></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-danger ml-5" data-toggle="tooltip" data-placement="top" title="Your ad wishlist" asp-area="" asp-controller="Users" asp-action="Wishlist"><i class="fas fa-heart"></i></a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <div class="container">
-        <partial name="_CookieConsentPartial" />
-
-        <main role="main" class="pb-3">
-            @this.RenderBody()
-        </main>
-    </div>
-
-    <footer>
+<header>
+    <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container">
-            <div class="card-body bg-light p-3">
-                <div class="float-center"><a href="/">AYN.com</a> 2021-@DateTime.Now.Year - <a href="https://github.com/georgidelchev/AYN-" target="_blank">Open source system</a></div>
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName - All You Need</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <partial name="_LoginPartial" />
+                <ul class="navbar-nav flex-grow-1 ml-5" style="font-size: 1.5rem;">
+                    @if (this.User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-primary ml-5" data-toggle="tooltip" data-placement="top" title="Home" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i></a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-warning ml-5" data-toggle="tooltip" data-placement="top" title="All Ads" asp-area="" asp-controller="Ads" asp-action="All"><i class="fas fa-store"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-success ml-5" data-toggle="tooltip" data-placement="top" title="Create Ad" asp-area="" asp-controller="Ads" asp-action="Create"><i class="fas fa-plus"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-info ml-5" data-toggle="tooltip" data-placement="top" title="Your notifications" asp-area="" asp-controller="Notifications" asp-action="All">
+                                <i class="fas fa-bell"></i>
+                                <span class="badge badge-light text-success" id="notificationsCount"></span>
+                                <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId" />
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-secondary ml-5" data-toggle="tooltip" data-placement="top" title="Messages" asp-area="" asp-controller="Ads" asp-action="Create"><i class="fas fa-envelope-open"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-danger ml-5" data-toggle="tooltip" data-placement="top" title="Your ads wishlist" asp-area="" asp-controller="Users" asp-action="Wishlist">
+                                <i class="fas fa-heart"></i>
+                                <span class="badge badge-light text-success" id="wishlistCount"></span>
+                                <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId" />
+                            </a>
+                        </li>
+                    }
+                </ul>
             </div>
         </div>
-    </footer>
+    </nav>
+</header>
 
-    <script src="/vendor/jquery/jquery.min.js" asp-append-version="true"></script>
-    <script src="/vendor/popper/popper.min.js" asp-append-version="true"></script>
-    <script src="/vendor/bootstrap/bootstrap.min.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
-    <script src="~/js/site.min.js" asp-append-version="true"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
-    <script src="/js/lazy.js" asp-append-version="true"></script>
+<div class="container">
+    <partial name="_CookieConsentPartial" />
 
-    @await this.RenderSectionAsync("Scripts", required: false)
+    <main role="main" class="pb-3">
+        @this.RenderBody()
+    </main>
+</div>
+
+<footer>
+    <div class="container">
+        <div class="card-body bg-light p-3">
+            <div class="float-center"><a href="/">AYN.com</a> 2021-@DateTime.Now.Year - <a href="https://github.com/georgidelchev/AYN-" target="_blank">Open source system</a></div>
+        </div>
+    </div>
+</footer>
+
+<script src="/vendor/jquery/jquery.min.js" asp-append-version="true"></script>
+<script src="/vendor/popper/popper.min.js" asp-append-version="true"></script>
+<script src="/vendor/bootstrap/bootstrap.min.js" asp-append-version="true"></script>
+<script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
+<script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
+<script src="~/js/site.min.js" asp-append-version="true"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
+<script src="/js/lazy.js" asp-append-version="true"></script>
+
+@await this.RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<script>
+    document.addEventListener("DOMContentLoaded",
+        function getNotificationsCount() {
+            let wishlistCounter = document.getElementById("wishlistCount");
+            let userId = document.getElementById("userId").value;
+
+            fetch(`/Wishlists/Count?userId=${userId}`)
+                .then(response => response.json())
+                .then(wishlistCount => wishlistCounter.textContent = wishlistCount)
+        });
+</script>
 
 <script>
     document.addEventListener("DOMContentLoaded",

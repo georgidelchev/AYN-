@@ -79,6 +79,7 @@ namespace AYN.Web
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IAddressesService, AddressesService>();
+            services.AddTransient<IWishlistsService, WishlistsService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
             services.AddTransient<IPostReactsService, PostReactsService>();
             services.AddTransient<ISubCategoriesService, SubCategoriesService>();

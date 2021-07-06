@@ -266,7 +266,13 @@ namespace AYN.Services.Data.Implementations
         {
             var user = this.applicationUserRepository
                 .All()
+                .Include(au => au.Wishlist)
                 .FirstOrDefault(au => au.Id == userId);
+
+            if (user.Wishlist.Any(wl => wl.UserId == userId && wl.AdId == adId))
+            {
+                return;
+            }
 
             user?.Wishlist.Add(new Wishlist()
             {
@@ -282,6 +288,7 @@ namespace AYN.Services.Data.Implementations
             => await this.applicationUserRepository
                 .All()
                 .Where(au => au.Id == userId)
+                .Include(au => au.Wishlist)
                 .To<T>()
                 .ToListAsync();
 
