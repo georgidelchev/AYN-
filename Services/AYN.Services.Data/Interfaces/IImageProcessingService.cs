@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Http;
 
 namespace AYN.Services.Data.Interfaces
@@ -7,7 +8,7 @@ namespace AYN.Services.Data.Interfaces
     {
         string GetImageExtension(IFormFile image);
 
-        void ValidateImageExtension(string extension);
+        bool IsExtensionValid(string extension);
 
         Task SaveImageLocallyAsync(string fullPhysicalPath, int imageWidth, int imageHeight);
     }

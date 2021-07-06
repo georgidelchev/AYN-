@@ -139,7 +139,7 @@ namespace AYN.Services.Data.Implementations
             if (model.EditUserGeneralInfoViewModel.Avatar is not null)
             {
                 var avatarExtension = this.imageProcessingService.GetImageExtension(model.EditUserGeneralInfoViewModel.Avatar);
-                this.imageProcessingService.ValidateImageExtension(avatarExtension);
+                this.imageProcessingService.IsExtensionValid(avatarExtension);
 
                 var physicalPath = $"{wwwRootPath}/img/UsersAvatars/";
                 Directory.CreateDirectory($"{physicalPath}");
@@ -160,7 +160,7 @@ namespace AYN.Services.Data.Implementations
             if (model.EditUserGeneralInfoViewModel.Thumbnail is not null)
             {
                 var thumbnailExtension = this.imageProcessingService.GetImageExtension(model.EditUserGeneralInfoViewModel.Thumbnail);
-                this.imageProcessingService.ValidateImageExtension(thumbnailExtension);
+                this.imageProcessingService.IsExtensionValid(thumbnailExtension);
 
                 var physicalPath = $"{wwwRootPath}/img/UsersThumbnails/";
                 Directory.CreateDirectory($"{physicalPath}");

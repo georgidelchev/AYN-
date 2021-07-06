@@ -11,8 +11,9 @@ using AYN.Services.Data.Implementations;
 using AYN.Services.Data.Interfaces;
 using AYN.Services.Mapping;
 using AYN.Services.Messaging;
+using AYN.Web.Validators;
 using AYN.Web.ViewModels;
-
+using AYN.Web.ViewModels.Ads;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -83,6 +84,7 @@ namespace AYN.Web
             services.AddTransient<ISubCategoriesService, SubCategoriesService>();
             services.AddTransient<INotificationsService, NotificationsService>();
             services.AddTransient<IImageProcessingService, ImageProcessingService>();
+            services.AddTransient<IValidator<CreateAdInputModel>, CreateAdValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using AYN.Services.Data;
 using AYN.Services.Data.Interfaces;
+using AYN.Web.Validators;
 using AYN.Web.ViewModels.Ads;
 using AYN.Web.ViewModels.Categories;
 using AYN.Web.ViewModels.SubCategories;
@@ -24,19 +25,22 @@ namespace AYN.Web.Controllers
         private readonly IAdsService adsService;
         private readonly IWebHostEnvironment environment;
         private readonly ISubCategoriesService subCategoriesService;
+        private readonly IValidator<CreateAdInputModel> createAdValidator;
 
         public AdsController(
             ICategoriesService categoriesService,
             ITownsService townsService,
             IAdsService adsService,
             IWebHostEnvironment environment,
-            ISubCategoriesService subCategoriesService)
+            ISubCategoriesService subCategoriesService,
+            IValidator<CreateAdInputModel> createAdValidator)
         {
             this.categoriesService = categoriesService;
             this.townsService = townsService;
             this.adsService = adsService;
             this.environment = environment;
             this.subCategoriesService = subCategoriesService;
+            this.createAdValidator = createAdValidator;
         }
 
         [HttpGet]
@@ -54,22 +58,20 @@ namespace AYN.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateAdInputModel input)
         {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var result = this.createAdValidator.Validate(input);
 
-            try
-            {
-                await this.adsService.CreateAsync(input, userId, this.environment.WebRootPath);
-            }
-            catch (Exception e)
+            if (result is not null)
             {
                 input.Categories = await this.categoriesService.GetAllAsKeyValuePairsAsync();
                 input.Towns = await this.townsService.GetAllAsKeyValuePairsAsync();
 
-                this.ModelState.AddModelError(string.Empty, e.Message);
-
+                this.ModelState.AddModelError(string.Empty, result);
                 return this.View(input);
             }
 
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            await this.adsService.CreateAsync(input, userId, this.environment.WebRootPath);
             return this.Redirect("/");
         }
 

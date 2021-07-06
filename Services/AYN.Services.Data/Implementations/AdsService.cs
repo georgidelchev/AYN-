@@ -38,8 +38,6 @@ namespace AYN.Services.Data.Implementations
 
         public async Task CreateAsync(CreateAdInputModel input, string userId, string imagePath)
         {
-            this.ValidateInput(input);
-
             var physicalPath = $"{imagePath}/img/AdsPictures/";
             Directory.CreateDirectory(physicalPath);
 
@@ -66,8 +64,6 @@ namespace AYN.Services.Data.Implementations
             foreach (var picture in input.Pictures)
             {
                 var extension = this.imageProcessingService.GetImageExtension(picture);
-                this.imageProcessingService.ValidateImageExtension(extension);
-
                 await this.imageService.CreateAsync(ad.Id, extension);
 
                 var fullPhysicalPath = physicalPath + $"{index++}-{ad.Id}.{extension}";
@@ -251,44 +247,6 @@ namespace AYN.Services.Data.Implementations
 
             this.adsRepository.Update(ad);
             await this.adsRepository.SaveChangesAsync();
-        }
-
-        private void ValidateInput(CreateAdInputModel input)
-        {
-            if (!this.categoriesService.IsExisting(input.CategoryId))
-            {
-                throw new ArgumentException("Invalid category.");
-            }
-
-            if (!this.categoriesService.IsCategoryContainsGivenSubCategory(input.CategoryId, input.SubCategoryId))
-            {
-                throw new ArgumentException("This category doesn't contains this subCategory.");
-            }
-
-            if (!this.townsService.IsExisting(input.TownId))
-            {
-                throw new ArgumentException("Invalid town.");
-            }
-
-            if (!this.townsService.IsTownContainsGivenAddress(input.TownId, input.AddressId))
-            {
-                throw new ArgumentException("This town doesn't contains this address.");
-            }
-
-            if (!Enum.IsDefined(typeof(ProductCondition), input.ProductCondition))
-            {
-                throw new ArgumentException("Invalid product condition.");
-            }
-
-            if (!Enum.IsDefined(typeof(DeliveryTake), input.DeliveryTake))
-            {
-                throw new ArgumentException("Invalid delivery take.");
-            }
-
-            if (!Enum.IsDefined(typeof(AdType), input.AdType))
-            {
-                throw new ArgumentException("Invalid ad type.");
-            }
         }
     }
 }

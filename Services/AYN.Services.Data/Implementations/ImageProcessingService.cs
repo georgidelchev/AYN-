@@ -21,13 +21,8 @@ namespace AYN.Services.Data.Implementations
                 .TrimEnd()
                 .ToLower();
 
-        public void ValidateImageExtension(string extension)
-        {
-            if (!this.allowedImageExtensions.Contains(extension))
-            {
-                throw new InvalidOperationException("Invalid image.");
-            }
-        }
+        public bool IsExtensionValid(string extension)
+            => this.allowedImageExtensions.Contains(extension);
 
         public async Task SaveImageLocallyAsync(string fullPhysicalPath, int imageWidth, int imageHeight)
         {

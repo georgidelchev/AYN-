@@ -40,7 +40,7 @@ namespace AYN.Services.Data.Implementations
             Directory.CreateDirectory($"{physicalPath}");
 
             var extension = this.imageProcessingService.GetImageExtension(input.Picture);
-            this.imageProcessingService.ValidateImageExtension(extension);
+            this.imageProcessingService.IsExtensionValid(extension);
 
             var category = new Category()
             {
@@ -135,7 +135,7 @@ namespace AYN.Services.Data.Implementations
                 File.Delete(physicalPath + $"{category.Id}.{category.PictureExtension}");
 
                 var extension = this.imageProcessingService.GetImageExtension(input.Picture);
-                this.imageProcessingService.ValidateImageExtension(extension);
+                this.imageProcessingService.IsExtensionValid(extension);
 
                 category.PictureExtension = extension;
 

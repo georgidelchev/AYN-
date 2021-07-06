@@ -60,12 +60,16 @@
             <select id="category-selector" asp-for="CategoryId" class="form-control" asp-items="categories">
                 <option selected disabled>Choose Category</option>
             </select>
-            &nbsp;
-            <span asp-validation-for="SubCategoryId" class="text-danger"></span>
+        </div>
+    </div>
 
+    <div>
+        <span asp-validation-for="SubCategoryId" class="text-danger"></span>
+
+        <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label asp-for="SubCategoryId" class="input-group-text">
-                    <i class="fas fa-list-ul"></i>
+                    <i class="fas fa-list-ol"></i>
                 </label>
             </div>
             <select id="subcategory-selector" asp-for="SubCategoryId" class="form-control">
@@ -112,10 +116,13 @@
             <select id="town-selector" asp-for="TownId" class="form-control" asp-items="towns">
                 <option selected disabled>Choose Town</option>
             </select>
+        </div>
+    </div>
 
-            &nbsp;
-            <span asp-validation-for="AddressId" class="text-danger"></span>
+    <div>
+        <span asp-validation-for="TownId" class="text-danger"></span>
 
+        <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label asp-for="AddressId" class="input-group-text">
                     <i class="fas fa-map-marked-alt"></i>
@@ -184,11 +191,14 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Pictures"></label>
-        <input asp-for="Pictures" class="form-control" />
-        <span asp-validation-for="Pictures" class="text-danger"></span>
+    <div class="input-group">
+        <div class="custom-file">
+            <input class="custom-file-input" id="inputGroupFile02" asp-for="Pictures">
+            <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Upload some pictures about the product</label>
+            <span asp-validation-for="Pictures" class="text-danger"></span>
+        </div>
     </div>
+    <br />
 
     <button type="submit" class="btn btn-primary btn-sm">Submit</button>
     <hr />
