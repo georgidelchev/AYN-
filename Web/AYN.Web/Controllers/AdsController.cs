@@ -137,5 +137,10 @@ namespace AYN.Web.Controllers
             var viewModel = await this.adsService.GetDetails<GetDetailsViewModel>(id);
             return this.View(viewModel);
         }
+
+        public async Task<IActionResult> ByUserId(string id)
+        {
+            return this.View();
+        }
     }
 }

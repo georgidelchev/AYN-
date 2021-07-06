@@ -112,5 +112,21 @@ namespace AYN.Web.Controllers
 
             return this.Redirect($"/Users/Profile?id={this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value}");
         }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Wishlist(string id)
+        {
+            var viewModel = 1;
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddToWishlist(string adId)
+        {
+
+            return this.Redirect($"/Ads/Details?id={adId}");
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using AYN.Web.ViewModels.Administration.Users;
 using AYN.Web.ViewModels.Users;
 
@@ -39,5 +40,7 @@ namespace AYN.Services.Data.Interfaces
         Task Ban(BanUserInputModel input, string userId);
 
         Task Unban(string userId);
+
+        Task AddAdToWishlist(string adId, string userId);
     }
 }
