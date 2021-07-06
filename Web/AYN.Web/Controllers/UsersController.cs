@@ -1,8 +1,10 @@
-﻿using System.Security.Claims;
+﻿using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 using AYN.Services.Data;
 using AYN.Services.Data.Interfaces;
+using AYN.Web.ViewModels.Ads;
 using AYN.Web.ViewModels.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -15,15 +17,18 @@ namespace AYN.Web.Controllers
         private readonly IUsersService usersService;
         private readonly ITownsService townsService;
         private readonly IWebHostEnvironment environment;
+        private readonly IWishlistsService wishlistsService;
 
         public UsersController(
             IUsersService usersService,
             ITownsService townsService,
-            IWebHostEnvironment environment)
+            IWebHostEnvironment environment,
+            IWishlistsService wishlistsService)
         {
             this.usersService = usersService;
             this.townsService = townsService;
             this.environment = environment;
+            this.wishlistsService = wishlistsService;
         }
 
         [HttpGet]
@@ -115,9 +120,18 @@ namespace AYN.Web.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> Wishlist(string id)
+        public async Task<IActionResult> Wishlist(int id = 1)
         {
-            var viewModel = 1;
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var wishlist = await this.usersService.Wishlist<WishlistAdsViewModel>(userId);
+            var viewModel = new UserWishlistViewModel()
+            {
+                AdsWishlist = wishlist.Skip((id - 1) * 12).Take(12),
+                Count = this.wishlistsService.Count(userId),
+                ItemsPerPage = 12,
+                PageNumber = id,
+            };
+
             return this.View(viewModel);
         }
 
