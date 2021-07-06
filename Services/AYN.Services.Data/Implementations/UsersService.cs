@@ -23,15 +23,18 @@ namespace AYN.Services.Data.Implementations
         private readonly IDeletableEntityRepository<ApplicationUser> applicationUserRepository;
         private readonly IDeletableEntityRepository<FollowerFollowee> followerFolloweesRepository;
         private readonly IImageService imageService;
+        private readonly IAdsService adsService;
 
         public UsersService(
             IDeletableEntityRepository<ApplicationUser> applicationUserRepository,
             IDeletableEntityRepository<FollowerFollowee> followerFolloweesRepository,
-            IImageService imageService)
+            IImageService imageService,
+            IAdsService adsService)
         {
             this.applicationUserRepository = applicationUserRepository;
             this.followerFolloweesRepository = followerFolloweesRepository;
             this.imageService = imageService;
+            this.adsService = adsService;
         }
 
         public async Task<IEnumerable<T>> GetAll<T>()
@@ -258,6 +261,29 @@ namespace AYN.Services.Data.Implementations
             this.applicationUserRepository.Update(user);
             await this.applicationUserRepository.SaveChangesAsync();
         }
+
+        public async Task AddAdToWishlist(string adId, string userId)
+        {
+            var user = this.applicationUserRepository
+                .All()
+                .FirstOrDefault(au => au.Id == userId);
+
+            user?.Wishlist.Add(new Wishlist()
+            {
+                AdId = adId,
+                UserId = userId,
+            });
+
+            this.applicationUserRepository.Update(user);
+            await this.applicationUserRepository.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<T>> Wishlist<T>(string userId)
+            => await this.applicationUserRepository
+                .All()
+                .Where(au => au.Id == userId)
+                .To<T>()
+                .ToListAsync();
 
         private static async Task ProcessDefaultImage(string text, string fullPhysicalPath, int width, int height, string fontName, int emSize, FontStyle fontStyle)
         {

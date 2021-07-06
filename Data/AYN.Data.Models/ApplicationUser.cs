@@ -117,5 +117,8 @@ namespace AYN.Data.Models
 
         public virtual ICollection<PostReact> PostReacts { get; set; }
             = new HashSet<PostReact>();
+
+        public virtual ICollection<Wishlist> Wishlist { get; set; }
+            = new HashSet<Wishlist>();
     }
 }

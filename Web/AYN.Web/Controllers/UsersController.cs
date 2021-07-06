@@ -121,11 +121,12 @@ namespace AYN.Web.Controllers
             return this.View(viewModel);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Authorize]
         public async Task<IActionResult> AddToWishlist(string adId)
         {
-
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            await this.usersService.AddAdToWishlist(adId, userId);
             return this.Redirect($"/Ads/Details?id={adId}");
         }
     }

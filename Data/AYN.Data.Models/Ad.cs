@@ -83,8 +83,5 @@ namespace AYN.Data.Models
 
         public virtual ICollection<Report> Reports { get; set; }
             = new HashSet<Report>();
-
-        public virtual ICollection<Wishlist> Wishlists { get; set; }
-            = new HashSet<Wishlist>();
     }
 }
