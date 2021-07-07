@@ -35,6 +35,11 @@
         // Picture model
         public const int PictureExtensionMaxLength = 6;
 
+        // Message model
+        public const int MessageContentMinLength = 1;
+        public const int MessageContentMaxLength = 1000;
+
+
         // Report model
         public const int ReportContentMinLength = 20;
         public const int ReportContentMaxLength = 1000;
