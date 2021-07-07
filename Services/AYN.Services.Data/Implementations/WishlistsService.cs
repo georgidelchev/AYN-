@@ -36,18 +36,25 @@ namespace AYN.Services.Data.Implementations
             await this.wishlistsRepository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<T>> Wishlist<T>(string userId)
+        public async Task RemoveAsync(string adId, string userId)
         {
-            var wishlist = await this.wishlistsRepository
+            var wishlist = this.wishlistsRepository
+                .All()
+                .FirstOrDefault(wl => wl.UserId == userId && wl.AdId == adId);
+
+            this.wishlistsRepository.Delete(wishlist);
+            await this.wishlistsRepository.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<T>> Wishlist<T>(string userId)
+            => await this.wishlistsRepository
                 .All()
                 .Where(wl => wl.UserId == userId)
+                .OrderByDescending(wl => wl.CreatedOn)
                 .Include(wl => wl.Ad)
                 .Select(wl => wl.Ad)
                 .To<T>()
                 .ToListAsync();
-
-            return wishlist;
-        }
 
         public int Count(string userId)
             => this.wishlistsRepository

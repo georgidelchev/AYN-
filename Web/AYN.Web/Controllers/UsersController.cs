@@ -117,31 +117,5 @@ namespace AYN.Web.Controllers
 
             return this.Redirect($"/Users/Profile?id={this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value}");
         }
-
-        [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> Wishlist(int id = 1)
-        {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var wishlist = await this.wishlistsService.Wishlist<WishlistAdsViewModel>(userId);
-            var viewModel = new UserWishlistViewModel()
-            {
-                AdsWishlist = wishlist.Skip((id - 1) * 12).Take(12),
-                Count = this.wishlistsService.Count(userId),
-                ItemsPerPage = 12,
-                PageNumber = id,
-            };
-
-            return this.View(viewModel);
-        }
-
-        [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> AddToWishlist(string adId)
-        {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            await this.wishlistsService.AddAsync(adId, userId);
-            return this.Redirect($"/Ads/Details?id={adId}");
-        }
     }
 }

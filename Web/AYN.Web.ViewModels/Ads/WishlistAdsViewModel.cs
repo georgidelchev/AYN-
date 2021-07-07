@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Linq;
+
 using AutoMapper;
 using AYN.Data.Models;
 using AYN.Services.Mapping;
+
+using static AYN.Common.AttributeConstraints;
 
 namespace AYN.Web.ViewModels.Ads
 {
@@ -13,6 +16,9 @@ namespace AYN.Web.ViewModels.Ads
         public string Name { get; set; }
 
         public string Description { get; set; }
+
+        public string ShortDescription
+            => this.Description.Substring(0, DescriptionMinLength);
 
         public string PictureExtension { get; set; }
 

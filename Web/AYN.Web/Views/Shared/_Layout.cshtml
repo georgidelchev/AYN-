@@ -53,7 +53,7 @@
                             <a class="nav-link text-secondary ml-5" data-toggle="tooltip" data-placement="top" title="Messages" asp-area="" asp-controller="Ads" asp-action="Create"><i class="fas fa-envelope-open"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-danger ml-5" data-toggle="tooltip" data-placement="top" title="Your ads wishlist" asp-area="" asp-controller="Users" asp-action="Wishlist">
+                            <a class="nav-link text-danger ml-5" data-toggle="tooltip" data-placement="top" title="Your ads wishlist" asp-area="" asp-controller="Wishlists" asp-action="Favorites">
                                 <i class="fas fa-heart"></i>
                                 <span class="badge badge-light text-success" id="wishlistCount"></span>
                                 <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId" />
