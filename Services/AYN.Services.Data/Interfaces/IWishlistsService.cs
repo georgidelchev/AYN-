@@ -12,5 +12,7 @@ namespace AYN.Services.Data.Interfaces
         Task<IEnumerable<T>> Wishlist<T>(string userId);
 
         int Count(string userId);
+
+        bool IsUserHaveGivenWishlist(string adId, string userId);
     }
 }

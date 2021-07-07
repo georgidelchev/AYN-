@@ -13,11 +13,14 @@ namespace AYN.Web.Controllers
     public class WishlistsController : Controller
     {
         private readonly IWishlistsService wishlistsService;
+        private readonly IAdsService adsService;
 
         public WishlistsController(
-            IWishlistsService wishlistsService)
+            IWishlistsService wishlistsService,
+            IAdsService adsService)
         {
             this.wishlistsService = wishlistsService;
+            this.adsService = adsService;
         }
 
         [HttpGet]
@@ -43,6 +46,10 @@ namespace AYN.Web.Controllers
         public async Task<IActionResult> AddToWishlist(string adId)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!this.adsService.IsAdExisting(adId))
+            {
+                return this.Redirect("/");
+            }
 
             await this.wishlistsService.AddAsync(adId, userId);
             return this.Redirect($"/Ads/Details?id={adId}");
@@ -53,6 +60,10 @@ namespace AYN.Web.Controllers
         public async Task<IActionResult> RemoveFromWishlist(string id)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!this.wishlistsService.IsUserHaveGivenWishlist(id, userId))
+            {
+                return this.Redirect($"/Wishlists/Favorites");
+            }
 
             await this.wishlistsService.RemoveAsync(id, userId);
             return this.Redirect($"/Wishlists/Favorites");

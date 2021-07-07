@@ -229,6 +229,11 @@ namespace AYN.Services.Data.Implementations
             await this.adsRepository.SaveChangesAsync();
         }
 
+        public bool IsAdExisting(string adId)
+            => this.adsRepository
+                .All()
+                .Any(a => a.Id == adId);
+
         // Helper methods
         private async Task SaveImagesLocally(CreateAdInputModel input, Ad ad, string physicalPath)
         {

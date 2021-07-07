@@ -35,5 +35,7 @@ namespace AYN.Services.Data.Interfaces
         Task Promote(DateTime promoteUntil, string adId);
 
         Task UnPromote(string adId);
+
+        bool IsAdExisting(string adId);
     }
 }
