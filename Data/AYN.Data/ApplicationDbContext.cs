@@ -63,10 +63,6 @@ namespace AYN.Data
 
         public DbSet<UserNotification> UsersNotifications { get; set; }
 
-        public DbSet<ChatConversation> ChatConversations { get; set; }
-
-        public DbSet<Message> Messages { get; set; }
-
         public DbSet<Setting> Settings { get; set; }
 
         public override int SaveChanges()

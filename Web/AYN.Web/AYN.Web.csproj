@@ -46,8 +46,4 @@
     <ProjectReference Include="..\AYN.Web.Infrastructure\AYN.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\AYN.Web.ViewModels\AYN.Web.ViewModels.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Hubs\" />
-  </ItemGroup>
 </Project>

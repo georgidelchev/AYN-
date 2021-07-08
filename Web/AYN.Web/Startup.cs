@@ -10,7 +10,6 @@ using AYN.Services.Data.Implementations;
 using AYN.Services.Data.Interfaces;
 using AYN.Services.Mapping;
 using AYN.Services.Messaging;
-using AYN.Web.Hubs;
 using AYN.Web.Validators;
 using AYN.Web.ViewModels;
 using AYN.Web.ViewModels.Ads;
@@ -131,7 +130,6 @@ namespace AYN.Web
                     {
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
-                        endpoints.MapHub<ChatHub>("/chatHub");
                         endpoints.MapRazorPages();
                     });
         }
