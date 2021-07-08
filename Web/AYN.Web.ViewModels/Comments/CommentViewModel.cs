@@ -14,5 +14,7 @@ namespace AYN.Web.ViewModels.Comments
         public string AddedByUserUsername { get; set; }
 
         public string AddedByUserId { get; set; }
+
+        public string AddedByUserAvatarExtension { get; set; }
     }
 }
