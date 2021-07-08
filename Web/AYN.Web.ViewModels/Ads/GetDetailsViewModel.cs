@@ -6,6 +6,7 @@ using AutoMapper;
 using AYN.Data.Models;
 using AYN.Data.Models.Enumerations;
 using AYN.Services.Mapping;
+using AYN.Web.ViewModels.Comments;
 
 namespace AYN.Web.ViewModels.Ads
 {
@@ -57,6 +58,8 @@ namespace AYN.Web.ViewModels.Ads
         public int ActiveAdsCount { get; set; }
 
         public IEnumerable<string> PictureExtensions { get; set; }
+
+        public ICollection<CommentViewModel> Comments { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {
