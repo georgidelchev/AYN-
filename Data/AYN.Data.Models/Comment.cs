@@ -22,7 +22,7 @@ namespace AYN.Data.Models
         public virtual ApplicationUser AddedByUser { get; set; }
 
         [Required]
-        public int AdId { get; set; }
+        public string AdId { get; set; }
 
         public virtual Ad Ad { get; set; }
 

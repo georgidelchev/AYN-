@@ -121,6 +121,7 @@ namespace AYN.Services.Data.Implementations
             => await this.adsRepository
                 .All()
                 .Where(a => a.Id == id && !a.IsArchived)
+                .Include(a => a.Comments)
                 .To<T>()
                 .FirstOrDefaultAsync();
 
