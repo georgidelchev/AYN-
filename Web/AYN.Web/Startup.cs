@@ -6,11 +6,11 @@ using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Data.Repositories;
 using AYN.Data.Seeding;
-using AYN.Services.Data;
 using AYN.Services.Data.Implementations;
 using AYN.Services.Data.Interfaces;
 using AYN.Services.Mapping;
 using AYN.Services.Messaging;
+using AYN.Web.Hubs;
 using AYN.Web.Validators;
 using AYN.Web.ViewModels;
 using AYN.Web.ViewModels.Ads;
@@ -68,7 +68,7 @@ namespace AYN.Web
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
-
+            services.AddSignalR();
             // Application services
             services.AddTransient<IAdsService, AdsService>();
             services.AddTransient<ITownsService, TownsService>();
@@ -131,7 +131,7 @@ namespace AYN.Web
                     {
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
-
+                        endpoints.MapHub<ChatHub>("/chatHub");
                         endpoints.MapRazorPages();
                     });
         }
