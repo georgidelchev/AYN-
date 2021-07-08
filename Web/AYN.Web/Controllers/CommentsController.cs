@@ -32,5 +32,13 @@ namespace AYN.Web.Controllers
             await this.commentsService.Delete(id);
             return this.Redirect($"/Ads/Details?id={adId}");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Vote(string vote, string commentId, string adId)
+        {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            await this.commentsService.Vote(vote, commentId, userId);
+            return this.Redirect($"/Ads/Details?id={adId}");
+        }
     }
 }

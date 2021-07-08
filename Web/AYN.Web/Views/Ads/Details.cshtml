@@ -181,13 +181,19 @@
             <div class="card p-3">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="user d-flex flex-row align-items-center">
-                        <img src="/img/UsersAvatars/@if (comment.AddedByUserAvatarExtension == null){<text>@comment.AddedByUserId.ToString()_DEFAULT.png</text>}else{<text>@comment.AddedByUserId.@comment.AddedByUserAvatarExtension</text>}" alt="" class="rounded-circle mr-2" style="width: 30px; height: 30px;"> <span><small class="font-weight-bold text-primary">@comment.AddedByUserUsername</small> <small class="font-weight-bold"><br />@comment.Content</small></span>
-                    </div> <small>@comment.CreatedOn.ToString("d")</small>
+                        <img src="/img/UsersAvatars/@if (comment.AddedByUserAvatarExtension == null){<text>@comment.AddedByUserId.ToString()_DEFAULT.png</text>}else{<text>@comment.AddedByUserId.@comment.AddedByUserAvatarExtension</text>}" alt="" class="rounded-circle mr-2" style="width: 30px; height: 30px;">
+                        <span>
+                            <small class="font-weight-bold text-primary">@comment.AddedByUserUsername</small>
+                            <small class="font-weight-bold"><br />@comment.Content</small>
+                        </span>
+                        <div class="reply px-4">
+                            <a asp-controller="Comments" asp-action="Vote" asp-route-adId="@Model.Id" asp-route-vote="0" asp-route-commentId="@comment.Id">@comment.CommentUpVotesCount<i class="fas fa-long-arrow-alt-up"></i></a>&nbsp;<a asp-controller="Comments" asp-action="Vote" asp-route-adId="@Model.Id" asp-route-vote="1" asp-route-commentId="@comment.Id"><i class="fas fa-long-arrow-alt-down"></i>@comment.CommentDownVotesCount</a>
+                        </div>
+                    </div>
+                    <small>@comment.CreatedOn.ToString("d")</small>
                 </div>
                 <div class="action d-flex justify-content-between mt-2 align-items-center">
-                    <div class="reply px-4">
-                        <span class="dots"></span> <small>Reply</small> <span class="dots"></span>
-                    </div>
+
                     @if (comment.AddedByUserId == this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
                     {
                         <div class="icons align-items-center">

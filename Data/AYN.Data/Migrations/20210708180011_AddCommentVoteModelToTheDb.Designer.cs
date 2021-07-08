@@ -4,14 +4,16 @@ using AYN.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AYN.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210708180011_AddCommentVoteModelToTheDb")]
+    partial class AddCommentVoteModelToTheDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -414,8 +416,10 @@ namespace AYN.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("CommentId")
-                        .IsRequired()
+                    b.Property<int>("CommentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CommentId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
@@ -437,7 +441,7 @@ namespace AYN.Data.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("CommentId");
+                    b.HasIndex("CommentId1");
 
                     b.HasIndex("IsDeleted");
 
@@ -1258,9 +1262,7 @@ namespace AYN.Data.Migrations
 
                     b.HasOne("AYN.Data.Models.Comment", "Comment")
                         .WithMany("CommentVotes")
-                        .HasForeignKey("CommentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("CommentId1");
 
                     b.Navigation("ApplicationUser");
 

@@ -1,11 +1,13 @@
 ﻿using System;
-
+using System.Linq;
+using AutoMapper;
 using AYN.Data.Models;
+using AYN.Data.Models.Enumerations;
 using AYN.Services.Mapping;
 
 namespace AYN.Web.ViewModels.Comments
 {
-    public class CommentViewModel : IMapFrom<Comment>
+    public class CommentViewModel : IMapFrom<Comment>, IHaveCustomMappings
     {
         public string Id { get; set; }
 
@@ -18,5 +20,17 @@ namespace AYN.Web.ViewModels.Comments
         public string AddedByUserId { get; set; }
 
         public string AddedByUserAvatarExtension { get; set; }
+
+        public int CommentUpVotesCount { get; set; }
+
+        public int CommentDownVotesCount { get; set; }
+
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<Comment, CommentViewModel>()
+                .ForMember(m => m.CommentUpVotesCount, opt => opt.MapFrom(o => o.CommentVotes.Count(a => a.Value == CommentVoteValue.Up)))
+                .ForMember(m => m.CommentDownVotesCount, opt => opt.MapFrom(o => o.CommentVotes.Count(a => a.Value == CommentVoteValue.Down)));
+        }
     }
 }

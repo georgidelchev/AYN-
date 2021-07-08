@@ -63,6 +63,8 @@ namespace AYN.Data
 
         public DbSet<UserNotification> UsersNotifications { get; set; }
 
+        public DbSet<CommentVote> CommentVotes { get; set; }
+
         public DbSet<Setting> Settings { get; set; }
 
         public override int SaveChanges()

@@ -9,5 +9,7 @@ namespace AYN.Services.Data.Interfaces
         Task Create(string content, string adId, string userId);
 
         Task Delete(string commentId);
+
+        Task Vote(string voteValue, string commentId, string userId);
     }
 }

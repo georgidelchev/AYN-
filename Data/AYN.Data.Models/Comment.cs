@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using AYN.Data.Common.Models;
@@ -29,5 +30,8 @@ namespace AYN.Data.Models
         [Required]
         [MaxLength(CommentContentMaxLength)]
         public string Content { get; set; }
+
+        public virtual ICollection<CommentVote> CommentVotes { get; set; }
+            = new HashSet<CommentVote>();
     }
 }
