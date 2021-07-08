@@ -185,9 +185,15 @@
                     </div> <small>@comment.CreatedOn.ToString("d")</small>
                 </div>
                 <div class="action d-flex justify-content-between mt-2 align-items-center">
-                    <div class="reply px-4"> @if (comment.AddedByUserId == this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
-                    {<small>Remove</small>} <span class="dots"></span> <small>Reply</small> <span class="dots"></span> </div>
-                    <div class="icons align-items-center"> <i class="fa fa-star text-warning"></i> <i class="fa fa-check-circle-o check-icon"></i> </div>
+                    <div class="reply px-4">
+                        <span class="dots"></span> <small>Reply</small> <span class="dots"></span>
+                    </div>
+                    @if (comment.AddedByUserId == this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
+                    {
+                        <div class="icons align-items-center">
+                            <a asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id" asp-route-adId="@Model.Id"><i class="fas fa-times text-danger"></i></a> <i class="fa fa-check-circle-o check-icon"></i>
+                        </div>
+                    }
                 </div>
             </div>
         }

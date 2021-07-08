@@ -25,5 +25,12 @@ namespace AYN.Web.Controllers
             await this.commentsService.Create(content, adId, userId);
             return this.Redirect($"/Ads/Details?id={adId}");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(string id, string adId)
+        {
+            await this.commentsService.Delete(id);
+            return this.Redirect($"/Ads/Details?id={adId}");
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 
 using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
@@ -31,6 +32,16 @@ namespace AYN.Services.Data.Implementations
             };
 
             await this.commentsRepository.AddAsync(comment);
+            await this.commentsRepository.SaveChangesAsync();
+        }
+
+        public async Task Delete(string commentId)
+        {
+            var comment = this.commentsRepository
+                .All()
+                .FirstOrDefault(c => c.Id == commentId);
+
+            this.commentsRepository.Delete(comment);
             await this.commentsRepository.SaveChangesAsync();
         }
     }
