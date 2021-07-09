@@ -25,6 +25,7 @@ namespace AYN.Web.Controllers
         private readonly IWebHostEnvironment environment;
         private readonly ISubCategoriesService subCategoriesService;
         private readonly IValidator<CreateAdInputModel> createAdValidator;
+        private readonly IUserAdsViewsService userAdsViewsService;
 
         public AdsController(
             ICategoriesService categoriesService,
@@ -32,7 +33,8 @@ namespace AYN.Web.Controllers
             IAdsService adsService,
             IWebHostEnvironment environment,
             ISubCategoriesService subCategoriesService,
-            IValidator<CreateAdInputModel> createAdValidator)
+            IValidator<CreateAdInputModel> createAdValidator,
+            IUserAdsViewsService userAdsViewsService)
         {
             this.categoriesService = categoriesService;
             this.townsService = townsService;
@@ -40,6 +42,7 @@ namespace AYN.Web.Controllers
             this.environment = environment;
             this.subCategoriesService = subCategoriesService;
             this.createAdValidator = createAdValidator;
+            this.userAdsViewsService = userAdsViewsService;
         }
 
         [HttpGet]
@@ -134,13 +137,11 @@ namespace AYN.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(string id)
         {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var viewModel = await this.adsService.GetDetails<GetDetailsViewModel>(id);
-            return this.View(viewModel);
-        }
+            await this.userAdsViewsService.CreateAsync(userId, id);
 
-        public async Task<IActionResult> ByUserId(string id)
-        {
-            return this.View();
+            return this.View(viewModel);
         }
     }
 }

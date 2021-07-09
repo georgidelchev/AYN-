@@ -82,6 +82,7 @@ namespace AYN.Web
             services.AddTransient<IWishlistsService, WishlistsService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
             services.AddTransient<IPostReactsService, PostReactsService>();
+            services.AddTransient<IUserAdsViewsService, UserAdsViewsService>();
             services.AddTransient<ISubCategoriesService, SubCategoriesService>();
             services.AddTransient<INotificationsService, NotificationsService>();
             services.AddTransient<IValidator<CreateAdInputModel>, CreateAdValidator>();

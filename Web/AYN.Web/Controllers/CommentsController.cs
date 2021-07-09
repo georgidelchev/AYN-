@@ -91,6 +91,11 @@ namespace AYN.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditCommentInputModel input, string adId)
         {
+            if (this.adsService.IsAdExisting(adId))
+            {
+                return this.Redirect("/");
+            }
+
             await this.commentsService.EditAsync(input);
             return this.Redirect($"/Ads/Details?id={adId}");
         }

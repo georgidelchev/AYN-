@@ -118,12 +118,23 @@ namespace AYN.Services.Data.Implementations
                 .Count(a => !a.IsArchived);
 
         public async Task<T> GetDetails<T>(string id)
-            => await this.adsRepository
+        {
+            var a = await this.adsRepository
                 .All()
                 .Where(a => a.Id == id && !a.IsArchived)
                 .Include(a => a.Comments)
+                .Include(a => a.UserAdViews)
+                .FirstOrDefaultAsync();
+
+            return await this.adsRepository
+                .All()
+                .Where(a => a.Id == id && !a.IsArchived)
+                .Include(a => a.Comments)
+                .Include(a => a.UserAdViews)
                 .To<T>()
                 .FirstOrDefaultAsync();
+        }
+
 
         public async Task<IEnumerable<T>> GetUserAllAds<T>(string userId)
             => await this.adsRepository

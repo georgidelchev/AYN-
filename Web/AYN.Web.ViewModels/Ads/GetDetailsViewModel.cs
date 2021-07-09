@@ -59,6 +59,8 @@ namespace AYN.Web.ViewModels.Ads
 
         public int TotalCommentsCount { get; set; }
 
+        public int TotalViews { get; set; }
+
         public IEnumerable<string> PictureExtensions { get; set; }
 
         public ICollection<CommentViewModel> Comments { get; set; }
@@ -70,11 +72,10 @@ namespace AYN.Web.ViewModels.Ads
                 .ForMember(m => m.Category, opt => opt.MapFrom(o => o.Category.Name))
                 .ForMember(m => m.SubCategory, opt => opt.MapFrom(o => o.SubCategory.Name))
                 .ForMember(m => m.Town, opt => opt.MapFrom(o => o.Town.Name))
-                .ForMember(m => m.ActiveAdsCount,
-                    opt => opt.MapFrom(o => o.AddedByUser.Ads.Count(a => !a.IsDeleted && !a.IsArchived)))
+                .ForMember(m => m.ActiveAdsCount, opt => opt.MapFrom(o => o.AddedByUser.Ads.Count(a => !a.IsDeleted && !a.IsArchived)))
                 .ForMember(m => m.PictureExtensions, opt => opt.MapFrom(o => o.Pictures.Select(a => a.Extension)))
-                .ForMember(m => m.TotalCommentsCount, opt => opt.MapFrom(o => o.Comments.Count(a => !a.IsDeleted)));
-
+                .ForMember(m => m.TotalCommentsCount, opt => opt.MapFrom(o => o.Comments.Count(a => !a.IsDeleted)))
+                .ForMember(m => m.TotalViews, opt => opt.MapFrom(o => o.UserAdViews.Count(uav => uav.AdId == o.Id)));
         }
     }
 }
