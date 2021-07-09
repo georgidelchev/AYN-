@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 
 using AYN.Services.Data.Interfaces;
+using AYN.Web.ViewModels.Comments;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -67,6 +68,30 @@ namespace AYN.Web.Controllers
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             await this.commentsService.Vote(vote, commentId, userId);
 
+            return this.Redirect($"/Ads/Details?id={adId}");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string commentId, string adId)
+        {
+            if (!this.adsService.IsAdExisting(adId))
+            {
+                return this.Redirect("/");
+            }
+
+            if (!this.commentsService.IsCommentExisting(commentId))
+            {
+                return this.Redirect($"/Ads/Details?id={adId}");
+            }
+
+            var viewModel = await this.commentsService.GetByIdAsync<EditCommentInputModel>(commentId);
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditCommentInputModel input, string adId)
+        {
+            await this.commentsService.EditAsync(input);
             return this.Redirect($"/Ads/Details?id={adId}");
         }
     }

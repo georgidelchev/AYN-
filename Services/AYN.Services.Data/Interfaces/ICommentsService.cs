@@ -13,5 +13,9 @@ namespace AYN.Services.Data.Interfaces
         Task Vote(string voteValue, string commentId, string userId);
 
         bool IsCommentExisting(string commentId);
+
+        Task<T> GetByIdAsync<T>(string commentId);
+
+        Task EditAsync(EditCommentInputModel input);
     }
 }

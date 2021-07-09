@@ -1,0 +1,28 @@
+﻿@model AYN.Web.ViewModels.Comments.EditCommentInputModel
+
+@{
+    this.ViewData["Title"] = "Edit Comment";
+}
+
+
+<form method="post" class="col-md-6 offset-md-3 text-center" enctype="multipart/form-data">
+    <hr />
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <br />
+    <div>
+        <span asp-validation-for="Content" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="Content" class="input-group-text">
+                    <i class="fas fa-file-signature"></i>
+                </label>
+            </div>
+
+            <input asp-for="Content" placeholder="Content" class="form-control" />
+        </div>
+    </div>
+    <input type="hidden" asp-for="@Model.Id"/>
+    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+    <hr />
+</form>

@@ -6,6 +6,9 @@ using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Data.Models.Enumerations;
 using AYN.Services.Data.Interfaces;
+using AYN.Services.Mapping;
+using AYN.Web.ViewModels.Comments;
+using Microsoft.EntityFrameworkCore;
 
 namespace AYN.Services.Data.Implementations
 {
@@ -79,5 +82,24 @@ namespace AYN.Services.Data.Implementations
             => this.commentsRepository
                 .All()
                 .Any(c => c.Id == commentId);
+
+        public async Task<T> GetByIdAsync<T>(string commentId)
+            => await this.commentsRepository
+                .All()
+                .Where(c => c.Id == commentId)
+                .To<T>()
+                .FirstOrDefaultAsync();
+
+        public async Task EditAsync(EditCommentInputModel input)
+        {
+            var comment = this.commentsRepository
+                .All()
+                .FirstOrDefault(c => c.Id == input.Id);
+
+            comment.Content = input.Content;
+
+            this.commentsRepository.Update(comment);
+            await this.commentsRepository.SaveChangesAsync();
+        }
     }
 }

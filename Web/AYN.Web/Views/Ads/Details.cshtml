@@ -192,6 +192,7 @@
                     @if (comment.AddedByUserId == this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
                     {
                         <a asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id" asp-route-adId="@Model.Id"><i class="fas fa-times text-danger"></i></a> <i class="fa fa-check-circle-o check-icon"></i>
+                        <a asp-controller="Comments" asp-action="Edit" asp-route-commentId="@comment.Id" asp-route-adId="@Model.Id"><i class="fas fa-edit text-warning"></i></a>
                     }
                     <a class="text-success" asp-controller="Comments" asp-action="Vote" asp-route-adId="@Model.Id" asp-route-vote="0" asp-route-commentId="@comment.Id">
                         @comment.CommentUpVotesCount <i class="fas fa-long-arrow-alt-up"></i>
