@@ -120,5 +120,8 @@ namespace AYN.Data.Models
 
         public virtual ICollection<Wishlist> Wishlist { get; set; }
             = new HashSet<Wishlist>();
+
+        public virtual ICollection<UserAdView> UserAdViews { get; set; }
+            = new HashSet<UserAdView>();
     }
 }

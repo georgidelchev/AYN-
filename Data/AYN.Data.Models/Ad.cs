@@ -83,5 +83,8 @@ namespace AYN.Data.Models
 
         public virtual ICollection<Report> Reports { get; set; }
             = new HashSet<Report>();
+
+        public virtual ICollection<UserAdView> UserAdViews { get; set; }
+            = new HashSet<UserAdView>();
     }
 }
