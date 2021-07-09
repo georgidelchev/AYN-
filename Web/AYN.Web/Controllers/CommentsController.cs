@@ -11,16 +11,24 @@ namespace AYN.Web.Controllers
     public class CommentsController : Controller
     {
         private readonly ICommentsService commentsService;
+        private readonly IAdsService adsService;
 
         public CommentsController(
-            ICommentsService commentsService)
+            ICommentsService commentsService,
+            IAdsService adsService)
         {
             this.commentsService = commentsService;
+            this.adsService = adsService;
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(string content, string adId)
         {
+            if (!this.adsService.IsAdExisting(adId))
+            {
+                return this.Redirect("/");
+            }
+
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             await this.commentsService.Create(content, adId, userId);
             return this.Redirect($"/Ads/Details?id={adId}");
@@ -29,6 +37,16 @@ namespace AYN.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(string id, string adId)
         {
+            if (!this.adsService.IsAdExisting(adId))
+            {
+                return this.Redirect("/");
+            }
+
+            if (!this.commentsService.IsCommentExisting(id))
+            {
+                return this.Redirect($"/Ads/Details?id={adId}");
+            }
+
             await this.commentsService.Delete(id);
             return this.Redirect($"/Ads/Details?id={adId}");
         }
@@ -36,8 +54,19 @@ namespace AYN.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Vote(string vote, string commentId, string adId)
         {
+            if (!this.adsService.IsAdExisting(adId))
+            {
+                return this.Redirect("/");
+            }
+
+            if (!this.commentsService.IsCommentExisting(commentId))
+            {
+                return this.Redirect($"/Ads/Details?id={adId}");
+            }
+
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             await this.commentsService.Vote(vote, commentId, userId);
+
             return this.Redirect($"/Ads/Details?id={adId}");
         }
     }

@@ -11,5 +11,7 @@ namespace AYN.Services.Data.Interfaces
         Task Delete(string commentId);
 
         Task Vote(string voteValue, string commentId, string userId);
+
+        bool IsCommentExisting(string commentId);
     }
 }

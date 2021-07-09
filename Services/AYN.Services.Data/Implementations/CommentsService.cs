@@ -74,5 +74,10 @@ namespace AYN.Services.Data.Implementations
             await this.commentVotesRepository.AddAsync(commentVote);
             await this.commentVotesRepository.SaveChangesAsync();
         }
+
+        public bool IsCommentExisting(string commentId)
+            => this.commentsRepository
+                .All()
+                .Any(c => c.Id == commentId);
     }
 }
