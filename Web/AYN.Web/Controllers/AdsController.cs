@@ -143,5 +143,19 @@ namespace AYN.Web.Controllers
 
             return this.View(viewModel);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            var viewModel = 1;
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditAdInputModel input, string id)
+        {
+            var viewModel = 1;
+            return this.Redirect($"/Ads/Details?id={id}");
+        }
     }
 }
