@@ -15,5 +15,8 @@ namespace AYN.Data.Models
 
         public virtual ICollection<Town> Towns { get; set; }
             = new HashSet<Town>();
+
+        public virtual ICollection<Ad> Ads { get; set; }
+            = new HashSet<Ad>();
     }
 }

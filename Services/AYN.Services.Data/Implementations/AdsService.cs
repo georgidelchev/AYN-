@@ -54,6 +54,7 @@ namespace AYN.Services.Data.Implementations
                 IsPromoted = false,
                 ProductCondition = input.ProductCondition,
                 DeliveryTake = input.DeliveryTake,
+                AddressId = input.AddressId,
             };
 
             await this.adsRepository.AddAsync(ad);

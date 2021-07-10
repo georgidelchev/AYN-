@@ -53,6 +53,11 @@ namespace AYN.Data.Models
 
         public virtual Town Town { get; set; }
 
+        // TODO: IMPORTANT - MAKE IT REQUIRED
+        public int? AddressId { get; set; }
+
+        public virtual Address Address { get; set; }
+
         [Required]
         public int CategoryId { get; set; }
 
