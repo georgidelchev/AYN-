@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
-using AYN.Data.Models.Enumerations;
 using AYN.Services.Data.Interfaces;
 using AYN.Services.Mapping;
 using AYN.Web.ViewModels.Ads;
@@ -20,17 +19,20 @@ namespace AYN.Services.Data.Implementations
         private readonly IImageService imageService;
         private readonly ICategoriesService categoriesService;
         private readonly ITownsService townsService;
+        private readonly IDeletableEntityRepository<UserAdView> userAdViewsRepository;
 
         public AdsService(
             IDeletableEntityRepository<Ad> adsRepository,
             IImageService imageService,
             ICategoriesService categoriesService,
-            ITownsService townsService)
+            ITownsService townsService,
+            IDeletableEntityRepository<UserAdView> userAdViewsRepository)
         {
             this.adsRepository = adsRepository;
             this.imageService = imageService;
             this.categoriesService = categoriesService;
             this.townsService = townsService;
+            this.userAdViewsRepository = userAdViewsRepository;
         }
 
         public async Task CreateAsync(CreateAdInputModel input, string userId, string imagePath)
@@ -135,7 +137,6 @@ namespace AYN.Services.Data.Implementations
                 .FirstOrDefaultAsync();
         }
 
-
         public async Task<IEnumerable<T>> GetUserAllAds<T>(string userId)
             => await this.adsRepository
                 .All()
@@ -154,6 +155,19 @@ namespace AYN.Services.Data.Implementations
                 .Include(a => a.AddedByUser)
                 .To<T>()
                 .ToListAsync();
+
+        public async Task<IEnumerable<T>> GetUserLatestAdViews<T>(string userId)
+        {
+            var ads = this.userAdViewsRepository
+                .All()
+                .Where(uav => uav.UserId == userId)
+                .OrderByDescending(uav => uav.CreatedOn)
+                .Take(12)
+                .Select(uav => uav.Ad);
+
+            return await ads.To<T>()
+                .ToListAsync();
+        }
 
         public Tuple<int, int, int, int> GetCounts()
         {

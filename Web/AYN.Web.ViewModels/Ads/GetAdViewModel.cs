@@ -4,7 +4,7 @@ using AutoMapper;
 using AYN.Data.Models;
 using AYN.Services.Mapping;
 
-namespace AYN.Web.ViewModels.Users
+namespace AYN.Web.ViewModels.Ads
 {
     public class GetAdViewModel : IMapFrom<Ad>, IHaveCustomMappings
     {

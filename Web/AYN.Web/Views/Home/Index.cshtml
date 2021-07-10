@@ -1,4 +1,5 @@
-﻿@model AYN.Web.ViewModels.Home.IndexViewModel
+﻿@using System.Security.Claims
+@model AYN.Web.ViewModels.Home.IndexViewModel
 
 @{
     this.ViewData["Title"] = "Home";
@@ -18,6 +19,11 @@
 <div class="text-center">
     <h3>Recent Ads</h3>
     @await Component.InvokeAsync("GetRecentAds")
+</div>
+
+<div class="text-center">
+    <h3>Your recent ad views</h3>
+    @await Component.InvokeAsync("GetUserRecentAdViews", new { userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value })
 </div>
 
 <div class="text-center">
