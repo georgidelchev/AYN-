@@ -272,6 +272,29 @@ namespace AYN.Services.Data.Implementations
             return ad;
         }
 
+        public async Task EditAsync(EditAdInputModel input, string adId)
+        {
+            var ad = this.adsRepository
+                .All()
+                .FirstOrDefault(a => a.Id == input.Id);
+
+            ad.Name = input.Name;
+            ad.Description = input.Description;
+            ad.Weight = input.Weight;
+            ad.Price = input.Price;
+            ad.TownId = input.TownId;
+            ad.AddressId = input.AddressId;
+            ad.CategoryId = input.CategoryId;
+            ad.SubCategoryId = input.SubCategoryId;
+            ad.ProductCondition = input.ProductCondition;
+            ad.AdType = input.AdType;
+            ad.ProductCondition = input.ProductCondition;
+            ad.DeliveryTake = input.DeliveryTake;
+
+            this.adsRepository.Update(ad);
+            await this.adsRepository.SaveChangesAsync();
+        }
+
         // Helper methods
         private async Task SaveImagesLocally(CreateAdInputModel input, Ad ad, string physicalPath)
         {

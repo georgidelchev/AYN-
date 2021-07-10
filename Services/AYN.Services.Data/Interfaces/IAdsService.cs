@@ -41,5 +41,7 @@ namespace AYN.Services.Data.Interfaces
         bool IsAdExisting(string adId);
 
         Task<T> GetByIdAsync<T>(string adId);
+
+        Task EditAsync(EditAdInputModel input, string adId);
     }
 }

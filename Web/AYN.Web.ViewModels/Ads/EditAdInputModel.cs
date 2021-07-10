@@ -11,6 +11,8 @@ namespace AYN.Web.ViewModels.Ads
 {
     public class EditAdInputModel : IMapFrom<Ad>
     {
+        public string Id { get; set; }
+
         [Required(ErrorMessage = "You should enter a name.")]
         [MinLength(AdNameMinLength)]
         [MaxLength(AdNameMaxLength)]

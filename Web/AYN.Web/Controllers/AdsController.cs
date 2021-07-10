@@ -161,7 +161,7 @@ namespace AYN.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditAdInputModel input, string id)
         {
-            var viewModel = 1;
+            await this.adsService.EditAsync(input, id);
             return this.Redirect($"/Ads/Details?id={id}");
         }
     }
