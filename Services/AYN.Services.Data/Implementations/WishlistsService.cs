@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Services.Data.Interfaces;
@@ -65,5 +66,20 @@ namespace AYN.Services.Data.Implementations
             => this.wishlistsRepository
                 .All()
                 .Any(wl => wl.UserId == userId && wl.AdId == adId);
+
+        public async Task DeleteAsync(string adId)
+        {
+            var items = this.wishlistsRepository
+                .All()
+                .Where(wl => wl.AdId == adId)
+                .ToList();
+
+            foreach (var item in items)
+            {
+                this.wishlistsRepository.Delete(item);
+            }
+
+            await this.wishlistsRepository.SaveChangesAsync();
+        }
     }
 }

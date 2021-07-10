@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 using AYN.Services.Data.Interfaces;
@@ -10,11 +11,14 @@ namespace AYN.Web.Areas.Administration.Controllers
     public class AdsController : AdministrationController
     {
         private readonly IAdsService adsService;
+        private readonly IWishlistsService wishlistsService;
 
         public AdsController(
-            IAdsService adsService)
+            IAdsService adsService,
+            IWishlistsService wishlistsService)
         {
             this.adsService = adsService;
+            this.wishlistsService = wishlistsService;
         }
 
         [HttpGet]
@@ -51,6 +55,7 @@ namespace AYN.Web.Areas.Administration.Controllers
         public async Task<IActionResult> Delete(string id, string returnUrl = "/Administration/Ads/All")
         {
             await this.adsService.Delete(id);
+            await this.wishlistsService.DeleteAsync(id);
             return this.Redirect(returnUrl);
         }
 
