@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Services.Data.Interfaces;
+using AYN.Services.Mapping;
 using Microsoft.EntityFrameworkCore;
 
 namespace AYN.Services.Data.Implementations
@@ -51,5 +52,10 @@ namespace AYN.Services.Data.Implementations
 
             return town.Addresses.Any(a => a.Id == addressId);
         }
+
+        public Town GetById(int id)
+            => this.townsRepository
+                .All()
+                .FirstOrDefault(t => t.Id == id);
     }
 }

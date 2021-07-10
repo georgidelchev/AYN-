@@ -260,6 +260,17 @@ namespace AYN.Services.Data.Implementations
                 .All()
                 .Any(a => a.Id == adId);
 
+        public async Task<T> GetByIdAsync<T>(string adId)
+        {
+            var ad = await this.adsRepository
+                .All()
+                .Where(a => a.Id == adId)
+                .To<T>()
+                .FirstOrDefaultAsync();
+
+            return ad;
+        }
+
         // Helper methods
         private async Task SaveImagesLocally(CreateAdInputModel input, Ad ad, string physicalPath)
         {

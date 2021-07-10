@@ -39,5 +39,7 @@ namespace AYN.Services.Data.Interfaces
         Task UnPromote(string adId);
 
         bool IsAdExisting(string adId);
+
+        Task<T> GetByIdAsync<T>(string adId);
     }
 }

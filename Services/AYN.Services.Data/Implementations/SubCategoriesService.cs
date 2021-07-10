@@ -58,6 +58,19 @@ namespace AYN.Services.Data.Implementations
                 .Select(sc => new KeyValuePair<string, string>(sc.Id.ToString(), sc.Name))
                 .ToListAsync();
 
+        public async Task<IEnumerable<KeyValuePair<string, string>>> GetAllByCategoryIdAsKeyValuePairsAsync(int categoryId)
+            => await this.subCategoriesRepository
+                .All()
+                .Where(sc => sc.CategoryId == categoryId)
+                .Select(sc => new
+                {
+                    sc.Id,
+                    sc.Name,
+                })
+                .OrderBy(sc => sc.Name)
+                .Select(sc => new KeyValuePair<string, string>(sc.Id.ToString(), sc.Name))
+                .ToListAsync();
+
         public async Task<T> GetByIdAsync<T>(int id)
             => await this.subCategoriesRepository
                 .All()

@@ -6,5 +6,7 @@ namespace AYN.Services.Data.Interfaces
     public interface IAddressesService
     {
         Task<IEnumerable<T>> GetAllByTownIdAsync<T>(int townId);
+
+        Task<IEnumerable<KeyValuePair<string, string>>> GetAllByTownIdAsKeyValuePairsAsync(int townId);
     }
 }

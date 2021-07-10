@@ -14,6 +14,8 @@ namespace AYN.Services.Data.Interfaces
 
         Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKeyValuePairsAsync();
 
+        Task<IEnumerable<KeyValuePair<string, string>>> GetAllByCategoryIdAsKeyValuePairsAsync(int categoryId);
+
         Task<T> GetByIdAsync<T>(int id);
 
         bool IsSubCategoryExisting(string subCategoryName);

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -26,6 +25,7 @@ namespace AYN.Web.Controllers
         private readonly ISubCategoriesService subCategoriesService;
         private readonly IValidator<CreateAdInputModel> createAdValidator;
         private readonly IUserAdsViewsService userAdsViewsService;
+        private readonly IAddressesService addressesService;
 
         public AdsController(
             ICategoriesService categoriesService,
@@ -34,7 +34,8 @@ namespace AYN.Web.Controllers
             IWebHostEnvironment environment,
             ISubCategoriesService subCategoriesService,
             IValidator<CreateAdInputModel> createAdValidator,
-            IUserAdsViewsService userAdsViewsService)
+            IUserAdsViewsService userAdsViewsService,
+            IAddressesService addressesService)
         {
             this.categoriesService = categoriesService;
             this.townsService = townsService;
@@ -43,6 +44,7 @@ namespace AYN.Web.Controllers
             this.subCategoriesService = subCategoriesService;
             this.createAdValidator = createAdValidator;
             this.userAdsViewsService = userAdsViewsService;
+            this.addressesService = addressesService;
         }
 
         [HttpGet]
@@ -147,7 +149,12 @@ namespace AYN.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            var viewModel = 1;
+            var viewModel = await this.adsService.GetByIdAsync<EditAdInputModel>(id);
+            viewModel.Towns = await this.townsService.GetAllAsKeyValuePairsAsync();
+            viewModel.Categories = await this.categoriesService.GetAllAsKeyValuePairsAsync();
+            viewModel.SubCategories = await this.subCategoriesService.GetAllByCategoryIdAsKeyValuePairsAsync(viewModel.CategoryId);
+            viewModel.Addresses = await this.addressesService.GetAllByTownIdAsKeyValuePairsAsync(viewModel.TownId);
+
             return this.View(viewModel);
         }
 
