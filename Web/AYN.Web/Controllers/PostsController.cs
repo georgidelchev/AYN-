@@ -7,6 +7,8 @@ using AYN.Web.ViewModels.Posts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+using static AYN.Common.AttributeConstraints;
+
 namespace AYN.Web.Controllers
 {
     public class PostsController : Controller
@@ -24,6 +26,14 @@ namespace AYN.Web.Controllers
         public async Task<IActionResult> Create(string title, string content)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(content) ||
+                title.Length > PostTitleMaxLength || title.Length < PostTitleMinLength ||
+                content.Length > PostContentMaxLength || content.Length < PostContentMinLength)
+            {
+                return this.Redirect($"/Users/Profile/{userId}");
+            }
+
             await this.postsService.CreateAsync(title, content, userId);
 
             return this.Redirect($"/Users/Profile/{userId}");
