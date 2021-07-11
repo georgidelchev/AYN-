@@ -140,6 +140,7 @@ namespace AYN.Web.Controllers
         public async Task<IActionResult> Details(string id)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
             var viewModel = await this.adsService.GetDetails<GetDetailsViewModel>(id);
             await this.userAdsViewsService.CreateAsync(userId, id);
 
@@ -149,6 +150,13 @@ namespace AYN.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (!this.adsService.IsUserOwnsGivenAd(userId, id))
+            {
+                return this.Redirect($"/Ads/Details?id={id}");
+            }
+
             var viewModel = await this.adsService.GetByIdAsync<EditAdInputModel>(id);
             viewModel.Towns = await this.townsService.GetAllAsKeyValuePairsAsync();
             viewModel.Categories = await this.categoriesService.GetAllAsKeyValuePairsAsync();
@@ -161,7 +169,26 @@ namespace AYN.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditAdInputModel input, string id)
         {
-            await this.adsService.EditAsync(input, id);
+            await this.adsService.EditAsync(input);
+            return this.Redirect($"/Ads/Details?id={id}");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (!this.adsService.IsAdExisting(id))
+            {
+                return this.Redirect("/");
+            }
+
+            if (!this.adsService.IsUserOwnsGivenAd(userId, id))
+            {
+                return this.Redirect($"/");
+            }
+
+            await this.adsService.Delete(id);
             return this.Redirect($"/Ads/Details?id={id}");
         }
     }

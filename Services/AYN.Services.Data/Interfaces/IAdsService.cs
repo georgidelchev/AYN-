@@ -42,6 +42,8 @@ namespace AYN.Services.Data.Interfaces
 
         Task<T> GetByIdAsync<T>(string adId);
 
-        Task EditAsync(EditAdInputModel input, string adId);
+        Task EditAsync(EditAdInputModel input);
+
+        bool IsUserOwnsGivenAd(string userId, string adId);
     }
 }

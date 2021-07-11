@@ -15,8 +15,11 @@
         <div class="card">
             <div>
                 <small><i class="fas fa-eye text-primary"></i> @Model.TotalViews</small>
-                <small><a asp-controller="Ads" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit text-warning ml-3"></i></a></small>
-                <small><a asp-controller="Ads" asp-action="Delete" asp-route-id="@Model.Id"><i class="fas fa-times text-danger ml-3"></i></a></small>
+                @if (this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value == this.Model.AddedByUserId)
+                {
+                    <small><a asp-controller="Ads" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit text-warning ml-3"></i></a></small>
+                    <small><a asp-controller="Ads" asp-action="Delete" asp-route-id="@Model.Id"><i class="fas fa-times text-danger ml-3"></i></a></small>
+                }
             </div>
             <div id="carouselExampleIndicators" class="carousel slide" data-interval="false" data-ride="carousel">
                 <ol class="carousel-indicators">

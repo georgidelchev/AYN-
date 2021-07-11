@@ -272,7 +272,7 @@ namespace AYN.Services.Data.Implementations
             return ad;
         }
 
-        public async Task EditAsync(EditAdInputModel input, string adId)
+        public async Task EditAsync(EditAdInputModel input)
         {
             var ad = this.adsRepository
                 .All()
@@ -294,6 +294,11 @@ namespace AYN.Services.Data.Implementations
             this.adsRepository.Update(ad);
             await this.adsRepository.SaveChangesAsync();
         }
+
+        public bool IsUserOwnsGivenAd(string userId, string adId)
+            => this.adsRepository
+                .All()
+                .Any(a => a.AddedByUserId == userId && a.Id == adId);
 
         // Helper methods
         private async Task SaveImagesLocally(CreateAdInputModel input, Ad ad, string physicalPath)

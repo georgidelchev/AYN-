@@ -58,7 +58,7 @@ namespace AYN.Web.ViewModels.Ads
         [Required(ErrorMessage = "You should choose who will pay the delivery tax.")]
         public DeliveryTake DeliveryTake { get; set; }
 
-        //[Required(ErrorMessage = "You should upload some pictures about the product.")]
-        //public IEnumerable<IFormFile> Pictures { get; set; }
+        // [Required(ErrorMessage = "You should upload some pictures about the product.")]
+        // public IEnumerable<IFormFile> Pictures { get; set; }
     }
 }
