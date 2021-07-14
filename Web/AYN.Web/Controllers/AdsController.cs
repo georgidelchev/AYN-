@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 
 namespace AYN.Web.Controllers
 {
@@ -190,6 +191,49 @@ namespace AYN.Web.Controllers
 
             await this.adsService.Delete(id);
             return this.Redirect($"/Ads/Details?id={id}");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Promote(string id)
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Promote(string stripeEmail, string stripeToken, string currency)
+        {
+            var customers = new CustomerService();
+            var charges = new ChargeService();
+
+            var customer = customers.Create(new CustomerCreateOptions()
+            {
+                Email = stripeEmail,
+                Source = stripeToken,
+            });
+
+            var charge = charges.Create(new ChargeCreateOptions()
+            {
+                Amount = 500,
+                Description = "Test Payment",
+                Currency = "usd",
+                Customer = customer.Id,
+                ReceiptEmail = stripeEmail,
+                Metadata = new Dictionary<string, string>()
+                    {{"OrderId", "111"}, {"Postcode", "6000"},},
+            });
+
+            switch (charge.Status)
+            {
+                case "succeeded":
+                    {
+                        var balanceTransactionId = charge.BalanceTransactionId;
+                        return this.View();
+                    }
+                default:
+                    return this.Redirect("/");
+            }
+
+            return this.Redirect("/");
         }
     }
 }

@@ -1,0 +1,151 @@
+﻿@model AYN.Web.ViewModels.Payments.PaymentViewModel
+
+@{
+    this.ViewData["Title"] = "Ad Promote plans";
+}
+
+<section class="pricing py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card mb-5 mb-lg-0">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted text-uppercase text-center">10 days</h5>
+                        <h6 class="card-price text-center">10 $<span class="period"></span></h6>
+                        <hr>
+                        <div class="text-center">
+                            <form asp-controller="Ads" asp-action="Promote" method="POST">
+                                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                        data-key="pk_test_51JC369DjgxsARjFqEYyTTQYKHthtU3IFY0xfHpGRdLL0BVlvRMmBrrU488pdLUKjHzHvHkHTJoZzKFi3ucsj4wwp00d7D0oPEk"
+                                        data-amount="1000"
+                                        data-name="AYN - All You Need"
+                                        data-description="Promote your ad for 10 days for 10 $"
+                                        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                                        data-locale="en"
+                                        data-zip-code="true"
+                                        data-label="Order">
+                                </script>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card mb-5 mb-lg-0">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted text-uppercase text-center">20 days</h5>
+                        <h6 class="card-price text-center">15 $<span class="period"></span></h6>
+                        <hr>
+                        <div class="text-center">
+                            <form asp-controller="Ads" asp-action="Promote" method="POST">
+                                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                        data-key="pk_test_51JC369DjgxsARjFqEYyTTQYKHthtU3IFY0xfHpGRdLL0BVlvRMmBrrU488pdLUKjHzHvHkHTJoZzKFi3ucsj4wwp00d7D0oPEk"
+                                        data-amount="1500"
+                                        data-name="AYN - All You Need"
+                                        data-description="Promote your ad for 20 days for 15 $"
+                                        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                                        data-locale="en"
+                                        data-zip-code="true"
+                                        data-label="Order">
+                                </script>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted text-uppercase text-center">30 days</h5>
+                        <h6 class="card-price text-center">20 $<span class="period"></span></h6>
+                        <hr>
+                        <div class="text-center">
+                            <form asp-controller="Ads" asp-action="Promote" method="POST">
+                                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                        data-key="pk_test_51JC369DjgxsARjFqEYyTTQYKHthtU3IFY0xfHpGRdLL0BVlvRMmBrrU488pdLUKjHzHvHkHTJoZzKFi3ucsj4wwp00d7D0oPEk"
+                                        data-amount="2000"
+                                        data-name="AYN - All You Need"
+                                        data-description="Promote your ad for 30 days for 20 $"
+                                        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                                        data-locale="en"
+                                        data-zip-code="true"
+                                        data-label="Order">
+                                </script>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted text-uppercase text-center">40 days</h5>
+                        <h6 class="card-price text-center">25 $<span class="period"></span></h6>
+                        <hr>
+                        <div class="text-center">
+                            <form asp-controller="Ads" asp-action="Promote" method="POST">
+                                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                        data-key="pk_test_51JC369DjgxsARjFqEYyTTQYKHthtU3IFY0xfHpGRdLL0BVlvRMmBrrU488pdLUKjHzHvHkHTJoZzKFi3ucsj4wwp00d7D0oPEk"
+                                        data-amount="2500"
+                                        data-name="AYN - All You Need"
+                                        data-description="Promote your ad for 40 days for 25 $"
+                                        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                                        data-locale="en"
+                                        data-zip-code="true"
+                                        data-label="Order">
+                                </script>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted text-uppercase text-center">50 days</h5>
+                        <h6 class="card-price text-center">30 $<span class="period"></span></h6>
+                        <hr>
+                        <div class="text-center">
+                            <form asp-controller="Ads" asp-action="Promote" method="POST">
+                                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                        data-key="pk_test_51JC369DjgxsARjFqEYyTTQYKHthtU3IFY0xfHpGRdLL0BVlvRMmBrrU488pdLUKjHzHvHkHTJoZzKFi3ucsj4wwp00d7D0oPEk"
+                                        data-amount="3000"
+                                        data-name="AYN - All You Need"
+                                        data-description="Promote your ad for 50 days for 30 $"
+                                        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                                        data-locale="en"
+                                        data-zip-code="true"
+                                        data-label="Order">
+                                </script>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted text-uppercase text-center">60 days</h5>
+                        <h6 class="card-price text-center">35 $<span class="period"></span></h6>
+                        <hr>
+                        <div class="text-center">
+                            <form asp-controller="Ads" asp-action="Promote" method="POST">
+                                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                        data-key="pk_test_51JC369DjgxsARjFqEYyTTQYKHthtU3IFY0xfHpGRdLL0BVlvRMmBrrU488pdLUKjHzHvHkHTJoZzKFi3ucsj4wwp00d7D0oPEk"
+                                        data-amount="3500"
+                                        data-name="AYN - All You Need"
+                                        data-description="Promote your ad for 60 days for 35 $"
+                                        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                                        data-locale="en"
+                                        data-zip-code="true"
+                                        data-label="Order">
+                                </script>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

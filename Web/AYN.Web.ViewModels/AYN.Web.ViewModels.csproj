@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <Folder Include="Administration\Ads\" />
+    <Folder Include="Payments\" />
     <Folder Include="SubCategories\" />
   </ItemGroup>
 
