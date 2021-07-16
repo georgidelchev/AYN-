@@ -10,14 +10,12 @@ using AYN.Services.Data.Implementations;
 using Microsoft.EntityFrameworkCore;
 
 using Moq;
-
-using Xunit;
+using NUnit.Framework;
 
 namespace AYN.Services.Data.Tests
 {
     public class SettingsServiceTests
     {
-        [Fact]
         public void GetCountShouldReturnCorrectNumber()
         {
             var repository = new Mock<IDeletableEntityRepository<Setting>>();
@@ -31,12 +29,11 @@ namespace AYN.Services.Data.Tests
 
             var service = new SettingsService(repository.Object);
 
-            Assert.Equal(3, service.GetCount());
+            Assert.AreEqual(3, service.GetCount());
 
             repository.Verify(x => x.All(), Times.Once);
         }
 
-        [Fact]
         public async Task GetCountShouldReturnCorrectNumberUsingDbContext()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
@@ -53,7 +50,7 @@ namespace AYN.Services.Data.Tests
             using var repository = new EfDeletableEntityRepository<Setting>(dbContext);
             var service = new SettingsService(repository);
 
-            Assert.Equal(3, service.GetCount());
+            Assert.AreEqual(3, service.GetCount());
         }
     }
 }
