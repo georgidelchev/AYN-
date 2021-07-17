@@ -9,6 +9,6 @@ namespace AYN.Web.ViewModels.Categories
 
         public string Name { get; set; }
 
-        public string PictureExtension { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

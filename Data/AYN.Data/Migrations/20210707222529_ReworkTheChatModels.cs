@@ -35,14 +35,14 @@ namespace AYN.Data.Migrations
                 table: "ChatConversations",
                 type: "nvarchar(450)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
 
             migrationBuilder.AddColumn<string>(
                 name: "SenderId",
                 table: "ChatConversations",
                 type: "nvarchar(450)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ChatConversations_ReceiverId",
@@ -102,14 +102,14 @@ namespace AYN.Data.Migrations
                 table: "Messages",
                 type: "nvarchar(450)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
 
             migrationBuilder.AddColumn<string>(
                 name: "SenderId",
                 table: "Messages",
                 type: "nvarchar(450)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_ReceiverId",

@@ -20,9 +20,9 @@ namespace AYN.Web.ViewModels.Users
 
         public string About { get; set; }
 
-        public string AvatarExtension { get; set; }
+        public string AvatarImageUrl { get; set; }
 
-        public string ThumbnailExtension { get; set; }
+        public string ThumbnailImageUrl { get; set; }
 
         public int FolloweesCount { get; set; }
 

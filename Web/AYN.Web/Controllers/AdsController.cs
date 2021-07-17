@@ -122,7 +122,7 @@ namespace AYN.Web.Controllers
                     {
                         Id = category.Id,
                         Name = category.Name,
-                        PictureExtension = category.PictureExtension,
+                        ImageUrl = category.ImageUrl,
                     };
 
                     viewModel.AllCategoriesWithAllSubCategories
@@ -219,7 +219,7 @@ namespace AYN.Web.Controllers
                 Customer = customer.Id,
                 ReceiptEmail = stripeEmail,
                 Metadata = new Dictionary<string, string>()
-                    {{"OrderId", "111"}, {"Postcode", "6000"},},
+                    { { "OrderId", "111" }, { "Postcode", "6000" }, },
             });
 
             switch (charge.Status)
@@ -229,11 +229,10 @@ namespace AYN.Web.Controllers
                         var balanceTransactionId = charge.BalanceTransactionId;
                         return this.View();
                     }
+
                 default:
                     return this.Redirect("/");
             }
-
-            return this.Redirect("/");
         }
     }
 }

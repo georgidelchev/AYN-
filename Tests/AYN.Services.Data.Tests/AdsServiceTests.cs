@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+
 using AYN.Data;
-using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Data.Models.Enumerations;
 using AYN.Data.Repositories;
 using AYN.Services.Data.Implementations;
-using AYN.Services.Data.Interfaces;
 using AYN.Web.ViewModels.Ads;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 using NUnit.Framework;
 
 namespace AYN.Services.Data.Tests
@@ -36,7 +30,7 @@ namespace AYN.Services.Data.Tests
             await dbContext.SaveChangesAsync();
 
             using var repository = new EfDeletableEntityRepository<Ad>(dbContext);
-            var service = new AdsService(repository, null, null, null);
+            var service = new AdsService(repository, null, null);
 
             // Assert
             Assert.AreEqual(3, service.GetCount());
@@ -72,7 +66,7 @@ namespace AYN.Services.Data.Tests
             await dbContext.SaveChangesAsync();
 
             using var repository = new EfDeletableEntityRepository<Ad>(dbContext);
-            var service = new AdsService(repository, null, null, null);
+            var service = new AdsService(repository, null, null);
             await service.CreateAsync(ad, "id");
 
             // Assert

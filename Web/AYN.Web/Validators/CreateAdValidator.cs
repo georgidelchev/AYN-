@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+
 using AYN.Data.Models.Enumerations;
 using AYN.Services.Data.Interfaces;
 using AYN.Web.ViewModels.Ads;
@@ -11,16 +10,13 @@ namespace AYN.Web.Validators
     {
         private readonly ICategoriesService categoriesService;
         private readonly ITownsService townsService;
-        private readonly IImageService imageService;
 
         public CreateAdValidator(
             ICategoriesService categoriesService,
-            ITownsService townsService,
-            IImageService imageService)
+            ITownsService townsService)
         {
             this.categoriesService = categoriesService;
             this.townsService = townsService;
-            this.imageService = imageService;
         }
 
         public string Validate(CreateAdInputModel entity)
@@ -54,18 +50,6 @@ namespace AYN.Web.Validators
             else if (!Enum.IsDefined(typeof(AdType), entity.AdType))
             {
                 errorMessage = "Invalid ad type.";
-            }
-            else
-            {
-                foreach (var picture in entity.Pictures)
-                {
-                    var extension = this.imageService.GetImageExtension(picture);
-
-                    if (!this.imageService.IsExtensionValid(extension))
-                    {
-                        errorMessage = "Invalid Image.";
-                    }
-                }
             }
 
             return errorMessage;

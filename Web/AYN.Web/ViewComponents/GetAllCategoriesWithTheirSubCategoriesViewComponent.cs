@@ -43,7 +43,7 @@ namespace AYN.Web.ViewComponents
                 {
                     Id = category.Id,
                     Name = category.Name,
-                    PictureExtension = category.PictureExtension,
+                    ImageUrl = category.ImageUrl,
                 };
 
                 viewModel.AllCategoriesWithAllSubCategories

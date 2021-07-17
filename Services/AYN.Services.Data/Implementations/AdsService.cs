@@ -16,34 +16,34 @@ namespace AYN.Services.Data.Implementations
     public class AdsService : IAdsService
     {
         private readonly IDeletableEntityRepository<Ad> adsRepository;
-        private readonly IImageService imageService;
         private readonly IDeletableEntityRepository<UserAdView> userAdViewsRepository;
         private readonly ICloudinaryService cloudinaryService;
 
         public AdsService(
             IDeletableEntityRepository<Ad> adsRepository,
-            IImageService imageService,
             IDeletableEntityRepository<UserAdView> userAdViewsRepository,
             ICloudinaryService cloudinaryService)
         {
             this.adsRepository = adsRepository;
-            this.imageService = imageService;
             this.userAdViewsRepository = userAdViewsRepository;
             this.cloudinaryService = cloudinaryService;
         }
 
-        public async Task CreateAsync(CreateAdInputModel input, string userId/*, string imagePath*/)
+        public async Task CreateAsync(CreateAdInputModel input, string userId)
         {
-            //var physicalPath = $"{imagePath}/img/AdsPictures/";
-            //Directory.CreateDirectory(physicalPath);
-
             var imageUrls = new List<string>();
             if (input.Pictures.Any())
             {
-                imageUrls = input.Pictures
-                    .Select(async p => await this.cloudinaryService.UploadPictureAsync(p, p.FileName, "AdsImages", 900, 600))
-                    .Select(p => p.Result)
-                    .ToList();
+                await using var ms = new MemoryStream();
+                foreach (var image in input.Pictures)
+                {
+                    await image.CopyToAsync(ms);
+                    var destinationData = ms.ToArray();
+
+                    var imageUrl = await this.cloudinaryService.UploadPictureAsync(destinationData, image.FileName, "AdsImages", 900, 600);
+
+                    imageUrls.Add(imageUrl);
+                }
             }
 
             var ad = new Ad
@@ -70,8 +70,6 @@ namespace AYN.Services.Data.Implementations
 
             await this.adsRepository.AddAsync(ad);
             await this.adsRepository.SaveChangesAsync();
-
-            //await this.SaveImagesLocally(input, ad, physicalPath);
         }
 
         public async Task<IEnumerable<T>> GetRecent12AdsAsync<T>()
@@ -229,7 +227,6 @@ namespace AYN.Services.Data.Implementations
                 .All()
                 .FirstOrDefault(a => a.Id == adId);
 
-
             ad.IsArchived = false;
             ad.ArchivedOn = null;
 
@@ -318,26 +315,5 @@ namespace AYN.Services.Data.Implementations
             => this.adsRepository
                 .All()
                 .Any(a => a.AddedByUserId == userId && a.Id == adId);
-
-        // Helper methods
-        private async Task SaveImagesLocally(CreateAdInputModel input, Ad ad, string physicalPath)
-        {
-            var index = 1;
-            foreach (var picture in input.Pictures)
-            {
-                var extension = this.imageService.GetImageExtension(picture);
-
-                await this.imageService.CreateAsync(ad.Id, extension);
-
-                var fullPhysicalPath = physicalPath + $"{index++}-{ad.Id}.{extension}";
-
-                await using var fileStream = new FileStream(fullPhysicalPath, FileMode.Create);
-
-                await picture.CopyToAsync(fileStream);
-                await fileStream.DisposeAsync();
-
-                await this.imageService.SaveImageLocallyAsync(fullPhysicalPath, 900, 600);
-            }
-        }
     }
 }

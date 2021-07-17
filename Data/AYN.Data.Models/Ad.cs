@@ -77,9 +77,6 @@ namespace AYN.Data.Models
         [Required]
         public DeliveryTake DeliveryTake { get; set; }
 
-        public virtual ICollection<Picture> Pictures { get; set; }
-            = new HashSet<Picture>();
-
         public virtual ICollection<Tag> Tags { get; set; }
             = new HashSet<Tag>();
 

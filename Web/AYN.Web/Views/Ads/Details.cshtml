@@ -39,17 +39,17 @@
             </div>
             <div id="carouselExampleIndicators" class="carousel slide" data-interval="false" data-ride="carousel">
                 <ol class="carousel-indicators">
-                    @for (var i = 1; i <= this.Model.PictureExtensions.Count(); i++)
+                    @for (var i = 1; i <= this.Model.ImagesUrls.Count(); i++)
                     {
                         <li data-target="#carouselExampleIndicators" data-slide-to="@i" @(i == 1 ? "class='active'" : "")></li>
                     }
                 </ol>
                 <div class="carousel-inner">
                     @{ var counter = 1;}
-                    @foreach (var pictureExtension in this.Model.PictureExtensions)
+                    @foreach (var imageUrl in this.Model.ImagesUrls)
                     {
                         <div class="carousel-@(counter == 1 ? "item active" : "item")">
-                            <img class="d-block w-100" src="/img/AdsPictures/@counter-@this.Model.Id.@pictureExtension" alt="@this.Model.Name">
+                            <img class="d-block w-100" src="@imageUrl" alt="@this.Model.Name" style="height: 500px;">
                         </div>
 
                         counter++;

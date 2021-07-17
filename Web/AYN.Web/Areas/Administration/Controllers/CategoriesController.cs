@@ -70,7 +70,6 @@ namespace AYN.Web.Areas.Administration.Controllers
             return this.Redirect("/");
         }
 
-
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {

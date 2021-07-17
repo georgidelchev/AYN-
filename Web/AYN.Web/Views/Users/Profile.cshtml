@@ -18,10 +18,10 @@
 
 <main>
     <div class="card ">
-        <img src="/img/UsersThumbnails/@if (this.Model.ThumbnailExtension == null){<text>@this.Model.Id.ToString()_DEFAULT.png</text>}else{<text>@this.Model.Id.@this.Model.ThumbnailExtension</text>}" alt="">
+        <img src="@this.Model.ThumbnailImageUrl" alt="">
         <div class="card-body social-prof">
             <div class="wrapper">
-                <img src="/img/UsersAvatars/@if (this.Model.AvatarExtension == null){<text>@this.Model.Id.ToString()_DEFAULT.png</text>}else{<text>@this.Model.Id.@this.Model.AvatarExtension</text>}" alt="" class="user-profile">
+                <img src="@this.Model.AvatarImageUrl" alt="" class="user-profile">
                 @if (this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value == this.Model.Id)
                 {
                     <h6>

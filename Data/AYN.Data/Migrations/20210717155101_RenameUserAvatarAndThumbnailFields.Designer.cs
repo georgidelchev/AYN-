@@ -4,14 +4,16 @@ using AYN.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AYN.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210717155101_RenameUserAvatarAndThumbnailFields")]
+    partial class RenameUserAvatarAndThumbnailFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -231,7 +233,8 @@ namespace AYN.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("AvatarImageUrl")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<DateTime?>("BannedOn")
                         .HasColumnType("datetime2");
@@ -324,7 +327,8 @@ namespace AYN.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ThumbnailImageUrl")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<string>("TikTokUrl")
                         .HasMaxLength(25)
@@ -380,10 +384,6 @@ namespace AYN.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -394,6 +394,11 @@ namespace AYN.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("PictureExtension")
+                        .IsRequired()
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
 
                     b.HasKey("Id");
 
@@ -525,6 +530,44 @@ namespace AYN.Data.Migrations
                     b.ToTable("Contacts");
                 });
 
+            modelBuilder.Entity("AYN.Data.Models.FavoritePost", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AdId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AdId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdId1");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FavoritePosts");
+                });
+
             modelBuilder.Entity("AYN.Data.Models.FollowerFollowee", b =>
                 {
                     b.Property<string>("Id")
@@ -592,6 +635,43 @@ namespace AYN.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("Notifications");
+                });
+
+            modelBuilder.Entity("AYN.Data.Models.Picture", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AdId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Extension")
+                        .IsRequired()
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("Pictures");
                 });
 
             modelBuilder.Entity("AYN.Data.Models.Post", b =>
@@ -966,6 +1046,31 @@ namespace AYN.Data.Migrations
                     b.ToTable("UsersNotifications");
                 });
 
+            modelBuilder.Entity("AYN.Data.Models.UserRating", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("Value")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserRatings");
+                });
+
             modelBuilder.Entity("AYN.Data.Models.Wishlist", b =>
                 {
                     b.Property<int>("Id")
@@ -1267,6 +1372,23 @@ namespace AYN.Data.Migrations
                     b.Navigation("AddedByUser");
                 });
 
+            modelBuilder.Entity("AYN.Data.Models.FavoritePost", b =>
+                {
+                    b.HasOne("AYN.Data.Models.Ad", "Ad")
+                        .WithMany()
+                        .HasForeignKey("AdId1");
+
+                    b.HasOne("AYN.Data.Models.ApplicationUser", "User")
+                        .WithMany("FavoritePosts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Ad");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("AYN.Data.Models.FollowerFollowee", b =>
                 {
                     b.HasOne("AYN.Data.Models.ApplicationUser", "Followee")
@@ -1284,6 +1406,17 @@ namespace AYN.Data.Migrations
                     b.Navigation("Followee");
 
                     b.Navigation("Follower");
+                });
+
+            modelBuilder.Entity("AYN.Data.Models.Picture", b =>
+                {
+                    b.HasOne("AYN.Data.Models.Ad", "Ad")
+                        .WithMany("Pictures")
+                        .HasForeignKey("AdId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Ad");
                 });
 
             modelBuilder.Entity("AYN.Data.Models.Post", b =>
@@ -1415,6 +1548,17 @@ namespace AYN.Data.Migrations
                     b.Navigation("Notification");
                 });
 
+            modelBuilder.Entity("AYN.Data.Models.UserRating", b =>
+                {
+                    b.HasOne("AYN.Data.Models.ApplicationUser", "User")
+                        .WithMany("UserRatings")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("AYN.Data.Models.Wishlist", b =>
                 {
                     b.HasOne("AYN.Data.Models.Ad", "Ad")
@@ -1536,6 +1680,8 @@ namespace AYN.Data.Migrations
 
                     b.Navigation("Images");
 
+                    b.Navigation("Pictures");
+
                     b.Navigation("Reports");
 
                     b.Navigation("UserAdViews");
@@ -1552,6 +1698,8 @@ namespace AYN.Data.Migrations
 
                     b.Navigation("Claims");
 
+                    b.Navigation("FavoritePosts");
+
                     b.Navigation("Followers");
 
                     b.Navigation("Followings");
@@ -1567,6 +1715,8 @@ namespace AYN.Data.Migrations
                     b.Navigation("Roles");
 
                     b.Navigation("UserAdViews");
+
+                    b.Navigation("UserRatings");
 
                     b.Navigation("Wishlist");
                 });

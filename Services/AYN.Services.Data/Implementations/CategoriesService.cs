@@ -20,32 +20,32 @@ namespace AYN.Services.Data.Implementations
         private readonly IDeletableEntityRepository<Category> categoriesRepository;
         private readonly IDeletableEntityRepository<SubCategory> subCategoriesRepository;
         private readonly ISubCategoriesService subCategoriesService;
-        private readonly IImageService imageService;
+        private readonly ICloudinaryService cloudinaryService;
 
         public CategoriesService(
             IDeletableEntityRepository<Category> categoriesRepository,
             IDeletableEntityRepository<SubCategory> subCategoriesRepository,
             ISubCategoriesService subCategoriesService,
-            IImageService imageService)
+            ICloudinaryService cloudinaryService)
         {
             this.categoriesRepository = categoriesRepository;
             this.subCategoriesRepository = subCategoriesRepository;
             this.subCategoriesService = subCategoriesService;
-            this.imageService = imageService;
+            this.cloudinaryService = cloudinaryService;
         }
 
         public async Task CreateAsync(CreateCategoryInputModel input, string imagePath)
         {
-            var physicalPath = $"{imagePath}/img/CategoriesPictures/";
-            Directory.CreateDirectory($"{physicalPath}");
+            await using var ms = new MemoryStream();
+            await input.Picture.CopyToAsync(ms);
+            var destinationData = ms.ToArray();
 
-            var extension = this.imageService.GetImageExtension(input.Picture);
-            this.imageService.IsExtensionValid(extension);
+            var imageUrl = await this.cloudinaryService.UploadPictureAsync(destinationData, input.Picture.FileName, "CategoriesImages", 100, 100);
 
             var category = new Category()
             {
                 Name = input.Name,
-                PictureExtension = extension,
+                ImageUrl = imageUrl,
             };
 
             if (input.SubCategories.Any())
@@ -72,15 +72,6 @@ namespace AYN.Services.Data.Implementations
 
             await this.categoriesRepository.AddAsync(category);
             await this.categoriesRepository.SaveChangesAsync();
-
-            var fullPhysicalPath = physicalPath + $"{category.Id}.{extension}";
-
-            await using var fileStream = new FileStream(fullPhysicalPath, FileMode.Create);
-
-            await input.Picture.CopyToAsync(fileStream);
-            await fileStream.DisposeAsync();
-
-            await this.imageService.SaveImageLocallyAsync(fullPhysicalPath, 100, 100);
         }
 
         public IQueryable<T> GetAll<T>()
@@ -129,27 +120,14 @@ namespace AYN.Services.Data.Implementations
 
             if (input.Picture != null)
             {
-                var physicalPath = $"{imagePath}/img/CategoriesPictures/";
+                await using var ms = new MemoryStream();
+                await input.Picture.CopyToAsync(ms);
+                var destinationData = ms.ToArray();
 
-                Directory.CreateDirectory($"{physicalPath}");
-                File.Delete(physicalPath + $"{category.Id}.{category.PictureExtension}");
-
-                var extension = this.imageService.GetImageExtension(input.Picture);
-                this.imageService.IsExtensionValid(extension);
-
-                category.PictureExtension = extension;
+                category.ImageUrl = await this.cloudinaryService.UploadPictureAsync(destinationData, input.Picture.FileName, "CategoriesImages", 100, 100);
 
                 this.categoriesRepository.Update(category);
                 await this.categoriesRepository.SaveChangesAsync();
-
-                var fullPhysicalPath = physicalPath + $"{category.Id}.{extension}";
-
-                await using var fileStream = new FileStream(fullPhysicalPath, FileMode.Create);
-
-                await input.Picture.CopyToAsync(fileStream);
-                await fileStream.DisposeAsync();
-
-                await this.imageService.SaveImageLocallyAsync(fullPhysicalPath, 100, 100);
             }
         }
 

@@ -83,7 +83,6 @@ namespace AYN.Web
             // Application services
             services.AddTransient<IAdsService, AdsService>();
             services.AddTransient<ITownsService, TownsService>();
-            services.AddTransient<IImageService, ImageService>();
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IPostsService, PostsService>();
             services.AddTransient<IReportsService, ReportsService>();
@@ -105,7 +104,7 @@ namespace AYN.Web
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
-            StripeConfiguration.SetApiKey(configuration["Stripe:SecretKey"]);
+            StripeConfiguration.SetApiKey(this.configuration["Stripe:SecretKey"]);
 
             // Seed data on application startup
             using (var serviceScope = app.ApplicationServices.CreateScope())

@@ -12,12 +12,12 @@ namespace AYN.Web.ViewModels.Ads
 
         public string Name { get; set; }
 
-        public string PictureExtension { get; set; }
+        public string ImageUrl { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Ad, GetAdViewModel>()
-                .ForMember(m => m.PictureExtension, opt => opt.MapFrom(o => o.Pictures.FirstOrDefault().Extension));
+                .ForMember(m => m.ImageUrl, opt => opt.MapFrom(o => o.Images.FirstOrDefault().ImageUrl));
         }
     }
 }

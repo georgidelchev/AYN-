@@ -137,6 +137,8 @@ namespace AYN.Web.Areas.Identity.Pages.Account
                     LastName = this.Input.LastName,
                     TownId = 1,
                     Gender = this.Input.Gender,
+                    ThumbnailImageUrl = await this.usersService.GenerateDefaultThumbnail(this.Input.FirstName, this.Input.LastName),
+                    AvatarImageUrl = await this.usersService.GenerateDefaultAvatar(this.Input.FirstName, this.Input.LastName),
                 };
 
                 var result = await this.userManager.CreateAsync(user, this.Input.Password);
@@ -144,9 +146,6 @@ namespace AYN.Web.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     this.logger.LogInformation("User created a new account with password.");
-
-                    await this.usersService.GenerateDefaultAvatar(this.Input.FirstName, this.Input.LastName, user.Id, this.environment.WebRootPath);
-                    await this.usersService.GenerateDefaultThumbnail(this.Input.FirstName, this.Input.LastName, user.Id, this.environment.WebRootPath);
 
                     var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
 

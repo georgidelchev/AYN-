@@ -22,19 +22,16 @@ namespace AYN.Services.Data.Implementations
     {
         private readonly IDeletableEntityRepository<ApplicationUser> applicationUserRepository;
         private readonly IDeletableEntityRepository<FollowerFollowee> followerFolloweesRepository;
-        private readonly IImageService imageService;
-        private readonly IAdsService adsService;
+        private readonly ICloudinaryService cloudinaryService;
 
         public UsersService(
             IDeletableEntityRepository<ApplicationUser> applicationUserRepository,
             IDeletableEntityRepository<FollowerFollowee> followerFolloweesRepository,
-            IImageService imageService,
-            IAdsService adsService)
+            ICloudinaryService cloudinaryService)
         {
             this.applicationUserRepository = applicationUserRepository;
             this.followerFolloweesRepository = followerFolloweesRepository;
-            this.imageService = imageService;
-            this.adsService = adsService;
+            this.cloudinaryService = cloudinaryService;
         }
 
         public async Task<IEnumerable<T>> GetAll<T>()
@@ -104,26 +101,16 @@ namespace AYN.Services.Data.Implementations
                 .All()
                 .Any(au => au.Id == userId);
 
-        public async Task GenerateDefaultAvatar(string firstName, string lastName, string userId, string wwwRootPath)
+        public async Task<string> GenerateDefaultAvatar(string firstName, string lastName)
         {
-            var physicalPath = $"{wwwRootPath}/img/UsersAvatars/";
-            Directory.CreateDirectory($"{physicalPath}");
-            var fullPhysicalPath = physicalPath + $"{userId}_DEFAULT.png";
-            File.Delete(fullPhysicalPath);
-
             var text = $"{firstName[0]}{lastName[0]}".ToUpper();
-            await ProcessDefaultImage(text, fullPhysicalPath, 192, 192, "Arial", 40, FontStyle.Bold);
+            return await this.ProcessDefaultImage(text, 192, 192, "Arial", 40, FontStyle.Bold);
         }
 
-        public async Task GenerateDefaultThumbnail(string firstName, string lastName, string userId, string wwwRootPath)
+        public async Task<string> GenerateDefaultThumbnail(string firstName, string lastName)
         {
-            var physicalPath = $"{wwwRootPath}/img/UsersThumbnails/";
-            Directory.CreateDirectory($"{physicalPath}");
-            var fullPhysicalPath = physicalPath + $"{userId}_DEFAULT.png";
-            File.Delete(fullPhysicalPath);
-
             var text = $"AYN - All you need!{Environment.NewLine}{firstName} {lastName}".ToUpper();
-            await ProcessDefaultImage(text, fullPhysicalPath, 1110, 350, "Arial", 40, FontStyle.Bold);
+            return await this.ProcessDefaultImage(text, 1110, 350, "Arial", 40, FontStyle.Bold);
         }
 
         public async Task<T> GetByIdAsync<T>(string id)
@@ -141,51 +128,31 @@ namespace AYN.Services.Data.Implementations
 
             if (model.EditUserGeneralInfoViewModel.Avatar is not null)
             {
-                var avatarExtension = this.imageService.GetImageExtension(model.EditUserGeneralInfoViewModel.Avatar);
-                this.imageService.IsExtensionValid(avatarExtension);
+                await using var ms = new MemoryStream();
+                await model.EditUserGeneralInfoViewModel.Avatar.CopyToAsync(ms);
+                var destinationData = ms.ToArray();
 
-                var physicalPath = $"{wwwRootPath}/img/UsersAvatars/";
-                Directory.CreateDirectory($"{physicalPath}");
-                File.Delete(physicalPath + $"{user.Id}.{user.AvatarExtension}");
+                var avatarUrl = await this.cloudinaryService.UploadPictureAsync(destinationData, "avatar", "UsersImages", 192, 192);
 
-                var fullPhysicalPath = physicalPath + $"{user.Id}.{avatarExtension}";
-
-                user.AvatarExtension = avatarExtension;
-
-                await using var fileStream = new FileStream(fullPhysicalPath, FileMode.Create);
-
-                await model.EditUserGeneralInfoViewModel.Avatar.CopyToAsync(fileStream);
-                await fileStream.DisposeAsync();
-
-                await this.imageService.SaveImageLocallyAsync(fullPhysicalPath, 192, 192);
+                user.AvatarImageUrl = avatarUrl;
             }
 
             if (model.EditUserGeneralInfoViewModel.Thumbnail is not null)
             {
-                var thumbnailExtension = this.imageService.GetImageExtension(model.EditUserGeneralInfoViewModel.Thumbnail);
-                this.imageService.IsExtensionValid(thumbnailExtension);
+                await using var ms = new MemoryStream();
+                await model.EditUserGeneralInfoViewModel.Thumbnail.CopyToAsync(ms);
+                var destinationData = ms.ToArray();
 
-                var physicalPath = $"{wwwRootPath}/img/UsersThumbnails/";
-                Directory.CreateDirectory($"{physicalPath}");
-                File.Delete(physicalPath + $"{user.Id}.{user.ThumbnailExtension}");
+                var thumbnailUrl = await this.cloudinaryService.UploadPictureAsync(destinationData, "thumbnail", "UsersImages", 1110, 350);
 
-                var fullPhysicalPath = physicalPath + $"{user.Id}.{thumbnailExtension}";
-
-                user.ThumbnailExtension = thumbnailExtension;
-
-                await using var fileStream = new FileStream(fullPhysicalPath, FileMode.Create);
-
-                await model.EditUserGeneralInfoViewModel.Thumbnail.CopyToAsync(fileStream);
-                await fileStream.DisposeAsync();
-
-                await this.imageService.SaveImageLocallyAsync(fullPhysicalPath, 1110, 350);
+                user.ThumbnailImageUrl = thumbnailUrl;
             }
 
             if (user?.FirstName != model.EditUserGeneralInfoViewModel.FirstName ||
                 user?.LastName != model.EditUserGeneralInfoViewModel.LastName)
             {
-                await this.GenerateDefaultAvatar(model.EditUserGeneralInfoViewModel.FirstName, model.EditUserGeneralInfoViewModel.LastName, user?.Id, wwwRootPath);
-                await this.GenerateDefaultThumbnail(model.EditUserGeneralInfoViewModel.FirstName, model.EditUserGeneralInfoViewModel.LastName, user?.Id, wwwRootPath);
+                await this.GenerateDefaultAvatar(model.EditUserGeneralInfoViewModel.FirstName, model.EditUserGeneralInfoViewModel.LastName);
+                await this.GenerateDefaultThumbnail(model.EditUserGeneralInfoViewModel.FirstName, model.EditUserGeneralInfoViewModel.LastName);
             }
 
             user.FirstName = model.EditUserGeneralInfoViewModel.FirstName;
@@ -262,16 +229,11 @@ namespace AYN.Services.Data.Implementations
             await this.applicationUserRepository.SaveChangesAsync();
         }
 
-        private static async Task ProcessDefaultImage(string text, string fullPhysicalPath, int width, int height, string fontName, int emSize, FontStyle fontStyle)
+        private async Task<string> ProcessDefaultImage(string text, int width, int height, string fontName, int emSize, FontStyle fontStyle)
         {
             if (string.IsNullOrEmpty(text))
             {
                 throw new ArgumentException($"'{nameof(text)}' cannot be null or empty.", nameof(text));
-            }
-
-            if (string.IsNullOrEmpty(fullPhysicalPath))
-            {
-                throw new ArgumentException($"'{nameof(fullPhysicalPath)}' cannot be null or empty.", nameof(fullPhysicalPath));
             }
 
             if (string.IsNullOrEmpty(fontName))
@@ -297,9 +259,12 @@ namespace AYN.Services.Data.Implementations
             graphics.DrawString(text, font, new SolidBrush(Color.WhiteSmoke), new RectangleF(0, 0, width, height), sf);
             graphics.Flush();
 
-            await using var fileStream = new FileStream(fullPhysicalPath, FileMode.Create);
+            await using var ms = new MemoryStream();
+            bmp.Save(ms, ImageFormat.Jpeg);
 
-            bmp.Save(fileStream, ImageFormat.Png);
+            var destinationData = ms.ToArray();
+
+            return await this.cloudinaryService.UploadPictureAsync(destinationData, "Avatar", "UsersImages", width, height);
         }
     }
 }

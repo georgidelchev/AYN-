@@ -20,7 +20,7 @@ namespace AYN.Web.ViewModels.Ads
         public string ShortDescription
             => this.Description.Substring(0, DescriptionMinLength);
 
-        public string PictureExtension { get; set; }
+        public string ImageUrl { get; set; }
 
         public decimal Price { get; set; }
 
@@ -35,7 +35,7 @@ namespace AYN.Web.ViewModels.Ads
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Ad, WishlistAdsViewModel>()
-                .ForMember(m => m.PictureExtension, opt => opt.MapFrom(o => o.Pictures.FirstOrDefault().Extension));
+                .ForMember(m => m.ImageUrl, opt => opt.MapFrom(o => o.Images.FirstOrDefault().ImageUrl));
         }
     }
 }

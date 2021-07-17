@@ -19,11 +19,9 @@ namespace AYN.Data.Models
                 .ToString();
         }
 
-        [MaxLength(ApplicationUserSocialContactUrlMaxLength)]
-        public string ThumbnailExtension { get; set; }
+        public string ThumbnailImageUrl { get; set; }
 
-        [MaxLength(ApplicationUserSocialContactUrlMaxLength)]
-        public string AvatarExtension { get; set; }
+        public string AvatarImageUrl { get; set; }
 
         [MaxLength(ApplicationUserSocialContactUrlMaxLength)]
         public string FacebookUrl { get; set; }
@@ -108,12 +106,6 @@ namespace AYN.Data.Models
 
         public virtual ICollection<PostVote> PostVotes { get; set; }
             = new HashSet<PostVote>();
-
-        public virtual ICollection<FavoritePost> FavoritePosts { get; set; }
-            = new HashSet<FavoritePost>();
-
-        public virtual ICollection<UserRating> UserRatings { get; set; }
-            = new HashSet<UserRating>();
 
         public virtual ICollection<PostReact> PostReacts { get; set; }
             = new HashSet<PostReact>();

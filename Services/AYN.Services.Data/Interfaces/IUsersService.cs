@@ -25,9 +25,9 @@ namespace AYN.Services.Data.Interfaces
 
         bool IsUserExisting(string userId);
 
-        Task GenerateDefaultAvatar(string firstName, string lastName, string userId, string wwwRootPath);
+        Task<string> GenerateDefaultAvatar(string firstName, string lastName);
 
-        Task GenerateDefaultThumbnail(string firstName, string lastName, string userId, string wwwRootPath);
+        Task<string> GenerateDefaultThumbnail(string firstName, string lastName);
 
         Task<T> GetByIdAsync<T>(string id);
 

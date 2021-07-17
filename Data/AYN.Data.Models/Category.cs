@@ -14,8 +14,7 @@ namespace AYN.Data.Models
         public string Name { get; set; }
 
         [Required]
-        [MaxLength(PictureExtensionMaxLength)]
-        public string PictureExtension { get; set; }
+        public string ImageUrl { get; set; }
 
         public virtual ICollection<Ad> Ads { get; set; }
             = new HashSet<Ad>();

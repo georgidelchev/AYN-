@@ -35,11 +35,7 @@ namespace AYN.Data
 
         public DbSet<Contact> Contacts { get; set; }
 
-        public DbSet<FavoritePost> FavoritePosts { get; set; }
-
         public DbSet<FollowerFollowee> FollowersFollowees { get; set; }
-
-        public DbSet<Picture> Pictures { get; set; }
 
         public DbSet<Post> Posts { get; set; }
 
@@ -54,8 +50,6 @@ namespace AYN.Data
         public DbSet<Tag> Tags { get; set; }
 
         public DbSet<Town> Towns { get; set; }
-
-        public DbSet<UserRating> UserRatings { get; set; }
 
         public DbSet<Wishlist> Wishlists { get; set; }
 

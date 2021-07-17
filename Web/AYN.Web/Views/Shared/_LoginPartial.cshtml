@@ -11,7 +11,7 @@
     {
         <li class="nav-item">
             <a class="nav-link text-dark" data-toggle="tooltip" data-placement="top" title="Profile" asp-area="" asp-controller="Users" asp-action="Profile" asp-route-id="@this.UserManager.Users.FirstOrDefault(u => u.Id == this.User.FindFirst(ClaimTypes.NameIdentifier).Value)?.Id">
-                <img src="/img/UsersAvatars/@if (this.UserManager.Users.FirstOrDefault(u => u.Id == this.User.FindFirst(ClaimTypes.NameIdentifier).Value)?.AvatarExtension == null){<text>@this.UserManager.Users.FirstOrDefault(u => u.Id == this.User.FindFirst(ClaimTypes.NameIdentifier).Value)?.Id.ToString()_DEFAULT.png</text>}else{<text>@this.UserManager.Users.FirstOrDefault(u => u.Id == this.User.FindFirst(ClaimTypes.NameIdentifier).Value)?.Id.@this.UserManager.Users.FirstOrDefault(u => u.Id == this.User.FindFirst(ClaimTypes.NameIdentifier).Value)?.AvatarExtension</text>}" alt="" class="user-profile img-fluid rounded-circle" style="width: 50px;height: 50px">
+                <img src="@this.UserManager.Users.FirstOrDefault(u=>u.Id==this.User.FindFirst(ClaimTypes.NameIdentifier).Value)?.AvatarImageUrl" class="user-profile img-fluid rounded-circle" style="width: 50px;height: 50px">
             </a>
         </li>
         @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
