@@ -12,7 +12,7 @@ namespace AYN.Web.ViewModels.Ads
 
         public string Name { get; set; }
 
-        public string PictureExtension { get; set; }
+        public string TitleImageUrl { get; set; }
 
         public decimal Price { get; set; }
 
@@ -20,7 +20,7 @@ namespace AYN.Web.ViewModels.Ads
         {
             configuration
                 .CreateMap<Ad, GetAdsViewModel>()
-                .ForMember(m => m.PictureExtension, opt => opt.MapFrom(o => o.Pictures.FirstOrDefault().Extension));
+                .ForMember(m => m.TitleImageUrl, opt => opt.MapFrom(o => o.Images.FirstOrDefault().ImageUrl));
         }
     }
 }

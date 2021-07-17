@@ -13,6 +13,7 @@ using AYN.Services.Messaging;
 using AYN.Web.Validators;
 using AYN.Web.ViewModels;
 using AYN.Web.ViewModels.Ads;
+using CloudinaryDotNet;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -44,6 +45,13 @@ namespace AYN.Web
                 .AddRoles<ApplicationRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            var cloudinaryCredentials = new CloudinaryDotNet.Account(
+                this.configuration["Cloudinary:CloudName"],
+                this.configuration["Cloudinary:ApiKey"],
+                this.configuration["Cloudinary:ApiSecret"]);
+
+            var cloudinaryUtility = new Cloudinary(cloudinaryCredentials);
+
             services.Configure<CookiePolicyOptions>(
                 options =>
                     {
@@ -63,6 +71,7 @@ namespace AYN.Web
             });
             services.AddDatabaseDeveloperPageExceptionFilter();
 
+            services.AddSingleton(cloudinaryUtility);
             services.AddSingleton(this.configuration);
 
             // Data repositories
@@ -70,6 +79,7 @@ namespace AYN.Web
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
             services.AddSignalR();
+
             // Application services
             services.AddTransient<IAdsService, AdsService>();
             services.AddTransient<ITownsService, TownsService>();
@@ -84,6 +94,7 @@ namespace AYN.Web
             services.AddTransient<IWishlistsService, WishlistsService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
             services.AddTransient<IPostReactsService, PostReactsService>();
+            services.AddTransient<ICloudinaryService, CloudinaryService>();
             services.AddTransient<IUserAdsViewsService, UserAdsViewsService>();
             services.AddTransient<ISubCategoriesService, SubCategoriesService>();
             services.AddTransient<INotificationsService, NotificationsService>();

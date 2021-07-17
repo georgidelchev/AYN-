@@ -8,7 +8,7 @@ namespace AYN.Services.Data.Interfaces
 {
     public interface IAdsService
     {
-        Task CreateAsync(CreateAdInputModel input, string userId, string imagePath);
+        Task CreateAsync(CreateAdInputModel input, string userId/*, string imagePath*/);
 
         Task<IEnumerable<T>> GetRecent12AdsAsync<T>();
 

@@ -17,28 +17,34 @@ namespace AYN.Services.Data.Implementations
     {
         private readonly IDeletableEntityRepository<Ad> adsRepository;
         private readonly IImageService imageService;
-        private readonly ICategoriesService categoriesService;
-        private readonly ITownsService townsService;
         private readonly IDeletableEntityRepository<UserAdView> userAdViewsRepository;
+        private readonly ICloudinaryService cloudinaryService;
 
         public AdsService(
             IDeletableEntityRepository<Ad> adsRepository,
             IImageService imageService,
-            ICategoriesService categoriesService,
-            ITownsService townsService,
-            IDeletableEntityRepository<UserAdView> userAdViewsRepository)
+            IDeletableEntityRepository<UserAdView> userAdViewsRepository,
+            ICloudinaryService cloudinaryService)
         {
             this.adsRepository = adsRepository;
             this.imageService = imageService;
-            this.categoriesService = categoriesService;
-            this.townsService = townsService;
             this.userAdViewsRepository = userAdViewsRepository;
+            this.cloudinaryService = cloudinaryService;
         }
 
-        public async Task CreateAsync(CreateAdInputModel input, string userId, string imagePath)
+        public async Task CreateAsync(CreateAdInputModel input, string userId/*, string imagePath*/)
         {
-            var physicalPath = $"{imagePath}/img/AdsPictures/";
-            Directory.CreateDirectory(physicalPath);
+            //var physicalPath = $"{imagePath}/img/AdsPictures/";
+            //Directory.CreateDirectory(physicalPath);
+
+            var imageUrls = new List<string>();
+            if (input.Pictures.Any())
+            {
+                imageUrls = input.Pictures
+                    .Select(async p => await this.cloudinaryService.UploadPictureAsync(p, p.FileName, "AdsImages", 900, 600))
+                    .Select(p => p.Result)
+                    .ToList();
+            }
 
             var ad = new Ad
             {
@@ -57,16 +63,22 @@ namespace AYN.Services.Data.Implementations
                 AddressId = input.AddressId,
             };
 
+            foreach (var imageUrl in imageUrls)
+            {
+                ad.Images.Add(new AdImage() { ImageUrl = imageUrl });
+            }
+
             await this.adsRepository.AddAsync(ad);
             await this.adsRepository.SaveChangesAsync();
 
-            await this.SaveImagesLocally(input, ad, physicalPath);
+            //await this.SaveImagesLocally(input, ad, physicalPath);
         }
 
         public async Task<IEnumerable<T>> GetRecent12AdsAsync<T>()
             => await this.adsRepository
                 .All()
                 .Where(a => !a.IsArchived)
+                .Include(a => a.Images)
                 .OrderBy(a => a.IsPromoted)
                 .ThenByDescending(a => a.CreatedOn)
                 .Take(12)
@@ -77,6 +89,7 @@ namespace AYN.Services.Data.Implementations
             => await this.adsRepository
                 .All()
                 .Where(a => a.IsPromoted && !a.IsArchived)
+                .Include(a => a.Images)
                 .OrderByDescending(a => a.CreatedOn)
                 .Take(12)
                 .To<T>()
@@ -84,7 +97,10 @@ namespace AYN.Services.Data.Implementations
 
         public async Task<IEnumerable<T>> GetAllAsync<T>(string search, string orderBy, int? categoryId)
         {
-            var ads = this.adsRepository.All().Where(a => !a.IsArchived);
+            var ads = this.adsRepository
+                .All()
+                .Include(a => a.Images)
+                .Where(a => !a.IsArchived);
 
             if (search is not null)
             {
@@ -134,6 +150,7 @@ namespace AYN.Services.Data.Implementations
                 .Where(a => a.Id == id && !a.IsArchived)
                 .Include(a => a.Comments)
                 .Include(a => a.UserAdViews)
+                .Include(a => a.Images)
                 .To<T>()
                 .FirstOrDefaultAsync();
         }
@@ -144,6 +161,7 @@ namespace AYN.Services.Data.Implementations
                 .Where(u => u.AddedByUserId == userId && !u.IsArchived)
                 .OrderByDescending(a => a.CreatedOn)
                 .Include(a => a.AddedByUser)
+                .Include(a => a.Images)
                 .To<T>()
                 .ToListAsync();
 
@@ -154,6 +172,7 @@ namespace AYN.Services.Data.Implementations
                 .OrderByDescending(a => a.CreatedOn)
                 .Take(12)
                 .Include(a => a.AddedByUser)
+                .Include(a => a.Images)
                 .To<T>()
                 .ToListAsync();
 

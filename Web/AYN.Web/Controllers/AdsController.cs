@@ -76,7 +76,7 @@ namespace AYN.Web.Controllers
 
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            await this.adsService.CreateAsync(input, userId, this.environment.WebRootPath);
+            await this.adsService.CreateAsync(input, userId/*, this.environment.WebRootPath*/);
             return this.Redirect("/");
         }
 
