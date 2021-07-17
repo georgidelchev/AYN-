@@ -12,3 +12,4 @@ Technologies used:
 - ASP.NET Core
 - Entity Framework Core
 - MS SQL Server
+- Cloudinary -> Save Images at the Cloud service
