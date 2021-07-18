@@ -141,6 +141,8 @@ namespace AYN.Services.Data.Implementations
                 .Where(a => a.Id == id && !a.IsArchived)
                 .Include(a => a.Comments)
                 .Include(a => a.UserAdViews)
+                .Include(a => a.Images)
+                .To<T>()
                 .FirstOrDefaultAsync();
 
             return await this.adsRepository
