@@ -51,24 +51,43 @@ namespace AYN.Services.Data.Tests
         }
 
         [Test]
-        public void GetCount_ShouldReturnCorrectResult()
+        public async Task GetCount_ShouldReturnCorrectResult()
         {
-            var repository1 = new Mock<IDeletableEntityRepository<Ad>>();
-            var repository2 = new Mock<IDeletableEntityRepository<UserAdView>>();
-            var cld = new Mock<ICloudinaryService>();
+            await this.FillUpAds(1, 5);
+            var count = this.adsService.GetCount();
+            Assert.AreEqual(5, count);
+        }
 
-            repository1.Setup(r => r.All()).Returns(new List<Ad>
-            {
-                new Ad(),
-                new Ad(),
-                new Ad(),
-            }.AsQueryable());
+        [Test]
+        public async Task GetCount_ShouldReturnCorrectResult_WhenAdIsDeleted()
+        {
+            await this.FillUpAds(1, 5);
 
-            var service1 = new AdsService(repository1.Object, repository2.Object, cld.Object);
+            var adId = this.dbContext
+                .Ads
+                .FirstOrDefault(a => a.Name == "Shlqpki3")
+                ?.Id;
 
-            Assert.AreEqual(3, service1.GetCount());
+            await this.adsService.Delete(adId);
+            var count = this.adsService.GetCount();
 
-            repository1.Verify(x => x.All(), Times.Once);
+            Assert.AreEqual(4, count);
+        }
+
+        [Test]
+        public async Task GetCount_ShouldReturnCorrectResult_WhenAdIsArchived()
+        {
+            await this.FillUpAds(1, 5);
+
+            var adId = this.dbContext
+                .Ads
+                .FirstOrDefault(a => a.Name == "Shlqpki3")
+                ?.Id;
+
+            await this.adsService.Archive(adId);
+            var count = this.adsService.GetCount();
+
+            Assert.AreEqual(4, count);
         }
 
         [Test]
@@ -452,6 +471,53 @@ namespace AYN.Services.Data.Tests
 
             Assert.IsFalse(ad?.IsPromoted);
             Assert.IsNull(ad?.PromotedOn);
+        }
+
+        [Test]
+        public async Task Archive_ShouldArchiveAdSuccessfully()
+        {
+            await this.FillUpAds(1, 5);
+
+            var ad = this.dbContext
+                .Ads
+                .FirstOrDefault(a => a.Name == "Shlqpki5");
+
+            await this.adsService.Archive(ad.Id);
+
+            Assert.IsTrue(ad.IsArchived);
+            Assert.IsNotNull(ad.ArchivedOn);
+        }
+
+        [Test]
+        public async Task UnArchive_ShouldUnArchiveAdSuccessfully()
+        {
+            await this.FillUpAds(1, 5);
+
+            var ad = this.dbContext
+                .Ads
+                .FirstOrDefault(a => a.Name == "Shlqpki5");
+
+            await this.adsService.Archive(ad?.Id);
+            await this.adsService.UnArchive(ad?.Id);
+
+            Assert.IsFalse(ad?.IsArchived);
+            Assert.IsNull(ad?.ArchivedOn);
+        }
+
+        [Test]
+        public async Task Delete_ShouldDeleteAdSuccessfully()
+        {
+            await this.FillUpAds(1, 5);
+
+            var ad = this.dbContext
+                .Ads
+                .FirstOrDefault(a => a.Name == "Shlqpki5");
+
+            await this.adsService.Delete(ad?.Id);
+
+            var adsCount = this.adsService.GetCount();
+
+            Assert.AreEqual(4, adsCount);
         }
 
         private async Task FillUpAds(int start, int end)
