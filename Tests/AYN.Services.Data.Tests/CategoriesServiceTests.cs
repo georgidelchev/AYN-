@@ -13,6 +13,7 @@ using AYN.Services.Data.Implementations;
 using AYN.Web.ViewModels.Administration.Categories;
 using AYN.Web.ViewModels.SubCategories;
 using Microsoft.AspNetCore.Http;
+using AYN.Services.Mapping;
 
 namespace AYN.Services.Data.Tests
 {
@@ -38,6 +39,8 @@ namespace AYN.Services.Data.Tests
             this.mockedICloudinaryService = new Mock<ICloudinaryService>();
             this.mockedIFormFile = new Mock<IFormFile>();
             this.categoriesService = new CategoriesService(this.categoriesRepository, this.mockedISubCategoriesService.Object, this.mockedICloudinaryService.Object);
+
+            AutoMapperConfig.RegisterMappings(typeof(GetAllCategoriesViewModel).Assembly, typeof(GetAllCategoriesViewModel).Assembly);
         }
 
         [Test]
@@ -105,6 +108,100 @@ namespace AYN.Services.Data.Tests
             }
 
             Assert.ThrowsAsync<InvalidOperationException>(async () => await this.categoriesService.CreateAsync(category));
+        }
+
+        [Test]
+        public async Task GetAll_ShouldReturnAllCategoriesSuccessfully()
+        {
+            await this.FillUpCategories(10);
+            var categories = this.categoriesService.GetAll<GetAllCategoriesViewModel>().ToList();
+            Assert.AreEqual(10, categories.Count());
+        }
+
+        [Test]
+        public async Task GetAll_WithDeleted_ShouldReturnOnlyNonDeletedCategoriesSuccessfully()
+        {
+            await this.FillUpCategories(10);
+
+            var categoryId = this.dbContext
+                .Categories
+                .FirstOrDefault(c => c.Name == "Category2")
+                ?.Id;
+
+            await this.categoriesService.DeleteAsync(categoryId.Value);
+            var categories = this.categoriesService.GetAll<GetAllCategoriesViewModel>().ToList();
+
+            Assert.AreEqual(9, categories.Count);
+        }
+
+        [Test]
+        public async Task GetAllWithDeleted_ShouldReturnAllWithDeletedCategoriesSuccessfully()
+        {
+            await this.FillUpCategories(10);
+
+            var categoryId = this.dbContext
+                .Categories
+                .FirstOrDefault(c => c.Name == "Category2")
+                ?.Id;
+
+            await this.categoriesService.DeleteAsync(categoryId.Value);
+            var categories = await this.categoriesService.GetAllWithDeletedAsync<GetAllCategoriesViewModel>();
+
+            Assert.AreEqual(10, categories.Count());
+        }
+
+        [Test]
+        public async Task GetAllAsKeyValuePairsAsync_ShouldReturnAllCategoriesAsKeyValuePairs()
+        {
+            await this.FillUpCategories(10);
+
+            var categoriesAsKvp = await this.categoriesService.GetAllAsKeyValuePairsAsync();
+
+            foreach (var (key, value) in categoriesAsKvp)
+            {
+                var categoryId = value.Substring(8);
+
+                Assert.AreEqual(categoryId, key);
+                Assert.AreEqual($"Category{categoryId}", value);
+            }
+
+            Assert.AreEqual(10, categoriesAsKvp.Count());
+        }
+
+        [Test]
+        public async Task Delete_ShouldDeleteCategorySuccessfully()
+        {
+            await this.FillUpCategories(10);
+            await this.categoriesService.DeleteAsync(5);
+
+            var categoriesCount = this.dbContext.Categories.Count();
+
+            Assert.AreEqual(9, categoriesCount);
+        }
+
+        [Test]
+        public async Task UnDelete_ShouldUnDeleteCategorySuccessfully()
+        {
+            await this.FillUpCategories(10);
+            await this.categoriesService.DeleteAsync(5);
+            await this.categoriesService.UnDeleteAsync(5);
+
+            var categoriesCount = this.dbContext.Categories.Count();
+
+            Assert.AreEqual(10, categoriesCount);
+        }
+
+        private async Task FillUpCategories(int categoriesCount)
+        {
+            for (var i = 1; i <= categoriesCount; i++)
+            {
+                await this.categoriesService
+                    .CreateAsync(new CreateCategoryInputModel()
+                    {
+                        Name = $"Category{i}",
+                        Picture = this.mockedIFormFile.Object,
+                    });
+            }
         }
     }
 }

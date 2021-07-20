@@ -53,12 +53,9 @@ namespace AYN.Web.Areas.Administration.Controllers
                 return this.View(input);
             }
 
-            var wwwrootPath = this.environment
-                .WebRootPath;
-
             try
             {
-                await this.categoriesService.CreateAsync(input, wwwrootPath);
+                await this.categoriesService.CreateAsync(input);
             }
             catch (InvalidOperationException ioe)
             {
