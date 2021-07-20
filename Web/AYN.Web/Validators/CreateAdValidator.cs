@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Linq;
 using AYN.Data.Models.Enumerations;
 using AYN.Services.Data.Interfaces;
 using AYN.Web.ViewModels.Ads;
@@ -50,6 +50,10 @@ namespace AYN.Web.Validators
             else if (!Enum.IsDefined(typeof(AdType), entity.AdType))
             {
                 errorMessage = "Invalid ad type.";
+            }
+            else if (!entity.Pictures.Any())
+            {
+                errorMessage = "At least one picture should be upload.";
             }
 
             return errorMessage;

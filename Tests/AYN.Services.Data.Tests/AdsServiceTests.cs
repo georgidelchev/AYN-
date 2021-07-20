@@ -91,7 +91,7 @@ namespace AYN.Services.Data.Tests
         }
 
         [Test]
-        public async Task CreateAd_ShouldBeCreateCorrect()
+        public async Task CreateAd_WithValidData_ShouldBeCreatedSuccessfully()
         {
             var ad = new CreateAdInputModel
             {
@@ -118,7 +118,7 @@ namespace AYN.Services.Data.Tests
         }
 
         [Test]
-        public async Task EditAd_ShouldEditCorrect()
+        public async Task EditAd_WithValidData_ShouldBeEditedSuccessfully()
         {
             var ad = new CreateAdInputModel
             {
@@ -177,7 +177,7 @@ namespace AYN.Services.Data.Tests
         }
 
         [Test]
-        public async Task GetRecent12Ads_ShouldReturnThemCorrectly()
+        public async Task GetRecent12Ads_ShouldRecent12AdsSuccessfully()
         {
             await this.FillUpAds(1, 15);
 
@@ -195,7 +195,7 @@ namespace AYN.Services.Data.Tests
         }
 
         [Test]
-        public async Task GetRecent12PromotedAds_ShouldReturnThemCorrectly()
+        public async Task GetRecent12PromotedAds_ShouldRecent12PromotedAdsSuccessfully()
         {
             await this.FillUpAds(1, 30);
 
@@ -223,7 +223,7 @@ namespace AYN.Services.Data.Tests
         }
 
         [Test]
-        public async Task GetAll_WithoutParameters_ShouldReturnThemCorrectly()
+        public async Task GetAll_WithoutParameters_ShouldReturnAllAdsSuccessfully()
         {
             await this.FillUpAds(1, 10);
             var allAds = await this.adsService.GetAllAsync<GetAdsViewModel>(null, "createdOnDesc", null);
@@ -240,7 +240,7 @@ namespace AYN.Services.Data.Tests
         [TestCase("Shlqpk")]
         [TestCase("Shlqpki")]
         [TestCase("ShLqpki ")]
-        public async Task GetAll_WithSearchParameterForName_ShouldReturnThemCorrectly(string search)
+        public async Task GetAll_WithSearchParameterForName_ShouldReturnAllAdsSuccessfully(string search)
         {
             await this.FillUpAds(1, 10);
             var allAds = await this.adsService.GetAllAsync<GetAdsViewModel>(search, "createdOnDesc", null);
@@ -251,7 +251,7 @@ namespace AYN.Services.Data.Tests
         [TestCase("ShlQpki2")]
         [TestCase("Shlqpki3")]
         [TestCase("ShlqpKi3 ")]
-        public async Task GetAll_WithSearchParameterForExactName_ShouldReturnThemCorrectly(string search)
+        public async Task GetAll_WithSearchParameterForExactName_ShouldReturnAllAdsSuccessfully(string search)
         {
             await this.FillUpAds(1, 10);
             var allAds = await this.adsService.GetAllAsync<GetAdsViewModel>(search, "createdOnDesc", null);
@@ -271,7 +271,7 @@ namespace AYN.Services.Data.Tests
         [TestCase("Awesome product ")]
         [TestCase("product ")]
         [TestCase("proDUct ")]
-        public async Task GetAll_WithSearchParameterForDescription_ShouldReturnThemCorrectly(string search)
+        public async Task GetAll_WithSearchParameterForDescription_ShouldReturnAllAdsSuccessfully(string search)
         {
             await this.FillUpAds(1, 10);
             var allAds = await this.adsService.GetAllAsync<GetAdsViewModel>(search, "createdOnDesc", null);
@@ -285,7 +285,7 @@ namespace AYN.Services.Data.Tests
         [TestCase("nameDesc")]
         [TestCase("priceAsc")]
         [TestCase("priceDesc")]
-        public async Task GetAll_WithOrderParameter_ShouldReturnThemCorrectly(string orderBy)
+        public async Task GetAll_WithOrderParameter_ShouldReturnAllAdsSuccessfully(string orderBy)
         {
             await this.FillUpAds(1, 10);
 
@@ -316,7 +316,7 @@ namespace AYN.Services.Data.Tests
         [TestCase(2)]
         [TestCase(3)]
         [TestCase(4)]
-        public async Task GetAll_WithCategoryParameter_ShouldReturnThemCorrectly(int categoryId)
+        public async Task GetAll_WithCategoryParameter_ShouldReturnAllAdsSuccessfully(int categoryId)
         {
             await this.FillUpAds(1, 5);
 
@@ -351,7 +351,7 @@ namespace AYN.Services.Data.Tests
         //}
 
         [Test]
-        public async Task GetCounts_ShouldReturnCorrectCounts()
+        public async Task GetCounts_ShouldReturnCorrectAdCounts()
         {
             var archivedAd = new Ad()
             {
@@ -406,7 +406,7 @@ namespace AYN.Services.Data.Tests
         }
 
         [Test]
-        public async Task IsAdExisting_ShouldReturnTrueResultForExistingAd()
+        public async Task IsAdExisting_ShouldReturnTrueForExistingAd()
         {
             await this.FillUpAds(1, 5);
 
@@ -421,14 +421,14 @@ namespace AYN.Services.Data.Tests
         }
 
         [Test]
-        public void IsAdExisting_ShouldReturnFalseResultForNonExistingAd()
+        public void IsAdExisting_ShouldReturnFalseForNonExistingAd()
         {
             var isExiting = this.adsService.IsAdExisting("invalidId");
             Assert.IsFalse(isExiting);
         }
 
         [Test]
-        public async Task GetById_ShouldReturnCorrectResult()
+        public async Task GetById_WithValidId_ShouldReturnAdSuccessfully()
         {
             await this.FillUpAds(1, 10);
 
@@ -443,7 +443,21 @@ namespace AYN.Services.Data.Tests
         }
 
         [Test]
-        public async Task Promote_ShouldPromoteSuccessfully()
+        public async Task GetById_WithInvalidId_ShouldNotReturnAnyAd()
+        {
+            await this.FillUpAds(1, 10);
+
+            var ad = this.dbContext
+                .Ads
+                .FirstOrDefault(a => a.Name == "Shlqpki20");
+
+            var adById = await this.adsService.GetByIdAsync<GetAdsViewModel>(ad?.Id);
+
+            Assert.IsNull(adById);
+        }
+
+        [Test]
+        public async Task Promote_ShouldPromoteTheAdSuccessfully()
         {
             await this.FillUpAds(1, 3);
 
@@ -458,7 +472,7 @@ namespace AYN.Services.Data.Tests
         }
 
         [Test]
-        public async Task UnPromote_ShouldUnPromoteSuccessfully()
+        public async Task UnPromote_ShouldUnPromoteTheAdSuccessfully()
         {
             await this.FillUpAds(1, 3);
 
@@ -474,7 +488,7 @@ namespace AYN.Services.Data.Tests
         }
 
         [Test]
-        public async Task Archive_ShouldArchiveAdSuccessfully()
+        public async Task Archive_ShouldArchiveTheAdSuccessfully()
         {
             await this.FillUpAds(1, 5);
 
@@ -489,7 +503,7 @@ namespace AYN.Services.Data.Tests
         }
 
         [Test]
-        public async Task UnArchive_ShouldUnArchiveAdSuccessfully()
+        public async Task UnArchive_ShouldUnArchiveTheAdSuccessfully()
         {
             await this.FillUpAds(1, 5);
 
@@ -505,7 +519,7 @@ namespace AYN.Services.Data.Tests
         }
 
         [Test]
-        public async Task Delete_ShouldDeleteAdSuccessfully()
+        public async Task Delete_ShouldDeleteTheAdSuccessfully()
         {
             await this.FillUpAds(1, 5);
 
@@ -520,6 +534,155 @@ namespace AYN.Services.Data.Tests
             Assert.AreEqual(4, adsCount);
         }
 
+        [Test]
+        public async Task GetUserAllAds_ShouldReturnAllAdsForGivenUserSuccessfully()
+        {
+            await this.FillUpAds(1, 3);
+            await this.FillUpAds(1, 3);
+            await this.FillUpAds(1, 3);
+            await this.FillUpAds(1, 3);
+
+            var userId = "userId1";
+            var allAdsForUser = await this.adsService.GetUserAllAds<GetAdViewModel>(userId);
+
+            Assert.AreEqual(4, allAdsForUser.Count());
+        }
+
+        [Test]
+        public async Task GetUserAllAds_WithArchivedAds_ShouldReturnAllAdsForGivenUserSuccessfully()
+        {
+            await this.FillUpAds(1, 3);
+            await this.FillUpAds(1, 3);
+            await this.FillUpAds(1, 3);
+            await this.FillUpAds(1, 3);
+
+            var adId = this.dbContext
+                .Ads
+                .FirstOrDefault(a => a.Name == "Shlqpki1")
+                ?.Id;
+
+            await this.adsService.Archive(adId);
+            var allAdsForUser = await this.adsService.GetUserAllAds<GetAdViewModel>("userId1");
+
+            Assert.AreEqual(3, allAdsForUser.Count());
+        }
+
+        [Test]
+        public async Task GetUserAllAds_WithDeletedAds_ShouldReturnAllAdsForGivenUserSuccessfully()
+        {
+            await this.FillUpAds(1, 3);
+            await this.FillUpAds(1, 3);
+            await this.FillUpAds(1, 3);
+            await this.FillUpAds(1, 3);
+
+            var adId = this.dbContext
+                .Ads
+                .FirstOrDefault(a => a.Name == "Shlqpki1")
+                ?.Id;
+
+            await this.adsService.Delete(adId);
+            var allAdsForUser = await this.adsService.GetUserAllAds<GetAdViewModel>("userId1");
+
+            Assert.AreEqual(3, allAdsForUser.Count());
+        }
+
+        [Test]
+        public async Task GetUserRecentAds_ShouldReturnAllRecentAdsForGivenUserSuccessfully()
+        {
+            for (var i = 1; i <= 30; i++)
+            {
+                await this.FillUpAds(1, 3);
+            }
+
+            var recentAdsByUserId = await this.adsService.GetUserRecentAds<GetAdViewModel>("userId1");
+            var recentAdsByUserIdAsArray = recentAdsByUserId as GetAdViewModel[] ?? recentAdsByUserId.ToArray();
+
+            var a = this.dbContext.Ads.Where(a => a.AddedByUserId == "userId1").ToList();
+            Assert.AreEqual(12, recentAdsByUserIdAsArray.Count());
+            Assert.AreEqual("Shlqpki1", recentAdsByUserIdAsArray[0].Name);
+        }
+
+        [Test]
+        public async Task GetUserRecentAds_WithArchiveAds_ShouldReturnAllRecentAdsForGivenUserSuccessfully()
+        {
+            for (var i = 1; i <= 12; i++)
+            {
+                await this.FillUpAds(1, 3);
+            }
+
+            var adId = this.dbContext
+                .Ads
+                .FirstOrDefault(a => a.Name == "Shlqpki1")
+                ?.Id;
+
+            await this.adsService.Archive(adId);
+
+            var recentAdsByUserId = await this.adsService.GetUserRecentAds<GetAdViewModel>("userId1");
+            var recentAdsByUserIdAsArray = recentAdsByUserId as GetAdViewModel[] ?? recentAdsByUserId.ToArray();
+
+            Assert.AreEqual(11, recentAdsByUserIdAsArray.Count());
+            Assert.AreEqual("Shlqpki1", recentAdsByUserIdAsArray[0].Name);
+        }
+
+        [Test]
+        public async Task GetUserRecentAds_WithDeletedAds_ShouldReturnAllRecentAdsForGivenUserSuccessfully()
+        {
+            for (var i = 1; i <= 5; i++)
+            {
+                await this.FillUpAds(1, 3);
+            }
+
+            var adId = this.dbContext
+                .Ads
+                .FirstOrDefault(a => a.Name == "Shlqpki1")
+                ?.Id;
+
+            await this.adsService.Delete(adId);
+
+            var recentAdsByUserId = await this.adsService.GetUserRecentAds<GetAdViewModel>("userId1");
+            var recentAdsByUserIdAsArray = recentAdsByUserId as GetAdViewModel[] ?? recentAdsByUserId.ToArray();
+
+            Assert.AreEqual(4, recentAdsByUserIdAsArray.Count());
+            Assert.AreEqual("Shlqpki1", recentAdsByUserIdAsArray[0].Name);
+        }
+
+        [Test]
+        [TestCase("Shlqpki1", "userId1")]
+        [TestCase("Shlqpki2", "userId2")]
+        public async Task IsUserOwnsGivenAd_WithInlineData_ShouldReturnTrue(string adName, string userId)
+        {
+            await this.FillUpAds(1, 3);
+
+            var adId = this.dbContext
+                .Ads
+                .FirstOrDefault(a => a.Name == adName)
+                ?.Id;
+
+            var result = this.adsService.IsUserOwnsGivenAd(userId, adId);
+
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        [TestCase("Shlqpki2", "userId1")]
+        [TestCase("Shlqpki5", "userId2")]
+        [TestCase("Shlqpki1", "userId2")]
+        [TestCase("Shlqpki2", "userId5")]
+        public async Task IsUserOwnsGivenAd_WithInlineData_ShouldReturnFalse(string adName, string userId)
+        {
+            await this.FillUpAds(1, 3);
+
+            var adId = this.dbContext
+                .Ads
+                .FirstOrDefault(a => a.Name == adName)
+                ?.Id;
+
+            var result = this.adsService.IsUserOwnsGivenAd(userId, adId);
+
+            Assert.IsFalse(result);
+        }
+
+        // Helper Method to fill up given amount of ads
         private async Task FillUpAds(int start, int end)
         {
             for (var i = start; i <= end; i++)

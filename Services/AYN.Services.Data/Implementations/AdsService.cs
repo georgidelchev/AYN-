@@ -32,18 +32,16 @@ namespace AYN.Services.Data.Implementations
         public async Task CreateAsync(CreateAdInputModel input, string userId)
         {
             var imageUrls = new List<string>();
-            if (input.Pictures.Any())
+
+            await using var ms = new MemoryStream();
+            foreach (var image in input.Pictures)
             {
-                await using var ms = new MemoryStream();
-                foreach (var image in input.Pictures)
-                {
-                    await image.CopyToAsync(ms);
-                    var destinationData = ms.ToArray();
+                await image.CopyToAsync(ms);
+                var destinationData = ms.ToArray();
 
-                    var imageUrl = await this.cloudinaryService.UploadPictureAsync(destinationData, image.FileName, "AdsImages", 900, 600);
+                var imageUrl = await this.cloudinaryService.UploadPictureAsync(destinationData, image.FileName, "AdsImages", 900, 600);
 
-                    imageUrls.Add(imageUrl);
-                }
+                imageUrls.Add(imageUrl);
             }
 
             var ad = new Ad
