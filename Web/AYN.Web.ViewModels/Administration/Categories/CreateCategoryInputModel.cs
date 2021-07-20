@@ -20,7 +20,7 @@ namespace AYN.Web.ViewModels.Administration.Categories
         public IFormFile Picture { get; set; }
 
         [DisplayName("SubCategory")]
-        public IEnumerable<CreateSubCategoryInputModel> SubCategories { get; set; }
+        public ICollection<CreateSubCategoryInputModel> SubCategories { get; set; }
             = new HashSet<CreateSubCategoryInputModel>();
     }
 }

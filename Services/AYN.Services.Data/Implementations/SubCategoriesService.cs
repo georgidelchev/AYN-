@@ -78,6 +78,11 @@ namespace AYN.Services.Data.Implementations
                 .To<T>()
                 .FirstOrDefaultAsync();
 
+        public SubCategory Get(int id)
+            => this.subCategoriesRepository
+                .All()
+                .FirstOrDefault(sc => sc.Id == id);
+
         public bool IsSubCategoryExisting(string subCategoryName)
             => this.subCategoriesRepository
                 .All()

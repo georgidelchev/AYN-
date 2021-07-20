@@ -18,23 +18,20 @@ namespace AYN.Services.Data.Implementations
     public class CategoriesService : ICategoriesService
     {
         private readonly IDeletableEntityRepository<Category> categoriesRepository;
-        private readonly IDeletableEntityRepository<SubCategory> subCategoriesRepository;
         private readonly ISubCategoriesService subCategoriesService;
         private readonly ICloudinaryService cloudinaryService;
 
         public CategoriesService(
             IDeletableEntityRepository<Category> categoriesRepository,
-            IDeletableEntityRepository<SubCategory> subCategoriesRepository,
             ISubCategoriesService subCategoriesService,
             ICloudinaryService cloudinaryService)
         {
             this.categoriesRepository = categoriesRepository;
-            this.subCategoriesRepository = subCategoriesRepository;
             this.subCategoriesService = subCategoriesService;
             this.cloudinaryService = cloudinaryService;
         }
 
-        public async Task CreateAsync(CreateCategoryInputModel input, string imagePath)
+        public async Task CreateAsync(CreateCategoryInputModel input)
         {
             await using var ms = new MemoryStream();
             await input.Picture.CopyToAsync(ms);
@@ -52,9 +49,7 @@ namespace AYN.Services.Data.Implementations
             {
                 foreach (var subCategory in input.SubCategories)
                 {
-                    var currentSubCategory = this.subCategoriesRepository
-                        .All()
-                        .FirstOrDefault(sc => sc.CategoryId == category.Id)
+                    var currentSubCategory = this.subCategoriesService.Get(category.Id)
                     ?? new SubCategory()
                     {
                         Name = subCategory.Name,

@@ -105,6 +105,7 @@ namespace AYN.Web
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
+
             StripeConfiguration.SetApiKey(this.configuration["Stripe:SecretKey"]);
 
             // Seed data on application startup

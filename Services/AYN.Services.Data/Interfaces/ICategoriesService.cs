@@ -11,7 +11,7 @@ namespace AYN.Services.Data.Interfaces
 {
     public interface ICategoriesService
     {
-        Task CreateAsync(CreateCategoryInputModel input, string imagePath);
+        Task CreateAsync(CreateCategoryInputModel input);
 
         IQueryable<T> GetAll<T>();
 

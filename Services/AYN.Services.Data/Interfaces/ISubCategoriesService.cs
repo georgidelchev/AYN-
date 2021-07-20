@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 
+using AYN.Data.Models;
 using AYN.Web.ViewModels.Administration.Categories;
 
 namespace AYN.Services.Data.Interfaces
@@ -17,6 +18,8 @@ namespace AYN.Services.Data.Interfaces
         Task<IEnumerable<KeyValuePair<string, string>>> GetAllByCategoryIdAsKeyValuePairsAsync(int categoryId);
 
         Task<T> GetByIdAsync<T>(int id);
+
+        SubCategory Get(int id);
 
         bool IsSubCategoryExisting(string subCategoryName);
     }
