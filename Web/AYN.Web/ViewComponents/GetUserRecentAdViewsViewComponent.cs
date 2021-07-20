@@ -9,19 +9,19 @@ namespace AYN.Web.ViewComponents
 {
     public class GetUserRecentAdViewsViewComponent : ViewComponent
     {
-        private readonly IAdsService adsService;
+        private readonly IUserLatestAdViewsService userLatestAdViewsService;
 
         public GetUserRecentAdViewsViewComponent(
-            IAdsService adsService)
+            IUserLatestAdViewsService userLatestAdViewsService)
         {
-            this.adsService = adsService;
+            this.userLatestAdViewsService = userLatestAdViewsService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync(string userId)
         {
             var viewModel = new ListUserAdsViewModel
             {
-                Ads = await this.adsService.GetUserLatestAdViews<GetAdViewModel>(userId),
+                Ads = await this.userLatestAdViewsService.GetUserLatestAdViews<GetAdViewModel>(userId),
             };
 
             return this.View(viewModel);

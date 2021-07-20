@@ -16,16 +16,13 @@ namespace AYN.Services.Data.Implementations
     public class AdsService : IAdsService
     {
         private readonly IDeletableEntityRepository<Ad> adsRepository;
-        private readonly IDeletableEntityRepository<UserAdView> userAdViewsRepository;
         private readonly ICloudinaryService cloudinaryService;
 
         public AdsService(
             IDeletableEntityRepository<Ad> adsRepository,
-            IDeletableEntityRepository<UserAdView> userAdViewsRepository,
             ICloudinaryService cloudinaryService)
         {
             this.adsRepository = adsRepository;
-            this.userAdViewsRepository = userAdViewsRepository;
             this.cloudinaryService = cloudinaryService;
         }
 
@@ -173,19 +170,6 @@ namespace AYN.Services.Data.Implementations
                 .Include(a => a.Images)
                 .To<T>()
                 .ToListAsync();
-
-        public async Task<IEnumerable<T>> GetUserLatestAdViews<T>(string userId)
-        {
-            var ads = this.userAdViewsRepository
-                .All()
-                .Where(uav => uav.UserId == userId)
-                .OrderByDescending(uav => uav.CreatedOn)
-                .Take(12)
-                .Select(uav => uav.Ad);
-
-            return await ads.To<T>()
-                .ToListAsync();
-        }
 
         public Tuple<int, int, int, int> GetCounts()
         {

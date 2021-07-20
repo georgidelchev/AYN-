@@ -98,6 +98,7 @@ namespace AYN.Web
             services.AddTransient<ISubCategoriesService, SubCategoriesService>();
             services.AddTransient<INotificationsService, NotificationsService>();
             services.AddTransient<IValidator<CreateAdInputModel>, CreateAdValidator>();
+            services.AddTransient<IUserLatestAdViewsService, UserLatestAdViewsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

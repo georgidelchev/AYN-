@@ -27,7 +27,6 @@ namespace AYN.Services.Data.Tests
     {
         private ApplicationDbContext dbContext;
         private EfDeletableEntityRepository<Ad> adsRepository;
-        private EfDeletableEntityRepository<UserAdView> userAdViewsRepository;
         private Mock<ICloudinaryService> mockedICloudinaryService;
         private Mock<IFormFile> mockedIFormFile;
         private DbContextOptionsBuilder<ApplicationDbContext> options;
@@ -40,10 +39,9 @@ namespace AYN.Services.Data.Tests
                 .UseInMemoryDatabase(Guid.NewGuid().ToString());
             this.dbContext = new ApplicationDbContext(this.options.Options);
             this.adsRepository = new EfDeletableEntityRepository<Ad>(this.dbContext);
-            this.userAdViewsRepository = new EfDeletableEntityRepository<UserAdView>(this.dbContext);
             this.mockedICloudinaryService = new Mock<ICloudinaryService>();
             this.mockedIFormFile = new Mock<IFormFile>();
-            this.adsService = new AdsService(this.adsRepository, this.userAdViewsRepository, this.mockedICloudinaryService.Object);
+            this.adsService = new AdsService(this.adsRepository, this.mockedICloudinaryService.Object);
 
             AutoMapperConfig.RegisterMappings(typeof(GetAdsViewModel).Assembly, typeof(Ad).Assembly);
             AutoMapperConfig.RegisterMappings(typeof(GetAllAdsViewModel).Assembly, typeof(Ad).Assembly);
