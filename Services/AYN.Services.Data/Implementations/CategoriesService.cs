@@ -92,9 +92,6 @@ namespace AYN.Services.Data.Implementations
                 .Select(c => new KeyValuePair<string, string>(c.Id.ToString(), c.Name))
                 .ToListAsync();
 
-        public async Task AddSubCategoryAsync(AddSubCategoryInputModel input, int categoryId)
-            => await this.subCategoriesService.CreateAsync(input, categoryId);
-
         public async Task<T> GetByIdAsync<T>(int categoryId)
             => await this.categoriesRepository
                 .All()

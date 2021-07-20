@@ -19,8 +19,6 @@ namespace AYN.Services.Data.Interfaces
 
         Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKeyValuePairsAsync();
 
-        Task AddSubCategoryAsync(AddSubCategoryInputModel input, int categoryId);
-
         Task<T> GetByIdAsync<T>(int categoryId);
 
         Task UpdateAsync(EditCategoryInputModel input, int categoryId, string imagePath);

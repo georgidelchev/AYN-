@@ -191,6 +191,50 @@ namespace AYN.Services.Data.Tests
             Assert.AreEqual(10, categoriesCount);
         }
 
+        [Test]
+        public async Task GetTotalCount_ShouldReturnTotalCountOfTheCategoriesEvenWithDeleted()
+        {
+            await this.FillUpCategories(10);
+
+            await this.categoriesService.DeleteAsync(1);
+            await this.categoriesService.DeleteAsync(2);
+            await this.categoriesService.DeleteAsync(3);
+
+            Assert.AreEqual(10, this.categoriesService.GetTotalCount());
+        }
+
+        [Test]
+        public async Task IsExisting_ShouldReturnTrueForExistingCategoryId()
+        {
+            await this.FillUpCategories(10);
+            var isExisting = this.categoriesService.IsExisting(5);
+            Assert.IsTrue(isExisting);
+        }
+
+        [Test]
+        public async Task IsExisting_ShouldReturnFalseForNonExistingCategoryId()
+        {
+            await this.FillUpCategories(10);
+            var isExisting = this.categoriesService.IsExisting(11);
+            Assert.IsFalse(isExisting);
+        }
+
+        [Test]
+        public async Task GetCounts_ShouldReturnCorrectAdCounts()
+        {
+            await this.FillUpCategories(5);
+
+            await this.categoriesService.DeleteAsync(1);
+            await this.categoriesService.DeleteAsync(2);
+
+            await this.dbContext.SaveChangesAsync();
+
+            var counts = this.categoriesService.GetCounts();
+
+            Assert.AreEqual(3, counts.Item1);
+            Assert.AreEqual(2, counts.Item2);
+        }
+
         private async Task FillUpCategories(int categoriesCount)
         {
             for (var i = 1; i <= categoriesCount; i++)

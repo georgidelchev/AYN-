@@ -13,13 +13,16 @@ namespace AYN.Web.Areas.Administration.Controllers
     {
         private readonly ICategoriesService categoriesService;
         private readonly IWebHostEnvironment environment;
+        private readonly ISubCategoriesService subCategoriesService;
 
         public CategoriesController(
             ICategoriesService categoriesService,
-            IWebHostEnvironment environment)
+            IWebHostEnvironment environment,
+            ISubCategoriesService subCategoriesService)
         {
             this.categoriesService = categoriesService;
             this.environment = environment;
+            this.subCategoriesService = subCategoriesService;
         }
 
         [HttpGet]
@@ -96,7 +99,7 @@ namespace AYN.Web.Areas.Administration.Controllers
         [HttpPost]
         public async Task<IActionResult> AddSubCategory(AddSubCategoryInputModel input, int id)
         {
-            await this.categoriesService.AddSubCategoryAsync(input, id);
+            await this.subCategoriesService.CreateAsync(input, id);
             return this.Redirect("/Administration/Categories/All");
         }
 
