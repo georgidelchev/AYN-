@@ -229,6 +229,12 @@ namespace AYN.Services.Data.Implementations
             await this.applicationUserRepository.SaveChangesAsync();
         }
 
+        public string GetIdByUsername(string username)
+            => this.applicationUserRepository
+                .All()
+                .FirstOrDefault(a => a.UserName.ToLower() == username.ToLower())
+                ?.Id;
+
         private async Task<string> ProcessDefaultImage(string text, int width, int height, string fontName, int emSize, FontStyle fontStyle)
         {
             if (string.IsNullOrEmpty(text))

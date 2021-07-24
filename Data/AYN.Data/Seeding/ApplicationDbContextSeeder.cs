@@ -31,6 +31,7 @@ namespace AYN.Data.Seeding
                               new SettingsSeeder(),
                               new TownsSeeder(),
                               new AdminAccountSeeder(),
+                              new EmojiSeeder(),
                           };
 
             foreach (var seeder in seeders)

@@ -115,5 +115,11 @@ namespace AYN.Data.Models
 
         public virtual ICollection<UserAdView> UserAdViews { get; set; }
             = new HashSet<UserAdView>();
+
+        public ICollection<Message> SentMessages { get; set; }
+            = new HashSet<Message>();
+
+        public ICollection<Message> ReceivedMessages { get; set; }
+            = new HashSet<Message>();
     }
 }

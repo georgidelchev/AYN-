@@ -40,5 +40,7 @@ namespace AYN.Services.Data.Interfaces
         Task Ban(BanUserInputModel input, string userId);
 
         Task Unban(string userId);
+
+        string GetIdByUsername(string username);
     }
 }

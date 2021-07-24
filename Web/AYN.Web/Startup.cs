@@ -10,6 +10,7 @@ using AYN.Services.Data.Implementations;
 using AYN.Services.Data.Interfaces;
 using AYN.Services.Mapping;
 using AYN.Services.Messaging;
+using AYN.Web.Hubs;
 using AYN.Web.Validators;
 using AYN.Web.ViewModels;
 using AYN.Web.ViewModels.Ads;
@@ -85,10 +86,12 @@ namespace AYN.Web
             services.AddTransient<ITownsService, TownsService>();
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IPostsService, PostsService>();
+            services.AddTransient<IEmojisService, EmojisService>();
             services.AddTransient<IReportsService, ReportsService>();
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<ICommentsService, CommentsService>();
+            services.AddTransient<IMessagesService, MessagesService>();
             services.AddTransient<IAddressesService, AddressesService>();
             services.AddTransient<IWishlistsService, WishlistsService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
@@ -147,6 +150,7 @@ namespace AYN.Web
                     {
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                        endpoints.MapHub<ChatHub>("/chat");
                         endpoints.MapRazorPages();
                     });
         }

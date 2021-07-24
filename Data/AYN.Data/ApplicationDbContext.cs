@@ -65,6 +65,8 @@ namespace AYN.Data
 
         public DbSet<AdImage> AdsImages { get; set; }
 
+        public DbSet<Emoji> Emojis { get; set; }
+
         public override int SaveChanges()
             => this.SaveChanges(true);
 
@@ -89,6 +91,18 @@ namespace AYN.Data
         {
             builder.ApplyConfiguration(new FollowerFolloweeConfiguration());
             builder.ApplyConfiguration(new PostConfiguration());
+
+            builder
+                .Entity<Message>()
+                .HasOne(m => m.Receiver)
+                .WithMany(r => r.ReceivedMessages)
+                .HasForeignKey(m => m.ReceiverId);
+
+            builder
+                .Entity<Message>()
+                .HasOne(m => m.Sender)
+                .WithMany(s => s.SentMessages)
+                .HasForeignKey(m => m.SenderId);
 
             // Needed for Identity models configuration
             base.OnModelCreating(builder);

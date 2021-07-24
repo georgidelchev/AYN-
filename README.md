@@ -13,3 +13,6 @@ Technologies used:
 - Entity Framework Core
 - MS SQL Server
 - Cloudinary -> Save Images at the Cloud service
+- AngleSharp -> Scraping cities and emojis from internet
+- SignalR -> Real-Time Chat
+- HtmlSanitizer -> Clear Incoming HTML from the chat for XSS

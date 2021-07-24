@@ -30,7 +30,7 @@ namespace AYN.Web.ViewModels.Posts
 
         public string ApplicationUserLastName { get; set; }
 
-        public string ApplicationUserAvatarExtension { get; set; }
+        public string ApplicationUserAvatarImageUrl { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

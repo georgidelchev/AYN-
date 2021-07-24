@@ -1,0 +1,38 @@
+﻿@model AYN.Web.ViewModels.Chat.ListChatConversationsViewModel;
+
+<div class="col-md-4 text-center" id="js-aside">
+    <div class="d-flex justify-content-center">
+        <h2 class="tt-title text-primary">Inbox</h2>
+    </div>
+    <div>
+        <a asp-controller="Chat" asp-action="NewMessage">
+            <i class="fas fa-envelope-open-text font-weight-bolder text-success mb-3" style="font-size: 1.5rem;"></i>
+        </a>
+    </div>
+    <div class="tt-all-avatar">
+        <div class="tt-list-avatar" style="overflow-y: auto; height:550px; display:block; word-break: break-word;">
+            @if (this.Model.AllChats.Any())
+            {
+                foreach (var conversation in this.Model.AllChats)
+                {
+<a asp-controller="Chat" asp-action="With" asp-route-id="@conversation.Id" class="tt-item" style="        @if(!conversation.IsRead){<text> background-color: #96ff9f; </text>}">
+    <div class="tt-col-avatar">
+        <img src="@conversation.AvatarImageUrl" alt="avatar" class="tt-icon" width="40" height="40" style="border-radius: 50%" />
+    </div>
+    <div class="tt-col-description">
+        <h4 class="tt-title"><span>@conversation.UserName</span>  <span class="time">@conversation.LastMessageActivity</span></h4>
+        <div class="tt-message float-left">@conversation.LastMessage</div>
+    </div>
+</a> }
+}
+else
+{
+<div class="tt-layout-404">
+    <p>
+        You don't have any messages in your inbox right now<br />
+        You can <a asp-controller="Chat" asp-action="NewMessage" class="tt-color-dark tt-underline-02">write</a> to someone.
+    </p>
+</div>}
+        </div>
+    </div>
+</div>

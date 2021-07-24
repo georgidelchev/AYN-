@@ -1,0 +1,92 @@
+﻿@using System.Security.Claims
+
+@model AYN.Web.ViewModels.Chat.ChatSendMessageInputModel
+
+@{ ViewData["Title"] = "New message"; }
+
+<div class="container">
+    <div class="tt-messages-layout">
+        <div class="row no-gutters">
+            <vc:chat-conversations></vc:chat-conversations>
+            <div class="col-md-8">
+                <div class="tt-title-content">
+                    <h2 class="tt-title">
+                        <i class="fas fa-folder-open text-success" style="font-size:1.5rem;"></i> @ViewData["Title"]
+                    </h2>
+                </div>
+                <form id="addMessageForm" class="col-md-6 offset-md-3 text-center" asp-area="" asp-controller="Chat" asp-action="NewMessage" method="post">
+                    <div asp-validation-summary="All"></div>
+
+                    <div>
+                        <span asp-validation-for="Receiver" class="text-danger"></span>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text">
+                                    <i class="fas fa-file-signature"></i>
+                                </label>
+                            </div>
+                            <input asp-for="Receiver" placeholder="Username" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <span asp-validation-for="Message" class="text-danger"></span>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text">
+                                    <i class="fas fa-envelope"></i>
+                                </label>
+                            </div>
+                            <textarea asp-for="Message" rows="4" placeholder="Your message goes here..." class="form-control"></textarea>
+                        </div>
+                    </div>
+
+                    <button id="sendButton" type="submit" class="btn btn-primary btn-sm">Send</button>
+                </form>
+                @*<div class="tt-wrapper-inner">
+                    <div class="pt-editor form-default">
+                        <form id="addMessageForm" asp-area="" asp-controller="Chat" asp-action="SendMessage" method="post">
+                            <div asp-validation-summary="All"></div>
+                            <input value="@Model.ReceiverId" name="ReceiverId" hidden />
+                            <div class="form-group">
+                                <textarea id="messageBox" asp-for="Message" class="form-control" placeholder="Type a message..."></textarea>
+                                <span asp-validation-for="Message"></span>
+                            </div>
+                            <div class="pt-row">
+                                <div class="col-auto ml-auto">
+                                    <button id="sendButton" type="submit" class="btn btn-secondary btn-custom">Send</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+@*@section Scripts {
+    <script>
+        $('#messageBox').on('keypress', function (e) {
+            if (e.which === 13 && !e.shiftKey) {
+                e.preventDefault();
+                $('#sendButton').click();
+            }
+        });
+        $('#input-user').on('change', function () {
+            var valueSelected = this.value;
+            $("#addMessageForm input[name='ReceiverId']").val(valueSelected);
+        });
+        var $select = $('#input-user').selectize({
+            create: false,
+            sortField: 'text',
+            placeholder: 'Type a name...'
+        });
+        $select.each(function () {
+            $(this)[0].selectize.clear(true);
+        });
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}*@

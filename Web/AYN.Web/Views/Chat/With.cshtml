@@ -1,0 +1,159 @@
+﻿@using System.Security.Claims
+
+@model AYN.Web.ViewModels.Chat.ChatWithUserViewModel
+
+@{ this.ViewData["Title"] = "Messages"; }
+
+<style>
+    .collapsible {
+        color: white;
+        cursor: pointer;
+        padding: 18px;
+        width: 1%;
+        height: 1px;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+    }
+
+    .content {
+        padding: 0 18px;
+        display: none;
+        overflow: hidden;
+    }
+</style>
+
+<div class="container">
+    <div class="tt-messages-layout">
+        <div class="row no-gutters">
+            <vc:chat-conversations></vc:chat-conversations>
+            <div class="col-md-8 text-center">
+                <div class="tt-title-content d-flex justify-content-center text-center">
+                    <div class="tt-col-avatar">
+                        <a asp-controller="Users" asp-action="Profile" asp-route-id="@Model.User.Id" class="text-primary font-weight-bolder"><img src="@Model.User.AvatarImageUrl" alt="avatar" class="tt-icon" width="40" height="40" style="border-radius: 50%" />&nbsp;@Model.User.UserName </a>
+                    </div>
+                </div>
+                <div id="messagesList" class="tt-list-time-topic" style="overflow-y: auto; overflow-x: hidden; height:300px; display:block; word-break: break-word;">
+                    @foreach (var message in Model.Messages)
+                    {
+        <div class="tt-item">
+            <div class="tt-col-avatar">
+                <img src="@message.SenderAvatarImageUrl" alt="avatar" class="tt-icon" width="40" height="40" style="border-radius: 50%" />
+            </div>
+            <div class="tt-col-description float-right">
+                <div class="border rounded" data-toggle="tooltip" data-placement="bottom" title="@message.CreatedOn" style="background-color: wheat;">
+                    @Html.Raw(message.SanitizedContent)
+                </div>
+            </div>
+        </div>}
+                </div>
+                <div id="whoIsTyping"></div>
+                <div class="tt-wrapper-inner">
+                    <div class="pt-editor form-default">
+                        <div id="addMessageForm">
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text">
+                                            <a id="sendButton"><i class="fas fa-paper-plane text-primary" style="cursor: pointer; font-size: 2rem;"></i></a>
+                                        </label>
+                                    </div>
+                                    <textarea id="messageInput" rows="4" placeholder="Your message goes here..." class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <div class="pt-row">
+                                <div class="mb-5">
+                                    <a href=""> <i class="fas fa-file-image text-primary ml-4" style="font-size: 1.5rem;"></i></a>
+                                    <a class="collapsible"> <i class="fas fa-smile text-success" style="font-size: 1.5rem;"></i></a>
+                                    <div class=" content">
+                                        <div class="" style="overflow-y: auto; overflow-x: hidden; height: 200px; width:550px; display: block; word-break: break-word;">
+                                            @foreach (var emoji in this.Model.Emojis)
+                                            {
+                                <span data="@emoji.Value" style="cursor: pointer;">@emoji.Value</span>}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $('#messagesList')[0].scrollTop = $('#messagesList')[0].scrollHeight;
+
+        $('#messageInput').on('keypress',
+            function(e) {
+                if (e.which === 13 && !e.shiftKey) {
+                    e.preventDefault();
+                    $('#sendButton').click();
+                }
+            });
+
+        var connection = new signalR
+            .HubConnectionBuilder()
+            .withUrl("/chat")
+            .build();
+
+        connection.on("ReceiveMessage",
+            function(message) {
+                var content = `<div class="tt-item">
+                                    <div class="tt-col-avatar">
+                                            <img src="${message.senderAvatarImageUrl}" alt="avatar" class="tt-icon" width="40" height="40" style="border-radius: 50%" />
+                                    </div>
+                                    <div class="tt-col-description">
+                                         <div class="border rounded" data-toggle="tooltip" data-placement="bottom" title="${message.createdOn}" style="background-color: wheat;">
+                                            ${escapeSpecialCharacters(message.content)}
+                                         </div>
+                                    </div>
+                                </div>`;
+                $("#messagesList").append(content);
+                $('#messagesList')[0].scrollTop = $('#messagesList')[0].scrollHeight;
+            });
+
+        $("#sendButton").click(function() {
+            var message = $.trim($('#messageInput').val());
+
+            $('#messageInput').val('');
+            connection.invoke("SendMessage", escapeSpecialCharacters(message), '@Model.User.Id');
+        });
+
+        connection.start();
+
+        function escapeSpecialCharacters(unsafe) {
+            return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+    </script>
+
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<script>
+    $("span[data]").each(function (el) {
+        $(this).click(function () {
+            var value = $(this).attr("data");
+            $("#messageInput").val($("#messageInput").val() + value);
+        });
+    });
+</script>
+
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+
+    for (var i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        });
+    }
+</script>
