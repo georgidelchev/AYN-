@@ -8,13 +8,13 @@ namespace AYN.Services.Data.Interfaces
 {
     public interface IAdsService
     {
-        Task CreateAsync(CreateAdInputModel input, string userId/*, string imagePath*/);
+        Task CreateAsync(CreateAdInputModel input, string userId);
 
         Task<IEnumerable<T>> GetRecent12AdsAsync<T>();
 
         Task<IEnumerable<T>> GetRecent12PromotedAdsAsync<T>();
 
-        Task<IEnumerable<T>> GetAllAsync<T>(string search, string orderBy, int? categoryId);
+        Task<IEnumerable<T>> GetAllAsync<T>(string search, string town, string orderBy, int? categoryId);
 
         int GetCount();
 

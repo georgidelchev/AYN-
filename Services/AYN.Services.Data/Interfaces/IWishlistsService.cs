@@ -13,7 +13,7 @@ namespace AYN.Services.Data.Interfaces
 
         int Count(string userId);
 
-        bool IsUserHaveGivenWishlist(string adId, string userId);
+        bool IsUserHaveGivenAdInHisWishlist(string adId, string userId);
 
         Task DeleteAsync(string adId);
     }

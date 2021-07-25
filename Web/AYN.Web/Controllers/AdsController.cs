@@ -27,6 +27,7 @@ namespace AYN.Web.Controllers
         private readonly IValidator<CreateAdInputModel> createAdValidator;
         private readonly IUserAdsViewsService userAdsViewsService;
         private readonly IAddressesService addressesService;
+        private readonly IWishlistsService wishlistsService;
 
         public AdsController(
             ICategoriesService categoriesService,
@@ -36,7 +37,8 @@ namespace AYN.Web.Controllers
             ISubCategoriesService subCategoriesService,
             IValidator<CreateAdInputModel> createAdValidator,
             IUserAdsViewsService userAdsViewsService,
-            IAddressesService addressesService)
+            IAddressesService addressesService,
+            IWishlistsService wishlistsService)
         {
             this.categoriesService = categoriesService;
             this.townsService = townsService;
@@ -46,6 +48,7 @@ namespace AYN.Web.Controllers
             this.createAdValidator = createAdValidator;
             this.userAdsViewsService = userAdsViewsService;
             this.addressesService = addressesService;
+            this.wishlistsService = wishlistsService;
         }
 
         [HttpGet]
@@ -81,7 +84,7 @@ namespace AYN.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> All(
+        public async Task<IActionResult> Search(
             string search,
             string town,
             int? categoryId,
@@ -91,7 +94,7 @@ namespace AYN.Web.Controllers
             try
             {
                 var ads = await this.adsService
-                    .GetAllAsync<GetAdsViewModel>(search, orderBy, categoryId);
+                    .GetAllAsync<GetAdsViewModel>(search, town, orderBy, categoryId);
 
                 var itemsPerPage = 12;
 
@@ -143,8 +146,9 @@ namespace AYN.Web.Controllers
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             var viewModel = await this.adsService.GetDetails<GetDetailsViewModel>(id);
-            await this.userAdsViewsService.CreateAsync(userId, id);
+            viewModel.IsItInFavoritesForCurrentUser = this.wishlistsService.IsUserHaveGivenAdInHisWishlist(id, userId);
 
+            await this.userAdsViewsService.CreateAsync(userId, id);
             return this.View(viewModel);
         }
 
@@ -233,6 +237,13 @@ namespace AYN.Web.Controllers
                 default:
                     return this.Redirect("/");
             }
+        }
+
+        [HttpGet]
+        public IActionResult Count()
+        {
+            var data = this.adsService.GetCount();
+            return this.Json(data);
         }
     }
 }

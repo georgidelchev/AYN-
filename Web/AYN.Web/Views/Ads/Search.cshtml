@@ -7,7 +7,7 @@
     this.ViewData["Title"] = "All Ads";
 }
 
-<form method="get" asp-controller="Ads" asp-action="All" class="px-3">
+<form method="get" asp-controller="Ads" asp-action="Search" class="px-3">
     <partial name="_SearchBarPartial" />
 </form>
 
@@ -31,7 +31,7 @@
                     @foreach (var (key, value) in this.Model.AllCategoriesWithAllSubCategories)
                     {
                         <li class="nav-item" onmouseover="showSubCategories(this)" onmouseout="hideSubCategories(this)">
-                            <a class="nav-link font-italic font-weight-bolder text-primary" asp-controller="Ads" asp-action="All" asp-route-categoryId="@key.Id">
+                            <a class="nav-link font-italic font-weight-bolder text-primary" asp-controller="Ads" asp-action="Search" asp-route-categoryId="@key.Id">
                                 @categoriesCounter. @key.Name <i class="fas fa-level-down-alt"></i>
                             </a>
                             <ul class="list-unstyled collapse">
@@ -39,7 +39,7 @@
                                 @foreach (var subCategory in value)
                                 {
                                     <li class="pl-5">
-                                        <a class="text-decoration-none text-primary nav-linking" asp-controller="Ads" asp-action="All" asp-route-categoryId="@subCategory.Id">
+                                        <a class="text-decoration-none text-primary nav-linking" asp-controller="Ads" asp-action="Search" asp-route-categoryId="@subCategory.Id">
                                             @subCategoriesCounter. <i class="fas fa-chevron-right"></i> @subCategory.Name
                                         </a>
                                     </li>

@@ -23,15 +23,7 @@
 
                     <div>
                         <form asp-controller="Home" asp-action="Processing" method="POST">
-                            <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                    data-key="pk_test_51JC369DjgxsARjFqEYyTTQYKHthtU3IFY0xfHpGRdLL0BVlvRMmBrrU488pdLUKjHzHvHkHTJoZzKFi3ucsj4wwp00d7D0oPEk"
-                                    data-amount="10"
-                                    data-name="AYN - All You Need"
-                                    data-description=""
-                                    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-                                    data-locale="en"
-                                    data-zip-code="true"
-                                    data-label="Pay">
+                            <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="pk_test_51JC369DjgxsARjFqEYyTTQYKHthtU3IFY0xfHpGRdLL0BVlvRMmBrrU488pdLUKjHzHvHkHTJoZzKFi3ucsj4wwp00d7D0oPEk" data-amount="10" data-name="AYN - All You Need" data-description="" data-image="https://stripe.com/img/documentation/checkout/marketplace.png" data-locale="en" data-zip-code="true" data-label="Pay">
                             </script>
                         </form>
                     </div>
@@ -69,45 +61,51 @@
                 <h3 class="text-primary font-weight-bolder">@Model.Name<br /></h3>
                 <hr />
                 <h6>
-                    <span class="float-left font-weight-normal pl-2">
-                        <a class="text-danger font-weight-bolder" asp-controller="Wishlists" asp-action="AddToWishlist" asp-route-adId="@Model.Id">
-                            <i class="fas fa-heart"></i><br /> Favorite
-                        </a>
-                    </span>
+                    @if (this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value != this.Model.AddedByUserId)
+                    {
+                        <span class="float-left font-weight-normal pl-2">
+                            @if (!this.Model.IsItInFavoritesForCurrentUser)
+                            {
+                                <a class="text-danger font-weight-bolder" asp-controller="Wishlists" asp-action="AddToWishlist" asp-route-adId="@Model.Id" asp-route-redirectUrl="/Ads/Details?id=@Model.Id">
+                                    <i class="fas fa-heart" style="font-size: 2rem;"></i><br />
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="text-danger font-weight-bolder" asp-controller="Wishlists" asp-action="RemoveFromWishlist" asp-route-id="@Model.Id" asp-route-redirectUrl="/Ads/Details?id=@Model.Id">
+                                    <i class="fas fa-times" style="font-size: 2rem;"></i><br />
+                                </a>
+                            }
+                        </span>
+                    }
                     <span class="float-left font-weight-normal pl-5">
-                        <a class="text-warning font-weight-bolder" href="">
+                        <a class="text-warning font-italic font-weight-bolder" asp-controller="Ads" asp-action="Search" asp-route-categoryId="@Model.CategoryId">
                             <i class="fas fa-list-ol"></i><br /> @Model.Category
                         </a>
                     </span>
                     <span class="float-left font-weight-normal pl-5">
-                        <a class="text-warning font-weight-bolder" href="">
+                        <a class="text-warning font-italic font-weight-bolder" asp-controller="Ads" asp-action="Search" asp-route-categoryId="@Model.SubCategoryId">
                             <i class="fas fa-list-ul"></i><br /> @Model.SubCategory
                         </a>
                     </span>
-                    <span class="float-left font-weight-normal pl-5">
-                        <a class="text-primary font-weight-bolder" href="">
-                            <i class="fas fa-weight"></i><br /> @Model.Weight kg
-                        </a>
+                    <span class="float-left font-weight-normal pl-5 text-success font-weight-bolder">
+                        <i class="fas fa-weight"></i><br /> @Model.Weight kg
                     </span>
-                    <span class="float-left font-weight-normal pl-5">
-                        <a class="text-info font-weight-bolder" href="">
-                            <i class="fas fa-chevron-up"></i><br /> @Model.ProductCondition
-                        </a>
+                    <span class="float-left font-weight-normal pl-5 text-primary font-weight-bolder">
+                        <i class="fas fa-chevron-up"></i><br /> @Model.ProductCondition
                     </span>
-                    <span class="float-left font-weight-normal pl-5">
-                        <a class="text-success font-weight-bolder" href="">
-                            <i class="fas fa-ad"></i><br /> @Model.AdType
-                        </a>
+                    <span class="float-left font-weight-normal pl-5 text-info font-weight-bolder">
+                        <i class="fas fa-ad"></i><br /> @Model.AdType
                     </span>
                 </h6>
             </div>
             <hr />
             <div>
-                <span class="float-left text-primary font-weight-normal">
-                    <i class="fas fa-map-marked"></i> @Model.Town<br />
+                <span class="float-left text-primary font-weight-bolder">
+                    <i class="fas fa-map-marked"></i> <a class="text-primary font-italic font-weight-bolder" asp-controller="Ads" asp-action="Search" asp-route-town="@Model.Town">@Model.Town</a><br />
                     <i class="fas fa-truck"></i> @Model.DeliveryTake
                 </span>
-                <span class="text-primary font-weight-normal float-right">
+                <span class="text-primary  font-weight-bolder float-right">
                     <i class="fas fa-cloud-upload-alt"></i> @this.Model.CreatedOnAsString<br />
                     <i class="fas fa-sync-alt"></i> @{
                         if (this.Model.ModifiedOn.Year == 0001)
@@ -123,8 +121,8 @@
             </div>
             <hr />
             <div class="text-center">
-                <h6 class=" text-primary">Description</h6>
-                <p class="font-italic ">@Model.Description</p>
+                <h6 class=" text-primary font-weight-bolder">Description</h6>
+                <p class="font-italic font-weight-bolder">@Model.Description</p>
             </div>
         </div>
     </div>

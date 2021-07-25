@@ -26,9 +26,15 @@ namespace AYN.Web.ViewModels.Ads
 
         public string Town { get; set; }
 
+        public int TownId { get; set; }
+
         public string Category { get; set; }
 
+        public int CategoryId { get; set; }
+
         public string SubCategory { get; set; }
+
+        public int SubCategoryId { get; set; }
 
         public DateTime CreatedOn { get; set; }
 
@@ -64,6 +70,8 @@ namespace AYN.Web.ViewModels.Ads
         public IEnumerable<string> ImagesUrls { get; set; }
 
         public ICollection<CommentViewModel> Comments { get; set; }
+
+        public bool IsItInFavoritesForCurrentUser { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

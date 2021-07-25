@@ -88,7 +88,7 @@ namespace AYN.Services.Data.Implementations
                 .To<T>()
                 .ToListAsync();
 
-        public async Task<IEnumerable<T>> GetAllAsync<T>(string search, string orderBy, int? categoryId)
+        public async Task<IEnumerable<T>> GetAllAsync<T>(string search, string town, string orderBy, int? categoryId)
         {
             var ads = this.adsRepository
                 .All()
@@ -108,6 +108,11 @@ namespace AYN.Services.Data.Implementations
             {
                 ads = ads.Where(a => a.CategoryId == categoryId.Value ||
                                      a.SubCategoryId == categoryId.Value);
+            }
+
+            if (town is not null)
+            {
+                ads = ads.Where(a => a.Town.Name == town);
             }
 
             ads = orderBy switch

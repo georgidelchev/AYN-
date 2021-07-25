@@ -37,7 +37,11 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-warning ml-5" data-toggle="tooltip" data-placement="top" title="All Ads" asp-area="" asp-controller="Ads" asp-action="All"><i class="fas fa-store"></i></a>
+                            <a class="nav-link text-warning ml-5" data-toggle="tooltip" data-placement="top" title="All Ads" asp-area="" asp-controller="Ads" asp-action="Search">
+                                <i class="fas fa-store"></i>
+                                <span class="badge badge-light text-success" id="adsCount"></span>
+                                <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId" />
+                            </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-success ml-5" data-toggle="tooltip" data-placement="top" title="Create Ad" asp-area="" asp-controller="Ads" asp-action="Create"><i class="fas fa-plus"></i></a>
@@ -104,6 +108,17 @@
 
 <script>
     document.addEventListener("DOMContentLoaded",
+        function getAdsCount() {
+            let adsCounter = document.getElementById("adsCount");
+
+            fetch(`/Ads/Count`)
+                .then(response => response.json())
+                .then(adsCount => adsCounter.textContent = adsCount);
+        });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded",
         function getNotificationsCount() {
             let unreadMessagesCounter = document.getElementById("unreadMessagesCount");
             let userId = document.getElementById("userId").value;
@@ -135,8 +150,8 @@
             fetch(`/Notifications/Count?userId=${userId}`)
                 .then(response => response.json())
                 .then(notificationsCount => notificationCounter.textContent = notificationsCount)
-                .then().then(function () {
-                    setTimeout(function () { getNotificationsCount(); }, 2000);
-                })
+                .then().then(function() {
+                    setTimeout(function() { getNotificationsCount(); }, 2000);
+                });
         });
 </script>

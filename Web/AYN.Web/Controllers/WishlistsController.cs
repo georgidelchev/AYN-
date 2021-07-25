@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AYN.Web.Controllers
 {
+    [Authorize]
     public class WishlistsController : Controller
     {
         private readonly IWishlistsService wishlistsService;
@@ -24,7 +25,6 @@ namespace AYN.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> Favorites(int id = 1)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -42,8 +42,7 @@ namespace AYN.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> AddToWishlist(string adId)
+        public async Task<IActionResult> AddToWishlist(string adId, string redirectUrl = "/Wishlists/Favorites")
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (!this.adsService.IsAdExisting(adId))
@@ -51,22 +50,27 @@ namespace AYN.Web.Controllers
                 return this.Redirect("/");
             }
 
+            if (this.adsService.IsUserOwnsGivenAd(userId, adId))
+            {
+                return this.Redirect(redirectUrl);
+            }
+
             await this.wishlistsService.AddAsync(adId, userId);
             return this.Redirect($"/Ads/Details?id={adId}");
         }
 
         [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> RemoveFromWishlist(string id)
+        public async Task<IActionResult> RemoveFromWishlist(string id, string redirectUrl = "/Wishlists/Favorites")
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (!this.wishlistsService.IsUserHaveGivenWishlist(id, userId))
+
+            if (!this.wishlistsService.IsUserHaveGivenAdInHisWishlist(id, userId))
             {
-                return this.Redirect($"/Wishlists/Favorites");
+                return this.Redirect("/Wishlists/Favorites");
             }
 
             await this.wishlistsService.RemoveAsync(id, userId);
-            return this.Redirect($"/Wishlists/Favorites");
+            return this.Redirect(redirectUrl);
         }
 
         [HttpGet]

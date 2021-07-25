@@ -62,7 +62,7 @@ namespace AYN.Services.Data.Implementations
                 .All()
                 .Count(wl => wl.UserId == userId);
 
-        public bool IsUserHaveGivenWishlist(string adId, string userId)
+        public bool IsUserHaveGivenAdInHisWishlist(string adId, string userId)
             => this.wishlistsRepository
                 .All()
                 .Any(wl => wl.UserId == userId && wl.AdId == adId);
