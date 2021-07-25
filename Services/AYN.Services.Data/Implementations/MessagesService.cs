@@ -117,7 +117,5 @@ namespace AYN.Services.Data.Implementations
                 .Where(m => m.ReceiverId == userId && !m.IsRead)
                 .GroupBy(m => m.SenderId)
                 .Count();
-
     }
-
 }

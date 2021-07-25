@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Services.Data.Interfaces;
+using AYN.Services.Mapping;
 using Microsoft.EntityFrameworkCore;
 
 namespace AYN.Services.Data.Implementations
@@ -19,6 +20,12 @@ namespace AYN.Services.Data.Implementations
             this.emojisRepository = emojisRepository;
         }
 
+        public async Task<IEnumerable<T>> GetAll<T>()
+            => await this.emojisRepository
+                .All()
+                .To<T>()
+                .ToListAsync();
+
         public async Task<IEnumerable<KeyValuePair<string, string>>> GetAll()
             => await this.emojisRepository
                 .All()
@@ -29,5 +36,20 @@ namespace AYN.Services.Data.Implementations
                 })
                 .Select(e => new KeyValuePair<string, string>(e.Id.ToString(), e.Image))
                 .ToListAsync();
+
+        public async Task Delete(int id)
+        {
+            var emoji = this.emojisRepository
+                .All()
+                .FirstOrDefault(e => e.Id == id);
+
+            this.emojisRepository.Delete(emoji);
+            await this.emojisRepository.SaveChangesAsync();
+        }
+
+        public int Count()
+            => this.emojisRepository
+                .All()
+                .Count();
     }
 }

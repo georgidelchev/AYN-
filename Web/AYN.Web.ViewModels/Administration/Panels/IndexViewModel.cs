@@ -11,5 +11,7 @@ namespace AYN.Web.ViewModels.Administration.Panels
         public Tuple<int, int> ReportsCount { get; set; }
 
         public Tuple<int, int> CategoriesCount { get; set; }
+
+        public int EmojisCount { get; set; }
     }
 }

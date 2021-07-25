@@ -1,0 +1,18 @@
+﻿@model AYN.Web.ViewModels.Emojis.ListEmojiViewModel
+
+@{
+    this.ViewData["Title"] = "All Emojis";
+}
+
+<div class="text-center">
+    <h1>@this.ViewData["Title"]</h1>
+</div>
+
+<div class="row d-flex justify-content-center">
+    <div class="" style="overflow-y: auto; overflow-x: hidden; height: 650px; width:550px; display: block; word-break: break-word;">
+        @foreach (var emoji in this.Model.Emojis)
+        {
+            <a asp-controller="Emojis" asp-action="Delete" asp-route-id="@emoji.Id"><span style="cursor: pointer;" data-toggle="tooltip" data-html="true" data-placement="top" title="@emoji.CreatedOn <br> Click to delete">@emoji.Image</span></a>
+        }
+    </div>
+</div>

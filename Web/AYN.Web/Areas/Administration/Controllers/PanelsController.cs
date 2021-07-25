@@ -10,17 +10,20 @@ namespace AYN.Web.Areas.Administration.Controllers
         private readonly IAdsService adsService;
         private readonly IReportsService reportsService;
         private readonly ICategoriesService categoriesService;
+        private readonly IEmojisService emojisService;
 
         public PanelsController(
             IUsersService usersService,
             IAdsService adsService,
             IReportsService reportsService,
-            ICategoriesService categoriesService)
+            ICategoriesService categoriesService,
+            IEmojisService emojisService)
         {
             this.usersService = usersService;
             this.adsService = adsService;
             this.reportsService = reportsService;
             this.categoriesService = categoriesService;
+            this.emojisService = emojisService;
         }
 
         public IActionResult Index()
@@ -31,6 +34,7 @@ namespace AYN.Web.Areas.Administration.Controllers
                 AdsCount = this.adsService.GetCounts(),
                 ReportsCount = this.reportsService.GetCounts(),
                 CategoriesCount = this.categoriesService.GetCounts(),
+                EmojisCount = this.emojisService.Count(),
             };
 
             return this.View(viewModel);
