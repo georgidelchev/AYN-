@@ -18,6 +18,25 @@ namespace AYN.Web.Areas.Administration.Controllers
         }
 
         [HttpGet]
+        public IActionResult Create()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateEmojiInputModel input)
+        {
+            if (this.emojisService.IsExisting(input.Emoji))
+            {
+                this.ModelState.AddModelError(string.Empty, "This emoji is already existing.");
+                return this.View();
+            }
+
+            await this.emojisService.CreateAsync(input);
+            return this.RedirectToAction(nameof(this.All));
+        }
+
+        [HttpGet]
         public async Task<IActionResult> All()
         {
             var viewModel = new ListEmojiViewModel()

@@ -6,6 +6,7 @@ using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Services.Data.Interfaces;
 using AYN.Services.Mapping;
+using AYN.Web.ViewModels.Emojis;
 using Microsoft.EntityFrameworkCore;
 
 namespace AYN.Services.Data.Implementations
@@ -18,6 +19,17 @@ namespace AYN.Services.Data.Implementations
             IDeletableEntityRepository<Emoji> emojisRepository)
         {
             this.emojisRepository = emojisRepository;
+        }
+
+        public async Task CreateAsync(CreateEmojiInputModel input)
+        {
+            var emoji = new Emoji()
+            {
+                Image = input.Emoji,
+            };
+
+            await this.emojisRepository.AddAsync(emoji);
+            await this.emojisRepository.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<T>> GetAll<T>()
@@ -51,5 +63,10 @@ namespace AYN.Services.Data.Implementations
             => this.emojisRepository
                 .All()
                 .Count();
+
+        public bool IsExisting(string emoji)
+            => this.emojisRepository
+                .All()
+                .Any(e => e.Image == emoji);
     }
 }

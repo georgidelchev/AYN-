@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AYN.Web.ViewModels.Emojis;
 
 namespace AYN.Services.Data.Interfaces
 {
     public interface IEmojisService
     {
+        Task CreateAsync(CreateEmojiInputModel input);
+
         Task<IEnumerable<T>> GetAll<T>();
 
         Task<IEnumerable<KeyValuePair<string, string>>> GetAll();
@@ -12,5 +15,7 @@ namespace AYN.Services.Data.Interfaces
         Task Delete(int id);
 
         int Count();
+
+        bool IsExisting(string emoji);
     }
 }

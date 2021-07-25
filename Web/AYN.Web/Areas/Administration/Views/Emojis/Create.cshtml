@@ -1,0 +1,29 @@
+﻿@model AYN.Web.ViewModels.Emojis.CreateEmojiInputModel
+
+@{
+    this.ViewData["Title"] = "Add Emoji";
+}
+
+<div class="text-center">
+    <h1>@this.ViewData["Title"]</h1>
+</div>
+
+<form method="post" class="col-md-6 offset-md-3 text-center" enctype="multipart/form-data">
+    <hr />
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div>
+        <span asp-validation-for="Emoji" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="Emoji" class="input-group-text">
+                    <i class="fas fa-smile"></i>
+                </label>
+            </div>
+            <input asp-for="Emoji" placeholder="Name" class="form-control" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+</form>

@@ -7,7 +7,10 @@
 <div class="text-center">
     <h1>@this.ViewData["Title"]</h1>
 </div>
-
+<div class="text-center">
+    <a asp-controller="Emojis" asp-action="Create" class="pl-2 text-success" data-toggle="tooltip" data-placement="top" title="Add new emoji"><i class="fas fa-plus"></i></a>
+</div>
+<br />
 <div class="row d-flex justify-content-center">
     <div class="" style="overflow-y: auto; overflow-x: hidden; height: 650px; width:550px; display: block; word-break: break-word;">
         @foreach (var emoji in this.Model.Emojis)
