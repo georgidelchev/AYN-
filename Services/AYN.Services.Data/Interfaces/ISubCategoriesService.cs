@@ -21,6 +21,10 @@ namespace AYN.Services.Data.Interfaces
 
         SubCategory Get(int id);
 
+        Task DeleteAsync(int id);
+
         bool IsSubCategoryExisting(string subCategoryName);
+
+        bool IsSubCategoryExisting(int id);
     }
 }

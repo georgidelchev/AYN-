@@ -83,9 +83,24 @@ namespace AYN.Services.Data.Implementations
                 .All()
                 .FirstOrDefault(sc => sc.Id == id);
 
+        public async Task DeleteAsync(int id)
+        {
+            var subCategory = this.subCategoriesRepository
+                .All()
+                .FirstOrDefault(sc => sc.Id == id);
+
+            this.subCategoriesRepository.Delete(subCategory);
+            await this.subCategoriesRepository.SaveChangesAsync();
+        }
+
         public bool IsSubCategoryExisting(string subCategoryName)
             => this.subCategoriesRepository
                 .All()
                 .Any(sc => sc.Name == subCategoryName);
+
+        public bool IsSubCategoryExisting(int id)
+            => this.subCategoriesRepository
+                .All()
+                .Any(sc => sc.Id == id);
     }
 }

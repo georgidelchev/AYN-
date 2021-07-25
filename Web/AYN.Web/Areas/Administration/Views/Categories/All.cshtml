@@ -68,15 +68,29 @@
                     @foreach (var subCategory in category.SubCategories)
                     {
                     <tr>
-                        <td>1.</td>
+                        <td>-</td>
                         <td>@subCategory.Name</td>
                         <td>@subCategory.CreatedOn.ToString("g")</td>
                         <td>
-                            <i class="fas fa-times text-primary"></i>
+                            @if (subCategory.IsDeleted)
+                            {
+                                <i class="fas fa-check text-primary" data-toggle="tooltip" data-html="true" data-placement="top" title="@subCategory.DeletedOn.ToString("g")"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-times text-primary"></i>
+                            }
                         </td>
                         <td>
-                            <a asp-controller="Categories" asp-action="Delete" asp-route-id="@category.Id" class="pl-2 text-danger" data-toggle="tooltip" data-placement="right" title="Delete the subCategory"><i class="fas fa-times"></i></a>
-                            <a asp-controller="Categories" asp-action="Edit" asp-route-id="@category.Id" class="pl-2 text-primary" data-toggle="tooltip" data-placement="right" title="Edit the subCategory"><i class="fas fa-edit"></i></a>
+                            @if (subCategory.IsDeleted)
+                            {
+                                <a asp-controller="SubCategories" asp-action="UnDelete" asp-route-id="@category.Id" class="pl-2 text-danger" data-toggle="tooltip" data-placement="right" title="UnDelete the subCategory"><i class="fas fa-undo"></i></a>
+                            }
+                            else
+                            {
+                                <a asp-controller="SubCategories" asp-action="Delete" asp-route-id="@subCategory.Id" class="pl-2 text-danger" data-toggle="tooltip" data-placement="right" title="Delete the subCategory"><i class="fas fa-times"></i></a>
+                            }
+                            <a asp-controller="SubCategories" asp-action="Edit" asp-route-id="@subCategory.Id" class="pl-2 text-primary" data-toggle="tooltip" data-placement="right" title="Edit the subCategory"><i class="fas fa-edit"></i></a>
                         </td>
                     </tr>
                 }
