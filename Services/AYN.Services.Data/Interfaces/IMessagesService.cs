@@ -16,5 +16,7 @@ namespace AYN.Services.Data.Interfaces
         Task<IEnumerable<T>> GetAllAsync<T>(string currentUserId);
 
         bool IsAllMessagesRead(string currentUserId, string userId);
+
+        int GetUnreadMessagesCount(string userId);
     }
 }

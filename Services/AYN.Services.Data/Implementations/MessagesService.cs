@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -109,5 +110,14 @@ namespace AYN.Services.Data.Implementations
                 .All()
                 .Where(m => m.SenderId == currentUserId && m.ReceiverId == userId)
                 .All(m => m.IsRead);
+
+        public int GetUnreadMessagesCount(string userId)
+            => this.messagesRepository
+                .All()
+                .Where(m => m.ReceiverId == userId && !m.IsRead)
+                .GroupBy(m => m.SenderId)
+                .Count();
+
     }
+
 }

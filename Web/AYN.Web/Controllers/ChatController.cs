@@ -73,5 +73,12 @@ namespace AYN.Web.Controllers
 
             return this.View(viewModel);
         }
+
+        [HttpGet]
+        public IActionResult UnreadMessagesCount(string userId)
+        {
+            var data = this.messagesService.GetUnreadMessagesCount(userId);
+            return this.Json(data);
+        }
     }
 }

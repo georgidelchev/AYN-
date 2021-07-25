@@ -15,7 +15,7 @@
             {
                 foreach (var conversation in this.Model.AllChats)
                 {
-<a asp-controller="Chat" asp-action="With" asp-route-id="@conversation.Id" class="tt-item" style="        @if(!conversation.IsRead){<text> background-color: #96ff9f; </text>}">
+<a asp-controller="Chat" asp-action="With" asp-route-id="@conversation.Id" class="tt-item" style="@if(!conversation.IsRead){<text> background-color: #96ff9f; </text>}">
     <div class="tt-col-avatar">
         <img src="@conversation.AvatarImageUrl" alt="avatar" class="tt-icon" width="40" height="40" style="border-radius: 50%" />
     </div>
