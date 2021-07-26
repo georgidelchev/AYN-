@@ -31,12 +31,21 @@
                     </h6>
                 }
                 <h3>@Model.FirstName @Model.LastName</h3>
-                <form method="post" id="followForm" asp-controller="Users" asp-action="Unfollow" asp-route-id="@this.Model.Id">
-                    <button onclick="followForm.submit()" class="btn btn-danger btn-sm"><i class="fas fa-star"></i> Unfollow</button>
-                </form>
-                <form method="post" id="followForm" asp-controller="Users" asp-action="Follow" asp-route-id="@this.Model.Id">
-                    <button onclick="followForm.submit()" class="btn btn-success btn-sm"><i class="fas fa-star"></i> Follow</button>
-                </form>
+                @if (this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value != this.Model.Id)
+                {
+                    if (this.Model.IsCurrentUserFollower)
+                    {
+                        <form method="post" id="followForm" asp-controller="Users" asp-action="Unfollow" asp-route-id="@this.Model.Id">
+                            <button onclick="followForm.submit()" class="btn btn-danger btn-sm"><i class="fas fa-star"></i> Unfollow</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form method="post" id="followForm" asp-controller="Users" asp-action="Follow" asp-route-id="@this.Model.Id">
+                            <button onclick="followForm.submit()" class="btn btn-success btn-sm"><i class="fas fa-star"></i> Follow</button>
+                        </form>
+                    }
+                }
             </div>
         </div>
     </div>

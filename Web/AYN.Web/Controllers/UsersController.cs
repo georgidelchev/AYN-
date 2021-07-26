@@ -35,10 +35,13 @@ namespace AYN.Web.Controllers
         [Authorize]
         public async Task<IActionResult> Profile(string id, int pagedId = 1)
         {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
             var viewModel = await this.usersService
                 .GetProfileDetails<GetUserProfileBaseDetailsViewModel>(id);
 
             viewModel.PagingId = pagedId;
+            viewModel.IsCurrentUserFollower = this.usersService.IsFollower(userId, id);
 
             return this.View(viewModel);
         }
