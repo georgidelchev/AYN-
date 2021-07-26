@@ -8,6 +8,7 @@ using AYN.Data.Models;
 using AYN.Services.Data.Interfaces;
 using AYN.Services.Mapping;
 using AYN.Web.ViewModels.Administration.Categories;
+using AYN.Web.ViewModels.Administration.SubCategories;
 using Microsoft.EntityFrameworkCore;
 
 namespace AYN.Services.Data.Implementations
@@ -90,6 +91,31 @@ namespace AYN.Services.Data.Implementations
                 .FirstOrDefault(sc => sc.Id == id);
 
             this.subCategoriesRepository.Delete(subCategory);
+            await this.subCategoriesRepository.SaveChangesAsync();
+        }
+
+        public async Task UnDeleteAsync(int id)
+        {
+            var subCategory = this.subCategoriesRepository
+                .AllWithDeleted()
+                .FirstOrDefault(sc => sc.Id == id);
+
+            subCategory.IsDeleted = false;
+            subCategory.DeletedOn = null;
+
+            this.subCategoriesRepository.Update(subCategory);
+            await this.subCategoriesRepository.SaveChangesAsync();
+        }
+
+        public async Task EditAsync(EditSubCategoryInputModel input)
+        {
+            var subCategory = this.subCategoriesRepository
+                .All()
+                .FirstOrDefault(sc => sc.Id == input.Id);
+
+            subCategory.Name = input.Name;
+
+            this.subCategoriesRepository.Update(subCategory);
             await this.subCategoriesRepository.SaveChangesAsync();
         }
 

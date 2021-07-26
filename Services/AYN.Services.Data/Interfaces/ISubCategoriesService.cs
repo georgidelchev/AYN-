@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 using AYN.Data.Models;
 using AYN.Web.ViewModels.Administration.Categories;
+using AYN.Web.ViewModels.Administration.SubCategories;
 
 namespace AYN.Services.Data.Interfaces
 {
@@ -22,6 +23,10 @@ namespace AYN.Services.Data.Interfaces
         SubCategory Get(int id);
 
         Task DeleteAsync(int id);
+
+        Task UnDeleteAsync(int id);
+
+        Task EditAsync(EditSubCategoryInputModel input);
 
         bool IsSubCategoryExisting(string subCategoryName);
 
