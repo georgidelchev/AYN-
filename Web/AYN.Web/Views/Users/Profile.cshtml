@@ -61,11 +61,11 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         <div class="h6 text-muted">Followers</div>
-                        <a href="#" class="h5">@Model.FolloweesCount</a>
+                        <a asp-controller="Users" asp-action="Followers" asp-route-userId="@this.Model.Id" class="h5">@Model.FolloweesCount</a>
                     </li>
                     <li class="list-group-item">
                         <div class="h6 text-muted">Following</div>
-                        <a href="#" class="h5">@Model.FollowingsCount</a>
+                        <a asp-controller="Users" asp-action="Followees" asp-route-userId="@this.Model.Id" class="h5">@Model.FollowingsCount</a>
                     </li>
                 </ul>
             </div>

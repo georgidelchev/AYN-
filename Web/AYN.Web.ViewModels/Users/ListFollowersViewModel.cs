@@ -2,8 +2,8 @@
 
 namespace AYN.Web.ViewModels.Users
 {
-    public class ListFollowersViewModel
+    public class ListFollowersViewModel : PagingViewModel
     {
-        public IEnumerable<GetFollowersViewModel> Followers { get; set; }
+        public IEnumerable<FollowerViewModel> Followers { get; set; }
     }
 }

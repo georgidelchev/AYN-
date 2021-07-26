@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AYN.Web.Controllers
 {
+    [Authorize]
     public class UsersController : Controller
     {
         private readonly IUsersService usersService;
@@ -32,7 +33,6 @@ namespace AYN.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> Profile(string id, int pagedId = 1)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -47,7 +47,6 @@ namespace AYN.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Follow(string id)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -71,7 +70,6 @@ namespace AYN.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Unfollow(string id)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -95,7 +93,6 @@ namespace AYN.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> EditGeneralInfo(string id)
         {
             var viewModel = new EditUserViewModel()
@@ -108,7 +105,6 @@ namespace AYN.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> EditGeneralInfo(EditUserViewModel model)
         {
             if (!this.usersService.IsUserExisting(model.EditUserGeneralInfoViewModel.Id))
@@ -119,6 +115,35 @@ namespace AYN.Web.Controllers
             await this.usersService.EditAsync(model, this.environment.WebRootPath);
 
             return this.Redirect($"/Users/Profile?id={this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value}");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Followers(string userId, int id = 1)
+        {
+            var followers = await this.usersService.GetFollowers<FollowerViewModel>(userId);
+            var viewModel = new ListFollowersViewModel()
+            {
+                Followers = followers.Skip((id - 1) * 12).Take(12),
+                Count = followers.Count(),
+                ItemsPerPage = 12,
+                PageNumber = id,
+            };
+
+            return this.View(viewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Followees(string userId, int id = 1)
+        {
+            var followees = await this.usersService.GetFollowings<FolloweeViewModel>(userId);
+            var viewModel = new ListFolloweesViewModel()
+            {
+                Followees = followees.Skip((id - 1) * 12).Take(12),
+                Count = followees.Count(),
+                ItemsPerPage = 12,
+                PageNumber = id,
+            };
+            return this.View(viewModel);
         }
     }
 }

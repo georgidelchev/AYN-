@@ -77,18 +77,19 @@ namespace AYN.Services.Data.Implementations
             await this.followerFolloweesRepository.SaveChangesAsync();
         }
 
-        public async Task<T> GetFollowers<T>(string userId)
-            => await this.applicationUserRepository
+        public async Task<IEnumerable<T>> GetFollowers<T>(string userId)
+            => await this.followerFolloweesRepository
                 .All()
-                .Where(au => au.Id == userId)
-                .Select(au => au.Followers)
+                .Where(ff => ff.FolloweeId == userId)
                 .To<T>()
-                .FirstOrDefaultAsync();
+                .ToListAsync();
 
-        public Task<T> GetFollowings<T>(string userId)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<IEnumerable<T>> GetFollowings<T>(string userId)
+            => await this.followerFolloweesRepository
+                .All()
+                .Where(ff => ff.FollowerId == userId)
+                .To<T>()
+                .ToListAsync();
 
         public bool IsFollower(string followerId, string followeeId)
             => this.followerFolloweesRepository

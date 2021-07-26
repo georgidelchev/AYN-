@@ -17,9 +17,9 @@ namespace AYN.Services.Data.Interfaces
 
         Task Unfollow(string followerId, string followeeId);
 
-        Task<T> GetFollowers<T>(string userId);
+        Task<IEnumerable<T>> GetFollowers<T>(string userId);
 
-        Task<T> GetFollowings<T>(string userId);
+        Task<IEnumerable<T>> GetFollowings<T>(string userId);
 
         bool IsFollower(string followerId, string followeeId);
 

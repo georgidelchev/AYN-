@@ -1,0 +1,25 @@
+﻿@model AYN.Web.ViewModels.Users.ListFollowersViewModel
+
+@{
+    this.ViewData["Title"] = "Followers";
+}
+
+<div>
+    <h1>@this.ViewData["Title"]</h1>
+</div>
+
+<div class="row">
+    @foreach (var follower in this.Model.Followers)
+    {
+        <div class="col-md-4">
+            <div class="card " style="width: 18rem;">
+                <a class="d-flex justify-content-center" asp-controller="Users" asp-action="Profile" asp-route-id="@follower.FollowerId"><img src="@follower.FollowerAvatarImageUrl" alt="" class="img-fluid rounded-circle"></a>
+                <div class="card-body">
+                    <p class="card-text text-center">@follower.FollowerFirstName @follower.FollowerLastName</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<partial name="_PagingPartial" model="@this.Model"/>
