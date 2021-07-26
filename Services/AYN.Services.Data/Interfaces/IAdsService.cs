@@ -24,6 +24,8 @@ namespace AYN.Services.Data.Interfaces
 
         Task<IEnumerable<T>> GetUserRecentAds<T>(string userId);
 
+        Task<IEnumerable<T>> GetMoreFromUserAds<T>(string townName, int categoryId, int subCategoryId, string userId, string currentAdId);
+
         Tuple<int, int, int, int> GetCounts();
 
         Task Archive(string adId);

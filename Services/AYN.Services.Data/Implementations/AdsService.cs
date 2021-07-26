@@ -176,6 +176,22 @@ namespace AYN.Services.Data.Implementations
                 .To<T>()
                 .ToListAsync();
 
+        public async Task<IEnumerable<T>> GetMoreFromUserAds<T>(string townName, int categoryId, int subCategoryId, string userId, string currentAdId)
+            => await this.adsRepository
+                .All()
+                .Where(u => u.AddedByUserId == userId &&
+                            !u.IsArchived &&
+                            u.Town.Name == townName &&
+                            u.CategoryId == categoryId &&
+                            u.SubCategoryId == subCategoryId &&
+                            u.Id != currentAdId)
+                .OrderByDescending(a => a.CreatedOn)
+                .Take(6)
+                .Include(a => a.AddedByUser)
+                .Include(a => a.Images)
+                .To<T>()
+                .ToListAsync();
+
         public Tuple<int, int, int, int> GetCounts()
         {
             var totalAdsCount = this.adsRepository

@@ -24,6 +24,8 @@ namespace AYN.Web.ViewModels.Ads
 
         public string AddedByUserId { get; set; }
 
+        public string AddedByUserAvatarImageUrl { get; set; }
+
         public string Town { get; set; }
 
         public int TownId { get; set; }

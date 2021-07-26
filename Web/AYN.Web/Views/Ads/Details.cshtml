@@ -135,8 +135,8 @@
         </div>
         <div class="card-deck">
             <div class="card">
-                <img class="card-img-top" src="/img/AdsPictures/2-286c4f21-1875-4363-be62-ddc8ac514257.jpg" alt="Card image cap">
-                <div class="card-body">
+                <img class="card-img-top" src="@Model.AddedByUserAvatarImageUrl" alt="Card image cap">
+                <div class="card-body text-center">
                     <a asp-controller="Users" asp-action="Profile" asp-route-id="@Model.AddedByUserId">@Model.AddedByUserUsername</a>
                     <p class="card-text text-center"><small class="text-muted">In AYN Since: @Model.AddedByUserCreatedOnAsString</small></p>
                     <hr />
@@ -147,38 +147,7 @@
             </div>
         </div>
         <br />
-        <div class="card-deck">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title text-center">More from this user</h5>
-                    <hr />
-                    <div class="float-left">
-                        <img class="card-img-top" src="/img/AdsPictures/2-286c4f21-1875-4363-be62-ddc8ac514257.jpg" alt="Card image cap" style="width: 100px; height: 100px;">
-                        <div class="float-center">
-                            <a href="" class="text-primary card-text text-center">Boots 100 $</a>
-                        </div>
-                    </div>
-                    <div class="float-right">
-                        <img class="card-img-top" src="/img/AdsPictures/2-286c4f21-1875-4363-be62-ddc8ac514257.jpg" alt="Card image cap" style="width: 100px; height: 100px;">
-                        <div class="float-center">
-                            <a href="" class="text-primary card-text text-center">Boots 100 $</a>
-                        </div>
-                    </div>
-                    <div class="float-left">
-                        <img class="card-img-top" src="/img/AdsPictures/2-286c4f21-1875-4363-be62-ddc8ac514257.jpg" alt="Card image cap" style="width: 100px; height: 100px;">
-                        <div class="float-center">
-                            <a href="" class="text-primary card-text text-center">Boots 100 $</a>
-                        </div>
-                    </div>
-                    <div class="float-right">
-                        <img class="card-img-top" src="/img/AdsPictures/2-286c4f21-1875-4363-be62-ddc8ac514257.jpg" alt="Card image cap" style="width: 100px; height: 100px;">
-                        <div class="float-center">
-                            <a href="" class="text-primary card-text text-center">Boots 100 $</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @await this.Component.InvokeAsync("GetMoreAdsFromUser", new { townName = Model.Town, categoryId = Model.CategoryId, subCategoryId = Model.SubCategoryId, currentAdId = Model.Id })
         <br />
         @if (this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value != this.Model.AddedByUserId)
         {

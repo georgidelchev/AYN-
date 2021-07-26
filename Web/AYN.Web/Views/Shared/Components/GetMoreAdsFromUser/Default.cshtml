@@ -1,0 +1,31 @@
+﻿@model AYN.Web.ViewModels.Ads.ListMoreAdsByUserViewModel
+
+@if (this.Model.Ads.Any())
+{
+    <div class="card-deck">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title text-center">More from this user</h5>
+                <hr />
+                @{ var counter = 0; }
+                @foreach (var ad in this.Model.Ads)
+                {
+                    var side = "right";
+                    @if (counter % 2 == 0)
+                    {
+                        side = "left";
+                    }
+
+                    <div class="float-@side">
+                        <img class="card-img-top" src="@ad.TitleImageUrl" alt="Card image cap" style="width: 100px; height: 100px;">
+                        <div class="float-center">
+                            <a asp-controller="Ads" asp-action="Details" asp-route-id="@ad.Id" class="text-primary card-text text-center" data-toggle="tooltip" data-html="true" data-placement="top" title="@ad.Name">@ad.ShortName... @ad.Price.ToString("f0")$</a>
+                        </div>
+                    </div>
+
+                    counter++;
+                }
+            </div>
+        </div>
+    </div>
+}
