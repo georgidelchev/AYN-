@@ -82,26 +82,27 @@ namespace AYN.Web
             services.AddSignalR();
 
             // Application services
-            services.AddTransient<IAdsService, AdsService>();
-            services.AddTransient<ITownsService, TownsService>();
-            services.AddTransient<IUsersService, UsersService>();
-            services.AddTransient<IPostsService, PostsService>();
-            services.AddTransient<IEmojisService, EmojisService>();
-            services.AddTransient<IReportsService, ReportsService>();
-            services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<ISettingsService, SettingsService>();
-            services.AddTransient<ICommentsService, CommentsService>();
-            services.AddTransient<IMessagesService, MessagesService>();
-            services.AddTransient<IAddressesService, AddressesService>();
-            services.AddTransient<IWishlistsService, WishlistsService>();
-            services.AddTransient<ICategoriesService, CategoriesService>();
-            services.AddTransient<IPostReactsService, PostReactsService>();
-            services.AddTransient<ICloudinaryService, CloudinaryService>();
-            services.AddTransient<IUserAdsViewsService, UserAdsViewsService>();
-            services.AddTransient<ISubCategoriesService, SubCategoriesService>();
-            services.AddTransient<INotificationsService, NotificationsService>();
-            services.AddTransient<IValidator<CreateAdInputModel>, CreateAdValidator>();
-            services.AddTransient<IUserLatestAdViewsService, UserLatestAdViewsService>();
+            services.AddTransient<IAdsService, AdsService>()
+                .AddTransient<ITownsService, TownsService>()
+                .AddTransient<IUsersService, UsersService>()
+                .AddTransient<IPostsService, PostsService>()
+                .AddTransient<IEmojisService, EmojisService>()
+                .AddTransient<IReportsService, ReportsService>()
+                .AddTransient<IEmailSender, NullMessageSender>()
+                .AddTransient<ISettingsService, SettingsService>()
+                .AddTransient<ICommentsService, CommentsService>()
+                .AddTransient<IMessagesService, MessagesService>()
+                .AddTransient<IAddressesService, AddressesService>()
+                .AddTransient<IWishlistsService, WishlistsService>()
+                .AddTransient<ICategoriesService, CategoriesService>()
+                .AddTransient<IPostReactsService, PostReactsService>()
+                .AddTransient<ICloudinaryService, CloudinaryService>()
+                .AddTransient<IUserAdsViewsService, UserAdsViewsService>()
+                .AddTransient<ISubCategoriesService, SubCategoriesService>()
+                .AddTransient<INotificationsService, NotificationsService>()
+                .AddTransient<IValidator<CreateAdInputModel>, CreateAdValidator>()
+                .AddTransient<IUserLatestAdViewsService, UserLatestAdViewsService>()
+                .AddTransient<IEmailSender>(sp => new SendGridEmailSender(this.configuration["Sendgrid"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

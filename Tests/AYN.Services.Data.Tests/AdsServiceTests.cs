@@ -224,7 +224,7 @@ namespace AYN.Services.Data.Tests
         public async Task GetAll_WithoutParameters_ShouldReturnAllAdsSuccessfully()
         {
             await this.FillUpAds(1, 10);
-            var allAds = await this.adsService.GetAllAsync<GetAdsViewModel>(null, "createdOnDesc", null);
+            var allAds = await this.adsService.GetAllAsync<GetAdsViewModel>(null,null, "createdOnDesc", null);
             Assert.AreEqual(10, allAds.Count());
         }
 
@@ -241,7 +241,7 @@ namespace AYN.Services.Data.Tests
         public async Task GetAll_WithSearchParameterForName_ShouldReturnAllAdsSuccessfully(string search)
         {
             await this.FillUpAds(1, 10);
-            var allAds = await this.adsService.GetAllAsync<GetAdsViewModel>(search, "createdOnDesc", null);
+            var allAds = await this.adsService.GetAllAsync<GetAdsViewModel>(search, null, "createdOnDesc", null);
             Assert.AreEqual(10, allAds.Count());
         }
 
@@ -252,7 +252,7 @@ namespace AYN.Services.Data.Tests
         public async Task GetAll_WithSearchParameterForExactName_ShouldReturnAllAdsSuccessfully(string search)
         {
             await this.FillUpAds(1, 10);
-            var allAds = await this.adsService.GetAllAsync<GetAdsViewModel>(search, "createdOnDesc", null);
+            var allAds = await this.adsService.GetAllAsync<GetAdsViewModel>(search, null, "createdOnDesc", null);
             Assert.AreEqual(1, allAds.Count());
         }
 
@@ -272,7 +272,7 @@ namespace AYN.Services.Data.Tests
         public async Task GetAll_WithSearchParameterForDescription_ShouldReturnAllAdsSuccessfully(string search)
         {
             await this.FillUpAds(1, 10);
-            var allAds = await this.adsService.GetAllAsync<GetAdsViewModel>(search, "createdOnDesc", null);
+            var allAds = await this.adsService.GetAllAsync<GetAdsViewModel>(search, null, "createdOnDesc", null);
             Assert.AreEqual(10, allAds.Count());
         }
 
@@ -300,7 +300,7 @@ namespace AYN.Services.Data.Tests
                 _ => throw new ArgumentException(),
             };
 
-            var allAds = await this.adsService.GetAllAsync<GetAdViewModel>(null, orderBy, null);
+            var allAds = await this.adsService.GetAllAsync<GetAdViewModel>(null, null, orderBy, null);
             var allAdsAsArray = allAds as GetAdViewModel[] ?? allAds.ToArray();
 
             for (var i = 0; i < 10; i++)
@@ -322,7 +322,7 @@ namespace AYN.Services.Data.Tests
                 .All()
                 .Where(a => a.CategoryId == categoryId || a.SubCategoryId == categoryId);
 
-            var allAds = await this.adsService.GetAllAsync<GetAdViewModel>(null, "createdOnDesc", categoryId);
+            var allAds = await this.adsService.GetAllAsync<GetAdViewModel>(null, null, "createdOnDesc", categoryId);
 
             Assert.AreEqual(ads.Count(), allAds.Count());
         }
