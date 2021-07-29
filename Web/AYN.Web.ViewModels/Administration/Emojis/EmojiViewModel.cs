@@ -1,9 +1,8 @@
 ﻿using System;
-
 using AYN.Data.Models;
 using AYN.Services.Mapping;
 
-namespace AYN.Web.ViewModels.Emojis
+namespace AYN.Web.ViewModels.Administration.Emojis
 {
     public class EmojiViewModel : IMapFrom<Emoji>
     {

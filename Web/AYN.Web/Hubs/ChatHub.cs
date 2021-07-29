@@ -36,11 +36,6 @@ namespace AYN.Web.Hubs
 
             await this.messagesService.CreateAsync(message, authorId, receiverId);
 
-            var filteredMessage = this.wordsBlacklistService
-                .IsGivenWordInBlacklist(message)
-                ? new string('*', message.Length)
-                : message;
-
             await this.Clients.All.SendAsync(
                 "ReceiveMessage",
                 new ChatMessagesWithUserViewModel
@@ -48,7 +43,7 @@ namespace AYN.Web.Hubs
                     SenderId = authorId,
                     SenderUserName = user.UserName,
                     SenderAvatarImageUrl = user.AvatarImageUrl,
-                    Content = filteredMessage,
+                    Content = this.wordsBlacklistService.IsGivenWordInBlacklist(message) ? new string('*', message.Length) : message,
                     CreatedOn = DateTime.Now,
                 });
         }

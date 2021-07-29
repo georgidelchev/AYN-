@@ -1,0 +1,20 @@
+﻿@model AYN.Web.ViewModels.Administration.Chat.ListBlacklistWordsViewModel
+
+@{
+    this.ViewData["Title"] = "Blacklisted Words";
+}
+
+<div class="text-center">
+    <h1>@this.ViewData["Title"]</h1>
+</div>
+
+<div class="row">
+    @foreach (var word in this.Model.BlacklistedWords)
+    {
+    <div class="col-md-3">
+        @word.Content <a asp-controller="Chat" asp-action="DeleteBlacklistedWord" asp-route-id="@word.Id"><i class="fas fa-times text-danger"></i></a>
+    </div>
+    }
+</div>
+
+<partial name="_PagingPartial" model="@this.Model" />

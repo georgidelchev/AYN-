@@ -6,7 +6,7 @@ using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Services.Data.Interfaces;
 using AYN.Services.Mapping;
-using AYN.Web.ViewModels.Emojis;
+using AYN.Web.ViewModels.Administration.Emojis;
 using Microsoft.EntityFrameworkCore;
 
 namespace AYN.Services.Data.Implementations

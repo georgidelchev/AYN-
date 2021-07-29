@@ -125,4 +125,26 @@
             </div>
         </div>
     </div>
+    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+                <h3 class="text-muted mb-4">Chat</h3>
+                <hr />
+                <div class="d-flex justify-content-center">
+                    <div class="text-center">
+                        <h6 class="font-weight-bold text-danger">Blacklisted words - @Model.BlacklistedWordsCount</h6>
+                        <hr />
+                        <div class="dropdown">
+                            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Actions
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <a asp-controller="Chat" asp-action="BlacklistedWords" class="dropdown-item" type="button">All Blacklisted words</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

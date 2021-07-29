@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AYN.Web.ViewModels.Emojis
+namespace AYN.Web.ViewModels.Administration.Emojis
 {
     public class ListEmojiViewModel
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AYN.Web.ViewModels.Emojis
+namespace AYN.Web.ViewModels.Administration.Emojis
 {
     public class CreateEmojiInputModel
     {

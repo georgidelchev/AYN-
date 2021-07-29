@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 
 using AYN.Services.Data.Interfaces;
-using AYN.Web.ViewModels.Emojis;
+using AYN.Web.ViewModels.Administration.Emojis;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
