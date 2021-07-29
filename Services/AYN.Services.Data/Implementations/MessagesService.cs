@@ -13,11 +13,14 @@ namespace AYN.Services.Data.Implementations
 {
     public class MessagesService : IMessagesService
     {
+        private readonly IWordsBlacklistService wordsBlacklistService;
         private readonly IDeletableEntityRepository<Message> messagesRepository;
 
         public MessagesService(
+            IWordsBlacklistService wordsBlacklistService,
             IDeletableEntityRepository<Message> messagesRepository)
         {
+            this.wordsBlacklistService = wordsBlacklistService;
             this.messagesRepository = messagesRepository;
         }
 
@@ -25,7 +28,8 @@ namespace AYN.Services.Data.Implementations
         {
             var message = new Message
             {
-                Content = content,
+                Content = this.wordsBlacklistService
+                    .IsGivenWordInBlacklist(content) ? new string('*', content.Length) : content,
                 SenderId = senderId,
                 ReceiverId = receiverId,
             };

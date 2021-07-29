@@ -101,6 +101,7 @@ namespace AYN.Web
                 .AddTransient<IUserAdsViewsService, UserAdsViewsService>()
                 .AddTransient<ISubCategoriesService, SubCategoriesService>()
                 .AddTransient<INotificationsService, NotificationsService>()
+                .AddTransient<IWordsBlacklistService, WordsBlacklistService>()
                 .AddTransient<IValidator<CreateAdInputModel>, CreateAdValidator>()
                 .AddTransient<IUserLatestAdViewsService, UserLatestAdViewsService>()
                 .AddTransient<IEmailSender>(sp => new SendGridEmailSender(this.configuration["Sendgrid"]));

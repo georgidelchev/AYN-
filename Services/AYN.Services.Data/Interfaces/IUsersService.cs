@@ -42,5 +42,7 @@ namespace AYN.Services.Data.Interfaces
         Task Unban(string userId);
 
         string GetIdByUsername(string username);
+
+        bool IsEmailTaken(string email);
     }
 }

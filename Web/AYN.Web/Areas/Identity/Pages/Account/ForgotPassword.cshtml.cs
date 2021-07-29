@@ -63,7 +63,7 @@ namespace AYN.Web.Areas.Identity.Pages.Account
                     "AYN",
                     this.Input.Email,
                     "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    $"<div>AYN - Password reset!</div> Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                 return this.RedirectToPage("./ForgotPasswordConfirmation");
             }

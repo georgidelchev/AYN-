@@ -71,5 +71,8 @@
 
         public const int ApplicationUserBlockReasonMinLength = 5;
         public const int ApplicationUserBlockReasonMaxLength = 500;
+
+        // WordBlacklist Model
+        public const int BlacklistWordMaxLength = 25;
     }
 }

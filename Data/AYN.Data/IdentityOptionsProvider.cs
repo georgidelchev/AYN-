@@ -13,6 +13,8 @@ namespace AYN.Data
             options.Password.RequireUppercase = false;
             options.Password.RequireNonAlphanumeric = false;
             options.Password.RequiredLength = PasswordMinLength;
+            options.SignIn.RequireConfirmedAccount = true;
+            options.User.RequireUniqueEmail = true;
         }
     }
 }

@@ -67,6 +67,8 @@ namespace AYN.Data
 
         public DbSet<Emoji> Emojis { get; set; }
 
+        public DbSet<WordBlacklist> WordsBlacklist { get; set; }
+
         public override int SaveChanges()
             => this.SaveChanges(true);
 

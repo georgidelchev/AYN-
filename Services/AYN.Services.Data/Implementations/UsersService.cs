@@ -236,6 +236,11 @@ namespace AYN.Services.Data.Implementations
                 .FirstOrDefault(a => a.UserName.ToLower() == username.ToLower())
                 ?.Id;
 
+        public bool IsEmailTaken(string email)
+            => this.applicationUserRepository
+                .All()
+                .Any(au => au.Email == email);
+
         private async Task<string> ProcessDefaultImage(string text, int width, int height, string fontName, int emSize, FontStyle fontStyle)
         {
             if (string.IsNullOrEmpty(text))

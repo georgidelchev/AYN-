@@ -126,6 +126,11 @@ namespace AYN.Web.Areas.Identity.Pages.Account
             this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             this.Towns = await this.townsService.GetAllAsKeyValuePairsAsync();
 
+            if (this.usersService.IsEmailTaken(this.Input.Email))
+            {
+                this.ModelState.AddModelError(string.Empty, "Email taken.");
+            }
+
             if (this.ModelState.IsValid)
             {
                 var user = new ApplicationUser()
