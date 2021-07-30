@@ -9,11 +9,11 @@ using AYN.Data.Models;
 using AYN.Data.Models.Enumerations;
 using AYN.Services.Data;
 using AYN.Services.Data.Interfaces;
+using AYN.Services.Messaging;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
@@ -162,8 +162,12 @@ namespace AYN.Web.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: this.Request.Scheme);
 
-                    await this.emailSender
-                        .SendEmailAsync(this.Input.Email, "Confirm your email", $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await this.emailSender.SendEmailAsync(
+                        "alienguymc@gmail.com",
+                        "AYN",
+                        this.Input.Email,
+                        "Confirm your email",
+                        $"<a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Click here</a> to confirm your AYN account.");
 
                     if (this.userManager.Options.SignIn.RequireConfirmedAccount)
                     {

@@ -13,7 +13,7 @@ namespace AYN.Web.ViewModels.Ads
         public string Name { get; set; }
 
         public string ShortName
-            => this.Name.Length >= 4 ? this.Name.Substring(0, 5) : this.Name;
+            => this.Name.Length >= 4 ? this.Name.Substring(0, 4) : this.Name;
 
         public decimal Price { get; set; }
 

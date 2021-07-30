@@ -38,7 +38,9 @@ namespace AYN.Web.Areas.Identity.Pages.Account
 
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await this.userManager.ConfirmEmailAsync(user, code);
+
             this.StatusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
+
             return this.Page();
         }
     }
