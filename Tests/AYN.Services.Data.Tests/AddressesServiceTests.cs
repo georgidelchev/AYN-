@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+
 using AYN.Data;
 using AYN.Data.Models;
 using AYN.Data.Repositories;
@@ -8,7 +9,6 @@ using AYN.Services.Data.Implementations;
 using AYN.Services.Data.Interfaces;
 using AYN.Services.Mapping;
 using AYN.Web.ViewModels.Addresses;
-using AYN.Web.ViewModels.Ads;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using NUnit.Framework;

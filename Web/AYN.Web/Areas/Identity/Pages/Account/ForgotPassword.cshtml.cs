@@ -59,8 +59,8 @@ namespace AYN.Web.Areas.Identity.Pages.Account
                     protocol: this.Request.Scheme);
 
                 await this.emailSender.SendEmailAsync(
-                    "alienguymc@gmail.com",
-                    "AYN",
+                    "allyouneedplatform@gmail.com",
+                    "AYNPlatform",
                     this.Input.Email,
                     "Reset Password",
                     $"<div>AYN - Password reset!</div> Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");

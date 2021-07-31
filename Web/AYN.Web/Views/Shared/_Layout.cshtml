@@ -4,7 +4,6 @@
 @using Microsoft.AspNetCore.Identity
 
 @inject SignInManager<ApplicationUser> SignInManager
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,8 +13,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer" asp-append-version="true"></script>
     <link href="~/css/style.css" rel="stylesheet" asp-append-version="true" />
     <link href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" rel="stylesheet" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous" asp-append-version="true">
-    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/site.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/lazy.css" rel="stylesheet" asp-append-version="true">
 </head>
 <body>
@@ -28,44 +27,47 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                <partial name="_LoginPartial" />
+                <partial name="_LoginPartial"/>
                 <ul class="navbar-nav flex-grow-1 ml-5" style="font-size: 1.5rem;">
                     @if (this.User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-primary ml-5" data-toggle="tooltip" data-placement="top" title="Home" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i></a>
+                            <a class="nav-link text-primary" data-toggle="tooltip" data-placement="top" title="Home" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i></a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-warning ml-5" data-toggle="tooltip" data-placement="top" title="All Ads" asp-area="" asp-controller="Ads" asp-action="Search">
+                            <a class="nav-link text-warning ml-4" data-toggle="tooltip" data-placement="top" title="All Ads" asp-area="" asp-controller="Ads" asp-action="Search">
                                 <i class="fas fa-store"></i>
                                 <span class="badge badge-light text-success" id="adsCount"></span>
-                                <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId" />
+                                <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId"/>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-success ml-5" data-toggle="tooltip" data-placement="top" title="Create Ad" asp-area="" asp-controller="Ads" asp-action="Create"><i class="fas fa-plus"></i></a>
+                            <a class="nav-link text-success ml-4" data-toggle="tooltip" data-placement="top" title="Create Ad" asp-area="" asp-controller="Ads" asp-action="Create"><i class="fas fa-plus"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-info ml-5" data-toggle="tooltip" data-placement="top" title="Your notifications" asp-area="" asp-controller="Notifications" asp-action="All">
+                            <a class="nav-link text-info ml-4" data-toggle="tooltip" data-placement="top" title="Your notifications" asp-area="" asp-controller="Notifications" asp-action="All">
                                 <i class="fas fa-bell"></i>
                                 <span class="badge badge-light text-success" id="notificationsCount"></span>
-                                <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId" />
+                                <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId"/>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-secondary ml-5" data-toggle="tooltip" data-placement="top" title="Messages" asp-area="" asp-controller="Chat" asp-action="All">
+                            <a class="nav-link text-secondary ml-4" data-toggle="tooltip" data-placement="top" title="Messages" asp-area="" asp-controller="Chat" asp-action="All">
                                 <i class="fas fa-envelope-open"></i>
                                 <span class="badge badge-light text-success" id="unreadMessagesCount"></span>
-                                <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId" />
+                                <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId"/>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-danger ml-5" data-toggle="tooltip" data-placement="top" title="Your ads wishlist" asp-area="" asp-controller="Wishlists" asp-action="Favorites">
+                            <a class="nav-link text-danger ml-4" data-toggle="tooltip" data-placement="top" title="Your ads wishlist" asp-area="" asp-controller="Wishlists" asp-action="Favorites">
                                 <i class="fas fa-heart"></i>
                                 <span class="badge badge-light text-success" id="wishlistCount"></span>
-                                <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId" />
+                                <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId"/>
                             </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-success ml-4" data-toggle="tooltip" data-placement="top" title="Give us a feedback" asp-area="" asp-controller="Feedback" asp-action="Create"><i class="fas fa-question-circle"></i></a>
                         </li>
                     }
                 </ul>
@@ -74,35 +76,35 @@
     </nav>
 </header>
 
-<div class="container">
-    <partial name="_CookieConsentPartial" />
-
-    <main role="main" class="pb-3">
-        @this.RenderBody()
-    </main>
-</div>
-
-<footer>
     <div class="container">
-        <div class="card-body bg-light p-3">
-            <div class="float-center"><a href="/">AYN.com</a> 2021-@DateTime.Now.Year - <a href="https://github.com/georgidelchev/AYN-" target="_blank">Open source system</a></div>
-        </div>
+        <partial name="_CookieConsentPartial" />
+
+        <main role="main" class="pb-3">
+            @this.RenderBody()
+        </main>
     </div>
-</footer>
 
-<script src="/vendor/jquery/jquery.min.js" asp-append-version="true"></script>
-<script src="/vendor/popper/popper.min.js" asp-append-version="true"></script>
-<script src="/vendor/bootstrap/bootstrap.min.js" asp-append-version="true"></script>
-<script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
-<script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
-<script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
-<script src="~/js/site.min.js" asp-append-version="true"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
-<script src="/js/lazy.js" asp-append-version="true"></script>
-<script src="https://js.stripe.com/v3/"></script>
-<script src="/js/signalr/dist/browser/signalr.min.js" type="text/javascript" asp-append-version="true"></script>
+    <footer>
+        <div class="container">
+            <div class="card-body bg-light p-3">
+                <div class="float-center"><a href="/">AYN.com</a> 2021-@DateTime.Now.Year - <a href="https://github.com/georgidelchev/AYN-" target="_blank">Open source system</a></div>
+            </div>
+        </div>
+    </footer>
 
-@await this.RenderSectionAsync("Scripts", required: false)
+    <script src="/vendor/jquery/jquery.min.js" asp-append-version="true"></script>
+    <script src="/vendor/popper/popper.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
+    <script src="~/js/site.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
+    <script src="/js/lazy.js" asp-append-version="true"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="/js/signalr/dist/browser/signalr.min.js" type="text/javascript" asp-append-version="true"></script>
+    <script src="/vendor/bootstrap/bootstrap.min.js" asp-append-version="true"></script>
+
+    @await this.RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
 

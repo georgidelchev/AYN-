@@ -163,8 +163,8 @@ namespace AYN.Web.Areas.Identity.Pages.Account
                         protocol: this.Request.Scheme);
 
                     await this.emailSender.SendEmailAsync(
-                        "alienguymc@gmail.com",
-                        "AYN",
+                        "allyouneedplatform@gmail.com",
+                        "AYNPlatform",
                         this.Input.Email,
                         "Confirm your email",
                         $"<a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Click here</a> to confirm your AYN account.");

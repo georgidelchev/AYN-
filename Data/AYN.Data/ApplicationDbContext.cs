@@ -33,7 +33,7 @@ namespace AYN.Data
 
         public DbSet<Comment> Comments { get; set; }
 
-        public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
 
         public DbSet<FollowerFollowee> FollowersFollowees { get; set; }
 

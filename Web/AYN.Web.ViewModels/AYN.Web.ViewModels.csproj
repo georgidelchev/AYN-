@@ -29,6 +29,7 @@
   <ItemGroup>
     <Folder Include="Administration\Ads\" />
     <Folder Include="Administration\Chat\" />
+    <Folder Include="Feedback\" />
     <Folder Include="Payments\" />
     <Folder Include="SubCategories\" />
   </ItemGroup>

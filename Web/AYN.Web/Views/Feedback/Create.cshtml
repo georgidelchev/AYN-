@@ -1,0 +1,53 @@
+﻿@model AYN.Web.ViewModels.Feedback.CreateFeedbackInputModel
+
+<div class="text-center">
+    <h1>Hello, @User.Identity?.Name!</h1>
+</div>
+<hr />
+
+<form method="post" class="col-md-6 offset-md-3" enctype="multipart/form-data">
+    <h2>You can write your feedback here!</h2>
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div>
+        <span asp-validation-for="Title" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="Title" class="input-group-text">
+                    <i class="fas fa-pencil-alt"></i>
+                </label>
+            </div>
+            <input asp-for="Title" placeholder="Title" class="form-control" />
+        </div>
+    </div>
+    <div>
+        <span asp-validation-for="Email" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="Email" class="input-group-text">
+                    <i class="fas fa-envelope"></i>
+                </label>
+            </div>
+            <input asp-for="Email" placeholder="Email" class="form-control" />
+        </div>
+    </div>
+    <div>
+        <span asp-validation-for="Content" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="Content" class="input-group-text">
+                    <i class="fas fa-envelope-open-text"></i>
+                </label>
+            </div>
+            <textarea asp-for="Content" rows="10" placeholder="Content" class="form-control"></textarea>
+        </div>
+    </div>
+    <div class="text-center">
+        <input type="submit" class="btn btn-success" />
+    </div>
+</form>
+<hr />

@@ -91,6 +91,7 @@ namespace AYN.Web
                 .AddTransient<IReportsService, ReportsService>()
                 .AddTransient<IEmailSender, NullMessageSender>()
                 .AddTransient<ISettingsService, SettingsService>()
+                .AddTransient<IFeedbackService, FeedbackService>()
                 .AddTransient<ICommentsService, CommentsService>()
                 .AddTransient<IMessagesService, MessagesService>()
                 .AddTransient<IAddressesService, AddressesService>()

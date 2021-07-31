@@ -7,9 +7,9 @@ using static AYN.Common.AttributeConstraints;
 
 namespace AYN.Data.Models
 {
-    public class Contact : BaseDeletableModel<string>
+    public class Feedback : BaseDeletableModel<string>
     {
-        public Contact()
+        public Feedback()
         {
             this.Id = Guid
                 .NewGuid()
@@ -17,16 +17,17 @@ namespace AYN.Data.Models
         }
 
         [Required]
-        [MaxLength(ContactTitleMaxLength)]
+        [MaxLength(FeedbackTitleMaxLength)]
         public string Title { get; set; }
 
         [Required]
         public string Email { get; set; }
 
         [Required]
-        [MaxLength(ContactContentMaxLength)]
+        [MaxLength(FeedbackContentMaxLength)]
         public string Content { get; set; }
 
+        [Required]
         public string AddedByUserId { get; set; }
 
         public ApplicationUser AddedByUser { get; set; }

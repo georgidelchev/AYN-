@@ -29,8 +29,11 @@
         public const int CommentContentMaxLength = 1000;
 
         // Contact model
-        public const int ContactTitleMaxLength = 30;
-        public const int ContactContentMaxLength = 1000;
+        public const int FeedbackTitleMinLength = 3;
+        public const int FeedbackTitleMaxLength = 30;
+
+        public const int FeedbackContentMinLength = 10;
+        public const int FeedbackContentMaxLength = 1000;
 
         // Picture model
         public const int PictureExtensionMaxLength = 6;

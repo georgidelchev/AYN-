@@ -101,8 +101,8 @@ namespace AYN.Web.Areas.Identity.Pages.Account.Manage
                     protocol: this.Request.Scheme);
 
                 await this.emailSender.SendEmailAsync(
-                    "alienguymc@gmail.com",
-                    "AYN",
+                    "allyouneedplatform@gmail.com",
+                    "AYNPlatform",
                     this.Input.NewEmail,
                     "Confirm your email",
                     $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
@@ -141,8 +141,8 @@ namespace AYN.Web.Areas.Identity.Pages.Account.Manage
                 protocol: this.Request.Scheme);
 
             await this.emailSender.SendEmailAsync(
-                "alienguymc@gmail.com",
-                "AYN",
+                "allyouneedplatform@gmail.com",
+                "AYNPlatform",
                 email,
                 "Confirm your email",
                 $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");

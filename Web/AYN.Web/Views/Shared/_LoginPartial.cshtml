@@ -11,7 +11,7 @@
     {
         <li class="nav-item">
             <a class="nav-link text-dark" data-toggle="tooltip" data-placement="top" title="Profile" asp-area="" asp-controller="Users" asp-action="Profile" asp-route-id="@this.UserManager.Users.FirstOrDefault(u => u.Id == this.User.FindFirst(ClaimTypes.NameIdentifier).Value)?.Id">
-                <img src="@this.UserManager.Users.FirstOrDefault(u=>u.Id==this.User.FindFirst(ClaimTypes.NameIdentifier).Value)?.AvatarImageUrl" class="user-profile img-fluid rounded-circle" style="width: 50px;height: 50px">
+                <img src="@this.UserManager.Users.FirstOrDefault(u=>u.Id==this.User.FindFirst(ClaimTypes.NameIdentifier).Value)?.AvatarImageUrl" class="user-profile img-fluid rounded-circle" style="width: 35px;height: 35px">
             </a>
         </li>
         @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
@@ -20,6 +20,9 @@
                 <a class="nav-link text-danger" data-toggle="tooltip" data-placement="top" title="Administration Settings" asp-area="Administration" asp-controller="Panels" asp-action="Index"><i class="fas fa-tools" style="font-size: 1.5rem;"></i></a>
             </li>
         }
+        <li class="nav-item">
+            <a class="nav-link text-warning" data-toggle="tooltip" data-placement="top" title="Profile Settings" href><i class="fas fa-cog" style="font-size: 1.5rem;"></i></a>
+        </li>
         <li class="nav-item">
             <form class="form-inline" data-toggle="tooltip" data-placement="top" title="Logout" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@this.Url.Action("Index", "Home", new { area = string.Empty })">
                 <button type="submit" class="nav-link btn btn-link text-muted"><i class="fas fa-sign-out-alt" style="font-size: 1.5rem;"></i></button>
