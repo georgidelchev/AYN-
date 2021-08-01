@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+
 using AutoMapper;
 using AYN.Data.Models;
 using AYN.Data.Models.Enumerations;
@@ -19,7 +20,7 @@ namespace AYN.Web.ViewModels.Comments
 
         public string AddedByUserId { get; set; }
 
-        public string AddedByUserAvatarExtension { get; set; }
+        public string AddedByUserAvatarImageUrl { get; set; }
 
         public int CommentUpVotesCount { get; set; }
 

@@ -15,7 +15,7 @@ namespace AYN.Web.ViewModels.Administration.Users
 
         public string LastName { get; set; }
 
-        public string AvatarExtension { get; set; }
+        public string AvatarImageUrl { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

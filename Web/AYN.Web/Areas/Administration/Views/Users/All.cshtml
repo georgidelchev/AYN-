@@ -9,8 +9,9 @@
 </div>
 
 <partial name="_PagingPartial" model="@this.Model" />
+
 <div class="table-responsive">
-    <table class="table table-sm table-hover ">
+    <table class="table table-sm table-hover">
         <thead>
             <tr>
                 <th scope="col">Image</th>
@@ -28,7 +29,7 @@
             {
                 <tr>
                     <th>
-                        <img src="/img/UsersAvatars/@if (user.AvatarExtension == null){<text>@user.Id.ToString()_DEFAULT.png</text>}else{<text>@user.Id.@user.AvatarExtension</text>}" alt="" style="width: 30px; height: 30px;">
+                        <img src="@user.AvatarImageUrl" alt="" style="width: 30px; height: 30px;">
                     </th>
                     <th><a asp-area="" asp-controller="Users" asp-action="Profile" asp-route-id="@user.Id">@user.Username</a></th>
                     <th>@user.FirstName</th>
@@ -53,4 +54,5 @@
         </tbody>
     </table>
 </div>
+
 <partial name="_PagingPartial" model="@this.Model" />

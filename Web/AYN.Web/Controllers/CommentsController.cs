@@ -93,7 +93,7 @@ namespace AYN.Web.Controllers
         {
             if (this.adsService.IsAdExisting(adId))
             {
-                return this.Redirect("/");
+                return this.Redirect($"/Ads/Details?id={adId}");
             }
 
             await this.commentsService.EditAsync(input);

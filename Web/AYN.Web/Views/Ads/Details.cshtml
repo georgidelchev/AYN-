@@ -9,8 +9,10 @@
 <div class="text-center">
     <h1>@this.ViewData["Title"]</h1>
 </div>
-<form method="get" asp-action="Delete" id="deleteForm" asp-route-id="@Model.Id">
+
+<form method="get" asp-controller="Ads" asp-action="Delete" id="deleteForm" asp-route-id="@Model.Id">
 </form>
+
 <div class="row">
     <div class="col-md-9">
         <div class="card">
@@ -18,13 +20,17 @@
                 <small><i class="fas fa-eye text-primary"></i> @Model.TotalViews</small>
                 @if (this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value == this.Model.AddedByUserId)
                 {
-                    <small><a asp-controller="Ads" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit text-warning ml-3"></i></a></small>
-
                     <small>
-                        <a data-toggle="modal" data-target="#deleteModal" asp-controller="Ads" asp-action="Delete" asp-route-id="@Model.Id"><i class="fas fa-times text-danger ml-3"></i></a>
+                        <a asp-controller="Ads" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit text-warning ml-3"></i></a>
                     </small>
-                    <small><a asp-controller="Ads" asp-action="Promote" asp-route-id="@Model.Id"><i class="fas fa-trophy text-success ml-3"></i></a></small>
-
+                    <small>
+                        <a data-toggle="modal" data-target="#deleteModal" style="cursor: pointer;">
+                            <i class="fas fa-times text-danger ml-3"></i>
+                        </a>
+                    </small>
+                    <small>
+                        <a asp-controller="Ads" asp-action="Promote" asp-route-id="@Model.Id"><i class="fas fa-trophy text-success ml-3"></i></a>
+                    </small>
                     <div>
                         <form asp-controller="Home" asp-action="Processing" method="POST">
                             <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="pk_test_51JC369DjgxsARjFqEYyTTQYKHthtU3IFY0xfHpGRdLL0BVlvRMmBrrU488pdLUKjHzHvHkHTJoZzKFi3ucsj4wwp00d7D0oPEk" data-amount="10" data-name="AYN - All You Need" data-description="" data-image="https://stripe.com/img/documentation/checkout/marketplace.png" data-locale="en" data-zip-code="true" data-label="Pay">
@@ -167,15 +173,37 @@
 
 
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-9">
+
         <div class="text-center">
-            <h5>All Comments (@Model.TotalCommentsCount)</h5>
+            <h5>Write @{ var condition = this.Model.Comments.Any() ? "a" : "the first";} @condition comment</h5>
         </div>
+        <form method="post" asp-controller="Comments" asp-action="Create" asp-route-adId="@Model.Id">
+            <div class="card p-3">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text">
+                            <i class="fas fa-question-circle"></i>
+                        </label>
+                    </div>
+                    <textarea rows="4" name="content" placeholder="Comment" class="form-control"></textarea>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                </div>
+            </div>
+        </form>
+        @if (this.Model.Comments.Any())
+        {
+            <div class="text-center">
+                <h5>All Comments (@Model.TotalCommentsCount)</h5>
+            </div>
+        }
         @foreach (var comment in this.Model.Comments.OrderByDescending(c => c.CreatedOn))
         {
             <div class="card p-3">
                 <div>
-                    <img src="/img/UsersAvatars/@if (comment.AddedByUserAvatarExtension == null){<text>@comment.AddedByUserId.ToString()_DEFAULT.png</text>}else{<text>@comment.AddedByUserId.@comment.AddedByUserAvatarExtension</text>}" alt="" class="rounded-circle mr-2" style="width: 30px; height: 30px;">
+                    <img src="@comment.AddedByUserAvatarImageUrl" alt="" class="rounded-circle mr-2" style="width: 30px; height: 30px;">
                     <a asp-controller="Users" asp-action="Profile" asp-route-id="@comment.AddedByUserId">@comment.AddedByUserUsername</a> <br />
                     <small><i class="fas fa-calendar-alt text-right text-primary ml-2 mt-2"></i> @comment.CreatedOn.ToString("g")</small>
                 </div>
@@ -199,38 +227,8 @@
         }
     </div>
     <div class="col-md-4">
-        <div class="text-center">
-            <h5>Write a comment</h5>
-        </div>
-        <form method="post" asp-controller="Comments" asp-action="Create" asp-route-adId="@Model.Id">
-            <div class="card p-3">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text">
-                            <i class="fas fa-question-circle"></i>
-                        </label>
-                    </div>
-                    <textarea rows="4" name="content" placeholder="Comment" class="form-control"></textarea>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
-                </div>
-            </div>
-        </form>
+
     </div>
 </div>
 
-
-<div class="modal" tabindex="-1" role="dialog" id="deleteModal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <p>Do you want to delete "@Model.Name"?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" onclick="deleteForm.submit()">Yes</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-            </div>
-        </div>
-    </div>
-</div>
+<partial name="_DeleteConfirmationPartial" />
