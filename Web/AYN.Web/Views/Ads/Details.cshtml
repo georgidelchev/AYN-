@@ -9,7 +9,8 @@
 <div class="text-center">
     <h1>@this.ViewData["Title"]</h1>
 </div>
-
+<form method="get" asp-action="Delete" id="deleteForm" asp-route-id="@Model.Id">
+</form>
 <div class="row">
     <div class="col-md-9">
         <div class="card">
@@ -18,7 +19,10 @@
                 @if (this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value == this.Model.AddedByUserId)
                 {
                     <small><a asp-controller="Ads" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit text-warning ml-3"></i></a></small>
-                    <small><a asp-controller="Ads" asp-action="Delete" asp-route-id="@Model.Id"><i class="fas fa-times text-danger ml-3"></i></a></small>
+
+                    <small>
+                        <a data-toggle="modal" data-target="#deleteModal" asp-controller="Ads" asp-action="Delete" asp-route-id="@Model.Id"><i class="fas fa-times text-danger ml-3"></i></a>
+                    </small>
                     <small><a asp-controller="Ads" asp-action="Promote" asp-route-id="@Model.Id"><i class="fas fa-trophy text-success ml-3"></i></a></small>
 
                     <div>
@@ -213,5 +217,20 @@
                 </div>
             </div>
         </form>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="deleteModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>Do you want to delete "@Model.Name"?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" onclick="deleteForm.submit()">Yes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            </div>
+        </div>
     </div>
 </div>

@@ -18,63 +18,63 @@
     <link href="~/css/lazy.css" rel="stylesheet" asp-append-version="true">
 </head>
 <body>
-<header>
-    <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container">
-            <a class="navbar-brand text-info" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-gifts"></i> @GlobalConstants.SystemName - All You Need</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                <partial name="_LoginPartial"/>
-                <ul class="navbar-nav flex-grow-1 ml-5" style="font-size: 1.5rem;">
-                    @if (this.User.Identity.IsAuthenticated)
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link text-primary" data-toggle="tooltip" data-placement="top" title="Home" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i></a>
-                        </li>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand text-info" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-gifts"></i> @GlobalConstants.SystemName - All You Need</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial" />
+                    <ul class="navbar-nav flex-grow-1 ml-5" style="font-size: 1.5rem;">
+                        @if (this.User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-primary" data-toggle="tooltip" data-placement="top" title="Home" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i></a>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-warning ml-4" data-toggle="tooltip" data-placement="top" title="All Ads" asp-area="" asp-controller="Ads" asp-action="Search">
-                                <i class="fas fa-store"></i>
-                                <span class="badge badge-light text-success" id="adsCount"></span>
-                                <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId"/>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-success ml-4" data-toggle="tooltip" data-placement="top" title="Create Ad" asp-area="" asp-controller="Ads" asp-action="Create"><i class="fas fa-plus"></i></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-info ml-4" data-toggle="tooltip" data-placement="top" title="Your notifications" asp-area="" asp-controller="Notifications" asp-action="All">
-                                <i class="fas fa-bell"></i>
-                                <span class="badge badge-light text-success" id="notificationsCount"></span>
-                                <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId"/>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-secondary ml-4" data-toggle="tooltip" data-placement="top" title="Messages" asp-area="" asp-controller="Chat" asp-action="All">
-                                <i class="fas fa-envelope-open"></i>
-                                <span class="badge badge-light text-success" id="unreadMessagesCount"></span>
-                                <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId"/>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-danger ml-4" data-toggle="tooltip" data-placement="top" title="Your ads wishlist" asp-area="" asp-controller="Wishlists" asp-action="Favorites">
-                                <i class="fas fa-heart"></i>
-                                <span class="badge badge-light text-success" id="wishlistCount"></span>
-                                <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId"/>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-success ml-4" data-toggle="tooltip" data-placement="top" title="Give us a feedback" asp-area="" asp-controller="Feedback" asp-action="Create"><i class="fas fa-question-circle"></i></a>
-                        </li>
-                    }
-                </ul>
+                            <li class="nav-item">
+                                <a class="nav-link text-warning ml-4" data-toggle="tooltip" data-placement="top" title="All Ads" asp-area="" asp-controller="Ads" asp-action="Search">
+                                    <i class="fas fa-store"></i>
+                                    <span class="badge badge-light text-success" id="adsCount"></span>
+                                    <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId" />
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-success ml-4" data-toggle="tooltip" data-placement="top" title="Create Ad" asp-area="" asp-controller="Ads" asp-action="Create"><i class="fas fa-plus"></i></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-info ml-4" data-toggle="tooltip" data-placement="top" title="Your notifications" asp-area="" asp-controller="Notifications" asp-action="All">
+                                    <i class="fas fa-bell"></i>
+                                    <span class="badge badge-light text-success" id="notificationsCount"></span>
+                                    <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId" />
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-secondary ml-4" data-toggle="tooltip" data-placement="top" title="Messages" asp-area="" asp-controller="Chat" asp-action="All">
+                                    <i class="fas fa-envelope-open"></i>
+                                    <span class="badge badge-light text-success" id="unreadMessagesCount"></span>
+                                    <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId" />
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-danger ml-4" data-toggle="tooltip" data-placement="top" title="Your ads wishlist" asp-area="" asp-controller="Wishlists" asp-action="Favorites">
+                                    <i class="fas fa-heart"></i>
+                                    <span class="badge badge-light text-success" id="wishlistCount"></span>
+                                    <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId" />
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-success ml-4" data-toggle="tooltip" data-placement="top" title="Give us a feedback" asp-area="" asp-controller="Feedback" asp-action="Create"><i class="fas fa-question-circle"></i></a>
+                            </li>
+                        }
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
-</header>
+        </nav>
+    </header>
 
     <div class="container">
         <partial name="_CookieConsentPartial" />
@@ -98,11 +98,12 @@
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
     <script src="/js/lazy.js" asp-append-version="true"></script>
     <script src="https://js.stripe.com/v3/"></script>
     <script src="/js/signalr/dist/browser/signalr.min.js" type="text/javascript" asp-append-version="true"></script>
     <script src="/vendor/bootstrap/bootstrap.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     @await this.RenderSectionAsync("Scripts", required: false)
 </body>
@@ -152,8 +153,8 @@
             fetch(`/Notifications/Count?userId=${userId}`)
                 .then(response => response.json())
                 .then(notificationsCount => notificationCounter.textContent = notificationsCount)
-                .then().then(function() {
-                    setTimeout(function() { getNotificationsCount(); }, 2000);
+                .then().then(function () {
+                    setTimeout(function () { getNotificationsCount(); }, 2000);
                 });
         });
 </script>

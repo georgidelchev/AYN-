@@ -190,11 +190,11 @@ namespace AYN.Web.Controllers
 
             if (!this.adsService.IsUserOwnsGivenAd(userId, id))
             {
-                return this.Redirect($"/");
+                return this.Redirect("/");
             }
 
             await this.adsService.Delete(id);
-            return this.Redirect($"/Ads/Details?id={id}");
+            return this.Redirect("/");
         }
 
         [HttpGet]
