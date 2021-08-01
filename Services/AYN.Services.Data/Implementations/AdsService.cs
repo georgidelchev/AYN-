@@ -29,16 +29,21 @@ namespace AYN.Services.Data.Implementations
         public async Task CreateAsync(CreateAdInputModel input, string userId)
         {
             var imageUrls = new List<string>();
-
-            await using var ms = new MemoryStream();
             foreach (var image in input.Pictures)
             {
+                await using var ms = new MemoryStream();
                 await image.CopyToAsync(ms);
                 var destinationData = ms.ToArray();
 
-                var imageUrl = await this.cloudinaryService.UploadPictureAsync(destinationData, image.FileName, "AdsImages", 900, 600);
-
-                imageUrls.Add(imageUrl);
+                try
+                {
+                    var imageUrl = await this.cloudinaryService.UploadPictureAsync(destinationData, image.FileName, "AdsImages", 900, 600);
+                    imageUrls.Add(imageUrl);
+                }
+                catch
+                {
+                    // ignored
+                }
             }
 
             var ad = new Ad
@@ -311,6 +316,29 @@ namespace AYN.Services.Data.Implementations
             ad.AdType = input.AdType;
             ad.ProductCondition = input.ProductCondition;
             ad.DeliveryTake = input.DeliveryTake;
+
+            var imageUrls = new List<string>();
+            foreach (var image in input.Images)
+            {
+                await using var ms = new MemoryStream();
+                await image.CopyToAsync(ms);
+                var destinationData = ms.ToArray();
+
+                try
+                {
+                    var imageUrl = await this.cloudinaryService.UploadPictureAsync(destinationData, image.FileName, "AdsImages", 900, 600);
+                    imageUrls.Add(imageUrl);
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
+
+            foreach (var imageUrl in imageUrls.Where(i => i != null))
+            {
+                ad.Images.Add(new AdImage() { ImageUrl = imageUrl });
+            }
 
             this.adsRepository.Update(ad);
             await this.adsRepository.SaveChangesAsync();

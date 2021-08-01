@@ -22,6 +22,54 @@
         .Select(c => new SelectListItem(c.Value, c.Key));
 }
 
+
+<style>
+    .image {
+        width: 150px;
+        height: 150px;
+        border-radius: 50px;
+        background-image: url("/img/upload-file-image.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        position: relative;
+    }
+
+    .image-preset {
+        width: 150px;
+        height: 150px;
+        background-repeat: no-repeat;
+        background-size: contain;
+        position: relative;
+    }
+
+
+    .image-upload {
+        opacity: 0;
+        z-index: 100;
+        width: 80px;
+        height: 150px;
+        position: absolute;
+    }
+
+        .image-upload:hover, .image-preset:hover, .image:hover {
+            cursor: pointer;
+        }
+
+    input[type='file'] {
+        display: none;
+    }
+
+    @@media(max-width: 980px) {
+        .image {
+            width: 100px;
+        }
+
+        .image-upload {
+            width: 100px;
+        }
+    }
+</style>
+
 <div class="text-center">
     <h1>@this.ViewData["Title"]</h1>
 </div>
@@ -145,18 +193,18 @@
                     <i class="fas fa-map-marked-alt"></i>
                 </label>
             </div>
-           @if (this.Model.Addresses.Any())
-           {
-               <select id="address-selector" asp-for="AddressId" class="form-control" asp-items="addresses">
-                   <option selected disabled>Choose Address</option>
-               </select>
-           }
-           else
-           {
-               <select id="address-selector" asp-for="AddressId" class="form-control">
-                   <option selected disabled>Pick a Town first</option>
-               </select>
-           }
+            @if (this.Model.Addresses.Any())
+            {
+                <select id="address-selector" asp-for="AddressId" class="form-control" asp-items="addresses">
+                    <option selected disabled>Choose Address</option>
+                </select>
+            }
+            else
+            {
+                <select id="address-selector" asp-for="AddressId" class="form-control">
+                    <option selected disabled>Pick a Town first</option>
+                </select>
+            }
         </div>
     </div>
 
@@ -217,15 +265,21 @@
         </div>
     </div>
 
-    @*<div class="input-group">
-            <div class="custom-file">
-                <input class="custom-file-input" id="inputGroupFile02" asp-for="Pictures">
-                <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Upload some pictures about the product</label>
-                <span asp-validation-for="Pictures" class="text-danger"></span>
-            </div>
-        </div>*@
-    <br />
+    <div>
+        <input class="custom-file-input" id="inputGroupFile02" asp-for="Images">
+    </div>
 
+    <a class="btn btn-success btn-sm" onclick="AddSubCategory()"><i class="fas fa-plus"></i></a><br />
+
+    <div class="row">
+        @foreach (var imageUrl in this.Model.ImagesUrls)
+        {
+            <div class="col-md-4">
+                <img src="@imageUrl" class="image" data-toggle="tooltip" data-placement="top" title="Click to delete" class="img-fluid rounded-circle" />
+            </div>
+        }
+    </div>
+    <br />
     <button type="submit" class="btn btn-primary btn-sm">Submit</button>
     <hr />
 </form>
@@ -274,3 +328,33 @@
     })
 </script>
 
+<script>
+    var subCategoryIndex = 1;
+    function AddSubCategory() {
+        $(".row").
+            append("<div class='image mb-2' id='preview-picture" + subCategoryIndex + "' >" +
+                "<label for='image" + subCategoryIndex + "' class='image-upload'></label>" +
+                "<input type='file' id='image" + subCategoryIndex + "' class='image-upload' name='Images'/>" +
+                "</div>");
+        subCategoryIndex++;
+    }
+</script>
+
+<script>
+    $(document).on('change', ".image-upload", function () {
+        let id = $(this).parent().attr('id');
+        console.log(id);
+        console.log(1);
+        var files = !!this.files ? this.files : [];
+        if (!files.length || !window.FileReader) return;
+        if (/^image/.test(files[0].type)) {
+            var ReaderObj = new FileReader();
+            ReaderObj.readAsDataURL(files[0]);
+            ReaderObj.onloadend = function () {
+                $("#" + id).css("background-image", "url(" + this.result + ")");
+            }
+        } else {
+            alert("Upload an image");
+        }
+    });
+</script>

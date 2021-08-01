@@ -53,5 +53,6 @@ namespace AYN.Web.ViewModels.Ads
 
         [Required(ErrorMessage = "You should upload some pictures about the product.")]
         public IEnumerable<IFormFile> Pictures { get; set; }
+            = new HashSet<IFormFile>();
     }
 }

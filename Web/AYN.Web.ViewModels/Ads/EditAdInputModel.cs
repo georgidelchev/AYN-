@@ -1,15 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using AutoMapper;
 using AYN.Data.Models;
 using AYN.Data.Models.Enumerations;
 using AYN.Services.Mapping;
-
+using Microsoft.AspNetCore.Http;
 using static AYN.Common.AttributeConstraints;
 
 namespace AYN.Web.ViewModels.Ads
 {
-    public class EditAdInputModel : IMapFrom<Ad>
+    public class EditAdInputModel : IMapFrom<Ad>, IHaveCustomMappings
     {
         public string Id { get; set; }
 
@@ -58,7 +60,16 @@ namespace AYN.Web.ViewModels.Ads
         [Required(ErrorMessage = "You should choose who will pay the delivery tax.")]
         public DeliveryTake DeliveryTake { get; set; }
 
-        // [Required(ErrorMessage = "You should upload some pictures about the product.")]
-        // public IEnumerable<IFormFile> Pictures { get; set; }
+        public IEnumerable<string> ImagesUrls { get; set; }
+
+        public IEnumerable<IFormFile> Images { get; set; }
+            = new HashSet<IFormFile>();
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<Ad, EditAdInputModel>()
+                .ForMember(m => m.ImagesUrls, opt => opt.MapFrom(o => o.Images.Select(i => i.ImageUrl)))
+                .ForMember(m => m.Images, opt => opt.Ignore());
+        }
     }
 }
