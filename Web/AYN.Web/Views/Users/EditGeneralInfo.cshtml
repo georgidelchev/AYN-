@@ -207,26 +207,105 @@
         </div>
     </div>
 
-    Avatar
-    <div class="input-group">
-        <div class="custom-file">
-            <input type="file" class="custom-file-input" id="inputGroupFile02" asp-for="@Model.EditUserGeneralInfoViewModel.Avatar">
-            <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Change your avatar (optional)</label>
-            <span asp-validation-for="@Model.EditUserGeneralInfoViewModel.Avatar" class="text-danger"></span>
+    <div class="row justify-content-sm-center mt-3">
+        <div class="image mb-2" id="preview-picture1">
+            Avatar
+            <label for="image1" class="image-upload"></label>
+            <input type="file" asp-for="@Model.EditUserGeneralInfoViewModel.Avatar" id="image1" class="image-upload" />
+        </div>
+        <div class="image mb-2 ml-5" id="preview-picture2">
+            Thumbnail
+            <label for="image2" class="image-upload"></label>
+            <input type="file" asp-for="@Model.EditUserGeneralInfoViewModel.Thumbnail" id="image2" class="image-upload" />
         </div>
     </div>
-    <br />
 
-    Thumbnail
-    <div class="input-group">
-        <div class="custom-file">
-            <input type="file" class="custom-file-input" id="inputGroupFile02" asp-for="@Model.EditUserGeneralInfoViewModel.Thumbnail">
-            <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Change your thumbnail (optional)</label>
-            <span asp-validation-for="@Model.EditUserGeneralInfoViewModel.Thumbnail" class="text-danger"></span>
-        </div>
-    </div>
     <br />
     <input type="hidden" asp-for="@Model.EditUserGeneralInfoViewModel.Id" />
     <button type="submit" class="btn btn-primary btn-sm">Submit</button>
     <hr />
 </form>
+
+
+<script>
+    $(document).on('change', "#image1", function () {
+        let id = $(this).parent().attr('id');
+        console.log(id);
+        console.log(1);
+        var files = !!this.files ? this.files : [];
+        if (!files.length || !window.FileReader) return;
+        if (/^image/.test(files[0].type)) {
+            var ReaderObj = new FileReader();
+            ReaderObj.readAsDataURL(files[0]);
+            ReaderObj.onloadend = function () {
+                $("#" + id).css("background-image", "url(" + this.result + ")");
+            }
+        } else {
+            alert("Upload an image");
+        }
+    });
+
+    $(document).on('change', "#image2", function () {
+        let id = $(this).parent().attr('id');
+        console.log(id);
+        console.log(1);
+        var files = !!this.files ? this.files : [];
+        if (!files.length || !window.FileReader) return;
+        if (/^image/.test(files[0].type)) {
+            var ReaderObj = new FileReader();
+            ReaderObj.readAsDataURL(files[0]);
+            ReaderObj.onloadend = function () {
+                $("#" + id).css("background-image", "url(" + this.result + ")");
+            }
+        } else {
+            alert("Upload an image");
+        }
+    });
+</script>
+
+<style>
+    .image {
+        width: 150px;
+        height: 150px;
+        border-radius: 50px;
+        background-image: url("/img/upload-file-image.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        position: relative;
+    }
+
+    .image-preset {
+        width: 150px;
+        height: 150px;
+        background-repeat: no-repeat;
+        background-size: contain;
+        position: relative;
+    }
+
+
+    .image-upload {
+        opacity: 0;
+        z-index: 100;
+        width: 80px;
+        height: 150px;
+        position: absolute;
+    }
+
+        .image-upload:hover, .image-preset:hover, .image:hover {
+            cursor: pointer;
+        }
+
+    input[type='file'] {
+        display: none;
+    }
+
+    @@media(max-width: 980px) {
+        .image {
+            width: 100px;
+        }
+
+        .image-upload {
+            width: 100px;
+        }
+    }
+</style>
