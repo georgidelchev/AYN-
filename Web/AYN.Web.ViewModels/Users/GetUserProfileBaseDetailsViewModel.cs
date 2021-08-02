@@ -30,6 +30,16 @@ namespace AYN.Web.ViewModels.Users
 
         public bool IsCurrentUserFollower { get; set; }
 
+        public string FacebookUrl { get; set; }
+
+        public string InstagramUrl { get; set; }
+
+        public string TikTokUrl { get; set; }
+
+        public string TwitterUrl { get; set; }
+
+        public string WebsiteUrl { get; set; }
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration

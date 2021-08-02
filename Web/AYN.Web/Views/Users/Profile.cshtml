@@ -30,7 +30,27 @@
                         </a>
                     </h6>
                 }
-                <h3>@Model.FirstName @Model.LastName</h3>
+                <h3 class="mb-3">@Model.FirstName @Model.LastName</h3>
+                <a href="@Model.FacebookUrl">
+                    @{var color = this.Model.FacebookUrl != null ? "info" : "muted";}
+                    <i class="fab fa-facebook-f text-@color font-weight-bolder ml-3" style="font-size: 1.5rem;"></i>
+                </a>
+                <a href="@Model.InstagramUrl">
+                    @{ color = this.Model.InstagramUrl != null ? "danger" : "muted";}
+                    <i class="fab fa-instagram text-@color font-weight-bolder ml-3" style="font-size: 1.5rem;"></i>
+                </a>
+                <a href="@Model.TikTokUrl">
+                    @{ color = this.Model.TikTokUrl != null ? "dark" : "muted";}
+                    <i class="fab fa-tiktok text-@color font-weight-bolder ml-3" style="font-size: 1.5rem;"></i>
+                </a>
+                <a href="@Model.WebsiteUrl">
+                    @{ color = this.Model.WebsiteUrl != null ? "primary" : "muted";}
+                    <i class="fas fa-globe text-@color font-weight-bolder ml-3" style="font-size: 1.5rem;"></i>
+                </a>
+                <a href="@Model.TwitterUrl">
+                    @{ color = this.Model.TwitterUrl != null ? "info" : "muted";}
+                    <i class="fab fa-twitter text-@color font-weight-bolder ml-3" style="font-size: 1.5rem;"></i>
+                </a>
                 @if (this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value != this.Model.Id)
                 {
                     if (this.Model.IsCurrentUserFollower)
