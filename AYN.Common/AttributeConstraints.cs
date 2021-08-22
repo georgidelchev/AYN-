@@ -10,7 +10,7 @@
         public const int AdNameMaxLength = 30;
         public const int AdNameMinLength = 2;
         public const int DescriptionMinLength = 10;
-        public const int DescriptionMaxLength = 1000;
+        public const int DescriptionMaxLength = 5000;
 
         // Address model
         public const int AddressNameMaxLength = 50;

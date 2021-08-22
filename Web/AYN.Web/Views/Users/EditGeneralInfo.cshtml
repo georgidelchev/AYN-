@@ -82,6 +82,21 @@
     </div>
 
     <div>
+        <span asp-validation-for="@Model.EditUserGeneralInfoViewModel.PhoneNumber" class="text-danger"></span>
+
+        Phone
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="@Model.EditUserGeneralInfoViewModel.PhoneNumber" class="input-group-text">
+                    <i class="fas fa-phone"></i>
+                </label>
+            </div>
+
+            <input asp-for="@Model.EditUserGeneralInfoViewModel.PhoneNumber" placeholder="Phone number" class="form-control" />
+        </div>
+    </div>
+
+    <div>
         <span asp-validation-for="@Model.EditUserGeneralInfoViewModel.FacebookUrl" class="text-danger"></span>
 
         Facebook Url

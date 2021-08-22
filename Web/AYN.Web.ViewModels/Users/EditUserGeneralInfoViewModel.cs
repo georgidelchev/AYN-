@@ -33,6 +33,8 @@ namespace AYN.Web.ViewModels.Users
         [MaxLength(ApplicationUserAboutMaxLength)]
         public string About { get; set; }
 
+        public string PhoneNumber { get; set; }
+
         [Url]
         public string FacebookUrl { get; set; }
 

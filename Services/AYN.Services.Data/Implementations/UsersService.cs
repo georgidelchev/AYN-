@@ -168,6 +168,7 @@ namespace AYN.Services.Data.Implementations
             user.TownId = model.EditUserGeneralInfoViewModel.TownId;
             user.BirthDay = model.EditUserGeneralInfoViewModel.BirthDay;
             user.Gender = model.EditUserGeneralInfoViewModel.Gender;
+            user.PhoneNumber = model.EditUserGeneralInfoViewModel.PhoneNumber;
 
             this.applicationUserRepository.Update(user);
             await this.applicationUserRepository.SaveChangesAsync();
