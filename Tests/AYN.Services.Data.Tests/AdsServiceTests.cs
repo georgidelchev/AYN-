@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using AYN.Data;
-using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Data.Models.Enumerations;
 using AYN.Data.Repositories;
@@ -14,7 +13,6 @@ using AYN.Services.Data.Interfaces;
 using AYN.Services.Mapping;
 using AYN.Web.ViewModels.Administration.Ads;
 using AYN.Web.ViewModels.Ads;
-using AYN.Web.ViewModels.Comments;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Moq;

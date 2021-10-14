@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+
 using AYN.Data.Models.Enumerations;
+
 using static AYN.Common.AttributeConstraints;
 
 namespace AYN.Web.ViewModels.Reports

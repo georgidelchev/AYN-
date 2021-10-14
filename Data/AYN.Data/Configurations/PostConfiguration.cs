@@ -8,8 +8,7 @@ namespace AYN.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Post> post)
         {
-            post
-                .HasOne(p => p.ApplicationUser)
+            post.HasOne(p => p.ApplicationUser)
                 .WithMany(a => a.Posts)
                 .HasForeignKey(f => f.AddedByUserId)
                 .OnDelete(DeleteBehavior.Restrict);

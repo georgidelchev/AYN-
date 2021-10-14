@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+
 using AutoMapper;
 using AYN.Data.Models;
 using AYN.Data.Models.Enumerations;
 using AYN.Services.Mapping;
 using Microsoft.AspNetCore.Http;
+
 using static AYN.Common.AttributeConstraints;
 
 namespace AYN.Web.ViewModels.Ads

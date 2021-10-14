@@ -1,7 +1,4 @@
 ﻿using System.Threading.Tasks;
-
-using AYN.Common;
-using AYN.Services.Data;
 using AYN.Services.Data.Interfaces;
 using AYN.Web.ViewModels.Addresses;
 using Microsoft.AspNetCore.Authorization;
