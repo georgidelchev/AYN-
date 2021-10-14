@@ -84,8 +84,6 @@ namespace AYN.Web
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("AYN.Services.Data"))
                 .Where(s => !s.IsAbstract && s.Name.EndsWith("Service"))
                 .AsPublicImplementedInterfaces();
-
-            // Application services
             services.AddTransient<IValidator<CreateAdInputModel>, CreateAdValidator>();
             services.AddTransient<IEmailSender>(sp => new SendGridEmailSender(this.configuration["Sendgrid"]));
         }
