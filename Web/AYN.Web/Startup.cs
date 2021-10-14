@@ -6,7 +6,6 @@ using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Data.Repositories;
 using AYN.Data.Seeding;
-using AYN.Services.Data.Interfaces;
 using AYN.Services.Mapping;
 using AYN.Services.Messaging;
 using AYN.Web.Hubs;
@@ -40,8 +39,7 @@ namespace AYN.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(
-                            options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
                 .AddRoles<ApplicationRole>()
@@ -83,9 +81,8 @@ namespace AYN.Web
             services.AddSignalR();
 
             // Application services
-            var servicesAssembly = Assembly.GetAssembly(typeof(IAddressesService));
-            services.RegisterAssemblyPublicNonGenericClasses(servicesAssembly)
-                .Where(s => s.Name.EndsWith("Service"))
+            services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("AYN.Services.Data"))
+                .Where(s => !s.IsAbstract && s.Name.EndsWith("Service"))
                 .AsPublicImplementedInterfaces();
 
             // Application services
