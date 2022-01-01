@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 using AYN.Data.Models;
 using AYN.Data.Models.Enumerations;
-using AYN.Services.Data;
 using AYN.Services.Data.Interfaces;
 using AYN.Services.Messaging;
 using Microsoft.AspNetCore.Authentication;

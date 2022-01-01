@@ -28,7 +28,6 @@ namespace AYN.Data.Seeding
                     .Select(e => e.InnerHtml.Split())
                     .ToList();
 
-                var index = 0;
                 foreach (var word in words[0])
                 {
                     if (!string.IsNullOrEmpty(word))

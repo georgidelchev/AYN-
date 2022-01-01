@@ -6,8 +6,6 @@ using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Data.Repositories;
 using AYN.Data.Seeding;
-using AYN.Services.Data.Implementations;
-using AYN.Services.Data.Interfaces;
 using AYN.Services.Mapping;
 using AYN.Services.Messaging;
 using AYN.Web.Hubs;
@@ -18,12 +16,12 @@ using CloudinaryDotNet;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NetCore.AutoRegisterDi;
 using Stripe;
 
 namespace AYN.Web
@@ -32,7 +30,8 @@ namespace AYN.Web
     {
         private readonly IConfiguration configuration;
 
-        public Startup(IConfiguration configuration)
+        public Startup(
+            IConfiguration configuration)
         {
             this.configuration = configuration;
         }
@@ -40,8 +39,7 @@ namespace AYN.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(
-                            options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
                 .AddRoles<ApplicationRole>()
@@ -83,29 +81,11 @@ namespace AYN.Web
             services.AddSignalR();
 
             // Application services
-            services.AddTransient<IAdsService, AdsService>()
-                .AddTransient<ITownsService, TownsService>()
-                .AddTransient<IUsersService, UsersService>()
-                .AddTransient<IPostsService, PostsService>()
-                .AddTransient<IEmojisService, EmojisService>()
-                .AddTransient<IReportsService, ReportsService>()
-                .AddTransient<IEmailSender, NullMessageSender>()
-                .AddTransient<ISettingsService, SettingsService>()
-                .AddTransient<IFeedbackService, FeedbackService>()
-                .AddTransient<ICommentsService, CommentsService>()
-                .AddTransient<IMessagesService, MessagesService>()
-                .AddTransient<IAddressesService, AddressesService>()
-                .AddTransient<IWishlistsService, WishlistsService>()
-                .AddTransient<ICategoriesService, CategoriesService>()
-                .AddTransient<IPostReactsService, PostReactsService>()
-                .AddTransient<ICloudinaryService, CloudinaryService>()
-                .AddTransient<IUserAdsViewsService, UserAdsViewsService>()
-                .AddTransient<ISubCategoriesService, SubCategoriesService>()
-                .AddTransient<INotificationsService, NotificationsService>()
-                .AddTransient<IWordsBlacklistService, WordsBlacklistService>()
-                .AddTransient<IValidator<CreateAdInputModel>, CreateAdValidator>()
-                .AddTransient<IUserLatestAdViewsService, UserLatestAdViewsService>()
-                .AddTransient<IEmailSender>(sp => new SendGridEmailSender(this.configuration["Sendgrid"]));
+            services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("AYN.Services.Data"))
+                .Where(s => !s.IsAbstract && s.Name.EndsWith("Service"))
+                .AsPublicImplementedInterfaces();
+            services.AddTransient<IValidator<CreateAdInputModel>, CreateAdValidator>();
+            services.AddTransient<IEmailSender>(sp => new SendGridEmailSender(this.configuration["Sendgrid"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

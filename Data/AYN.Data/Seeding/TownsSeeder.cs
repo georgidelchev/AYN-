@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -52,6 +51,7 @@ namespace AYN.Data.Seeding
                     var cityRepresentationInLatin = ConvertCyrillicToLatinLetters(editedCity);
 
                     var neighborhoodUrl = getCitiesUrl + $"/{cityRepresentationInLatin}";
+
                     html = await httpClient.GetStringAsync(neighborhoodUrl);
                     document = parser.ParseDocument(html);
 
@@ -75,12 +75,9 @@ namespace AYN.Data.Seeding
 
         private static string ConvertCyrillicToLatinLetters(string input)
         {
-            switch (input)
+            if (ConvertEdgeCases(input, out var convertCyrillicToLatinLetters))
             {
-                case "Смолян":
-                    return "smolian";
-                case "Ямбол":
-                    return "iambol";
+                return convertCyrillicToLatinLetters;
             }
 
             input = input.ToLower();
@@ -104,6 +101,26 @@ namespace AYN.Data.Seeding
             }
 
             return input.Replace(' ', '-');
+        }
+
+        private static bool ConvertEdgeCases(string input, out string convertCyrillicToLatinLetters)
+        {
+            switch (input)
+            {
+                case "Смолян":
+                {
+                    convertCyrillicToLatinLetters = "smolian";
+                    return true;
+                }
+                case "Ямбол":
+                {
+                    convertCyrillicToLatinLetters = "iambol";
+                    return true;
+                }
+            }
+
+            convertCyrillicToLatinLetters = null;
+            return false;
         }
     }
 }

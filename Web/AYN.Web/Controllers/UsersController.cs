@@ -1,10 +1,7 @@
 ﻿using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-
-using AYN.Services.Data;
 using AYN.Services.Data.Interfaces;
-using AYN.Web.ViewModels.Ads;
 using AYN.Web.ViewModels.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;

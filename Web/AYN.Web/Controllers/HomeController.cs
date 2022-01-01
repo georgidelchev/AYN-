@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 using AYN.Web.ViewModels;
 using AYN.Web.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
-using Stripe;
 
 namespace AYN.Web.Controllers
 {

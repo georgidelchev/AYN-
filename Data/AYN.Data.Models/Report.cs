@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 using AYN.Data.Common.Models;
 using AYN.Data.Models.Enumerations;
+
 using static AYN.Common.AttributeConstraints;
 
 namespace AYN.Data.Models

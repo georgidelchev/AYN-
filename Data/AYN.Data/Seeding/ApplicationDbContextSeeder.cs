@@ -26,14 +26,14 @@ namespace AYN.Data.Seeding
                 .CreateLogger(typeof(ApplicationDbContextSeeder));
 
             var seeders = new List<ISeeder>
-                          {
-                              new RolesSeeder(),
-                              new SettingsSeeder(),
-                              new TownsSeeder(),
-                              new AdminAccountSeeder(),
-                              new EmojiSeeder(),
-                              new WordBlacklistSeeder(),
-                          };
+            {
+                new RolesSeeder(),
+                new SettingsSeeder(),
+                new TownsSeeder(),
+                new AdminAccountSeeder(),
+                new EmojiSeeder(),
+                new WordBlacklistSeeder(),
+            };
 
             foreach (var seeder in seeders)
             {

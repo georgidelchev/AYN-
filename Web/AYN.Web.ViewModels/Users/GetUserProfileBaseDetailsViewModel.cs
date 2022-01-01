@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-using AutoMapper;
+﻿using AutoMapper;
 using AYN.Data.Models;
 using AYN.Services.Mapping;
-using AYN.Web.ViewModels.Posts;
 
 namespace AYN.Web.ViewModels.Users
 {

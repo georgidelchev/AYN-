@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Services.Data.Interfaces;
-using AYN.Services.Mapping;
 using Microsoft.EntityFrameworkCore;
 
 namespace AYN.Services.Data.Implementations
