@@ -30,7 +30,7 @@ namespace AYN.Data.Seeding
                 new RolesSeeder(),
                 new SettingsSeeder(),
                 new TownsSeeder(),
-                new AdminAccountSeeder(),
+                new AdministratorSeeder(),
                 new EmojiSeeder(),
                 new WordBlacklistSeeder(),
             };
