@@ -51,6 +51,7 @@ namespace AYN.Data.Repositories
         public void Dispose()
         {
             this.Dispose(true);
+
             GC.SuppressFinalize(this);
         }
 

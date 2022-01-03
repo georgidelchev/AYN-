@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -28,17 +29,12 @@ namespace AYN.Data.Seeding
                     .Select(e => e.InnerHtml)
                     .ToList();
 
-                var index = 0;
-                foreach (var emoji in emojis)
-                {
-                    var emojiToAdd = new Emoji()
-                    {
-                        Image = emoji,
-                    };
+                var emojisToAdd = emojis
+                    .Select(emoji => new Emoji { Image = emoji, })
+                    .ToList();
 
-                    await dbContext.Emojis.AddAsync(emojiToAdd);
-                    await dbContext.SaveChangesAsync();
-                }
+                await dbContext.Emojis.AddRangeAsync(emojisToAdd);
+                await dbContext.SaveChangesAsync();
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -28,19 +29,13 @@ namespace AYN.Data.Seeding
                     .Select(e => e.InnerHtml.Split())
                     .ToList();
 
-                foreach (var word in words[0])
-                {
-                    if (!string.IsNullOrEmpty(word))
-                    {
-                        var wordToAdd = new WordBlacklist()
-                        {
-                            Content = word,
-                        };
+                var wordsToAdd =
+                    (from word in words[0]
+                     where !string.IsNullOrEmpty(word)
+                     select new WordBlacklist() { Content = word, }).ToList();
 
-                        await dbContext.WordsBlacklist.AddAsync(wordToAdd);
-                        await dbContext.SaveChangesAsync();
-                    }
-                }
+                await dbContext.WordsBlacklist.AddRangeAsync(wordsToAdd);
+                await dbContext.SaveChangesAsync();
             }
         }
     }
