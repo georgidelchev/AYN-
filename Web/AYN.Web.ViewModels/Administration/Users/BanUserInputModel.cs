@@ -2,13 +2,12 @@
 
 using static AYN.Common.AttributeConstraints;
 
-namespace AYN.Web.ViewModels.Administration.Users
+namespace AYN.Web.ViewModels.Administration.Users;
+
+public class BanUserInputModel
 {
-    public class BanUserInputModel
-    {
-        [Required]
-        [MinLength(ApplicationUserBlockReasonMinLength)]
-        [MaxLength(ApplicationUserBlockReasonMaxLength)]
-        public string BanReason { get; set; }
-    }
+    [Required]
+    [MinLength(ApplicationUserBlockReasonMinLength)]
+    [MaxLength(ApplicationUserBlockReasonMaxLength)]
+    public string BanReason { get; set; }
 }

@@ -1,11 +1,10 @@
 ﻿using System;
 
-namespace AYN.Data.Common.Models
-{
-    public interface IAuditInfo
-    {
-        DateTime CreatedOn { get; set; }
+namespace AYN.Data.Common.Models;
 
-        DateTime? ModifiedOn { get; set; }
-    }
+public interface IAuditInfo
+{
+    DateTime CreatedOn { get; set; }
+
+    DateTime? ModifiedOn { get; set; }
 }

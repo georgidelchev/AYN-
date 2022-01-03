@@ -2,20 +2,19 @@
 
 using AYN.Web.ViewModels.Comments;
 
-namespace AYN.Services.Data.Interfaces
+namespace AYN.Services.Data.Interfaces;
+
+public interface ICommentsService
 {
-    public interface ICommentsService
-    {
-        Task Create(string content, string adId, string userId);
+    Task Create(string content, string adId, string userId);
 
-        Task Delete(string commentId);
+    Task Delete(string commentId);
 
-        Task Vote(string voteValue, string commentId, string userId);
+    Task Vote(string voteValue, string commentId, string userId);
 
-        bool IsCommentExisting(string commentId);
+    bool IsCommentExisting(string commentId);
 
-        Task<T> GetByIdAsync<T>(string commentId);
+    Task<T> GetByIdAsync<T>(string commentId);
 
-        Task EditAsync(EditCommentInputModel input);
-    }
+    Task EditAsync(EditCommentInputModel input);
 }

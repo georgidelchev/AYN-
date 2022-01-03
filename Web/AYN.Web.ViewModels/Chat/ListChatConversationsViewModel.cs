@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace AYN.Web.ViewModels.Chat
+namespace AYN.Web.ViewModels.Chat;
+
+public class ListChatConversationsViewModel
 {
-    public class ListChatConversationsViewModel
-    {
-        public IEnumerable<ChatConversationsViewModel> AllChats { get; set; }
-    }
+    public IEnumerable<ChatConversationsViewModel> AllChats { get; set; }
 }

@@ -7,20 +7,19 @@ using Microsoft.AspNetCore.Http;
 
 using static AYN.Common.AttributeConstraints;
 
-namespace AYN.Web.ViewModels.Administration.Categories
+namespace AYN.Web.ViewModels.Administration.Categories;
+
+public class CreateCategoryInputModel
 {
-    public class CreateCategoryInputModel
-    {
-        [Required]
-        [MinLength(CategoryNameMinLength)]
-        [MaxLength(CategoryNameMaxLength)]
-        public string Name { get; set; }
+    [Required]
+    [MinLength(CategoryNameMinLength)]
+    [MaxLength(CategoryNameMaxLength)]
+    public string Name { get; set; }
 
-        [Required]
-        public IFormFile Picture { get; set; }
+    [Required]
+    public IFormFile Picture { get; set; }
 
-        [DisplayName("SubCategory")]
-        public ICollection<CreateSubCategoryInputModel> SubCategories { get; set; }
-            = new HashSet<CreateSubCategoryInputModel>();
-    }
+    [DisplayName("SubCategory")]
+    public ICollection<CreateSubCategoryInputModel> SubCategories { get; set; }
+        = new HashSet<CreateSubCategoryInputModel>();
 }

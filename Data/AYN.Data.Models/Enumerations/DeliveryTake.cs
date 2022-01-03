@@ -1,9 +1,8 @@
-﻿namespace AYN.Data.Models.Enumerations
+﻿namespace AYN.Data.Models.Enumerations;
+
+public enum DeliveryTake
 {
-    public enum DeliveryTake
-    {
-        Unknown = 1,
-        Buyer = 2,
-        Seller = 3,
-    }
+    Unknown = 1,
+    Buyer = 2,
+    Seller = 3,
 }

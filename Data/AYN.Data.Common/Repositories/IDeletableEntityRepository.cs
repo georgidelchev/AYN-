@@ -2,17 +2,16 @@
 
 using AYN.Data.Common.Models;
 
-namespace AYN.Data.Common.Repositories
+namespace AYN.Data.Common.Repositories;
+
+public interface IDeletableEntityRepository<TEntity> : IRepository<TEntity>
+    where TEntity : class, IDeletableEntity
 {
-    public interface IDeletableEntityRepository<TEntity> : IRepository<TEntity>
-        where TEntity : class, IDeletableEntity
-    {
-        IQueryable<TEntity> AllWithDeleted();
+    IQueryable<TEntity> AllWithDeleted();
 
-        IQueryable<TEntity> AllAsNoTrackingWithDeleted();
+    IQueryable<TEntity> AllAsNoTrackingWithDeleted();
 
-        void HardDelete(TEntity entity);
+    void HardDelete(TEntity entity);
 
-        void Undelete(TEntity entity);
-    }
+    void Undelete(TEntity entity);
 }

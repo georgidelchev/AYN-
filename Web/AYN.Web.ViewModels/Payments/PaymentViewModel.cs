@@ -1,9 +1,8 @@
-﻿namespace AYN.Web.ViewModels.Payments
-{
-    public class PaymentViewModel
-    {
-        public string Token { get; set; }
+﻿namespace AYN.Web.ViewModels.Payments;
 
-        public decimal Amount { get; set; }
-    }
+public class PaymentViewModel
+{
+    public string Token { get; set; }
+
+    public decimal Amount { get; set; }
 }

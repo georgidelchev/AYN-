@@ -1,10 +1,9 @@
-﻿namespace AYN.Data.Models.Enumerations
+﻿namespace AYN.Data.Models.Enumerations;
+
+public enum ProductCondition
 {
-    public enum ProductCondition
-    {
-        Unknown = 1,
-        New = 2,
-        Used = 3,
-        Damaged = 4,
-    }
+    Unknown = 1,
+    New = 2,
+    Used = 3,
+    Damaged = 4,
 }

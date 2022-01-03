@@ -1,7 +1,6 @@
-﻿namespace AYN.Web.ViewModels.Comments
+﻿namespace AYN.Web.ViewModels.Comments;
+
+public class CreateCommentInputModel
 {
-    public class CreateCommentInputModel
-    {
-        public string Content { get; set; }
-    }
+    public string Content { get; set; }
 }

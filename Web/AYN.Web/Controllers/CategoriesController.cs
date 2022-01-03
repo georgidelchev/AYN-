@@ -1,28 +1,25 @@
 ﻿using AYN.Services.Data.Interfaces;
 using AYN.Web.ViewModels.SubCategories;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AYN.Web.Controllers
+namespace AYN.Web.Controllers;
+
+public class CategoriesController : BaseController
 {
-    public class CategoriesController : Controller
+    private readonly ISubCategoriesService subCategoriesService;
+
+    public CategoriesController(
+        ISubCategoriesService subCategoriesService)
     {
-        private readonly ISubCategoriesService subCategoriesService;
+        this.subCategoriesService = subCategoriesService;
+    }
 
-        public CategoriesController(
-            ISubCategoriesService subCategoriesService)
-        {
-            this.subCategoriesService = subCategoriesService;
-        }
+    [HttpGet]
+    public IActionResult GetSubCategories(int id)
+    {
+        var sc = this.subCategoriesService
+            .GetAllByCategoryId<SubCategoryViewModel>(id);
 
-        [HttpGet]
-        [Authorize]
-        public IActionResult GetSubCategories(int id)
-        {
-            var sc = this.subCategoriesService
-                .GetAllByCategoryId<SubCategoryViewModel>(id);
-
-            return this.Json(sc);
-        }
+        return this.Json(sc);
     }
 }

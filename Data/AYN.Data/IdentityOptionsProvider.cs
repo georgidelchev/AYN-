@@ -2,19 +2,18 @@
 
 using static AYN.Common.GlobalConstants;
 
-namespace AYN.Data
+namespace AYN.Data;
+
+public static class IdentityOptionsProvider
 {
-    public static class IdentityOptionsProvider
+    public static void GetIdentityOptions(IdentityOptions options)
     {
-        public static void GetIdentityOptions(IdentityOptions options)
-        {
-            options.Password.RequireDigit = false;
-            options.Password.RequireLowercase = false;
-            options.Password.RequireUppercase = false;
-            options.Password.RequireNonAlphanumeric = false;
-            options.Password.RequiredLength = PasswordMinLength;
-            options.SignIn.RequireConfirmedAccount = true;
-            options.User.RequireUniqueEmail = true;
-        }
+        options.Password.RequireDigit = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequiredLength = PasswordMinLength;
+        options.SignIn.RequireConfirmedAccount = true;
+        options.User.RequireUniqueEmail = true;
     }
 }

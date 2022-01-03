@@ -1,7 +1,6 @@
-﻿namespace AYN.Web.ViewModels.Home
+﻿namespace AYN.Web.ViewModels.Home;
+
+public class IndexViewModel
 {
-    public class IndexViewModel
-    {
-        public string Search { get; set; }
-    }
+    public string Search { get; set; }
 }

@@ -4,26 +4,25 @@ using AYN.Services.Data.Interfaces;
 using AYN.Web.ViewModels.Ads;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AYN.Web.ViewComponents
+namespace AYN.Web.ViewComponents;
+
+public class GetRecentlyPromotedAdsViewComponent : ViewComponent
 {
-    public class GetRecentlyPromotedAdsViewComponent : ViewComponent
+    private readonly IAdsService adsService;
+
+    public GetRecentlyPromotedAdsViewComponent(
+        IAdsService adsService)
     {
-        private readonly IAdsService adsService;
+        this.adsService = adsService;
+    }
 
-        public GetRecentlyPromotedAdsViewComponent(
-            IAdsService adsService)
+    public async Task<IViewComponentResult> InvokeAsync()
+    {
+        var viewModel = new ListAdsViewModel()
         {
-            this.adsService = adsService;
-        }
+            Ads = await this.adsService.GetRecent12PromotedAdsAsync<GetAdsViewModel>(),
+        };
 
-        public async Task<IViewComponentResult> InvokeAsync()
-        {
-            var viewModel = new ListAdsViewModel()
-            {
-                Ads = await this.adsService.GetRecent12PromotedAdsAsync<GetAdsViewModel>(),
-            };
-
-            return this.View(viewModel);
-        }
+        return this.View(viewModel);
     }
 }

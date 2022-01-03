@@ -2,16 +2,15 @@
 
 using static AYN.Common.AttributeConstraints;
 
-namespace AYN.Web.ViewModels.Chat
-{
-    public class ChatSendMessageInputModel
-    {
-        [Required]
-        public string Receiver { get; set; }
+namespace AYN.Web.ViewModels.Chat;
 
-        [Required]
-        [MinLength(MessageContentMinLength)]
-        [MaxLength(MessageContentMaxLength)]
-        public string Message { get; set; }
-    }
+public class ChatSendMessageInputModel
+{
+    [Required]
+    public string Receiver { get; set; }
+
+    [Required]
+    [MinLength(MessageContentMinLength)]
+    [MaxLength(MessageContentMaxLength)]
+    public string Message { get; set; }
 }

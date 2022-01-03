@@ -1,9 +1,8 @@
 using CommandLine;
 
-namespace Sandbox
+namespace Sandbox;
+
+[Verb("sandbox", HelpText = "Run sandbox code.")]
+public class SandboxOptions
 {
-    [Verb("sandbox", HelpText = "Run sandbox code.")]
-    public class SandboxOptions
-    {
-    }
 }

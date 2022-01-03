@@ -5,44 +5,43 @@ using System.Threading.Tasks;
 using AYN.Web.ViewModels.Administration.Users;
 using AYN.Web.ViewModels.Users;
 
-namespace AYN.Services.Data.Interfaces
+namespace AYN.Services.Data.Interfaces;
+
+public interface IUsersService
 {
-    public interface IUsersService
-    {
-        Task<IEnumerable<T>> GetAll<T>();
+    Task<IEnumerable<T>> GetAll<T>();
 
-        Task<T> GetProfileDetails<T>(string id);
+    Task<T> GetProfileDetails<T>(string id);
 
-        Task Follow(string followerId, string followeeId);
+    Task Follow(string followerId, string followeeId);
 
-        Task Unfollow(string followerId, string followeeId);
+    Task Unfollow(string followerId, string followeeId);
 
-        Task<IEnumerable<T>> GetFollowers<T>(string userId);
+    Task<IEnumerable<T>> GetFollowers<T>(string userId);
 
-        Task<IEnumerable<T>> GetFollowings<T>(string userId);
+    Task<IEnumerable<T>> GetFollowings<T>(string userId);
 
-        bool IsFollower(string followerId, string followeeId);
+    bool IsFollower(string followerId, string followeeId);
 
-        bool IsUserExisting(string userId);
+    bool IsUserExisting(string userId);
 
-        Task<string> GenerateDefaultAvatar(string firstName, string lastName);
+    Task<string> GenerateDefaultAvatar(string firstName, string lastName);
 
-        Task<string> GenerateDefaultThumbnail(string firstName, string lastName);
+    Task<string> GenerateDefaultThumbnail(string firstName, string lastName);
 
-        Task<T> GetByIdAsync<T>(string id);
+    Task<T> GetByIdAsync<T>(string id);
 
-        Task EditAsync(EditUserViewModel model, string wwwRootPath);
+    Task EditAsync(EditUserViewModel model, string wwwRootPath);
 
-        Task<IEnumerable<T>> GetSuggestionPeople<T>(string userId, string openedUserId);
+    Task<IEnumerable<T>> GetSuggestionPeople<T>(string userId, string openedUserId);
 
-        Tuple<int, int, int> GetCounts();
+    Tuple<int, int, int> GetCounts();
 
-        Task Ban(BanUserInputModel input, string userId);
+    Task Ban(BanUserInputModel input, string userId);
 
-        Task Unban(string userId);
+    Task Unban(string userId);
 
-        string GetIdByUsername(string username);
+    string GetIdByUsername(string username);
 
-        bool IsEmailTaken(string email);
-    }
+    bool IsEmailTaken(string email);
 }

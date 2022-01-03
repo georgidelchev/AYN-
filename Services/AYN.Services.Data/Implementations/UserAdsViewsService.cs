@@ -5,33 +5,32 @@ using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Services.Data.Interfaces;
 
-namespace AYN.Services.Data.Implementations
+namespace AYN.Services.Data.Implementations;
+
+public class UserAdsViewsService : IUserAdsViewsService
 {
-    public class UserAdsViewsService : IUserAdsViewsService
+    private readonly IDeletableEntityRepository<UserAdView> userAdsViewsRepository;
+
+    public UserAdsViewsService(
+        IDeletableEntityRepository<UserAdView> userAdsViewsRepository)
     {
-        private readonly IDeletableEntityRepository<UserAdView> userAdsViewsRepository;
+        this.userAdsViewsRepository = userAdsViewsRepository;
+    }
 
-        public UserAdsViewsService(
-            IDeletableEntityRepository<UserAdView> userAdsViewsRepository)
+    public async Task CreateAsync(string userId, string adId)
+    {
+        if (this.userAdsViewsRepository.All().Any(uav => uav.UserId == userId && uav.AdId == adId))
         {
-            this.userAdsViewsRepository = userAdsViewsRepository;
+            return;
         }
 
-        public async Task CreateAsync(string userId, string adId)
+        var userAdView = new UserAdView()
         {
-            if (this.userAdsViewsRepository.All().Any(uav => uav.UserId == userId && uav.AdId == adId))
-            {
-                return;
-            }
+            AdId = adId,
+            UserId = userId,
+        };
 
-            var userAdView = new UserAdView()
-            {
-                AdId = adId,
-                UserId = userId,
-            };
-
-            await this.userAdsViewsRepository.AddAsync(userAdView);
-            await this.userAdsViewsRepository.SaveChangesAsync();
-        }
+        await this.userAdsViewsRepository.AddAsync(userAdView);
+        await this.userAdsViewsRepository.SaveChangesAsync();
     }
 }

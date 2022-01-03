@@ -8,118 +8,117 @@ using Microsoft.AspNetCore.Identity;
 
 using static AYN.Common.AttributeConstraints;
 
-namespace AYN.Data.Models
+namespace AYN.Data.Models;
+
+public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
 {
-    public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
+    public ApplicationUser()
     {
-        public ApplicationUser()
-        {
-            this.Id = Guid
-                .NewGuid()
-                .ToString();
-        }
-
-        public string ThumbnailImageUrl { get; set; }
-
-        public string AvatarImageUrl { get; set; }
-
-        [MaxLength(ApplicationUserSocialContactUrlMaxLength)]
-        public string FacebookUrl { get; set; }
-
-        [MaxLength(ApplicationUserSocialContactUrlMaxLength)]
-        public string InstagramUrl { get; set; }
-
-        [MaxLength(ApplicationUserSocialContactUrlMaxLength)]
-        public string TikTokUrl { get; set; }
-
-        [MaxLength(ApplicationUserSocialContactUrlMaxLength)]
-        public string TwitterUrl { get; set; }
-
-        [MaxLength(ApplicationUserSocialContactUrlMaxLength)]
-        public string WebsiteUrl { get; set; }
-
-        [Required]
-        [MaxLength(ApplicationUserAboutMaxLength)]
-        public string About { get; set; }
-
-        [Required]
-        [MaxLength(ApplicationUserFirstNameMaxLength)]
-        public string FirstName { get; set; }
-
-        [MaxLength(ApplicationUserMiddleNameMaxLength)]
-        public string MiddleName { get; set; }
-
-        [Required]
-        [MaxLength(ApplicationUserLastNameMaxLength)]
-        public string LastName { get; set; }
-
-        [Required]
-        public int TownId { get; set; }
-
-        public virtual Town Town { get; set; }
-
-        public DateTime? BirthDay { get; set; }
-
-        [Required]
-        public Gender Gender { get; set; }
-
-        // Audit info
-        [Required]
-        public DateTime CreatedOn { get; set; }
-
-        public DateTime? ModifiedOn { get; set; }
-
-        // Deletable entity
-        [Required]
-        public bool IsDeleted { get; set; }
-
-        public DateTime? DeletedOn { get; set; }
-
-        [Required]
-        public bool IsBanned { get; set; }
-
-        public DateTime? BannedOn { get; set; }
-
-        [MaxLength(ApplicationUserBlockReasonMaxLength)]
-        public string BlockReason { get; set; }
-
-        public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
-            = new HashSet<IdentityUserRole<string>>();
-
-        public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
-            = new HashSet<IdentityUserClaim<string>>();
-
-        public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
-            = new HashSet<IdentityUserLogin<string>>();
-
-        public virtual ICollection<Ad> Ads { get; set; }
-            = new HashSet<Ad>();
-
-        public virtual ICollection<FollowerFollowee> Followers { get; set; }
-            = new HashSet<FollowerFollowee>();
-
-        public virtual ICollection<FollowerFollowee> Followings { get; set; }
-            = new HashSet<FollowerFollowee>();
-
-        public virtual ICollection<Post> Posts { get; set; }
-            = new HashSet<Post>();
-
-        public virtual ICollection<PostVote> PostVotes { get; set; }
-            = new HashSet<PostVote>();
-
-        public virtual ICollection<PostReact> PostReacts { get; set; }
-            = new HashSet<PostReact>();
-
-        public virtual ICollection<Wishlist> Wishlist { get; set; }
-            = new HashSet<Wishlist>();
-
-        public virtual ICollection<UserAdView> UserAdViews { get; set; }
-            = new HashSet<UserAdView>();
-
-        public ICollection<Message> SentMessages { get; set; }
-            = new HashSet<Message>();
-
-        public ICollection<Message> ReceivedMessages { get; set; }
-            = new HashSet<Message>();
+        this.Id = Guid
+            .NewGuid()
+            .ToString();
     }
+
+    public string ThumbnailImageUrl { get; set; }
+
+    public string AvatarImageUrl { get; set; }
+
+    [MaxLength(ApplicationUserSocialContactUrlMaxLength)]
+    public string FacebookUrl { get; set; }
+
+    [MaxLength(ApplicationUserSocialContactUrlMaxLength)]
+    public string InstagramUrl { get; set; }
+
+    [MaxLength(ApplicationUserSocialContactUrlMaxLength)]
+    public string TikTokUrl { get; set; }
+
+    [MaxLength(ApplicationUserSocialContactUrlMaxLength)]
+    public string TwitterUrl { get; set; }
+
+    [MaxLength(ApplicationUserSocialContactUrlMaxLength)]
+    public string WebsiteUrl { get; set; }
+
+    [Required]
+    [MaxLength(ApplicationUserAboutMaxLength)]
+    public string About { get; set; }
+
+    [Required]
+    [MaxLength(ApplicationUserFirstNameMaxLength)]
+    public string FirstName { get; set; }
+
+    [MaxLength(ApplicationUserMiddleNameMaxLength)]
+    public string MiddleName { get; set; }
+
+    [Required]
+    [MaxLength(ApplicationUserLastNameMaxLength)]
+    public string LastName { get; set; }
+
+    [Required]
+    public int TownId { get; set; }
+
+    public virtual Town Town { get; set; }
+
+    public DateTime? BirthDay { get; set; }
+
+    [Required]
+    public Gender Gender { get; set; }
+
+    // Audit info
+    [Required]
+    public DateTime CreatedOn { get; set; }
+
+    public DateTime? ModifiedOn { get; set; }
+
+    // Deletable entity
+    [Required]
+    public bool IsDeleted { get; set; }
+
+    public DateTime? DeletedOn { get; set; }
+
+    [Required]
+    public bool IsBanned { get; set; }
+
+    public DateTime? BannedOn { get; set; }
+
+    [MaxLength(ApplicationUserBlockReasonMaxLength)]
+    public string BlockReason { get; set; }
+
+    public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
+        = new HashSet<IdentityUserRole<string>>();
+
+    public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
+        = new HashSet<IdentityUserClaim<string>>();
+
+    public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
+        = new HashSet<IdentityUserLogin<string>>();
+
+    public virtual ICollection<Ad> Ads { get; set; }
+        = new HashSet<Ad>();
+
+    public virtual ICollection<FollowerFollowee> Followers { get; set; }
+        = new HashSet<FollowerFollowee>();
+
+    public virtual ICollection<FollowerFollowee> Followings { get; set; }
+        = new HashSet<FollowerFollowee>();
+
+    public virtual ICollection<Post> Posts { get; set; }
+        = new HashSet<Post>();
+
+    public virtual ICollection<PostVote> PostVotes { get; set; }
+        = new HashSet<PostVote>();
+
+    public virtual ICollection<PostReact> PostReacts { get; set; }
+        = new HashSet<PostReact>();
+
+    public virtual ICollection<Wishlist> Wishlist { get; set; }
+        = new HashSet<Wishlist>();
+
+    public virtual ICollection<UserAdView> UserAdViews { get; set; }
+        = new HashSet<UserAdView>();
+
+    public ICollection<Message> SentMessages { get; set; }
+        = new HashSet<Message>();
+
+    public ICollection<Message> ReceivedMessages { get; set; }
+        = new HashSet<Message>();
 }

@@ -1,54 +1,54 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using AYN.Services.Data.Interfaces;
 using AYN.Web.ViewModels.Categories;
 using AYN.Web.ViewModels.SubCategories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace AYN.Web.ViewComponents
+namespace AYN.Web.ViewComponents;
+
+public class GetAllCategoriesWithTheirSubCategoriesViewComponent : ViewComponent
 {
-    public class GetAllCategoriesWithTheirSubCategoriesViewComponent : ViewComponent
+    private readonly ICategoriesService categoriesService;
+    private readonly ISubCategoriesService subCategoriesService;
+
+    public GetAllCategoriesWithTheirSubCategoriesViewComponent(
+        ICategoriesService categoriesService,
+        ISubCategoriesService subCategoriesService)
     {
-        private readonly ICategoriesService categoriesService;
-        private readonly ISubCategoriesService subCategoriesService;
+        this.categoriesService = categoriesService;
+        this.subCategoriesService = subCategoriesService;
+    }
 
-        public GetAllCategoriesWithTheirSubCategoriesViewComponent(
-            ICategoriesService categoriesService,
-            ISubCategoriesService subCategoriesService)
+    public async Task<IViewComponentResult> InvokeAsync()
+    {
+        var viewModel = new ListAllCategoriesViewModel()
         {
-            this.categoriesService = categoriesService;
-            this.subCategoriesService = subCategoriesService;
-        }
+            AllCategoriesWithAllSubCategories = new Dictionary<CategoryViewModel, List<SubCategoryViewModel>>(),
+        };
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        var categories = this.categoriesService
+            .GetAll<CategoryViewModel>();
+
+        foreach (var category in categories)
         {
-            var viewModel = new ListAllCategoriesViewModel()
+            var subCategories = await this.subCategoriesService
+                .GetAllByCategoryId<SubCategoryViewModel>(category.Id)
+                .ToListAsync();
+
+            var categoryViewModel = new CategoryViewModel()
             {
-                AllCategoriesWithAllSubCategories = new Dictionary<CategoryViewModel, List<SubCategoryViewModel>>(),
+                Id = category.Id,
+                Name = category.Name,
+                ImageUrl = category.ImageUrl,
             };
 
-            var categories = this.categoriesService
-                .GetAll<CategoryViewModel>();
-
-            foreach (var category in categories)
-            {
-                var subCategories = await this.subCategoriesService
-                    .GetAllByCategoryId<SubCategoryViewModel>(category.Id)
-                    .ToListAsync();
-
-                var categoryViewModel = new CategoryViewModel()
-                {
-                    Id = category.Id,
-                    Name = category.Name,
-                    ImageUrl = category.ImageUrl,
-                };
-
-                viewModel.AllCategoriesWithAllSubCategories
-                    .Add(categoryViewModel, subCategories);
-            }
-
-            return this.View(viewModel);
+            viewModel.AllCategoriesWithAllSubCategories
+                .Add(categoryViewModel, subCategories);
         }
+
+        return this.View(viewModel);
     }
 }

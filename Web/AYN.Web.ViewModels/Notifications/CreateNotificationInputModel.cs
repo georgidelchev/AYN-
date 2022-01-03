@@ -1,9 +1,8 @@
-﻿namespace AYN.Web.ViewModels.Notifications
-{
-    public class CreateNotificationInputModel
-    {
-        public string Text { get; set; }
+﻿namespace AYN.Web.ViewModels.Notifications;
 
-        public string RedirectUrl { get; set; }
-    }
+public class CreateNotificationInputModel
+{
+    public string Text { get; set; }
+
+    public string RedirectUrl { get; set; }
 }

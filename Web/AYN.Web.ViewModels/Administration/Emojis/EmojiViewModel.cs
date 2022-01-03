@@ -3,14 +3,13 @@
 using AYN.Data.Models;
 using AYN.Services.Mapping;
 
-namespace AYN.Web.ViewModels.Administration.Emojis
+namespace AYN.Web.ViewModels.Administration.Emojis;
+
+public class EmojiViewModel : IMapFrom<Emoji>
 {
-    public class EmojiViewModel : IMapFrom<Emoji>
-    {
-        public int Id { get; set; }
+    public int Id { get; set; }
 
-        public string Image { get; set; }
+    public string Image { get; set; }
 
-        public DateTime CreatedOn { get; set; }
-    }
+    public DateTime CreatedOn { get; set; }
 }

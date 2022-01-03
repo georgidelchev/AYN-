@@ -2,21 +2,20 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AYN.Data.Common.Repositories
+namespace AYN.Data.Common.Repositories;
+
+public interface IRepository<TEntity> : IDisposable
+    where TEntity : class
 {
-    public interface IRepository<TEntity> : IDisposable
-        where TEntity : class
-    {
-        IQueryable<TEntity> All();
+    IQueryable<TEntity> All();
 
-        IQueryable<TEntity> AllAsNoTracking();
+    IQueryable<TEntity> AllAsNoTracking();
 
-        Task AddAsync(TEntity entity);
+    Task AddAsync(TEntity entity);
 
-        void Update(TEntity entity);
+    void Update(TEntity entity);
 
-        void Delete(TEntity entity);
+    void Delete(TEntity entity);
 
-        Task<int> SaveChangesAsync();
-    }
+    Task<int> SaveChangesAsync();
 }

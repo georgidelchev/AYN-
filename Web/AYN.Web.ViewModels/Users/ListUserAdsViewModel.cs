@@ -2,10 +2,9 @@
 
 using AYN.Web.ViewModels.Ads;
 
-namespace AYN.Web.ViewModels.Users
+namespace AYN.Web.ViewModels.Users;
+
+public class ListUserAdsViewModel
 {
-    public class ListUserAdsViewModel
-    {
-        public IEnumerable<GetAdViewModel> Ads { get; set; }
-    }
+    public IEnumerable<GetAdViewModel> Ads { get; set; }
 }

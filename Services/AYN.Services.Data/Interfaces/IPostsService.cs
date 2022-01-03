@@ -3,22 +3,21 @@ using System.Threading.Tasks;
 
 using AYN.Web.ViewModels.Posts;
 
-namespace AYN.Services.Data.Interfaces
+namespace AYN.Services.Data.Interfaces;
+
+public interface IPostsService
 {
-    public interface IPostsService
-    {
-        Task<IEnumerable<T>> GetUserAllPostsAsync<T>(string userId);
+    Task<IEnumerable<T>> GetUserAllPostsAsync<T>(string userId);
 
-        Task CreateAsync(string title, string content, string userId);
+    Task CreateAsync(string title, string content, string userId);
 
-        Task EditAsync(EditPostInputModel input);
+    Task EditAsync(EditPostInputModel input);
 
-        Task<T> GetById<T>(int id);
+    Task<T> GetById<T>(int id);
 
-        Task DeleteAsync(int postId);
+    Task DeleteAsync(int postId);
 
-        string GetTitleById(int postId);
+    string GetTitleById(int postId);
 
-        int GetCount(string userId);
-    }
+    int GetCount(string userId);
 }

@@ -1,11 +1,10 @@
-﻿namespace AYN.Common
+﻿namespace AYN.Common;
+
+public static class GlobalConstants
 {
-    public static class GlobalConstants
-    {
-        public const string SystemName = "AYN";
+    public const string SystemName = "AYN";
 
-        public const string AdministratorRoleName = "Administrator";
+    public const string AdministratorRoleName = "Administrator";
 
-        public const int PasswordMinLength = 6;
-    }
+    public const int PasswordMinLength = 6;
 }

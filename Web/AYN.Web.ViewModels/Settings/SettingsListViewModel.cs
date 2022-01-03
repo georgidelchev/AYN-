@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace AYN.Web.ViewModels.Settings
+namespace AYN.Web.ViewModels.Settings;
+
+public class SettingsListViewModel
 {
-    public class SettingsListViewModel
-    {
-        public IEnumerable<SettingViewModel> Settings { get; set; }
-    }
+    public IEnumerable<SettingViewModel> Settings { get; set; }
 }

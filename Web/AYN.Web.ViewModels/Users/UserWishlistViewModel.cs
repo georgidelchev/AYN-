@@ -2,10 +2,9 @@
 
 using AYN.Web.ViewModels.Ads;
 
-namespace AYN.Web.ViewModels.Users
+namespace AYN.Web.ViewModels.Users;
+
+public class UserWishlistViewModel : PagingViewModel
 {
-    public class UserWishlistViewModel : PagingViewModel
-    {
-        public IEnumerable<WishlistAdsViewModel> AdsWishlist { get; set; }
-    }
+    public IEnumerable<WishlistAdsViewModel> AdsWishlist { get; set; }
 }

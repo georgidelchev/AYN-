@@ -5,52 +5,51 @@ using AYN.Services.Data.Interfaces;
 using AYN.Web.ViewModels.Administration.Users;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AYN.Web.Areas.Administration.Controllers
+namespace AYN.Web.Areas.Administration.Controllers;
+
+public class UsersController : AdministrationController
 {
-    public class UsersController : AdministrationController
+    private readonly IUsersService usersService;
+
+    public UsersController(
+        IUsersService usersService)
     {
-        private readonly IUsersService usersService;
+        this.usersService = usersService;
+    }
 
-        public UsersController(
-            IUsersService usersService)
+    [HttpGet]
+    public async Task<IActionResult> All(int id = 1)
+    {
+        var users = await this.usersService.GetAll<GetAllUsersViewModel>();
+
+        var viewModel = new ListAllUserViewModel()
         {
-            this.usersService = usersService;
-        }
+            AllUsers = users.Skip((id - 1) * 12).Take(12),
+            Count = this.usersService.GetCounts().Item1,
+            ItemsPerPage = 12,
+            PageNumber = id,
+        };
 
-        [HttpGet]
-        public async Task<IActionResult> All(int id = 1)
-        {
-            var users = await this.usersService.GetAll<GetAllUsersViewModel>();
+        return this.View(viewModel);
+    }
 
-            var viewModel = new ListAllUserViewModel()
-            {
-                AllUsers = users.Skip((id - 1) * 12).Take(12),
-                Count = this.usersService.GetCounts().Item1,
-                ItemsPerPage = 12,
-                PageNumber = id,
-            };
+    [HttpGet]
+    public IActionResult Ban()
+    {
+        return this.View();
+    }
 
-            return this.View(viewModel);
-        }
+    [HttpPost]
+    public async Task<IActionResult> Ban(BanUserInputModel input, string id)
+    {
+        await this.usersService.Ban(input, id);
+        return this.Redirect("/Administration/Users/All");
+    }
 
-        [HttpGet]
-        public IActionResult Ban()
-        {
-            return this.View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Ban(BanUserInputModel input, string id)
-        {
-            await this.usersService.Ban(input, id);
-            return this.Redirect("/Administration/Users/All");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Unban(string id)
-        {
-            await this.usersService.Unban(id);
-            return this.Redirect("/Administration/Users/All");
-        }
+    [HttpPost]
+    public async Task<IActionResult> Unban(string id)
+    {
+        await this.usersService.Unban(id);
+        return this.Redirect("/Administration/Users/All");
     }
 }

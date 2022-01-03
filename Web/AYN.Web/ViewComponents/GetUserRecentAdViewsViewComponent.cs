@@ -5,26 +5,25 @@ using AYN.Web.ViewModels.Ads;
 using AYN.Web.ViewModels.Users;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AYN.Web.ViewComponents
+namespace AYN.Web.ViewComponents;
+
+public class GetUserRecentAdViewsViewComponent : ViewComponent
 {
-    public class GetUserRecentAdViewsViewComponent : ViewComponent
+    private readonly IUserLatestAdViewsService userLatestAdViewsService;
+
+    public GetUserRecentAdViewsViewComponent(
+        IUserLatestAdViewsService userLatestAdViewsService)
     {
-        private readonly IUserLatestAdViewsService userLatestAdViewsService;
+        this.userLatestAdViewsService = userLatestAdViewsService;
+    }
 
-        public GetUserRecentAdViewsViewComponent(
-            IUserLatestAdViewsService userLatestAdViewsService)
+    public async Task<IViewComponentResult> InvokeAsync(string userId)
+    {
+        var viewModel = new ListUserAdsViewModel
         {
-            this.userLatestAdViewsService = userLatestAdViewsService;
-        }
+            Ads = await this.userLatestAdViewsService.GetUserLatestAdViews<GetAdViewModel>(userId),
+        };
 
-        public async Task<IViewComponentResult> InvokeAsync(string userId)
-        {
-            var viewModel = new ListUserAdsViewModel
-            {
-                Ads = await this.userLatestAdViewsService.GetUserLatestAdViews<GetAdViewModel>(userId),
-            };
-
-            return this.View(viewModel);
-        }
+        return this.View(viewModel);
     }
 }

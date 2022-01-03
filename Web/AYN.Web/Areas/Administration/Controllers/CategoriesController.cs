@@ -7,114 +7,113 @@ using AYN.Web.ViewModels.Administration.Categories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AYN.Web.Areas.Administration.Controllers
+namespace AYN.Web.Areas.Administration.Controllers;
+
+public class CategoriesController : AdministrationController
 {
-    public class CategoriesController : AdministrationController
+    private readonly ICategoriesService categoriesService;
+    private readonly IWebHostEnvironment environment;
+    private readonly ISubCategoriesService subCategoriesService;
+
+    public CategoriesController(
+        ICategoriesService categoriesService,
+        IWebHostEnvironment environment,
+        ISubCategoriesService subCategoriesService)
     {
-        private readonly ICategoriesService categoriesService;
-        private readonly IWebHostEnvironment environment;
-        private readonly ISubCategoriesService subCategoriesService;
+        this.categoriesService = categoriesService;
+        this.environment = environment;
+        this.subCategoriesService = subCategoriesService;
+    }
 
-        public CategoriesController(
-            ICategoriesService categoriesService,
-            IWebHostEnvironment environment,
-            ISubCategoriesService subCategoriesService)
+    [HttpGet]
+    public async Task<IActionResult> All(int id = 1)
+    {
+        var categories = await this.categoriesService
+            .GetAllWithDeletedAsync<GetAllCategoriesViewModel>();
+
+        var viewModel = new ListAllCategoriesViewModel()
         {
-            this.categoriesService = categoriesService;
-            this.environment = environment;
-            this.subCategoriesService = subCategoriesService;
+            AllCategories = categories.Skip((id - 1) * 12).Take(12),
+            Count = this.categoriesService.GetTotalCount(),
+            ItemsPerPage = 12,
+            PageNumber = id,
+        };
+
+        return this.View(viewModel);
+    }
+
+    [HttpGet]
+    public IActionResult Create()
+    {
+        return this.View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create(CreateCategoryInputModel input)
+    {
+        if (!this.ModelState.IsValid)
+        {
+            return this.View(input);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> All(int id = 1)
+        try
         {
-            var categories = await this.categoriesService
-                .GetAllWithDeletedAsync<GetAllCategoriesViewModel>();
+            await this.categoriesService.CreateAsync(input);
+        }
+        catch (InvalidOperationException ioe)
+        {
+            this.ModelState.AddModelError(string.Empty, ioe.Message);
 
-            var viewModel = new ListAllCategoriesViewModel()
-            {
-                AllCategories = categories.Skip((id - 1) * 12).Take(12),
-                Count = this.categoriesService.GetTotalCount(),
-                ItemsPerPage = 12,
-                PageNumber = id,
-            };
-
-            return this.View(viewModel);
+            return this.View(input);
         }
 
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return this.View();
-        }
+        return this.Redirect("/");
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> Create(CreateCategoryInputModel input)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                return this.View(input);
-            }
+    [HttpGet]
+    public async Task<IActionResult> Edit(int id)
+    {
+        var viewModel = await this.categoriesService
+            .GetByIdAsync<EditCategoryInputModel>(id);
 
-            try
-            {
-                await this.categoriesService.CreateAsync(input);
-            }
-            catch (InvalidOperationException ioe)
-            {
-                this.ModelState.AddModelError(string.Empty, ioe.Message);
+        return this.View(viewModel);
+    }
 
-                return this.View(input);
-            }
+    [HttpPost]
+    public async Task<IActionResult> Edit(EditCategoryInputModel input, int id)
+    {
+        var wwwrootPath = this.environment
+            .WebRootPath;
 
-            return this.Redirect("/");
-        }
+        await this.categoriesService.UpdateAsync(input, id, wwwrootPath);
 
-        [HttpGet]
-        public async Task<IActionResult> Edit(int id)
-        {
-            var viewModel = await this.categoriesService
-                .GetByIdAsync<EditCategoryInputModel>(id);
+        return this.Redirect("/Administration/Categories/All");
+    }
 
-            return this.View(viewModel);
-        }
+    [HttpGet]
+    public IActionResult AddSubCategory()
+    {
+        return this.View();
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> Edit(EditCategoryInputModel input, int id)
-        {
-            var wwwrootPath = this.environment
-                .WebRootPath;
+    [HttpPost]
+    public async Task<IActionResult> AddSubCategory(AddSubCategoryInputModel input, int id)
+    {
+        await this.subCategoriesService.CreateAsync(input, id);
+        return this.Redirect("/Administration/Categories/All");
+    }
 
-            await this.categoriesService.UpdateAsync(input, id, wwwrootPath);
+    [HttpGet]
+    public async Task<IActionResult> Delete(int id)
+    {
+        await this.categoriesService.DeleteAsync(id);
+        return this.Redirect("/Administration/Categories/All");
+    }
 
-            return this.Redirect("/Administration/Categories/All");
-        }
-
-        [HttpGet]
-        public IActionResult AddSubCategory()
-        {
-            return this.View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddSubCategory(AddSubCategoryInputModel input, int id)
-        {
-            await this.subCategoriesService.CreateAsync(input, id);
-            return this.Redirect("/Administration/Categories/All");
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Delete(int id)
-        {
-            await this.categoriesService.DeleteAsync(id);
-            return this.Redirect("/Administration/Categories/All");
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> UnDelete(int id)
-        {
-            await this.categoriesService.UnDeleteAsync(id);
-            return this.Redirect("/Administration/Categories/All");
-        }
+    [HttpGet]
+    public async Task<IActionResult> UnDelete(int id)
+    {
+        await this.categoriesService.UnDeleteAsync(id);
+        return this.Redirect("/Administration/Categories/All");
     }
 }

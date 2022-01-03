@@ -1,11 +1,10 @@
 ﻿using System;
 
-namespace AYN.Data.Common.Models
-{
-    public interface IDeletableEntity
-    {
-        bool IsDeleted { get; set; }
+namespace AYN.Data.Common.Models;
 
-        DateTime? DeletedOn { get; set; }
-    }
+public interface IDeletableEntity
+{
+    bool IsDeleted { get; set; }
+
+    DateTime? DeletedOn { get; set; }
 }

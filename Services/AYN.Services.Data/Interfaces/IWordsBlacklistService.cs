@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace AYN.Services.Data.Interfaces
+namespace AYN.Services.Data.Interfaces;
+
+public interface IWordsBlacklistService
 {
-    public interface IWordsBlacklistService
-    {
-        Task<IEnumerable<T>> AllAsync<T>();
+    Task<IEnumerable<T>> AllAsync<T>();
 
-        bool IsGivenWordInBlacklist(string word);
+    bool IsGivenWordInBlacklist(string word);
 
-        int Count();
+    int Count();
 
-        Task DeleteAsync(int id);
-    }
+    Task DeleteAsync(int id);
 }

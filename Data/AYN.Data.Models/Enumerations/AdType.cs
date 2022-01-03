@@ -1,9 +1,8 @@
-﻿namespace AYN.Data.Models.Enumerations
+﻿namespace AYN.Data.Models.Enumerations;
+
+public enum AdType
 {
-    public enum AdType
-    {
-        Unknown = 1,
-        Private = 2,
-        Business = 3,
-    }
+    Unknown = 1,
+    Private = 2,
+    Business = 3,
 }

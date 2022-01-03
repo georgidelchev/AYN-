@@ -1,20 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace AYN.Services.Data.Interfaces
+namespace AYN.Services.Data.Interfaces;
+
+public interface IWishlistsService
 {
-    public interface IWishlistsService
-    {
-        Task AddAsync(string adId, string userId);
+    Task AddAsync(string adId, string userId);
 
-        Task RemoveAsync(string adId, string userId);
+    Task RemoveAsync(string adId, string userId);
 
-        Task<IEnumerable<T>> Wishlist<T>(string userId);
+    Task<IEnumerable<T>> Wishlist<T>(string userId);
 
-        int Count(string userId);
+    int Count(string userId);
 
-        bool IsUserHaveGivenAdInHisWishlist(string adId, string userId);
+    bool IsUserHaveGivenAdInHisWishlist(string adId, string userId);
 
-        Task DeleteAsync(string adId);
-    }
+    Task DeleteAsync(string adId);
 }

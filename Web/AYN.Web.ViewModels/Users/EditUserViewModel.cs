@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace AYN.Web.ViewModels.Users
-{
-    public class EditUserViewModel
-    {
-        public EditUserGeneralInfoViewModel EditUserGeneralInfoViewModel { get; set; }
+namespace AYN.Web.ViewModels.Users;
 
-        public IEnumerable<KeyValuePair<string, string>> Towns { get; set; }
-    }
+public class EditUserViewModel
+{
+    public EditUserGeneralInfoViewModel EditUserGeneralInfoViewModel { get; set; }
+
+    public IEnumerable<KeyValuePair<string, string>> Towns { get; set; }
 }

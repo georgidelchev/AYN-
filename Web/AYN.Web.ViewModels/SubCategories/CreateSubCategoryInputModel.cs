@@ -2,13 +2,12 @@
 
 using static AYN.Common.AttributeConstraints;
 
-namespace AYN.Web.ViewModels.SubCategories
+namespace AYN.Web.ViewModels.SubCategories;
+
+public class CreateSubCategoryInputModel
 {
-    public class CreateSubCategoryInputModel
-    {
-        [Required]
-        [MinLength(CategoryNameMinLength)]
-        [MaxLength(CategoryNameMaxLength)]
-        public string Name { get; set; }
-    }
+    [Required]
+    [MinLength(CategoryNameMinLength)]
+    [MaxLength(CategoryNameMaxLength)]
+    public string Name { get; set; }
 }

@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AYN.Web.ViewModels.Administration.Emojis
+namespace AYN.Web.ViewModels.Administration.Emojis;
+
+public class CreateEmojiInputModel
 {
-    public class CreateEmojiInputModel
-    {
-        [Required]
-        public string Emoji { get; set; }
-    }
+    [Required]
+    public string Emoji { get; set; }
 }

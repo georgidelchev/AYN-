@@ -1,7 +1,6 @@
-﻿namespace AYN.Web.ViewModels.PostReacts
+﻿namespace AYN.Web.ViewModels.PostReacts;
+
+public class PostReactResponseModel
 {
-    public class PostReactResponseModel
-    {
-        public int TotalReacts { get; set; }
-    }
+    public int TotalReacts { get; set; }
 }

@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace AYN.Services.Data.Interfaces
+namespace AYN.Services.Data.Interfaces;
+
+public interface IUserAdsViewsService
 {
-    public interface IUserAdsViewsService
-    {
-        Task CreateAsync(string userId, string adId);
-    }
+    Task CreateAsync(string userId, string adId);
 }

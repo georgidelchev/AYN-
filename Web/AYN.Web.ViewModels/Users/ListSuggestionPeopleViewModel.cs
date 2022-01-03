@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace AYN.Web.ViewModels.Users
+namespace AYN.Web.ViewModels.Users;
+
+public class ListSuggestionPeopleViewModel
 {
-    public class ListSuggestionPeopleViewModel
-    {
-        public IEnumerable<GetSuggestionPeopleViewModel> SuggestionPeople { get; set; }
-    }
+    public IEnumerable<GetSuggestionPeopleViewModel> SuggestionPeople { get; set; }
 }

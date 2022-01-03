@@ -1,8 +1,7 @@
-﻿namespace AYN.Data.Models.Enumerations
+﻿namespace AYN.Data.Models.Enumerations;
+
+public enum CommentVoteValue
 {
-    public enum CommentVoteValue
-    {
-        Up = 0,
-        Down = 1,
-    }
+    Up = 0,
+    Down = 1,
 }

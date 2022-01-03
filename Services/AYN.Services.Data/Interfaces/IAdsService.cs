@@ -4,46 +4,45 @@ using System.Threading.Tasks;
 
 using AYN.Web.ViewModels.Ads;
 
-namespace AYN.Services.Data.Interfaces
+namespace AYN.Services.Data.Interfaces;
+
+public interface IAdsService
 {
-    public interface IAdsService
-    {
-        Task CreateAsync(CreateAdInputModel input, string userId);
+    Task CreateAsync(CreateAdInputModel input, string userId);
 
-        Task<IEnumerable<T>> GetRecent12AdsAsync<T>();
+    Task<IEnumerable<T>> GetRecent12AdsAsync<T>();
 
-        Task<IEnumerable<T>> GetRecent12PromotedAdsAsync<T>();
+    Task<IEnumerable<T>> GetRecent12PromotedAdsAsync<T>();
 
-        Task<IEnumerable<T>> GetAllAsync<T>(string search, string town, string orderBy, int? categoryId);
+    Task<IEnumerable<T>> GetAllAsync<T>(string search, string town, string orderBy, int? categoryId);
 
-        int GetCount();
+    int GetCount();
 
-        Task<T> GetDetails<T>(string id);
+    Task<T> GetDetails<T>(string id);
 
-        Task<IEnumerable<T>> GetUserAllAds<T>(string userId);
+    Task<IEnumerable<T>> GetUserAllAds<T>(string userId);
 
-        Task<IEnumerable<T>> GetUserRecentAds<T>(string userId);
+    Task<IEnumerable<T>> GetUserRecentAds<T>(string userId);
 
-        Task<IEnumerable<T>> GetMoreFromUserAds<T>(string townName, int categoryId, int subCategoryId, string userId, string currentAdId);
+    Task<IEnumerable<T>> GetMoreFromUserAds<T>(string townName, int categoryId, int subCategoryId, string userId, string currentAdId);
 
-        Tuple<int, int, int, int> GetCounts();
+    Tuple<int, int, int, int> GetCounts();
 
-        Task Archive(string adId);
+    Task Archive(string adId);
 
-        Task UnArchive(string adId);
+    Task UnArchive(string adId);
 
-        Task Delete(string adId);
+    Task Delete(string adId);
 
-        Task Promote(DateTime promoteUntil, string adId);
+    Task Promote(DateTime promoteUntil, string adId);
 
-        Task UnPromote(string adId);
+    Task UnPromote(string adId);
 
-        bool IsAdExisting(string adId);
+    bool IsAdExisting(string adId);
 
-        Task<T> GetByIdAsync<T>(string adId);
+    Task<T> GetByIdAsync<T>(string adId);
 
-        Task EditAsync(EditAdInputModel input);
+    Task EditAsync(EditAdInputModel input);
 
-        bool IsUserOwnsGivenAd(string userId, string adId);
-    }
+    bool IsUserOwnsGivenAd(string userId, string adId);
 }

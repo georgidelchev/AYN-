@@ -4,49 +4,48 @@ using AYN.Services.Data.Interfaces;
 using AYN.Web.ViewModels.Administration.SubCategories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AYN.Web.Areas.Administration.Controllers
+namespace AYN.Web.Areas.Administration.Controllers;
+
+public class SubCategoriesController : AdministrationController
 {
-    public class SubCategoriesController : AdministrationController
+    private readonly ISubCategoriesService subCategoriesService;
+
+    public SubCategoriesController(
+        ISubCategoriesService subCategoriesService)
     {
-        private readonly ISubCategoriesService subCategoriesService;
+        this.subCategoriesService = subCategoriesService;
+    }
 
-        public SubCategoriesController(
-            ISubCategoriesService subCategoriesService)
+    [HttpGet]
+    public async Task<IActionResult> Edit(int id)
+    {
+        var viewModel = await this.subCategoriesService.GetByIdAsync<EditSubCategoryInputModel>(id);
+        return this.View(viewModel);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(EditSubCategoryInputModel input)
+    {
+        await this.subCategoriesService.EditAsync(input);
+        return this.Redirect("/Administration/Categories/All");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Delete(int id)
+    {
+        if (this.subCategoriesService.IsSubCategoryExisting(id))
         {
-            this.subCategoriesService = subCategoriesService;
+            await this.subCategoriesService.DeleteAsync(id);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Edit(int id)
-        {
-            var viewModel = await this.subCategoriesService.GetByIdAsync<EditSubCategoryInputModel>(id);
-            return this.View(viewModel);
-        }
+        return this.Redirect("/Administration/Categories/All");
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> Edit(EditSubCategoryInputModel input)
-        {
-            await this.subCategoriesService.EditAsync(input);
-            return this.Redirect("/Administration/Categories/All");
-        }
+    [HttpGet]
+    public async Task<IActionResult> UnDelete(int id)
+    {
+        await this.subCategoriesService.UnDeleteAsync(id);
 
-        [HttpGet]
-        public async Task<IActionResult> Delete(int id)
-        {
-            if (this.subCategoriesService.IsSubCategoryExisting(id))
-            {
-                await this.subCategoriesService.DeleteAsync(id);
-            }
-
-            return this.Redirect("/Administration/Categories/All");
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> UnDelete(int id)
-        {
-            await this.subCategoriesService.UnDeleteAsync(id);
-
-            return this.Redirect("/Administration/Categories/All");
-        }
+        return this.Redirect("/Administration/Categories/All");
     }
 }

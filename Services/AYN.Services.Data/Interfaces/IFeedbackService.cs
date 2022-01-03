@@ -2,10 +2,9 @@
 
 using AYN.Web.ViewModels.Feedback;
 
-namespace AYN.Services.Data.Interfaces
+namespace AYN.Services.Data.Interfaces;
+
+public interface IFeedbackService
 {
-    public interface IFeedbackService
-    {
-        Task CreateAsync(CreateFeedbackInputModel input, string userId);
-    }
+    Task CreateAsync(CreateFeedbackInputModel input, string userId);
 }

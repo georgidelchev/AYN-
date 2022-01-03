@@ -10,96 +10,95 @@ using AYN.Services.Mapping;
 using AYN.Web.ViewModels.Comments;
 using Microsoft.EntityFrameworkCore;
 
-namespace AYN.Services.Data.Implementations
+namespace AYN.Services.Data.Implementations;
+
+public class CommentsService : ICommentsService
 {
-    public class CommentsService : ICommentsService
+    private readonly IDeletableEntityRepository<Comment> commentsRepository;
+    private readonly IDeletableEntityRepository<CommentVote> commentVotesRepository;
+
+    public CommentsService(
+        IDeletableEntityRepository<Comment> commentsRepository,
+        IDeletableEntityRepository<CommentVote> commentVotesRepository)
     {
-        private readonly IDeletableEntityRepository<Comment> commentsRepository;
-        private readonly IDeletableEntityRepository<CommentVote> commentVotesRepository;
+        this.commentsRepository = commentsRepository;
+        this.commentVotesRepository = commentVotesRepository;
+    }
 
-        public CommentsService(
-            IDeletableEntityRepository<Comment> commentsRepository,
-            IDeletableEntityRepository<CommentVote> commentVotesRepository)
+    public async Task Create(string content, string adId, string userId)
+    {
+        if (string.IsNullOrEmpty(content))
         {
-            this.commentsRepository = commentsRepository;
-            this.commentVotesRepository = commentVotesRepository;
+            return;
         }
 
-        public async Task Create(string content, string adId, string userId)
+        var comment = new Comment()
         {
-            if (string.IsNullOrEmpty(content))
-            {
-                return;
-            }
+            AdId = adId,
+            AddedByUserId = userId,
+            Content = content,
+        };
 
-            var comment = new Comment()
-            {
-                AdId = adId,
-                AddedByUserId = userId,
-                Content = content,
-            };
+        await this.commentsRepository.AddAsync(comment);
+        await this.commentsRepository.SaveChangesAsync();
+    }
 
-            await this.commentsRepository.AddAsync(comment);
-            await this.commentsRepository.SaveChangesAsync();
-        }
+    public async Task Delete(string commentId)
+    {
+        var comment = this.commentsRepository
+            .All()
+            .FirstOrDefault(c => c.Id == commentId);
 
-        public async Task Delete(string commentId)
+        this.commentsRepository.Delete(comment);
+        await this.commentsRepository.SaveChangesAsync();
+    }
+
+    public async Task Vote(string voteValue, string commentId, string userId)
+    {
+        var commentVote = this.commentVotesRepository
+            .All()
+            .FirstOrDefault(cv => cv.ApplicationUserId == userId && cv.CommentId == commentId);
+
+        if (commentVote != null)
         {
-            var comment = this.commentsRepository
-                .All()
-                .FirstOrDefault(c => c.Id == commentId);
-
-            this.commentsRepository.Delete(comment);
-            await this.commentsRepository.SaveChangesAsync();
-        }
-
-        public async Task Vote(string voteValue, string commentId, string userId)
-        {
-            var commentVote = this.commentVotesRepository
-                .All()
-                .FirstOrDefault(cv => cv.ApplicationUserId == userId && cv.CommentId == commentId);
-
-            if (commentVote != null)
-            {
-                commentVote.Value = Enum.Parse<CommentVoteValue>(voteValue);
-                await this.commentVotesRepository.SaveChangesAsync();
-
-                return;
-            }
-
-            commentVote = new CommentVote()
-            {
-                ApplicationUserId = userId,
-                CommentId = commentId,
-                Value = Enum.Parse<CommentVoteValue>(voteValue),
-            };
-
-            await this.commentVotesRepository.AddAsync(commentVote);
+            commentVote.Value = Enum.Parse<CommentVoteValue>(voteValue);
             await this.commentVotesRepository.SaveChangesAsync();
+
+            return;
         }
 
-        public bool IsCommentExisting(string commentId)
-            => this.commentsRepository
-                .All()
-                .Any(c => c.Id == commentId);
-
-        public async Task<T> GetByIdAsync<T>(string commentId)
-            => await this.commentsRepository
-                .All()
-                .Where(c => c.Id == commentId)
-                .To<T>()
-                .FirstOrDefaultAsync();
-
-        public async Task EditAsync(EditCommentInputModel input)
+        commentVote = new CommentVote()
         {
-            var comment = this.commentsRepository
-                .All()
-                .FirstOrDefault(c => c.Id == input.Id);
+            ApplicationUserId = userId,
+            CommentId = commentId,
+            Value = Enum.Parse<CommentVoteValue>(voteValue),
+        };
 
-            comment.Content = input.Content;
+        await this.commentVotesRepository.AddAsync(commentVote);
+        await this.commentVotesRepository.SaveChangesAsync();
+    }
 
-            this.commentsRepository.Update(comment);
-            await this.commentsRepository.SaveChangesAsync();
-        }
+    public bool IsCommentExisting(string commentId)
+        => this.commentsRepository
+            .All()
+            .Any(c => c.Id == commentId);
+
+    public async Task<T> GetByIdAsync<T>(string commentId)
+        => await this.commentsRepository
+            .All()
+            .Where(c => c.Id == commentId)
+            .To<T>()
+            .FirstOrDefaultAsync();
+
+    public async Task EditAsync(EditCommentInputModel input)
+    {
+        var comment = this.commentsRepository
+            .All()
+            .FirstOrDefault(c => c.Id == input.Id);
+
+        comment.Content = input.Content;
+
+        this.commentsRepository.Update(comment);
+        await this.commentsRepository.SaveChangesAsync();
     }
 }

@@ -5,18 +5,17 @@ using AYN.Data.Common.Models;
 
 using static AYN.Common.AttributeConstraints;
 
-namespace AYN.Data.Models
+namespace AYN.Data.Models;
+
+public class Town : BaseDeletableModel<int>
 {
-    public class Town : BaseDeletableModel<int>
-    {
-        [Required]
-        [MaxLength(TownNameMaxLength)]
-        public string Name { get; set; }
+    [Required]
+    [MaxLength(TownNameMaxLength)]
+    public string Name { get; set; }
 
-        public ICollection<Ad> Ads { get; set; }
-            = new HashSet<Ad>();
+    public ICollection<Ad> Ads { get; set; }
+        = new HashSet<Ad>();
 
-        public virtual ICollection<Address> Addresses { get; set; }
-            = new HashSet<Address>();
-    }
+    public virtual ICollection<Address> Addresses { get; set; }
+        = new HashSet<Address>();
 }

@@ -1,28 +1,28 @@
 ﻿using System.Threading.Tasks;
+
 using AYN.Services.Data.Interfaces;
 using AYN.Web.ViewModels.Users;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AYN.Web.ViewComponents
+namespace AYN.Web.ViewComponents;
+
+public class GetSuggestionPeopleViewComponent : ViewComponent
 {
-    public class GetSuggestionPeopleViewComponent : ViewComponent
+    private readonly IUsersService usersService;
+
+    public GetSuggestionPeopleViewComponent(
+        IUsersService usersService)
     {
-        private readonly IUsersService usersService;
+        this.usersService = usersService;
+    }
 
-        public GetSuggestionPeopleViewComponent(
-            IUsersService usersService)
+    public async Task<IViewComponentResult> InvokeAsync(string currentUserId, string openedUserId)
+    {
+        var viewModel = new ListSuggestionPeopleViewModel()
         {
-            this.usersService = usersService;
-        }
+            SuggestionPeople = await this.usersService.GetSuggestionPeople<GetSuggestionPeopleViewModel>(currentUserId, openedUserId),
+        };
 
-        public async Task<IViewComponentResult> InvokeAsync(string currentUserId, string openedUserId)
-        {
-            var viewModel = new ListSuggestionPeopleViewModel()
-            {
-                SuggestionPeople = await this.usersService.GetSuggestionPeople<GetSuggestionPeopleViewModel>(currentUserId, openedUserId),
-            };
-
-            return this.View(viewModel);
-        }
+        return this.View(viewModel);
     }
 }

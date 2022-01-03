@@ -6,61 +6,60 @@ using AYN.Data.Common.Repositories;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace AYN.Data.Repositories
+namespace AYN.Data.Repositories;
+
+public class EfRepository<TEntity> : IRepository<TEntity>
+    where TEntity : class
 {
-    public class EfRepository<TEntity> : IRepository<TEntity>
-        where TEntity : class
+    public EfRepository(ApplicationDbContext context)
     {
-        public EfRepository(ApplicationDbContext context)
+        this.Context = context ?? throw new ArgumentNullException(nameof(context));
+        this.DbSet = this.Context.Set<TEntity>();
+    }
+
+    protected DbSet<TEntity> DbSet { get; set; }
+
+    protected ApplicationDbContext Context { get; set; }
+
+    public virtual IQueryable<TEntity> All()
+        => this.DbSet;
+
+    public virtual IQueryable<TEntity> AllAsNoTracking()
+        => this.DbSet.AsNoTracking();
+
+    public virtual Task AddAsync(TEntity entity)
+        => this.DbSet.AddAsync(entity).AsTask();
+
+    public virtual void Update(TEntity entity)
+    {
+        var entry = this.Context.Entry(entity);
+
+        if (entry.State == EntityState.Detached)
         {
-            this.Context = context ?? throw new ArgumentNullException(nameof(context));
-            this.DbSet = this.Context.Set<TEntity>();
+            this.DbSet.Attach(entity);
         }
 
-        protected DbSet<TEntity> DbSet { get; set; }
+        entry.State = EntityState.Modified;
+    }
 
-        protected ApplicationDbContext Context { get; set; }
+    public virtual void Delete(TEntity entity)
+        => this.DbSet.Remove(entity);
 
-        public virtual IQueryable<TEntity> All()
-            => this.DbSet;
+    public Task<int> SaveChangesAsync()
+        => this.Context.SaveChangesAsync();
 
-        public virtual IQueryable<TEntity> AllAsNoTracking()
-            => this.DbSet.AsNoTracking();
+    public void Dispose()
+    {
+        this.Dispose(true);
 
-        public virtual Task AddAsync(TEntity entity)
-            => this.DbSet.AddAsync(entity).AsTask();
+        GC.SuppressFinalize(this);
+    }
 
-        public virtual void Update(TEntity entity)
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
         {
-            var entry = this.Context.Entry(entity);
-
-            if (entry.State == EntityState.Detached)
-            {
-                this.DbSet.Attach(entity);
-            }
-
-            entry.State = EntityState.Modified;
-        }
-
-        public virtual void Delete(TEntity entity)
-            => this.DbSet.Remove(entity);
-
-        public Task<int> SaveChangesAsync()
-            => this.Context.SaveChangesAsync();
-
-        public void Dispose()
-        {
-            this.Dispose(true);
-
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                this.Context?.Dispose();
-            }
+            this.Context?.Dispose();
         }
     }
 }

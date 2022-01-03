@@ -8,93 +8,92 @@ using AYN.Services.Data.Interfaces;
 using AYN.Services.Mapping;
 using Microsoft.EntityFrameworkCore;
 
-namespace AYN.Services.Data.Implementations
+namespace AYN.Services.Data.Implementations;
+
+public class NotificationsService : INotificationsService
 {
-    public class NotificationsService : INotificationsService
+    private readonly IDeletableEntityRepository<UserNotification> userNotificationsRepository;
+    private readonly IDeletableEntityRepository<Notification> notificationsRepository;
+
+    public NotificationsService(
+        IDeletableEntityRepository<UserNotification> userNotificationsRepository,
+        IDeletableEntityRepository<Notification> notificationsRepository)
     {
-        private readonly IDeletableEntityRepository<UserNotification> userNotificationsRepository;
-        private readonly IDeletableEntityRepository<Notification> notificationsRepository;
+        this.userNotificationsRepository = userNotificationsRepository;
+        this.notificationsRepository = notificationsRepository;
+    }
 
-        public NotificationsService(
-            IDeletableEntityRepository<UserNotification> userNotificationsRepository,
-            IDeletableEntityRepository<Notification> notificationsRepository)
+    public async Task CreateAsync(string text, string redirectUrl, string toUserId)
+    {
+        var notification = new Notification()
         {
-            this.userNotificationsRepository = userNotificationsRepository;
-            this.notificationsRepository = notificationsRepository;
-        }
+            RedirectUrl = redirectUrl,
+            Text = text,
+        };
 
-        public async Task CreateAsync(string text, string redirectUrl, string toUserId)
+        await this.notificationsRepository.AddAsync(notification);
+        await this.notificationsRepository.SaveChangesAsync();
+
+        await this.NotifyAsync(notification.Id, toUserId);
+    }
+
+    public async Task<IEnumerable<T>> GetAll<T>(string userId)
+    {
+        var notifications = await this.userNotificationsRepository
+            .All()
+            .Where(n => n.ApplicationUserId == userId && !n.IsRead)
+            .Select(n => n.Notification)
+            .OrderByDescending(n => n.CreatedOn)
+            .To<T>()
+            .ToListAsync();
+
+        return notifications;
+    }
+
+    public int GetCount(string userId)
+        => this.userNotificationsRepository
+            .All()
+            .Count(n => n.ApplicationUserId == userId && !n.IsRead);
+
+    public async Task MarkAsRead(string notificationId)
+    {
+        var notification = await this.userNotificationsRepository
+            .All()
+            .SingleOrDefaultAsync(n => n.NotificationId == notificationId);
+
+        notification.IsRead = true;
+
+        this.userNotificationsRepository.Update(notification);
+        await this.userNotificationsRepository.SaveChangesAsync();
+    }
+
+    public async Task MarkAllAsRead(string userId)
+    {
+        var notifications = await this.userNotificationsRepository
+            .All()
+            .Where(n => n.ApplicationUserId == userId)
+            .ToListAsync();
+
+        foreach (var notification in notifications)
         {
-            var notification = new Notification()
-            {
-                RedirectUrl = redirectUrl,
-                Text = text,
-            };
-
-            await this.notificationsRepository.AddAsync(notification);
-            await this.notificationsRepository.SaveChangesAsync();
-
-            await this.NotifyAsync(notification.Id, toUserId);
-        }
-
-        public async Task<IEnumerable<T>> GetAll<T>(string userId)
-        {
-            var notifications = await this.userNotificationsRepository
-                .All()
-                .Where(n => n.ApplicationUserId == userId && !n.IsRead)
-                .Select(n => n.Notification)
-                .OrderByDescending(n => n.CreatedOn)
-                .To<T>()
-                .ToListAsync();
-
-            return notifications;
-        }
-
-        public int GetCount(string userId)
-            => this.userNotificationsRepository
-                .All()
-                .Count(n => n.ApplicationUserId == userId && !n.IsRead);
-
-        public async Task MarkAsRead(string notificationId)
-        {
-            var notification = await this.userNotificationsRepository
-                .All()
-                .SingleOrDefaultAsync(n => n.NotificationId == notificationId);
-
             notification.IsRead = true;
 
             this.userNotificationsRepository.Update(notification);
             await this.userNotificationsRepository.SaveChangesAsync();
         }
+    }
 
-        public async Task MarkAllAsRead(string userId)
+    // Helper method
+    private async Task NotifyAsync(string notificationId, string toUserId)
+    {
+        var userNotification = new UserNotification()
         {
-            var notifications = await this.userNotificationsRepository
-                .All()
-                .Where(n => n.ApplicationUserId == userId)
-                .ToListAsync();
+            ApplicationUserId = toUserId,
+            IsRead = false,
+            NotificationId = notificationId,
+        };
 
-            foreach (var notification in notifications)
-            {
-                notification.IsRead = true;
-
-                this.userNotificationsRepository.Update(notification);
-                await this.userNotificationsRepository.SaveChangesAsync();
-            }
-        }
-
-        // Helper method
-        private async Task NotifyAsync(string notificationId, string toUserId)
-        {
-            var userNotification = new UserNotification()
-            {
-                ApplicationUserId = toUserId,
-                IsRead = false,
-                NotificationId = notificationId,
-            };
-
-            await this.userNotificationsRepository.AddAsync(userNotification);
-            await this.userNotificationsRepository.SaveChangesAsync();
-        }
+        await this.userNotificationsRepository.AddAsync(userNotification);
+        await this.userNotificationsRepository.SaveChangesAsync();
     }
 }

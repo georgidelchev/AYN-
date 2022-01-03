@@ -3,18 +3,17 @@ using System.Threading.Tasks;
 
 using AYN.Data.Models;
 
-namespace AYN.Services.Data.Interfaces
+namespace AYN.Services.Data.Interfaces;
+
+public interface ITownsService
 {
-    public interface ITownsService
-    {
-        Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKeyValuePairsAsync();
+    Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKeyValuePairsAsync();
 
-        int GetIdByName(string townName);
+    int GetIdByName(string townName);
 
-        bool IsExisting(int townId);
+    bool IsExisting(int townId);
 
-        bool IsTownContainsGivenAddress(int townId, int addressId);
+    bool IsTownContainsGivenAddress(int townId, int addressId);
 
-        Town GetById(int id);
-    }
+    Town GetById(int id);
 }

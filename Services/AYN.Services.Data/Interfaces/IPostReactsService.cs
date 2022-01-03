@@ -1,11 +1,10 @@
 ﻿using System.Threading.Tasks;
 
-namespace AYN.Services.Data.Interfaces
-{
-    public interface IPostReactsService
-    {
-        Task SetReactAsync(int postId, string userId, int reactValue);
+namespace AYN.Services.Data.Interfaces;
 
-        int GetTotalReacts(int postId);
-    }
+public interface IPostReactsService
+{
+    Task SetReactAsync(int postId, string userId, int reactValue);
+
+    int GetTotalReacts(int postId);
 }

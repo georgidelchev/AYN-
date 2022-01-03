@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace AYN.Services.Data.Interfaces
-{
-    public interface IAddressesService
-    {
-        Task<IEnumerable<T>> GetAllByTownIdAsync<T>(int townId);
+namespace AYN.Services.Data.Interfaces;
 
-        Task<IEnumerable<KeyValuePair<string, string>>> GetAllByTownIdAsKeyValuePairsAsync(int townId);
-    }
+public interface IAddressesService
+{
+    Task<IEnumerable<T>> GetAllByTownIdAsync<T>(int townId);
+
+    Task<IEnumerable<KeyValuePair<string, string>>> GetAllByTownIdAsKeyValuePairsAsync(int townId);
 }

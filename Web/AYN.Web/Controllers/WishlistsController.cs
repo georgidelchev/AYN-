@@ -8,77 +8,75 @@ using AYN.Web.ViewModels.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AYN.Web.Controllers
+namespace AYN.Web.Controllers;
+
+public class WishlistsController : BaseController
 {
-    [Authorize]
-    public class WishlistsController : Controller
+    private readonly IWishlistsService wishlistsService;
+    private readonly IAdsService adsService;
+
+    public WishlistsController(
+        IWishlistsService wishlistsService,
+        IAdsService adsService)
     {
-        private readonly IWishlistsService wishlistsService;
-        private readonly IAdsService adsService;
+        this.wishlistsService = wishlistsService;
+        this.adsService = adsService;
+    }
 
-        public WishlistsController(
-            IWishlistsService wishlistsService,
-            IAdsService adsService)
+    [HttpGet]
+    public async Task<IActionResult> Favorites(int id = 1)
+    {
+        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        var wishlist = await this.wishlistsService.Wishlist<WishlistAdsViewModel>(userId);
+        var viewModel = new UserWishlistViewModel()
         {
-            this.wishlistsService = wishlistsService;
-            this.adsService = adsService;
+            AdsWishlist = wishlist.Skip((id - 1) * 12).Take(12),
+            Count = this.wishlistsService.Count(userId),
+            ItemsPerPage = 12,
+            PageNumber = id,
+        };
+
+        return this.View(viewModel);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> AddToWishlist(string adId, string redirectUrl = "/Wishlists/Favorites")
+    {
+        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (!this.adsService.IsAdExisting(adId))
+        {
+            return this.Redirect("/");
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Favorites(int id = 1)
+        if (this.adsService.IsUserOwnsGivenAd(userId, adId))
         {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            var wishlist = await this.wishlistsService.Wishlist<WishlistAdsViewModel>(userId);
-            var viewModel = new UserWishlistViewModel()
-            {
-                AdsWishlist = wishlist.Skip((id - 1) * 12).Take(12),
-                Count = this.wishlistsService.Count(userId),
-                ItemsPerPage = 12,
-                PageNumber = id,
-            };
-
-            return this.View(viewModel);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> AddToWishlist(string adId, string redirectUrl = "/Wishlists/Favorites")
-        {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (!this.adsService.IsAdExisting(adId))
-            {
-                return this.Redirect("/");
-            }
-
-            if (this.adsService.IsUserOwnsGivenAd(userId, adId))
-            {
-                return this.Redirect(redirectUrl);
-            }
-
-            await this.wishlistsService.AddAsync(adId, userId);
-            return this.Redirect($"/Ads/Details?id={adId}");
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> RemoveFromWishlist(string id, string redirectUrl = "/Wishlists/Favorites")
-        {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            if (!this.wishlistsService.IsUserHaveGivenAdInHisWishlist(id, userId))
-            {
-                return this.Redirect("/Wishlists/Favorites");
-            }
-
-            await this.wishlistsService.RemoveAsync(id, userId);
             return this.Redirect(redirectUrl);
         }
 
-        [HttpGet]
-        public IActionResult Count(string userId)
-        {
-            var data = this.wishlistsService.Count(userId);
+        await this.wishlistsService.AddAsync(adId, userId);
+        return this.Redirect($"/Ads/Details?id={adId}");
+    }
 
-            return this.Json(data);
+    [HttpGet]
+    public async Task<IActionResult> RemoveFromWishlist(string id, string redirectUrl = "/Wishlists/Favorites")
+    {
+        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (!this.wishlistsService.IsUserHaveGivenAdInHisWishlist(id, userId))
+        {
+            return this.Redirect("/Wishlists/Favorites");
         }
+
+        await this.wishlistsService.RemoveAsync(id, userId);
+        return this.Redirect(redirectUrl);
+    }
+
+    [HttpGet]
+    public IActionResult Count(string userId)
+    {
+        var data = this.wishlistsService.Count(userId);
+
+        return this.Json(data);
     }
 }

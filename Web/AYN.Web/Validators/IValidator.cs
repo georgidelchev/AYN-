@@ -1,8 +1,7 @@
-﻿namespace AYN.Web.Validators
+﻿namespace AYN.Web.Validators;
+
+public interface IValidator<in T>
+    where T : class
 {
-    public interface IValidator<in T>
-        where T : class
-    {
-        string Validate(T entity);
-    }
+    string Validate(T entity);
 }

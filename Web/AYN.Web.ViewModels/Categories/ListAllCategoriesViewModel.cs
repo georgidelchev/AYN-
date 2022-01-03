@@ -2,10 +2,9 @@
 
 using AYN.Web.ViewModels.SubCategories;
 
-namespace AYN.Web.ViewModels.Categories
+namespace AYN.Web.ViewModels.Categories;
+
+public class ListAllCategoriesViewModel
 {
-    public class ListAllCategoriesViewModel
-    {
-        public Dictionary<CategoryViewModel, List<SubCategoryViewModel>> AllCategoriesWithAllSubCategories { get; set; }
-    }
+    public Dictionary<CategoryViewModel, List<SubCategoryViewModel>> AllCategoriesWithAllSubCategories { get; set; }
 }

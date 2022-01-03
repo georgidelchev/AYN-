@@ -6,27 +6,26 @@ using AYN.Data.Models;
 using AYN.Services.Data.Interfaces;
 using AYN.Services.Mapping;
 
-namespace AYN.Services.Data.Implementations
+namespace AYN.Services.Data.Implementations;
+
+public class SettingsService : ISettingsService
 {
-    public class SettingsService : ISettingsService
+    private readonly IDeletableEntityRepository<Setting> settingsRepository;
+
+    public SettingsService(
+        IDeletableEntityRepository<Setting> settingsRepository)
     {
-        private readonly IDeletableEntityRepository<Setting> settingsRepository;
-
-        public SettingsService(
-            IDeletableEntityRepository<Setting> settingsRepository)
-        {
-            this.settingsRepository = settingsRepository;
-        }
-
-        public int GetCount()
-            => this.settingsRepository
-                .AllAsNoTracking()
-                .Count();
-
-        public IEnumerable<T> GetAll<T>()
-            => this.settingsRepository
-                .All()
-                .To<T>()
-                .ToList();
+        this.settingsRepository = settingsRepository;
     }
+
+    public int GetCount()
+        => this.settingsRepository
+            .AllAsNoTracking()
+            .Count();
+
+    public IEnumerable<T> GetAll<T>()
+        => this.settingsRepository
+            .All()
+            .To<T>()
+            .ToList();
 }

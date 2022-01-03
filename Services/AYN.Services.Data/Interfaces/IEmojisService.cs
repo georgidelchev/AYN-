@@ -3,20 +3,19 @@ using System.Threading.Tasks;
 
 using AYN.Web.ViewModels.Administration.Emojis;
 
-namespace AYN.Services.Data.Interfaces
+namespace AYN.Services.Data.Interfaces;
+
+public interface IEmojisService
 {
-    public interface IEmojisService
-    {
-        Task CreateAsync(CreateEmojiInputModel input);
+    Task CreateAsync(CreateEmojiInputModel input);
 
-        Task<IEnumerable<T>> GetAll<T>();
+    Task<IEnumerable<T>> GetAll<T>();
 
-        Task<IEnumerable<KeyValuePair<string, string>>> GetAll();
+    Task<IEnumerable<KeyValuePair<string, string>>> GetAll();
 
-        Task Delete(int id);
+    Task Delete(int id);
 
-        int Count();
+    int Count();
 
-        bool IsExisting(string emoji);
-    }
+    bool IsExisting(string emoji);
 }

@@ -10,69 +10,68 @@ using AYN.Services.Mapping;
 using AYN.Web.ViewModels.Reports;
 using Microsoft.EntityFrameworkCore;
 
-namespace AYN.Services.Data.Implementations
+namespace AYN.Services.Data.Implementations;
+
+public class ReportsService : IReportsService
 {
-    public class ReportsService : IReportsService
+    private readonly IDeletableEntityRepository<Report> reportsRepository;
+
+    public ReportsService(IDeletableEntityRepository<Report> reportsRepository)
     {
-        private readonly IDeletableEntityRepository<Report> reportsRepository;
+        this.reportsRepository = reportsRepository;
+    }
 
-        public ReportsService(IDeletableEntityRepository<Report> reportsRepository)
+    public async Task CreateAsync(CreateReportInputModel input, string adId, string reportedUserId, string reportingUserId)
+    {
+        var report = new Report()
         {
-            this.reportsRepository = reportsRepository;
-        }
+            Description = input.Description,
+            ReportedAdId = adId,
+            ReportedUserId = reportedUserId,
+            ReportingUserId = reportingUserId,
+            ReportType = input.ReportType,
+        };
 
-        public async Task CreateAsync(CreateReportInputModel input, string adId, string reportedUserId, string reportingUserId)
+        await this.reportsRepository.AddAsync(report);
+        await this.reportsRepository.SaveChangesAsync();
+    }
+
+    public async Task<IEnumerable<T>> GetAll<T>()
+        => await this.reportsRepository
+            .All()
+            .OrderByDescending(r => r.CreatedOn)
+            .To<T>()
+            .ToListAsync();
+
+    public int GetCount()
+        => this.reportsRepository
+            .All()
+            .Count();
+
+    public Tuple<int, int> GetCounts()
+    {
+        var activeReports = this.reportsRepository
+            .All()
+            .Count(r => !r.IsDeleted);
+
+        var deletedReports = this.reportsRepository
+            .AllWithDeleted()
+            .Count(r => r.IsDeleted);
+
+        return new Tuple<int, int>(activeReports, deletedReports);
+    }
+
+    public async Task DeleteAllByAdId(string adId)
+    {
+        var reports = this.reportsRepository
+            .All()
+            .Where(r => r.ReportedAdId == adId)
+            .ToList();
+
+        foreach (var report in reports)
         {
-            var report = new Report()
-            {
-                Description = input.Description,
-                ReportedAdId = adId,
-                ReportedUserId = reportedUserId,
-                ReportingUserId = reportingUserId,
-                ReportType = input.ReportType,
-            };
-
-            await this.reportsRepository.AddAsync(report);
+            this.reportsRepository.Delete(report);
             await this.reportsRepository.SaveChangesAsync();
-        }
-
-        public async Task<IEnumerable<T>> GetAll<T>()
-            => await this.reportsRepository
-                .All()
-                .OrderByDescending(r => r.CreatedOn)
-                .To<T>()
-                .ToListAsync();
-
-        public int GetCount()
-            => this.reportsRepository
-                .All()
-                .Count();
-
-        public Tuple<int, int> GetCounts()
-        {
-            var activeReports = this.reportsRepository
-                .All()
-                .Count(r => !r.IsDeleted);
-
-            var deletedReports = this.reportsRepository
-                .AllWithDeleted()
-                .Count(r => r.IsDeleted);
-
-            return new Tuple<int, int>(activeReports, deletedReports);
-        }
-
-        public async Task DeleteAllByAdId(string adId)
-        {
-            var reports = this.reportsRepository
-                .All()
-                .Where(r => r.ReportedAdId == adId)
-                .ToList();
-
-            foreach (var report in reports)
-            {
-                this.reportsRepository.Delete(report);
-                await this.reportsRepository.SaveChangesAsync();
-            }
         }
     }
 }
