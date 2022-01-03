@@ -61,8 +61,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
 
     public DbSet<UserAdView> UserAdViews { get; set; }
 
-    public DbSet<Setting> Settings { get; set; }
-
     public DbSet<AdImage> AdsImages { get; set; }
 
     public DbSet<Emoji> Emojis { get; set; }
