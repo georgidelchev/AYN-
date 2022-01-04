@@ -9,6 +9,7 @@ using AYN.Data.Seeding;
 using AYN.Services.Mapping;
 using AYN.Services.Messaging;
 using AYN.Web.Hubs;
+using AYN.Web.Infrastructure.Extensions;
 using AYN.Web.Validators;
 using AYN.Web.ViewModels;
 using AYN.Web.ViewModels.Ads;
@@ -39,7 +40,10 @@ public class Startup
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
+        services.AddDbContext<ApplicationDbContext>(options =>
+        {
+            options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection"));
+        });
 
         services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
             .AddRoles<ApplicationRole>()
@@ -52,23 +56,24 @@ public class Startup
 
         var cloudinaryUtility = new Cloudinary(cloudinaryCredentials);
 
-        services.Configure<CookiePolicyOptions>(
-            options =>
-            {
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+        services.Configure<CookiePolicyOptions>(options =>
+        {
+            options.CheckConsentNeeded = context => true;
+            options.MinimumSameSitePolicy = SameSiteMode.None;
+        });
 
-        services.AddControllersWithViews(
-            options =>
-            {
-                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-            }).AddRazorRuntimeCompilation();
+        services.AddControllersWithViews(options =>
+        {
+            options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+        }).AddRazorRuntimeCompilation();
+
         services.AddRazorPages();
+
         services.AddAntiforgery(options =>
         {
             options.HeaderName = "X-CSRF-TOKEN";
         });
+
         services.AddDatabaseDeveloperPageExceptionFilter();
 
         services.AddSingleton(cloudinaryUtility);
@@ -84,6 +89,7 @@ public class Startup
         services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("AYN.Services.Data"))
             .Where(s => !s.IsAbstract && s.Name.EndsWith("Service"))
             .AsPublicImplementedInterfaces();
+
         services.AddTransient<IValidator<CreateAdInputModel>, CreateAdValidator>();
         services.AddTransient<IEmailSender>(sp => new SendGridEmailSender(this.configuration["Sendgrid"]));
     }
@@ -96,18 +102,7 @@ public class Startup
         StripeConfiguration.SetApiKey(this.configuration["Stripe:SecretKey"]);
 
         // Seed data on application startup
-        using (var serviceScope = app.ApplicationServices.CreateScope())
-        {
-            var dbContext = serviceScope.ServiceProvider
-                .GetRequiredService<ApplicationDbContext>();
-
-            dbContext.Database.Migrate();
-
-            new ApplicationDbContextSeeder()
-                .SeedAsync(dbContext, serviceScope.ServiceProvider)
-                .GetAwaiter()
-                .GetResult();
-        }
+        app.PrepareDatabase();
 
         if (env.IsDevelopment())
         {
@@ -129,13 +124,6 @@ public class Startup
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.UseEndpoints(
-            endpoints =>
-            {
-                endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapHub<ChatHub>("/chat");
-                endpoints.MapRazorPages();
-            });
+        app.UseEndpoints();
     }
 }

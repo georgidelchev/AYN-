@@ -46,7 +46,6 @@
     <ProjectReference Include="..\..\Services\AYN.Services.Mapping\AYN.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\AYN.Services.Messaging\AYN.Services.Messaging.csproj" />
     <ProjectReference Include="..\..\Services\AYN.Services\AYN.Services.csproj" />
-    <ProjectReference Include="..\AYN.Web.Infrastructure\AYN.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\AYN.Web.ViewModels\AYN.Web.ViewModels.csproj" />
   </ItemGroup>
 </Project>
