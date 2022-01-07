@@ -58,7 +58,7 @@ public class Startup
 
         services.Configure<CookiePolicyOptions>(options =>
         {
-            options.CheckConsentNeeded = context => true;
+            options.CheckConsentNeeded = _ => true;
             options.MinimumSameSitePolicy = SameSiteMode.None;
         });
 
