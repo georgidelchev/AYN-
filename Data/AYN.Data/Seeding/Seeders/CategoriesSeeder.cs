@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using AYN.Data.Models;
 using AYN.Data.Seeding.Interfaces;
 
-namespace AYN.Data.Seeding;
+namespace AYN.Data.Seeding.Seeders;
 
 public class CategoriesSeeder : ISeeder
 {

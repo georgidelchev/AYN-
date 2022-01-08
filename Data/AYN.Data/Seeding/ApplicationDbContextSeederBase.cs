@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 
 using AYN.Data.Seeding.Interfaces;
-
+using AYN.Data.Seeding.Seeders;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 

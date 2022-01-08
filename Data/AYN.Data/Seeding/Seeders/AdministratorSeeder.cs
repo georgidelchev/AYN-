@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-
 using AYN.Common;
 using AYN.Data.Models;
 using AYN.Data.Models.Enumerations;
@@ -9,7 +8,7 @@ using AYN.Data.Seeding.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AYN.Data.Seeding;
+namespace AYN.Data.Seeding.Seeders;
 
 public class AdministratorSeeder : ISeeder
 {

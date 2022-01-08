@@ -2,12 +2,11 @@
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-
 using AngleSharp.Html.Parser;
 using AYN.Data.Models;
 using AYN.Data.Seeding.Interfaces;
 
-namespace AYN.Data.Seeding;
+namespace AYN.Data.Seeding.Seeders;
 
 public class EmojiSeeder : ISeeder
 {
