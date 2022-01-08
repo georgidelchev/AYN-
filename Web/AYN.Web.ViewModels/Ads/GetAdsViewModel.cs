@@ -18,8 +18,7 @@ public class GetAdsViewModel : IMapFrom<Ad>, IHaveCustomMappings
 
     public void CreateMappings(IProfileExpression configuration)
     {
-        configuration
-            .CreateMap<Ad, GetAdsViewModel>()
+        configuration.CreateMap<Ad, GetAdsViewModel>()
             .ForMember(m => m.TitleImageUrl, opt => opt.MapFrom(o => o.Images.FirstOrDefault().ImageUrl));
     }
 }

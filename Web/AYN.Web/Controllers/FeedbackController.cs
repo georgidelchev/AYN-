@@ -45,6 +45,7 @@ public class FeedbackController : BaseController
     public async Task<IActionResult> Create(CreateFeedbackInputModel input)
     {
         var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
         await this.feedbackService.CreateAsync(input, userId);
 
         await this.emailSender.SendEmailAsync(
