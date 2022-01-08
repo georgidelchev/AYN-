@@ -41,7 +41,7 @@ public static class Program
 
             dbContext.Database.Migrate();
 
-            new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
+            new ApplicationDbContextSeederBase().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
         }
 
         using (var serviceScope = serviceProvider.CreateScope())

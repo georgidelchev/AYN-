@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace AYN.Data.Seeding;
+namespace AYN.Data.Seeding.Interfaces;
 
 public interface ISeeder
 {

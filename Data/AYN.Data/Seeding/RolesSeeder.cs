@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 using AYN.Common;
 using AYN.Data.Models;
-
+using AYN.Data.Seeding.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 

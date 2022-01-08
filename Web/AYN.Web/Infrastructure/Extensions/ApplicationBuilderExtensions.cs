@@ -35,7 +35,7 @@ public static class ApplicationBuilderExtensions
         => dbContext.Database.Migrate();
 
     private static void SetupSeeding(ApplicationDbContext dbContext, IServiceScope serviceScope)
-        => new ApplicationDbContextSeeder()
+        => new ApplicationDbContextSeederBase()
             .SeedAsync(dbContext, serviceScope.ServiceProvider)
             .GetAwaiter()
             .GetResult();
