@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using AYN.Services.Data.Interfaces;
 using AYN.Services.Messaging;
+using AYN.Web.Infrastructure.Extensions;
 using AYN.Web.ViewModels.Feedback;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,7 +45,7 @@ public class FeedbackController : BaseController
     [HttpPost]
     public async Task<IActionResult> Create(CreateFeedbackInputModel input)
     {
-        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = this.User.GetId();
 
         await this.feedbackService.CreateAsync(input, userId);
 

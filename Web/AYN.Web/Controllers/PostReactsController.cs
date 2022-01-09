@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 
 using AYN.Services.Data.Interfaces;
+using AYN.Web.Infrastructure.Extensions;
 using AYN.Web.ViewModels.PostReacts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +23,7 @@ public class PostReactsController : BaseController
     [HttpPost]
     public async Task<ActionResult<PostReactResponseModel>> Post(PostReactInputModel input)
     {
-        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = this.User.GetId();
 
         await this.postReactsService.SetReactAsync(input.PostId, userId, input.ReactValue);
         var totalReacts = this.postReactsService.GetTotalReacts(input.PostId);

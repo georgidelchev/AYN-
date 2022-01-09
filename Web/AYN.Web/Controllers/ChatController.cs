@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 
 using AYN.Services.Data.Interfaces;
+using AYN.Web.Infrastructure.Extensions;
 using AYN.Web.ViewModels.Chat;
 using Microsoft.AspNetCore.Mvc;
 
@@ -51,7 +52,7 @@ public class ChatController : BaseController
             return this.View(input);
         }
 
-        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = this.User.GetId();
         await this.messagesService.CreateAsync(input.Message, userId, receiverId);
 
         return this.RedirectToAction(nameof(this.With), new { id = receiverId });
@@ -60,7 +61,7 @@ public class ChatController : BaseController
     [HttpGet]
     public async Task<IActionResult> With(string id)
     {
-        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = this.User.GetId();
 
         var viewModel = new ChatWithUserViewModel
         {

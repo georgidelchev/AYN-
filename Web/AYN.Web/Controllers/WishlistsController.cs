@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 
 using AYN.Services.Data.Interfaces;
+using AYN.Web.Infrastructure.Extensions;
 using AYN.Web.ViewModels.Ads;
 using AYN.Web.ViewModels.Users;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,7 @@ public class WishlistsController : BaseController
     [HttpGet]
     public async Task<IActionResult> Favorites(int id = 1)
     {
-        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = this.User.GetId();
 
         var wishlist = await this.wishlistsService.Wishlist<WishlistAdsViewModel>(userId);
         var viewModel = new UserWishlistViewModel()
@@ -42,7 +43,7 @@ public class WishlistsController : BaseController
     [HttpGet]
     public async Task<IActionResult> AddToWishlist(string adId, string redirectUrl = "/Wishlists/Favorites")
     {
-        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = this.User.GetId();
         if (!this.adsService.IsAdExisting(adId))
         {
             return this.Redirect("/");
@@ -60,7 +61,7 @@ public class WishlistsController : BaseController
     [HttpGet]
     public async Task<IActionResult> RemoveFromWishlist(string id, string redirectUrl = "/Wishlists/Favorites")
     {
-        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = this.User.GetId();
 
         if (!this.wishlistsService.IsUserHaveGivenAdInHisWishlist(id, userId))
         {

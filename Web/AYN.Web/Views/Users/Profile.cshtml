@@ -1,4 +1,5 @@
 ﻿@using System.Security.Claims
+@using AYN.Web.Infrastructure.Extensions
 
 @model AYN.Web.ViewModels.Users.GetUserProfileBaseDetailsViewModel
 
@@ -22,7 +23,7 @@
         <div class="card-body social-prof">
             <div class="wrapper">
                 <img src="@this.Model.AvatarImageUrl" alt="" class="user-profile">
-                @if (this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value == this.Model.Id)
+                @if (this.User.GetId() == this.Model.Id)
                 {
                     <h6>
                         <a class="text-primary" asp-controller="Users" asp-action="EditGeneralInfo" asp-route-id="@Model.Id">
@@ -51,7 +52,7 @@
                     @{ color = this.Model.TwitterUrl != null ? "info" : "muted";}
                     <i class="fab fa-twitter text-@color font-weight-bolder ml-3" style="font-size: 1.5rem;"></i>
                 </a>
-                @if (this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value != this.Model.Id)
+                @if (this.User.GetId() != this.Model.Id)
                 {
                     if (this.Model.IsCurrentUserFollower)
                     {
@@ -93,7 +94,7 @@
             @await this.Component.InvokeAsync("GetUserAllAds", new { userId = this.Model.Id })
         </div>
         <div class="col-lg-6 gedf-main text-center">
-            @if (this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value == this.Model.Id)
+            @if (this.User.GetId() == this.Model.Id)
             {
                 <div class="card social-timeline-card">
                     <form method="post" id="postForm" asp-controller="Posts" asp-action="Create">
@@ -119,7 +120,7 @@
             }
             @await this.Component.InvokeAsync("GetUserPosts", new { userId = this.Model.Id, id = Model.PagingId })
         </div>
-        @await this.Component.InvokeAsync("GetSuggestionPeople", new { currentUserId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value, openedUserId = this.Model.Id })
+        @await this.Component.InvokeAsync("GetSuggestionPeople", new { currentUserId = this.User.GetId(), openedUserId = this.Model.Id })
     </div>
 </main>
 

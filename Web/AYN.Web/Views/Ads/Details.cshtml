@@ -1,4 +1,5 @@
 ﻿@using System.Security.Claims
+@using AYN.Web.Infrastructure.Extensions
 
 @model AYN.Web.ViewModels.Ads.GetDetailsViewModel
 
@@ -18,7 +19,7 @@
         <div class="card">
             <div>
                 <small><i class="fas fa-eye text-primary"></i> @Model.TotalViews</small>
-                @if (this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value == this.Model.AddedByUserId)
+                @if (this.User.GetId() == this.Model.AddedByUserId)
                 {
                     <small>
                         <a asp-controller="Ads" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit text-warning ml-3"></i></a>
@@ -71,7 +72,7 @@
                 <h3 class="text-primary font-weight-bolder">@Model.Name<br /></h3>
                 <hr />
                 <h6>
-                    @if (this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value != this.Model.AddedByUserId)
+                    @if (this.User.GetId() != this.Model.AddedByUserId)
                     {
                         <span class="float-left font-weight-normal pl-2">
                             @if (!this.Model.IsItInFavoritesForCurrentUser)
@@ -159,7 +160,7 @@
         <br />
         @await this.Component.InvokeAsync("GetMoreAdsFromUser", new { townName = Model.Town, categoryId = Model.CategoryId, subCategoryId = Model.SubCategoryId, currentAdId = Model.Id })
         <br />
-        @if (this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value != this.Model.AddedByUserId)
+        @if (this.User.GetId() != this.Model.AddedByUserId)
         {
             <div class="text-center">
                 <a asp-controller="Reports" asp-action="Create" asp-route-id="@this.Model.Id" asp-route-reportedUser="@this.Model.AddedByUserId" class="text-danger text-center">
@@ -211,7 +212,7 @@
                     <small class="font-weight-bold text-primary">@comment.Content</small>
                 </span>
                 <div>
-                    @if (comment.AddedByUserId == this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
+                    @if (comment.AddedByUserId == this.User.GetId())
                     {
                         <a asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id" asp-route-adId="@Model.Id"><i class="fas fa-times text-danger"></i></a> <i class="fa fa-check-circle-o check-icon"></i>
                         <a asp-controller="Comments" asp-action="Edit" asp-route-commentId="@comment.Id" asp-route-adId="@Model.Id"><i class="fas fa-edit text-warning"></i></a>

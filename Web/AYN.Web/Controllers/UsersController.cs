@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 
 using AYN.Services.Data.Interfaces;
+using AYN.Web.Infrastructure.Extensions;
 using AYN.Web.ViewModels.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -29,7 +30,7 @@ public class UsersController : BaseController
     [HttpGet]
     public async Task<IActionResult> Profile(string id, int pagedId = 1)
     {
-        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = this.User.GetId();
 
         var viewModel = await this.usersService
             .GetProfileDetails<GetUserProfileBaseDetailsViewModel>(id);
@@ -43,7 +44,7 @@ public class UsersController : BaseController
     [HttpPost]
     public async Task<IActionResult> Follow(string id)
     {
-        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = this.User.GetId();
 
         if (this.usersService.IsFollower(userId, id))
         {
@@ -66,7 +67,7 @@ public class UsersController : BaseController
     [HttpPost]
     public async Task<IActionResult> Unfollow(string id)
     {
-        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = this.User.GetId();
 
         if (!this.usersService.IsFollower(userId, id))
         {
@@ -108,7 +109,7 @@ public class UsersController : BaseController
 
         await this.usersService.EditAsync(model, this.environment.WebRootPath);
 
-        return this.Redirect($"/Users/Profile?id={this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value}");
+        return this.Redirect($"/Users/Profile?id={this.User.GetId()}");
     }
 
     [HttpGet]

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 
 using AYN.Services.Data.Interfaces;
+using AYN.Web.Infrastructure.Extensions;
 using AYN.Web.ViewModels.Comments;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,7 +29,7 @@ public class CommentsController : BaseController
             return this.Redirect("/");
         }
 
-        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = this.User.GetId();
         await this.commentsService.Create(content, adId, userId);
         return this.Redirect($"/Ads/Details?id={adId}");
     }
@@ -63,7 +64,7 @@ public class CommentsController : BaseController
             return this.Redirect($"/Ads/Details?id={adId}");
         }
 
-        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = this.User.GetId();
         await this.commentsService.Vote(vote, commentId, userId);
 
         return this.Redirect($"/Ads/Details?id={adId}");

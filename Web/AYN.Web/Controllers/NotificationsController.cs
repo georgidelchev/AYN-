@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 
 using AYN.Services.Data.Interfaces;
+using AYN.Web.Infrastructure.Extensions;
 using AYN.Web.ViewModels.Notifications;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +22,7 @@ public class NotificationsController : BaseController
     [HttpGet]
     public async Task<IActionResult> All(int id = 1)
     {
-        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = this.User.GetId();
 
         var notifications = await this.notificationsService
             .GetAll<GetAllNotificationsForUserViewModel>(userId);
@@ -56,7 +57,7 @@ public class NotificationsController : BaseController
     [HttpPost]
     public async Task<IActionResult> MarkAllAsRead()
     {
-        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = this.User.GetId();
         await this.notificationsService.MarkAllAsRead(userId);
 
         return this.Redirect("/Notifications/All");

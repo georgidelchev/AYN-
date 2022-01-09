@@ -1,5 +1,6 @@
 ﻿@using System.Security.Claims
 @using AYN.Data.Models.Enumerations
+@using AYN.Web.Infrastructure.Extensions
 
 @model AYN.Web.ViewModels.Posts.ListUserPostsViewModel
 
@@ -26,7 +27,7 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop11">
                             <div class="h6 dropdown-header text-center">Actions</div>
-                            @if (this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value == post.ApplicationUserId)
+                            @if (this.User.GetId() == post.ApplicationUserId)
                             {
                                 <a type="submit" asp-controller="Posts" asp-action="Edit" asp-route-id="@post.Id" class="dropdown-item text-center">Edit</a>
 

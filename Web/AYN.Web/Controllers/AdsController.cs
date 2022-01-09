@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 
 using AYN.Services.Data.Interfaces;
+using AYN.Web.Infrastructure.Extensions;
 using AYN.Web.Validators;
 using AYN.Web.ViewModels.Ads;
 using AYN.Web.ViewModels.Categories;
@@ -72,7 +73,7 @@ public class AdsController : BaseController
             return this.View(input);
         }
 
-        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = this.User.GetId();
 
         await this.adsService.CreateAsync(input, userId);
 
@@ -139,7 +140,7 @@ public class AdsController : BaseController
     [HttpGet]
     public async Task<IActionResult> Details(string id)
     {
-        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = this.User.GetId();
 
         var viewModel = await this.adsService.GetDetails<GetDetailsViewModel>(id);
         viewModel.IsItInFavoritesForCurrentUser = this.wishlistsService.IsUserHaveGivenAdInHisWishlist(id, userId);
@@ -151,7 +152,7 @@ public class AdsController : BaseController
     [HttpGet]
     public async Task<IActionResult> Edit(string id)
     {
-        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = this.User.GetId();
 
         if (!this.adsService.IsUserOwnsGivenAd(userId, id))
         {
@@ -177,7 +178,7 @@ public class AdsController : BaseController
     [HttpGet]
     public async Task<IActionResult> Delete(string id)
     {
-        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = this.User.GetId();
 
         if (!this.adsService.IsAdExisting(id))
         {

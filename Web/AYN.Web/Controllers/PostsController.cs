@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 
 using AYN.Services.Data.Interfaces;
+using AYN.Web.Infrastructure.Extensions;
 using AYN.Web.ViewModels.Posts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +23,7 @@ public class PostsController : BaseController
     [HttpPost]
     public async Task<IActionResult> Create(string title, string content)
     {
-        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = this.User.GetId();
 
         if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(content) ||
             title.Length > PostTitleMaxLength || title.Length < PostTitleMinLength ||
@@ -39,7 +40,7 @@ public class PostsController : BaseController
     [HttpGet]
     public async Task<IActionResult> All()
     {
-        var vm = await this.postsService.GetUserAllPostsAsync<GetUserPostsViewModel>(this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        var vm = await this.postsService.GetUserAllPostsAsync<GetUserPostsViewModel>(this.User.GetId());
 
         return this.View();
     }
@@ -57,7 +58,7 @@ public class PostsController : BaseController
     {
         await this.postsService.EditAsync(input);
 
-        return this.Redirect($"/Users/Profile?id={this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value}");
+        return this.Redirect($"/Users/Profile?id={this.User.GetId()}");
     }
 
     [HttpPost]
@@ -65,6 +66,6 @@ public class PostsController : BaseController
     {
         await this.postsService.DeleteAsync(id);
 
-        return this.Redirect($"/Users/Profile?id={this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value}");
+        return this.Redirect($"/Users/Profile?id={this.User.GetId()}");
     }
 }
