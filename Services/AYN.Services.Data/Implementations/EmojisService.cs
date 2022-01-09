@@ -23,7 +23,7 @@ public class EmojisService : IEmojisService
 
     public async Task CreateAsync(CreateEmojiInputModel input)
     {
-        var emoji = new Emoji()
+        var emoji = new Emoji
         {
             Image = input.Emoji,
         };

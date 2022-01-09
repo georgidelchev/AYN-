@@ -24,7 +24,7 @@ public class GetAllCategoriesWithTheirSubCategoriesViewComponent : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync()
     {
-        var viewModel = new ListAllCategoriesViewModel()
+        var viewModel = new ListAllCategoriesViewModel
         {
             AllCategoriesWithAllSubCategories = new Dictionary<CategoryViewModel, List<SubCategoryViewModel>>(),
         };
@@ -38,7 +38,7 @@ public class GetAllCategoriesWithTheirSubCategoriesViewComponent : ViewComponent
                 .GetAllByCategoryId<SubCategoryViewModel>(category.Id)
                 .ToListAsync();
 
-            var categoryViewModel = new CategoryViewModel()
+            var categoryViewModel = new CategoryViewModel
             {
                 Id = category.Id,
                 Name = category.Name,

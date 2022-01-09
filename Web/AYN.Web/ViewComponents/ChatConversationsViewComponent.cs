@@ -30,7 +30,7 @@ public class ChatConversationsViewComponent : ViewComponent
             user.IsRead = this.messagesService.IsAllMessagesRead(user.Id, currentUserId);
         }
 
-        var viewModel = new ListChatConversationsViewModel()
+        var viewModel = new ListChatConversationsViewModel
         {
             AllChats = chatConversationsAsArray,
         };

@@ -27,7 +27,7 @@ public class WishlistsService : IWishlistsService
             return;
         }
 
-        var wishlist = new Wishlist()
+        var wishlist = new Wishlist
         {
             AdId = adId,
             UserId = userId,

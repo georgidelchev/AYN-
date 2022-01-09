@@ -21,7 +21,7 @@ public class GetHomePageStatisticsViewComponent : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync()
     {
-        var viewModel = new IndexPageStatisticsViewModel()
+        var viewModel = new IndexPageStatisticsViewModel
         {
             AdsCount = this.adsService.GetCounts().Item2,
             UsersCount = this.usersService.GetCounts().Item3,

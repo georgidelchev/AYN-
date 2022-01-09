@@ -61,12 +61,10 @@ public class ChatController : BaseController
     [HttpGet]
     public async Task<IActionResult> With(string id)
     {
-        var userId = this.User.GetId();
-
         var viewModel = new ChatWithUserViewModel
         {
             User = await this.usersService.GetByIdAsync<ChatUserViewModel>(id),
-            Messages = await this.messagesService.GetAllWithUserAsync<ChatMessagesWithUserViewModel>(userId, id),
+            Messages = await this.messagesService.GetAllWithUserAsync<ChatMessagesWithUserViewModel>(this.User.GetId(), id),
             Emojis = await this.emojisService.GetAll(),
         };
 

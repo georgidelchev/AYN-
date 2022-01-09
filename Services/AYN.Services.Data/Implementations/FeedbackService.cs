@@ -19,7 +19,7 @@ public class FeedbackService : IFeedbackService
 
     public async Task CreateAsync(CreateFeedbackInputModel input, string userId)
     {
-        var feedback = new Feedback()
+        var feedback = new Feedback
         {
             Email = input.Email,
             AddedByUserId = userId,

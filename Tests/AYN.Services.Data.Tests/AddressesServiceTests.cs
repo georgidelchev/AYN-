@@ -42,11 +42,11 @@ public class AddressesServiceTests
     {
         for (var i = 1; i <= 10; i++)
         {
-            var town = new Town()
+            var town = new Town
             {
                 Name = $"Town{i}",
             };
-            town.Addresses.Add(new Address()
+            town.Addresses.Add(new Address
             {
                 Name = $"Address{i}",
             });
@@ -63,14 +63,14 @@ public class AddressesServiceTests
     [Test]
     public async Task GetAllByTownIdAsKeyValuePairsAsync_ShouldReturnAllAddressesSuccessfully()
     {
-        var town = new Town()
+        var town = new Town
         {
             Name = "Town1",
         };
 
         for (var i = 1; i <= 10; i++)
         {
-            town.Addresses.Add(new Address()
+            town.Addresses.Add(new Address
             {
                 Name = $"Address{i}",
             });

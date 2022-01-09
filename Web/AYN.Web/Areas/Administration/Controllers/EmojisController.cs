@@ -38,7 +38,7 @@ public class EmojisController : AdministrationController
     [HttpGet]
     public async Task<IActionResult> All()
     {
-        var viewModel = new ListEmojiViewModel()
+        var viewModel = new ListEmojiViewModel
         {
             Emojis = await this.emojisService.GetAll<EmojiViewModel>(),
         };

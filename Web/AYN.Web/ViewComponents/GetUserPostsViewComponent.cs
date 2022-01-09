@@ -21,7 +21,7 @@ public class GetUserPostsViewComponent : ViewComponent
     {
         var posts = await this.postsService.GetUserAllPostsAsync<GetUserPostsViewModel>(userId);
 
-        var viewModel = new ListUserPostsViewModel()
+        var viewModel = new ListUserPostsViewModel
         {
             UserPosts = posts.Skip((id - 1) * 6).Take(6),
             Count = this.postsService.GetCount(userId),

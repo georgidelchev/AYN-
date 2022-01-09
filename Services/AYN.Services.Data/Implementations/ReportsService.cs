@@ -23,7 +23,7 @@ public class ReportsService : IReportsService
 
     public async Task CreateAsync(CreateReportInputModel input, string adId, string reportedUserId, string reportingUserId)
     {
-        var report = new Report()
+        var report = new Report
         {
             Description = input.Description,
             ReportedAdId = adId,

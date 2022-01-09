@@ -34,7 +34,7 @@ public class PostsService : IPostsService
 
     public async Task CreateAsync(string title, string content, string userId)
     {
-        var post = new Post()
+        var post = new Post
         {
             AddedByUserId = userId,
             Content = content,

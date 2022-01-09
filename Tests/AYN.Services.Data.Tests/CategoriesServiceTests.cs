@@ -47,7 +47,7 @@ public class CategoriesServiceTests
     [Test]
     public async Task CreateAsync_WithoutSubCategories_ShouldCreateCategorySuccessfully()
     {
-        var category = new CreateCategoryInputModel()
+        var category = new CreateCategoryInputModel
         {
             Name = "Category",
             Picture = this.mockedIFormFile.Object,
@@ -62,7 +62,7 @@ public class CategoriesServiceTests
     [Test]
     public async Task CreateAsync_WithSubCategories_ShouldCreateCategorySuccessfully()
     {
-        var category = new CreateCategoryInputModel()
+        var category = new CreateCategoryInputModel
         {
             Name = "Category",
             Picture = this.mockedIFormFile.Object,
@@ -70,7 +70,7 @@ public class CategoriesServiceTests
 
         for (var i = 1; i <= 10; i++)
         {
-            category.SubCategories.Add(new CreateSubCategoryInputModel()
+            category.SubCategories.Add(new CreateSubCategoryInputModel
             {
                 Name = $"SubCategory{i}",
             });
@@ -94,7 +94,7 @@ public class CategoriesServiceTests
         this.mockedISubCategoriesService
             .Setup(sc => sc.IsSubCategoryExisting(It.IsAny<string>())).Returns(true);
 
-        var category = new CreateCategoryInputModel()
+        var category = new CreateCategoryInputModel
         {
             Name = "Category",
             Picture = this.mockedIFormFile.Object,
@@ -102,7 +102,7 @@ public class CategoriesServiceTests
 
         for (var i = 1; i <= 5; i++)
         {
-            category.SubCategories.Add(new CreateSubCategoryInputModel()
+            category.SubCategories.Add(new CreateSubCategoryInputModel
             {
                 Name = "SubCategory",
             });
@@ -241,7 +241,7 @@ public class CategoriesServiceTests
         for (var i = 1; i <= categoriesCount; i++)
         {
             await this.categoriesService
-                .CreateAsync(new CreateCategoryInputModel()
+                .CreateAsync(new CreateCategoryInputModel
                 {
                     Name = $"Category{i}",
                     Picture = this.mockedIFormFile.Object,

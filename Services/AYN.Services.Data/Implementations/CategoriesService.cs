@@ -39,7 +39,7 @@ public class CategoriesService : ICategoriesService
 
         var imageUrl = await this.cloudinaryService.UploadPictureAsync(destinationData, input.Picture.FileName, "CategoriesImages", 100, 100);
 
-        var category = new Category()
+        var category = new Category
         {
             Name = input.Name,
             ImageUrl = imageUrl,
@@ -50,7 +50,7 @@ public class CategoriesService : ICategoriesService
             foreach (var subCategory in input.SubCategories)
             {
                 var currentSubCategory = this.subCategoriesService.Get(category.Id)
-                                         ?? new SubCategory()
+                                         ?? new SubCategory
                                          {
                                              Name = subCategory.Name,
                                          };

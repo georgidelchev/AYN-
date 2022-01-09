@@ -24,7 +24,7 @@ public class UserAdsViewsService : IUserAdsViewsService
             return;
         }
 
-        var userAdView = new UserAdView()
+        var userAdView = new UserAdView
         {
             AdId = adId,
             UserId = userId,

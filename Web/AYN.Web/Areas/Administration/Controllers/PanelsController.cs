@@ -31,7 +31,7 @@ public class PanelsController : AdministrationController
 
     public IActionResult Index()
     {
-        var viewModel = new IndexViewModel()
+        var viewModel = new IndexViewModel
         {
             UsersCounts = this.usersService.GetCounts(),
             AdsCount = this.adsService.GetCounts(),

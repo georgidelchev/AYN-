@@ -32,7 +32,7 @@ public class CommentsService : ICommentsService
             return;
         }
 
-        var comment = new Comment()
+        var comment = new Comment
         {
             AdId = adId,
             AddedByUserId = userId,
@@ -67,7 +67,7 @@ public class CommentsService : ICommentsService
             return;
         }
 
-        commentVote = new CommentVote()
+        commentVote = new CommentVote
         {
             ApplicationUserId = userId,
             CommentId = commentId,

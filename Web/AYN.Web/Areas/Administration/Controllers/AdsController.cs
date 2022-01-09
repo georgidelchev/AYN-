@@ -25,7 +25,7 @@ public class AdsController : AdministrationController
     {
         var ads = await this.adsService.GetAllAsync<GetAllAdsViewModel>(string.Empty, null, "createdOnDesc", null);
 
-        var viewModel = new ListAllAdsViewModel()
+        var viewModel = new ListAllAdsViewModel
         {
             AllAds = ads.Skip((id - 1) * 12).Take(12),
             Count = this.adsService.GetCount(),

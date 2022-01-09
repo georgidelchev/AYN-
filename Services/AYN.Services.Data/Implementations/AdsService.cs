@@ -65,7 +65,7 @@ public class AdsService : IAdsService
 
         foreach (var imageUrl in imageUrls)
         {
-            ad.Images.Add(new AdImage() { ImageUrl = imageUrl });
+            ad.Images.Add(new AdImage { ImageUrl = imageUrl });
         }
 
         await this.adsRepository.AddAsync(ad);
@@ -337,7 +337,7 @@ public class AdsService : IAdsService
 
         foreach (var imageUrl in imageUrls.Where(i => i != null))
         {
-            ad.Images.Add(new AdImage() { ImageUrl = imageUrl });
+            ad.Images.Add(new AdImage { ImageUrl = imageUrl });
         }
 
         this.adsRepository.Update(ad);

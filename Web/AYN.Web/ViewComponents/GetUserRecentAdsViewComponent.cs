@@ -19,7 +19,7 @@ public class GetUserRecentAdsViewComponent : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync(string userId)
     {
-        var viewModel = new ListUserAdsViewModel()
+        var viewModel = new ListUserAdsViewModel
         {
             Ads = await this.adsService.GetUserRecentAds<GetAdViewModel>(userId),
         };

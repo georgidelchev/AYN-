@@ -30,13 +30,11 @@ public class UsersController : BaseController
     [HttpGet]
     public async Task<IActionResult> Profile(string id, int pagedId = 1)
     {
-        var userId = this.User.GetId();
-
         var viewModel = await this.usersService
             .GetProfileDetails<GetUserProfileBaseDetailsViewModel>(id);
 
         viewModel.PagingId = pagedId;
-        viewModel.IsCurrentUserFollower = this.usersService.IsFollower(userId, id);
+        viewModel.IsCurrentUserFollower = this.usersService.IsFollower(this.User.GetId(), id);
 
         return this.View(viewModel);
     }
@@ -90,7 +88,7 @@ public class UsersController : BaseController
     [HttpGet]
     public async Task<IActionResult> EditGeneralInfo(string id)
     {
-        var viewModel = new EditUserViewModel()
+        var viewModel = new EditUserViewModel
         {
             EditUserGeneralInfoViewModel = await this.usersService.GetByIdAsync<EditUserGeneralInfoViewModel>(id),
             Towns = await this.townsService.GetAllAsKeyValuePairsAsync(),
@@ -116,7 +114,8 @@ public class UsersController : BaseController
     public async Task<IActionResult> Followers(string userId, int id = 1)
     {
         var followers = await this.usersService.GetFollowers<FollowerViewModel>(userId);
-        var viewModel = new ListFollowersViewModel()
+
+        var viewModel = new ListFollowersViewModel
         {
             Followers = followers.Skip((id - 1) * 12).Take(12),
             Count = followers.Count(),
@@ -131,13 +130,15 @@ public class UsersController : BaseController
     public async Task<IActionResult> Followees(string userId, int id = 1)
     {
         var followees = await this.usersService.GetFollowings<FolloweeViewModel>(userId);
-        var viewModel = new ListFolloweesViewModel()
+
+        var viewModel = new ListFolloweesViewModel
         {
             Followees = followees.Skip((id - 1) * 12).Take(12),
             Count = followees.Count(),
             ItemsPerPage = 12,
             PageNumber = id,
         };
+
         return this.View(viewModel);
     }
 }

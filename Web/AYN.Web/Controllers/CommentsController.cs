@@ -29,8 +29,7 @@ public class CommentsController : BaseController
             return this.Redirect("/");
         }
 
-        var userId = this.User.GetId();
-        await this.commentsService.Create(content, adId, userId);
+        await this.commentsService.Create(content, adId, this.User.GetId());
         return this.Redirect($"/Ads/Details?id={adId}");
     }
 
@@ -64,8 +63,7 @@ public class CommentsController : BaseController
             return this.Redirect($"/Ads/Details?id={adId}");
         }
 
-        var userId = this.User.GetId();
-        await this.commentsService.Vote(vote, commentId, userId);
+        await this.commentsService.Vote(vote, commentId, this.User.GetId());
 
         return this.Redirect($"/Ads/Details?id={adId}");
     }

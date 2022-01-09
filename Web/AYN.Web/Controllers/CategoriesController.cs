@@ -16,10 +16,5 @@ public class CategoriesController : BaseController
 
     [HttpGet]
     public IActionResult GetSubCategories(int id)
-    {
-        var sc = this.subCategoriesService
-            .GetAllByCategoryId<SubCategoryViewModel>(id);
-
-        return this.Json(sc);
-    }
+        => this.Json(this.subCategoriesService.GetAllByCategoryId<SubCategoryViewModel>(id));
 }

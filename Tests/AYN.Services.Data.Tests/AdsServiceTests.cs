@@ -137,7 +137,7 @@ public class AdsServiceTests
 
         await this.adsService.CreateAsync(ad, "user.Id");
 
-        var editedAd = new EditAdInputModel()
+        var editedAd = new EditAdInputModel
         {
             AdType = AdType.Private,
             AddressId = 2,
@@ -349,7 +349,7 @@ public class AdsServiceTests
     [Test]
     public async Task GetCounts_ShouldReturnCorrectAdCounts()
     {
-        var archivedAd = new Ad()
+        var archivedAd = new Ad
         {
             IsArchived = true,
             AdType = AdType.Business,
@@ -369,7 +369,7 @@ public class AdsServiceTests
             IsPromoted = false,
         };
 
-        var deletedAd = new Ad()
+        var deletedAd = new Ad
         {
             IsArchived = false,
             AdType = AdType.Business,
@@ -685,7 +685,7 @@ public class AdsServiceTests
         {
             var userId = $"userId{i}";
             await this.adsService.CreateAsync(
-                new CreateAdInputModel()
+                new CreateAdInputModel
                 {
                     AdType = AdType.Business,
                     AddressId = i,

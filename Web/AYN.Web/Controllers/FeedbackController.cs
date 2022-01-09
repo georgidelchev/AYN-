@@ -29,9 +29,9 @@ public class FeedbackController : BaseController
     [HttpGet]
     public IActionResult Create()
     {
-        var viewModel = new CreateFeedbackInputModel()
+        var viewModel = new CreateFeedbackInputModel
         {
-            Email = this.User.FindFirst(ClaimTypes.Email)?.Value,
+            Email = this.User.GetEmail(),
         };
 
         return this.View(viewModel);
@@ -45,9 +45,7 @@ public class FeedbackController : BaseController
     [HttpPost]
     public async Task<IActionResult> Create(CreateFeedbackInputModel input)
     {
-        var userId = this.User.GetId();
-
-        await this.feedbackService.CreateAsync(input, userId);
+        await this.feedbackService.CreateAsync(input, this.User.GetId());
 
         await this.emailSender.SendEmailAsync(
             "allyouneedplatform@gmail.com",

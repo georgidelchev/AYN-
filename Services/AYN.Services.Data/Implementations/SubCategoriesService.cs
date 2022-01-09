@@ -30,7 +30,7 @@ public class SubCategoriesService : ISubCategoriesService
             throw new InvalidOperationException($"The subCategory '{input.Name}' is already existing!");
         }
 
-        var subCategory = new SubCategory()
+        var subCategory = new SubCategory
         {
             Name = input.Name,
             CategoryId = categoryId,

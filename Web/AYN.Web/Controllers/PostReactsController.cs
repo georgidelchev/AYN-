@@ -23,11 +23,9 @@ public class PostReactsController : BaseController
     [HttpPost]
     public async Task<ActionResult<PostReactResponseModel>> Post(PostReactInputModel input)
     {
-        var userId = this.User.GetId();
-
-        await this.postReactsService.SetReactAsync(input.PostId, userId, input.ReactValue);
+        await this.postReactsService.SetReactAsync(input.PostId, this.User.GetId(), input.ReactValue);
         var totalReacts = this.postReactsService.GetTotalReacts(input.PostId);
 
-        return new PostReactResponseModel() { TotalReacts = totalReacts };
+        return new PostReactResponseModel { TotalReacts = totalReacts };
     }
 }

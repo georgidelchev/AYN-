@@ -18,7 +18,7 @@ public class GetRecentlyPromotedAdsViewComponent : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync()
     {
-        var viewModel = new ListAdsViewModel()
+        var viewModel = new ListAdsViewModel
         {
             Ads = await this.adsService.GetRecent12PromotedAdsAsync<GetAdsViewModel>(),
         };

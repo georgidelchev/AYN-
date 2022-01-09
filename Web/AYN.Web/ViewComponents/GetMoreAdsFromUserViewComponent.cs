@@ -21,7 +21,7 @@ public class GetMoreAdsFromUserViewComponent : ViewComponent
     {
         var userId = this.UserClaimsPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-        var viewModel = new ListMoreAdsByUserViewModel()
+        var viewModel = new ListMoreAdsByUserViewModel
         {
             Ads = await this.adsService.GetMoreFromUserAds<MoreAdsByUserViewModel>(townName, categoryId, subCategoryId, userId, currentAdId),
         };

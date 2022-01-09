@@ -22,7 +22,7 @@ public class ChatController : AdministrationController
         var blacklistedWords = await this.wordsBlacklistService.AllAsync<BlacklistWordViewModel>();
         var blacklistWordAsArray = blacklistedWords as BlacklistWordViewModel[] ?? blacklistedWords.ToArray();
 
-        var viewModel = new ListBlacklistWordsViewModel()
+        var viewModel = new ListBlacklistWordsViewModel
         {
             BlacklistedWords = blacklistWordAsArray.Skip((id - 1) * 70).Take(70),
             Count = blacklistWordAsArray.Count(),

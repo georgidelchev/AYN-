@@ -132,7 +132,7 @@ public class RegisterModel : PageModel
 
         if (this.ModelState.IsValid)
         {
-            var user = new ApplicationUser()
+            var user = new ApplicationUser
             {
                 UserName = this.Input.UserName,
                 Email = this.Input.Email,

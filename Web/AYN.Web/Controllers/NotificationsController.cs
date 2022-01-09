@@ -27,7 +27,7 @@ public class NotificationsController : BaseController
         var notifications = await this.notificationsService
             .GetAll<GetAllNotificationsForUserViewModel>(userId);
 
-        var viewModel = new ListAllNotificationsViewModel()
+        var viewModel = new ListAllNotificationsViewModel
         {
             Notifications = notifications.Skip((id - 1) * 12).Take(12),
             Count = this.notificationsService.GetCount(userId),
@@ -57,8 +57,7 @@ public class NotificationsController : BaseController
     [HttpPost]
     public async Task<IActionResult> MarkAllAsRead()
     {
-        var userId = this.User.GetId();
-        await this.notificationsService.MarkAllAsRead(userId);
+        await this.notificationsService.MarkAllAsRead(this.User.GetId());
 
         return this.Redirect("/Notifications/All");
     }

@@ -25,9 +25,12 @@ public class PostsController : BaseController
     {
         var userId = this.User.GetId();
 
-        if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(content) ||
-            title.Length > PostTitleMaxLength || title.Length < PostTitleMinLength ||
-            content.Length > PostContentMaxLength || content.Length < PostContentMinLength)
+        if (string.IsNullOrEmpty(title) ||
+            string.IsNullOrEmpty(content) ||
+            title.Length > PostTitleMaxLength ||
+            title.Length < PostTitleMinLength ||
+            content.Length > PostContentMaxLength ||
+            content.Length < PostContentMinLength)
         {
             return this.Redirect($"/Users/Profile/{userId}");
         }

@@ -31,7 +31,7 @@ public class WordBlacklistSeeder : ISeeder
             var wordsToAdd =
                 (from word in words[0]
                     where !string.IsNullOrEmpty(word)
-                    select new WordBlacklist() { Content = word, }).ToList();
+                    select new WordBlacklist { Content = word, }).ToList();
 
             await dbContext.WordsBlacklist.AddRangeAsync(wordsToAdd);
             await dbContext.SaveChangesAsync();

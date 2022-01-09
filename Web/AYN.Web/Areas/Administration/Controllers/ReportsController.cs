@@ -25,7 +25,7 @@ public class ReportsController : AdministrationController
     {
         var reports = await this.reportsService.GetAll<GetAllReportsViewModel>();
 
-        var viewModel = new ListAllReportsViewModel()
+        var viewModel = new ListAllReportsViewModel
         {
             Count = this.reportsService.GetCount(),
             PageNumber = id,

@@ -18,7 +18,7 @@ public class GetSuggestionPeopleViewComponent : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync(string currentUserId, string openedUserId)
     {
-        var viewModel = new ListSuggestionPeopleViewModel()
+        var viewModel = new ListSuggestionPeopleViewModel
         {
             SuggestionPeople = await this.usersService.GetSuggestionPeople<GetSuggestionPeopleViewModel>(currentUserId, openedUserId),
         };

@@ -31,7 +31,7 @@ public class CategoriesController : AdministrationController
         var categories = await this.categoriesService
             .GetAllWithDeletedAsync<GetAllCategoriesViewModel>();
 
-        var viewModel = new ListAllCategoriesViewModel()
+        var viewModel = new ListAllCategoriesViewModel
         {
             AllCategories = categories.Skip((id - 1) * 12).Take(12),
             Count = this.categoriesService.GetTotalCount(),

@@ -55,7 +55,7 @@ public class UsersService : IUsersService
 
     public async Task Follow(string followerId, string followeeId)
     {
-        var followerFollowee = new FollowerFollowee()
+        var followerFollowee = new FollowerFollowee
         {
             FollowerId = followerId,
             FolloweeId = followeeId,

@@ -41,7 +41,7 @@ public class PostReactsService : IPostReactsService
             return;
         }
 
-        react = new PostReact()
+        react = new PostReact
         {
             ApplicationUserId = userId,
             PostId = postId,

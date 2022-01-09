@@ -10,7 +10,7 @@ public class HomeController : Controller
 {
     public IActionResult Index()
     {
-        return this.View(new IndexViewModel() { Search = string.Empty });
+        return this.View(new IndexViewModel { Search = string.Empty });
     }
 
     public IActionResult Privacy()

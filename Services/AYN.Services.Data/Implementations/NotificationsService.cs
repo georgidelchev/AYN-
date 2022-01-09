@@ -25,7 +25,7 @@ public class NotificationsService : INotificationsService
 
     public async Task CreateAsync(string text, string redirectUrl, string toUserId)
     {
-        var notification = new Notification()
+        var notification = new Notification
         {
             RedirectUrl = redirectUrl,
             Text = text,
@@ -86,7 +86,7 @@ public class NotificationsService : INotificationsService
     // Helper method
     private async Task NotifyAsync(string notificationId, string toUserId)
     {
-        var userNotification = new UserNotification()
+        var userNotification = new UserNotification
         {
             ApplicationUserId = toUserId,
             IsRead = false,

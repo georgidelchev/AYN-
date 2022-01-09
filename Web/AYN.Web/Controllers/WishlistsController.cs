@@ -29,7 +29,7 @@ public class WishlistsController : BaseController
         var userId = this.User.GetId();
 
         var wishlist = await this.wishlistsService.Wishlist<WishlistAdsViewModel>(userId);
-        var viewModel = new UserWishlistViewModel()
+        var viewModel = new UserWishlistViewModel
         {
             AdsWishlist = wishlist.Skip((id - 1) * 12).Take(12),
             Count = this.wishlistsService.Count(userId),

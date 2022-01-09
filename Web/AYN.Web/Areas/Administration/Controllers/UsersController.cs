@@ -22,7 +22,7 @@ public class UsersController : AdministrationController
     {
         var users = await this.usersService.GetAll<GetAllUsersViewModel>();
 
-        var viewModel = new ListAllUserViewModel()
+        var viewModel = new ListAllUserViewModel
         {
             AllUsers = users.Skip((id - 1) * 12).Take(12),
             Count = this.usersService.GetCounts().Item1,

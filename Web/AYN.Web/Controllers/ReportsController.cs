@@ -27,8 +27,7 @@ public class ReportsController : BaseController
     [HttpPost]
     public async Task<IActionResult> Create(CreateReportInputModel input, string id, string reportedUser)
     {
-        var reportingUserId = this.User.GetId();
-        await this.reportsService.CreateAsync(input, id, reportedUser, reportingUserId);
+        await this.reportsService.CreateAsync(input, id, reportedUser, this.User.GetId());
 
         return this.Redirect("/");
     }

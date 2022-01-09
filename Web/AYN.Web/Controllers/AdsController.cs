@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 using AYN.Services.Data.Interfaces;
@@ -73,9 +72,7 @@ public class AdsController : BaseController
             return this.View(input);
         }
 
-        var userId = this.User.GetId();
-
-        await this.adsService.CreateAsync(input, userId);
+        await this.adsService.CreateAsync(input, this.User.GetId());
 
         return this.Redirect("/");
     }
@@ -95,7 +92,7 @@ public class AdsController : BaseController
 
             var itemsPerPage = 12;
 
-            var viewModel = new ListAllAdsViewModel()
+            var viewModel = new ListAllAdsViewModel
             {
                 Count = ads.Count(),
                 ItemsPerPage = itemsPerPage,
@@ -118,7 +115,7 @@ public class AdsController : BaseController
                     .GetAllByCategoryId<SubCategoryViewModel>(category.Id)
                     .ToListAsync();
 
-                var categoryViewModel = new CategoryViewModel()
+                var categoryViewModel = new CategoryViewModel
                 {
                     Id = category.Id,
                     Name = category.Name,
@@ -152,9 +149,7 @@ public class AdsController : BaseController
     [HttpGet]
     public async Task<IActionResult> Edit(string id)
     {
-        var userId = this.User.GetId();
-
-        if (!this.adsService.IsUserOwnsGivenAd(userId, id))
+        if (!this.adsService.IsUserOwnsGivenAd(this.User.GetId(), id))
         {
             return this.Redirect($"/Ads/Details?id={id}");
         }
@@ -178,14 +173,12 @@ public class AdsController : BaseController
     [HttpGet]
     public async Task<IActionResult> Delete(string id)
     {
-        var userId = this.User.GetId();
-
         if (!this.adsService.IsAdExisting(id))
         {
             return this.Redirect("/");
         }
 
-        if (!this.adsService.IsUserOwnsGivenAd(userId, id))
+        if (!this.adsService.IsUserOwnsGivenAd(this.User.GetId(), id))
         {
             return this.Redirect("/");
         }
@@ -206,21 +199,20 @@ public class AdsController : BaseController
         var customers = new CustomerService();
         var charges = new ChargeService();
 
-        var customer = customers.Create(new CustomerCreateOptions()
+        var customer = await customers.CreateAsync(new CustomerCreateOptions
         {
             Email = stripeEmail,
             Source = stripeToken,
         });
 
-        var charge = charges.Create(new ChargeCreateOptions()
+        var charge = await charges.CreateAsync(new ChargeCreateOptions
         {
             Amount = 500,
             Description = "Test Payment",
             Currency = "usd",
             Customer = customer.Id,
             ReceiptEmail = stripeEmail,
-            Metadata = new Dictionary<string, string>()
-                { { "OrderId", "111" }, { "Postcode", "6000" }, },
+            Metadata = new Dictionary<string, string> { { "OrderId", "111" }, { "Postcode", "6000" }, },
         });
 
         switch (charge.Status)
