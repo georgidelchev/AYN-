@@ -2,6 +2,7 @@
 @using AYN.Data.Models
 @using Microsoft.AspNetCore.Identity
 @using System.Security.Claims
+@using AYN.Web.Infrastructure.Extensions
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
@@ -14,7 +15,7 @@
                 <img src="@this.UserManager.Users.FirstOrDefault(u=>u.Id==this.User.FindFirst(ClaimTypes.NameIdentifier).Value)?.AvatarImageUrl" class="user-profile img-fluid rounded-circle" style="width: 35px;height: 35px">
             </a>
         </li>
-        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+        @if (this.User.IsAdmin())
         {
             <li class="nav-item">
                 <a class="nav-link text-danger" data-toggle="tooltip" data-placement="top" title="Administration Settings" asp-area="Administration" asp-controller="Panels" asp-action="Index"><i class="fas fa-tools" style="font-size: 1.5rem;"></i></a>
