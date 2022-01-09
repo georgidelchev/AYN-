@@ -1,32 +1,32 @@
-﻿@using System.Security.Claims
+﻿@model AYN.Web.ViewModels.Home.IndexViewModel
+
 @using AYN.Web.Infrastructure.Extensions
-@model AYN.Web.ViewModels.Home.IndexViewModel
 
 @{
     this.ViewData["Title"] = "Home";
 }
 
-@if (this.User.Identity.IsAuthenticated)
+@if (this.User.IsUserAuthenticated())
 {
     <form method="get" asp-controller="Ads" asp-action="Search" class="px-3">
         <partial name="_SearchBarPartial" model="this.Model" />
     </form>
 
-    @await Component.InvokeAsync("GetAllCategoriesWithTheirSubCategories")
+    <vc:get-all-categories-with-their-sub-categories/>
 
     <div class="text-center">
         <h3>Recent Promoted Ads</h3>
-        @await Component.InvokeAsync("GetRecentlyPromotedAds");
+        <vc:get-recently-promoted-ads/>
     </div>
 
     <div class="text-center">
         <h3>Recent Ads</h3>
-        @await Component.InvokeAsync("GetRecentAds")
+        <vc:get-recent-ads />
     </div>
 
     <div class="text-center">
         <h3>Your recent ad views</h3>
-        @await Component.InvokeAsync("GetUserRecentAdViews", new { userId = this.User.GetId() })
+        <vc:get-user-recent-ad-views user-id="@this.User.GetId()"/>
     </div>
 
     <div class="text-center">
