@@ -11,8 +11,8 @@
     @if (this.SignInManager.IsSignedIn(this.User))
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" data-toggle="tooltip" data-placement="top" title="Profile" asp-area="" asp-controller="Users" asp-action="Profile" asp-route-id="@this.UserManager.Users.FirstOrDefault(u => u.Id == this.User.FindFirst(ClaimTypes.NameIdentifier).Value)?.Id">
-                <img src="@this.UserManager.Users.FirstOrDefault(u=>u.Id==this.User.FindFirst(ClaimTypes.NameIdentifier).Value)?.AvatarImageUrl" class="user-profile img-fluid rounded-circle" style="width: 35px;height: 35px">
+            <a class="nav-link text-dark" data-toggle="tooltip" data-placement="top" title="Profile" asp-area="" asp-controller="Users" asp-action="Profile" asp-route-id="@this.UserManager.Users.FirstOrDefault(u => u.Id == this.User.GetId())?.Id">
+                <img src="@this.UserManager.Users.FirstOrDefault(u => u.Id == this.User.GetId())?.AvatarImageUrl" class="user-profile img-fluid rounded-circle" style="width: 35px;height: 35px">
             </a>
         </li>
         @if (this.User.IsAdmin())
