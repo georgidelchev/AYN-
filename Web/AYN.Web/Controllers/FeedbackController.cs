@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using AYN.Services.Data.Interfaces;
 using AYN.Services.Messaging;
@@ -40,7 +39,7 @@ public class FeedbackController : BaseController
     /// <summary>
     /// Create POST Method -> Creates feedback with given Input Model and sends thanks email to the user.
     /// </summary>
-    /// <param name="input">input model to create feedback</param>
+    /// <param name="input">input model to create feedback.</param>
     /// <returns></returns>
     [HttpPost]
     public async Task<IActionResult> Create(CreateFeedbackInputModel input)
@@ -48,11 +47,11 @@ public class FeedbackController : BaseController
         await this.feedbackService.CreateAsync(input, this.User.GetId());
 
         await this.emailSender.SendEmailAsync(
-            "allyouneedplatform@gmail.com",
-            "AYNPlatform",
-            input.Email,
-            "Thanks for your Feedback",
-            $"Thanks for your feedback! <br/> <strong>{input.Title}</strong><br/>{input.Content}");
+            from: "allyouneedplatform@gmail.com",
+            fromName: "AYNPlatform",
+            to: input.Email,
+            subject: "Thanks for your Feedback",
+            htmlContent: $"Thanks for your feedback! <br/> <strong>{input.Title}</strong><br/>{input.Content}");
 
         return this.Redirect("/");
     }

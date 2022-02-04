@@ -21,20 +21,20 @@
         <div class="row">
             @foreach (var (key, value) in this.Model.AllCategoriesWithAllSubCategories)
             {
-                <div class="col-md-3 nav-item text-center">
+                <div class="col-md-2 nav-item text-center">
                     <div class="dropdown mb-5">
                         <div class="text-center">
-                            <img src="@key.ImageUrl" class="rounded-circle category-image" alt="@key.Name">
-                            <h6>@key.Name</h6>
-                            <h6>@value.Sum(v => v.AdsCount) Ads</h6>
-
+                            <a asp-controller="Ads" asp-action="Search" asp-route-categoryId="@key.Id">
+                                <img src="@key.ImageUrl" class="rounded-circle category-image" alt="@key.Name">
+                            </a>
+                            <h6>@key.Name - @value.Sum(v => v.AdsCount) Ads</h6>
                         </div>
                         @if (value.Any())
                         {
                             <div class="dropdown-menu">
                                 @foreach (var subCategory in value)
                                 {
-                                    <a href="/">@subCategory.Name</a><text> - @subCategory.AdsCount Ads</text><br>
+                                    <a asp-controller="Ads" asp-action="Search" asp-route-categoryId="@subCategory.Id">@subCategory.Name</a><text> - @subCategory.AdsCount Ads</text><br>
                                 }
                             </div>
                         }

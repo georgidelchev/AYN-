@@ -9,8 +9,6 @@ using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Data.Repositories;
 using AYN.Data.Seeding;
-using AYN.Services.Data.Implementations;
-using AYN.Services.Data.Interfaces;
 using AYN.Services.Messaging;
 
 using CommandLine;

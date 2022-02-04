@@ -5,10 +5,8 @@ using AYN.Data.Common;
 using AYN.Data.Common.Repositories;
 using AYN.Data.Models;
 using AYN.Data.Repositories;
-using AYN.Data.Seeding;
 using AYN.Services.Mapping;
 using AYN.Services.Messaging;
-using AYN.Web.Hubs;
 using AYN.Web.Infrastructure.Extensions;
 using AYN.Web.Validators;
 using AYN.Web.ViewModels;
@@ -87,7 +85,8 @@ public class Startup
 
         // Application services
         services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("AYN.Services.Data"))
-            .Where(s => !s.IsAbstract && s.Name.EndsWith("Service"))
+            .Where(s => !s.IsAbstract &&
+                        s.Name.EndsWith("Service"))
             .AsPublicImplementedInterfaces();
 
         services.AddTransient<IValidator<CreateAdInputModel>, CreateAdValidator>();
@@ -99,7 +98,7 @@ public class Startup
     {
         AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
 
-        StripeConfiguration.SetApiKey(this.configuration["Stripe:SecretKey"]);
+        StripeConfiguration.ApiKey = this.configuration["Stripe:SecretKey"];
 
         // Seed data on application startup
         app.PrepareDatabase();

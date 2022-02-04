@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using AYN.Services.Data.Interfaces;
 using AYN.Web.Infrastructure.Extensions;
