@@ -1,7 +1,7 @@
 # AYN-
 AYN - All you need.
 
-
+Give a star if you like it :)).
 ASP.NET Core App for the final project at SoftUni C# Web Module.
 
 Project Template:
@@ -21,6 +21,6 @@ Technologies used:
 - AngleSharp -> Scraping cities and emojis from internet
 - SignalR -> Real-Time Chat
 - HtmlSanitizer -> Clear Incoming HTML from the chat for XSS
-- SendGrid -> TBA
+- SendGrid -> Using for email sending - registration confirmation, password reset etc...
 - TinyMCE -> TBA
 - Hangfire -> TBA
