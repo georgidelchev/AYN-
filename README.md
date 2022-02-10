@@ -23,5 +23,6 @@ Technologies used:
 - HtmlSanitizer -> Clear Incoming HTML from the chat for XSS
 - SendGrid -> Using for email sending - registration confirmation, password reset etc...
 - Stripe -> Promote ad by different cost plans
-- TinyMCE -> TBA
-- Hangfire -> TBA
+- Hangfire -> Automated jobs
+- TinyMCE -> TBA...
+
