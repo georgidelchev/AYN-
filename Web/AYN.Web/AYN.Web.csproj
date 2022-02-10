@@ -15,6 +15,11 @@
 
   <ItemGroup>
     <PackageReference Include="CloudinaryDotNet" Version="1.15.2" />
+    <PackageReference Include="Hangfire" Version="1.7.28" />
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.7.28" />
+    <PackageReference Include="Hangfire.Console" Version="1.4.2" />
+    <PackageReference Include="Hangfire.Core" Version="1.7.28" />
+    <PackageReference Include="Hangfire.SqlServer" Version="1.7.28" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1">
       <PrivateAssets>all</PrivateAssets>
@@ -40,6 +45,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\AYN.Common\AYN.Common.csproj" />
+    <ProjectReference Include="..\..\AYN.Services.RecurringJobs\AYN.Services.RecurringJobs.csproj" />
     <ProjectReference Include="..\..\Data\AYN.Data.Models\AYN.Data.Models.csproj" />
     <ProjectReference Include="..\..\Data\AYN.Data\AYN.Data.csproj" />
     <ProjectReference Include="..\..\Services\AYN.Services.Data\AYN.Services.Data.csproj" />

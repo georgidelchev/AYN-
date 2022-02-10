@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Configuration;
+using System.Reflection;
 
 using AYN.Data;
 using AYN.Data.Common;
@@ -7,11 +9,16 @@ using AYN.Data.Models;
 using AYN.Data.Repositories;
 using AYN.Services.Mapping;
 using AYN.Services.Messaging;
+using AYN.Services.RecurringJobs;
 using AYN.Web.Infrastructure.Extensions;
 using AYN.Web.Validators;
 using AYN.Web.ViewModels;
 using AYN.Web.ViewModels.Ads;
 using CloudinaryDotNet;
+using Hangfire;
+using Hangfire.Console;
+using Hangfire.Dashboard;
+using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -76,6 +83,22 @@ public class Startup
         services.AddSingleton(cloudinaryUtility);
         services.AddSingleton(this.configuration);
 
+        services.AddHangfire(config => config
+            .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+            .UseSimpleAssemblyNameTypeSerializer()
+            .UseRecommendedSerializerSettings()
+            .UseSqlServerStorage(
+                this.configuration.GetConnectionString("DefaultConnection"), new SqlServerStorageOptions
+                {
+                    UseRecommendedIsolationLevel = true,
+                    UsePageLocksOnDequeue = true,
+                    DisableGlobalLocks = true,
+                    CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+                    SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+                    QueuePollInterval = TimeSpan.Zero,
+                }).UseConsole())
+            .AddHangfireServer(c => c.WorkerCount = 2);
+
         // Data repositories
         services.AddScoped<IDbQueryRunner, DbQueryRunner>();
         services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
@@ -93,7 +116,7 @@ public class Startup
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IRecurringJobManager recurringJobManager)
     {
         AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
 
@@ -113,6 +136,8 @@ public class Startup
             app.UseHsts();
         }
 
+        this.LoadAllHangfireRecurringJobs(recurringJobManager);
+
         app.UseHttpsRedirection();
         app.UseStaticFiles();
         app.UseCookiePolicy();
@@ -122,6 +147,22 @@ public class Startup
         app.UseAuthentication();
         app.UseAuthorization();
 
+        app.UseHangfireDashboard("/hangfire", new DashboardOptions { Authorization = new[] { new HangfireAuthFilter() } });
+
         app.UseEndpoints();
+    }
+
+    private void LoadAllHangfireRecurringJobs(IRecurringJobManager recurringJobManager)
+    {
+        recurringJobManager.AddOrUpdate<UnpromoteExpiredAdsRecurringJob>(
+            "Ad un-promoter",
+            x => x.StartWorking(null),
+            "*/59 * * * *");
+    }
+
+    private class HangfireAuthFilter : IDashboardAuthorizationFilter
+    {
+        public bool Authorize(DashboardContext dashboardContext)
+            => dashboardContext.GetHttpContext().User.IsAdmin();
     }
 }

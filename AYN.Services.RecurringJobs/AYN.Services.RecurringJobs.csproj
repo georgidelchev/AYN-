@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="HangFire.Core" Version="1.7.27" />
+		<PackageReference Include="Hangfire.Console" Version="1.4.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Data\AYN.Data\AYN.Data.csproj" />
+	</ItemGroup>
+
+</Project>
