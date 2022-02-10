@@ -75,6 +75,13 @@ public class GetDetailsViewModel : IMapFrom<Ad>, IHaveCustomMappings
 
     public bool IsItInFavoritesForCurrentUser { get; set; }
 
+    public bool IsPromoted { get; set; }
+
+    public DateTime PromotedUntil { get; set; }
+
+    public string PromotedUntilAsString
+        => this.PromotedUntil.ToString("g");
+
     public void CreateMappings(IProfileExpression configuration)
     {
         configuration

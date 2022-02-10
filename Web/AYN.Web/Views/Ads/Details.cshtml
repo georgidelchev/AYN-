@@ -29,7 +29,14 @@
                         </a>
                     </small>
                     <small>
-                        <a asp-controller="Ads" asp-action="Promote" asp-route-id="@Model.Id"><i class="fas fa-trophy text-success ml-3"></i></a>
+                        @if (!this.Model.IsPromoted)
+                        {
+                            <a asp-controller="Ads" asp-action="Promote" asp-route-id="@Model.Id"><i class="fas fa-trophy text-success ml-3"></i></a>
+                        }
+                        else
+                        {
+                            <i class="fas fa-clock text-primary ml-3"></i> @Model.PromotedUntilAsString
+                        }
                     </small>
                 }
             </div>
@@ -41,7 +48,9 @@
                     }
                 </ol>
                 <div class="carousel-inner">
-                    @{ var counter = 1;}
+                    @{
+                        var counter = 1;
+                    }
                     @foreach (var imageUrl in this.Model.ImagesUrls)
                     {
                         <div class="carousel-@(counter == 1 ? "item active" : "item")">
@@ -170,7 +179,9 @@
     <div class="col-md-9">
 
         <div class="text-center">
-            <h5>Write @{ var condition = this.Model.Comments.Any() ? "a" : "the first";} @condition comment</h5>
+            <h5>Write @{
+                    var condition = this.Model.Comments.Any() ? "a" : "the first";
+                } @condition comment</h5>
         </div>
         <form method="post" asp-controller="Comments" asp-action="Create" asp-route-adId="@Model.Id">
             <div class="card p-3">
@@ -221,7 +232,6 @@
         }
     </div>
     <div class="col-md-4">
-
     </div>
 </div>
 
