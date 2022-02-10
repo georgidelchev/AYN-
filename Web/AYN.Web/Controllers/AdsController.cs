@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -188,13 +189,18 @@ public class AdsController : BaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> Promote(string id)
+    public IActionResult Promote()
     {
         return this.View();
     }
 
     [HttpPost]
-    public async Task<IActionResult> Promote(string stripeEmail, string stripeToken, string currency)
+    public async Task<IActionResult> Promote(
+        string id,
+        int promoteDays,
+        string stripeEmail,
+        string stripeToken,
+        long amount)
     {
         var customers = new CustomerService();
         var charges = new ChargeService();
@@ -207,21 +213,24 @@ public class AdsController : BaseController
 
         var charge = await charges.CreateAsync(new ChargeCreateOptions
         {
-            Amount = 500,
+            Amount = amount * 100,
             Description = "Test Payment",
             Currency = "usd",
             Customer = customer.Id,
             ReceiptEmail = stripeEmail,
-            Metadata = new Dictionary<string, string> { { "OrderId", "111" }, { "Postcode", "6000" }, },
+            Metadata = new Dictionary<string, string>
+            {
+            },
         });
 
         switch (charge.Status)
         {
             case "succeeded":
-            {
-                var balanceTransactionId = charge.BalanceTransactionId;
-                return this.View();
-            }
+                {
+                    var currentTime = DateTime.Now;
+                    await this.adsService.Promote(currentTime.AddDays(promoteDays), id);
+                    return this.Redirect("/");
+                }
 
             default:
                 return this.Redirect("/");
