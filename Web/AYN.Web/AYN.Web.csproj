@@ -45,12 +45,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\AYN.Common\AYN.Common.csproj" />
-    <ProjectReference Include="..\..\AYN.Services.RecurringJobs\AYN.Services.RecurringJobs.csproj" />
     <ProjectReference Include="..\..\Data\AYN.Data.Models\AYN.Data.Models.csproj" />
     <ProjectReference Include="..\..\Data\AYN.Data\AYN.Data.csproj" />
     <ProjectReference Include="..\..\Services\AYN.Services.Data\AYN.Services.Data.csproj" />
     <ProjectReference Include="..\..\Services\AYN.Services.Mapping\AYN.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\AYN.Services.Messaging\AYN.Services.Messaging.csproj" />
+    <ProjectReference Include="..\..\Services\AYN.Services.RecurringJobs\AYN.Services.RecurringJobs.csproj" />
     <ProjectReference Include="..\..\Services\AYN.Services\AYN.Services.csproj" />
     <ProjectReference Include="..\AYN.Web.ViewModels\AYN.Web.ViewModels.csproj" />
   </ItemGroup>
