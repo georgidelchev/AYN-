@@ -41,6 +41,7 @@ public class ApplicationDbContextSeederBase : ISeeder
             new EmojiSeeder(),
             new WordBlacklistSeeder(),
             new AdministratorSeeder(),
+            new RegularUserSeeder(),
         };
 
         var stopWatch = new Stopwatch();
