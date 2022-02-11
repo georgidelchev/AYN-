@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -32,17 +33,15 @@ public class ApplicationDbContextSeederBase : ISeeder
                 .GetService<ILoggerFactory>() ?? throw new ArgumentNullException(nameof(serviceProvider)))
             .CreateLogger(typeof(ApplicationDbContextSeederBase));
 
-        var seedersInstances = Assembly
-            .Load(AssemblyName)
-            .GetExportedTypes()
-            .Where(type => !type.IsInterface &&
-                           !type.IsAbstract &&
-                           typeof(ISeeder).IsAssignableFrom(type) &&
-                           type.Name.EndsWith("Seeder"))
-            .Select(t => (ISeeder)Activator.CreateInstance(t))
-            .ToList();
-
-        seedersInstances.Add(new RolesSeeder());
+        var seedersInstances = new List<ISeeder>
+        {
+            new RolesSeeder(),
+            new TownsSeeder(),
+            new CategoriesSeeder(),
+            new EmojiSeeder(),
+            new WordBlacklistSeeder(),
+            new AdministratorSeeder(),
+        };
 
         var stopWatch = new Stopwatch();
 
