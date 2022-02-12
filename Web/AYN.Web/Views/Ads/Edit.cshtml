@@ -95,12 +95,7 @@
         <span asp-validation-for="Description" class="text-danger"></span>
 
         <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <label asp-for="Description" class="input-group-text">
-                    <i class="fas fa-question-circle"></i>
-                </label>
-            </div>
-            <textarea asp-for="Description" rows="4" placeholder="Description" class="form-control"></textarea>
+            <textarea id="customTextArea" asp-for="Description" rows="4" placeholder="Description" class="form-control"></textarea>
         </div>
     </div>
 
