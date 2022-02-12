@@ -107,6 +107,7 @@ public class AdsController : BaseController
                 Letter = letter,
                 TotalResults = ads.Count(),
                 AllCategoriesWithAllSubCategories = new Dictionary<CategoryViewModel, List<SubCategoryViewModel>>(),
+                AvailableLetters = await this.adsService.GetAdsStartingLetters(),
             };
 
             var categories = this.categoriesService

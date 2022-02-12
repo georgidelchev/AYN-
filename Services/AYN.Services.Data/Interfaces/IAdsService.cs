@@ -26,6 +26,8 @@ public interface IAdsService
 
     Task<IEnumerable<T>> GetMoreFromUserAds<T>(string townName, int categoryId, int subCategoryId, string userId, string currentAdId);
 
+    Task<IEnumerable<string>> GetAdsStartingLetters();
+
     Tuple<int, int, int, int> GetCounts();
 
     Task Archive(string adId);

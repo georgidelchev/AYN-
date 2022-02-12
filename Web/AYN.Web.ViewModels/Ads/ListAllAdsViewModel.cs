@@ -11,5 +11,7 @@ public class ListAllAdsViewModel : PagingViewModel
 
     public Dictionary<CategoryViewModel, List<SubCategoryViewModel>> AllCategoriesWithAllSubCategories { get; set; }
 
+    public IEnumerable<string> AvailableLetters { get; set; }
+
     public int TotalResults { get; set; }
 }

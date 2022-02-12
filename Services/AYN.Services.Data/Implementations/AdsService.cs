@@ -214,6 +214,12 @@ public class AdsService : IAdsService
             .To<T>()
             .ToListAsync();
 
+    public async Task<IEnumerable<string>> GetAdsStartingLetters()
+        => await this.adsRepository
+            .All()
+            .Select(a => a.Name.ToUpper()[0].ToString())
+            .ToListAsync();
+
     public Tuple<int, int, int, int> GetCounts()
     {
         var totalAdsCount = this.adsRepository
