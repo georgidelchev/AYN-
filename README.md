@@ -1,28 +1,25 @@
-# AYN-
-AYN - All you need.
-
-Give a star if you like it :)).
+# AYN - All you need.
 ASP.NET Core App for the final project at SoftUni C# Web Module.
 
-Project Template:
-Niki Kostov's Template: https://github.com/NikolayIT/ASP.NET-Core-Template
 
+# Project Template:
+* [Niki Kostov's Template](https://github.com/NikolayIT/ASP.NET-Core-Template)
 
-Technologies used: 
-- ASP.NET Core
-- Entity Framework Core
-- MS SQL Server
-- AutoMapper 
-- Bootstrap
-- jQuery
-- nUnit
-- Moq
-- Cloudinary -> Save Images at the Cloud service
-- AngleSharp -> Scraping cities and emojis from internet
-- SignalR -> Real-Time Chat
-- HtmlSanitizer -> Clear Incoming HTML from the chat for XSS
-- SendGrid -> Using for email sending - registration confirmation, password reset etc...
-- Stripe -> Promote ad by different cost plans
-- Hangfire -> Automated jobs
-- TinyMCE -> TBA...
+# 🛠 Technologies Used:
+* [ASP.NET Core](https://github.com/dotnet/aspnetcore)
+* [Entity Framework Core](https://github.com/dotnet/efcore)
+* [SignalR](https://github.com/SignalR/SignalR)
+* [AutoMapper](https://github.com/AutoMapper/AutoMapper)
+* [SendGrid](https://github.com/sendgrid)
+* [Cloudinary](https://github.com/cloudinary/CloudinaryDotNet)
+* [AngleSharp](https://github.com/AngleSharp/AngleSharp)
+* [Stripe](https://github.com/stripe/stripe-dotnet)
+* [HangFire](https://github.com/HangfireIO/Hangfire)
+* [HtmlSanitizer](https://github.com/mganss/HtmlSanitizer)
+* [Bootstrap](https://github.com/twbs/bootstrap)
+* [jQuery](https://github.com/jquery/jquery)
+* [TinyMCE](https://github.com/tinymce/)
+* [nUnit](https://github.com/nunit)
+* [Moq](https://github.com/moq/moq)
 
+Give a star if you like it :)).
