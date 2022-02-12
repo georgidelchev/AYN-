@@ -4,29 +4,40 @@
     this.ViewData["Title"] = "Wishlist";
 }
 
-<div class="text-center">
-    <h1>@this.ViewData["Title"]</h1>
-</div>
+@if (this.Model.AdsWishlist.Any())
+{
+    <div class="text-center">
+        <h1>@this.ViewData["Title"]</h1>
+    </div>
 
-<partial name="_PagingPartial" model="@this.Model" />
-<div class="row">
-    @foreach (var ad in this.Model.AdsWishlist)
-    {
-        <div class="col-md-3">
-            <div class="card">
-                <img class="card-img-top" src="@ad.ImageUrl" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title text-center">
-                        <a asp-controller="Ads" asp-action="Details" asp-route-id="@ad.Id">@ad.Name</a>&nbsp;
-                        <a asp-controller="Wishlists" asp-action="RemoveFromWishlist" asp-route-id="@ad.Id" class="text-danger" data-toggle="tooltip" data-placement="top" title="Remove this ad from your wishlist"><i class="fas fa-times"></i></a>
-                    </h5>
-                    <p class="card-text text-center">@ad.ShortDescription<a style="cursor: pointer" data-toggle="tooltip" data-placement="top" title="@ad.Description">...</a></p>
-                    <div class="text-center ">
-                        <a class="text-primary font-weight-bolder" asp-controller="Users" asp-action="Profile" asp-route-id="@ad.AddedByUserId"><i class="fas fa-user-alt"></i> @ad.AddedByUserUsername</a>
+    <partial name="_PagingPartial" model="@this.Model" />
+    <div class="row">
+        @foreach (var ad in this.Model.AdsWishlist)
+        {
+            <div class="col-md-3">
+                <div class="card">
+                    <img class="card-img-top" src="@ad.ImageUrl" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">
+                            <a asp-controller="Ads" asp-action="Details" asp-route-id="@ad.Id">@ad.Name</a>&nbsp;
+                            <a asp-controller="Wishlists" asp-action="RemoveFromWishlist" asp-route-id="@ad.Id" class="text-danger" data-toggle="tooltip" data-placement="top" title="Remove this ad from your wishlist"><i class="fas fa-times"></i></a>
+                        </h5>
+                        <p class="card-text text-center">@ad.ShortDescription<a style="cursor: pointer" data-toggle="tooltip" data-placement="top" title="@ad.Description">...</a></p>
+                        <div class="text-center ">
+                            <a class="text-primary font-weight-bolder" asp-controller="Users" asp-action="Profile" asp-route-id="@ad.AddedByUserId"><i class="fas fa-user-alt"></i> @ad.AddedByUserUsername</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    }
-</div>
-<partial name="_PagingPartial" model="@this.Model" />
+        }
+    </div>
+    <partial name="_PagingPartial" model="@this.Model" />
+}
+else
+{
+    <div class="text-center">
+        <h1>Your wishlist is currently empty.</h1>
+        <h3>Here is some suggestions for you:</h3>
+        <vc:get-recently-promoted-ads/>
+    </div>
+}
