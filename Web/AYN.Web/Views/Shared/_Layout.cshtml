@@ -107,7 +107,23 @@
     <script src="/vendor/bootstrap/bootstrap.min.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+    <script src="~/lib/tinymce/tinymce.min.js" type="text/javascript" asp-append-version="true"></script>
+    <script type="text/javascript">
+        tinymce.init({
+            selector: 'textarea#customTextArea',
+            height: 300,
+            plugins: [
+                'lists advlist link autolink image media preview hr anchor',
+                'code codesample paste',
+                'table emoticons help'
+            ],
+            toolbar: [
+                'bold italic | emoticons link codesample image media | hr bullist numlist alignleft aligncenter alignright alignjustify |'
+            ],
+            link_default_protocol: "https",
+            menubar: false
+        });
+    </script>
     @await this.RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
