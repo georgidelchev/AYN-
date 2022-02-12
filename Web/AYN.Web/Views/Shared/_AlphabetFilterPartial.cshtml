@@ -1,0 +1,10 @@
+﻿<div class="container d-flex justify-content-center">
+    <div class="btn-toolbar">
+        <div class="btn-group btn-group-sm">
+            @for (char i = 'A'; i <= 'Z'; i++)
+            {
+                <a asp-route-letter="@i" class="btn">@i</a>
+            }
+        </div>
+    </div>
+</div>

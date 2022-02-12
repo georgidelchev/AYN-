@@ -93,7 +93,7 @@ public class AdsService : IAdsService
             .To<T>()
             .ToListAsync();
 
-    public async Task<IEnumerable<T>> GetAllAsync<T>(string search, string town, string orderBy, int? categoryId)
+    public async Task<IEnumerable<T>> GetAllAsync<T>(string search, string town, string orderBy, int? categoryId, string letter)
     {
         var ads = this.adsRepository
             .All()
@@ -120,14 +120,31 @@ public class AdsService : IAdsService
             ads = ads.Where(a => a.Town.Name == town);
         }
 
+        if (letter is not null)
+        {
+            ads = ads.Where(a => a.Name.ToLower().StartsWith(letter.ToLower()));
+        }
+
         ads = orderBy switch
         {
-            "createdOnDesc" => ads.OrderBy(a => a.IsPromoted).ThenByDescending(a => a.CreatedOn),
-            "createdOnAsc" => ads.OrderBy(a => a.IsPromoted).ThenBy(a => a.CreatedOn),
-            "nameAsc" => ads.OrderBy(a => a.IsPromoted).ThenBy(a => a.Name),
-            "nameDesc" => ads.OrderBy(a => a.IsPromoted).ThenByDescending(a => a.Name),
-            "priceAsc" => ads.OrderBy(a => a.IsPromoted).ThenBy(a => a.Price),
-            "priceDesc" => ads.OrderBy(a => a.IsPromoted).ThenByDescending(a => a.Price),
+            "createdOnDesc" => ads
+                .OrderByDescending(a => a.IsPromoted)
+                .ThenByDescending(a => a.CreatedOn),
+            "createdOnAsc" => ads
+                .OrderByDescending(a => a.IsPromoted)
+                .ThenBy(a => a.CreatedOn),
+            "nameAsc" => ads
+                .OrderByDescending(a => a.IsPromoted)
+                .ThenBy(a => a.Name),
+            "nameDesc" => ads
+                .OrderByDescending(a => a.IsPromoted)
+                .ThenByDescending(a => a.Name),
+            "priceAsc" => ads
+                .OrderByDescending(a => a.IsPromoted)
+                .ThenBy(a => a.Price),
+            "priceDesc" => ads
+                .OrderByDescending(a => a.IsPromoted)
+                .ThenByDescending(a => a.Price),
             _ => throw new ArgumentException(),
         };
 

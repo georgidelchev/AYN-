@@ -7,16 +7,19 @@
     this.ViewData["Title"] = "All Ads";
 }
 
+<div class="text-center">
+    <h4>@this.Model.TotalResults Results Found!</h4>
+</div>
+
 <form method="get" asp-controller="Ads" asp-action="Search" class="px-3">
     <partial name="_SearchBarPartial" />
 </form>
 
+<partial name="_AlphabetFilterPartial" model="this.Model" />
+
 @if (this.Model.AllFromSearch.Any())
 {
-    <div class="text-center">
-        <h4>@this.Model.TotalResults Results Found!</h4>
-    </div>
-    <partial name="_SortingsPartial" model="@this.Model" />
+    <partial name="_SortingsPartial" model="this.Model" />
     <partial name="_PagingPartial" model="this.Model" />
 
     <div class="float-right" style="width: 300px;height: 300px">
@@ -27,7 +30,9 @@
                         <h3 class="text-center">Categories</h3>
                         <hr />
                     </li>
-                    @{ var categoriesCounter = 1;}
+                    @{
+                        var categoriesCounter = 1;
+                    }
                     @foreach (var (key, value) in this.Model.AllCategoriesWithAllSubCategories)
                     {
                         <li class="nav-item" onmouseover="showSubCategories(this)" onmouseout="hideSubCategories(this)">
@@ -35,7 +40,9 @@
                                 @categoriesCounter. @key.Name <i class="fas fa-level-down-alt"></i>
                             </a>
                             <ul class="list-unstyled collapse">
-                                @{ var subCategoriesCounter = 1;}
+                                @{
+                                    var subCategoriesCounter = 1;
+                                }
                                 @foreach (var subCategory in value)
                                 {
                                     <li class="pl-5">
@@ -68,15 +75,15 @@
     </div>
 </div>;
 
-<div class="row">
-    @foreach (var ad in this.Model.AllFromSearch)
-    {
-        @DisplayAds()(ad)
-    }
-</div>
-<br />
+    <div class="row">
+        @foreach (var ad in this.Model.AllFromSearch)
+        {
+            @DisplayAds()(ad)
+        }
+    </div>
+    <br />
 
-<partial name="_PagingPartial" model="this.Model" />
+    <partial name="_PagingPartial" model="this.Model" />
 }
 
 <script>

@@ -83,13 +83,14 @@ public class AdsController : BaseController
         string search,
         string town,
         int? categoryId,
+        string letter,
         string orderBy = "createdOnDesc",
         int id = 1)
     {
         try
         {
             var ads = await this.adsService
-                .GetAllAsync<GetAdsViewModel>(search, town, orderBy, categoryId);
+                .GetAllAsync<GetAdsViewModel>(search, town, orderBy, categoryId, letter);
 
             var itemsPerPage = 12;
 
@@ -103,6 +104,7 @@ public class AdsController : BaseController
                 Town = town,
                 CategoryId = categoryId,
                 Search = search,
+                Letter = letter,
                 TotalResults = ads.Count(),
                 AllCategoriesWithAllSubCategories = new Dictionary<CategoryViewModel, List<SubCategoryViewModel>>(),
             };

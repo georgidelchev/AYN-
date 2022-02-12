@@ -27,6 +27,8 @@ public class PagingViewModel
 
     public string Search { get; set; }
 
+    public string Letter { get; set; }
+
     public string OrderBy { get; set; }
 
     public string Town { get; set; }

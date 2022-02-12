@@ -2,19 +2,24 @@
 
 @{
     var queryString = new Dictionary<string, string>
-{
+    {
         { "search", $"{this.Model.Search}" },
+        { "letter", $"{this.Model.Letter}" },
         { "orderBy", $"{this.Model.OrderBy}" },
         { "town", $"{this.Model.Town}" },
-};
+    };
 }
 
 <nav aria-label="...">
     <ul class="pagination justify-content-center">
-        <li class="page-item @if (!Model.HasPreviousPage) {<text>disabled</text>}">
+        <li class="page-item @if (!Model.HasPreviousPage) {
+        <text>disabled</text>
+}">
             <a class="page-link" asp-all-route-data="queryString" asp-route-id="1">&laquo;</a>
         </li>
-        <li class="page-item @if (!Model.HasPreviousPage) {<text>disabled</text>}">
+        <li class="page-item @if (!Model.HasPreviousPage) {
+        <text>disabled</text>
+}">
             <a class="page-link" asp-all-route-data="queryString" asp-route-id="@Model.PreviousPageNumber">&lsaquo;</a>
         </li>
         @for (var i = Model.PageNumber - 3; i < Model.PageNumber; i++)
@@ -37,10 +42,14 @@
                 <li class="page-item"><a class="page-link" asp-all-route-data="queryString" asp-route-id="@i">@i</a></li>
             }
         }
-        <li class="page-item @if (!Model.HasNextPage) {<text>disabled</text>}">
+        <li class="page-item @if (!Model.HasNextPage) {
+        <text>disabled</text>
+}">
             <a class="page-link" asp-all-route-data="queryString" asp-route-id="@Model.NextPageNumber">&rsaquo;</a>
         </li>
-        <li class="page-item @if (!Model.HasNextPage) {<text>disabled</text>}">
+        <li class="page-item @if (!Model.HasNextPage) {
+        <text>disabled</text>
+}">
             <a class="page-link" asp-all-route-data="queryString" asp-route-id="@Model.PagesCount">&raquo;</a>
         </li>
     </ul>
