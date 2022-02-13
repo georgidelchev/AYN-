@@ -89,8 +89,7 @@ public class AdsController : BaseController
     {
         try
         {
-            var ads = await this.adsService
-                .GetAllAsync<GetAdsViewModel>(search, town, orderBy, categoryId, letter);
+            var ads = this.adsService.GetAll<GetAdsViewModel>(search, town, orderBy, categoryId, letter);
 
             var itemsPerPage = 12;
 

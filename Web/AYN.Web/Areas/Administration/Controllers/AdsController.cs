@@ -21,9 +21,9 @@ public class AdsController : AdministrationController
     }
 
     [HttpGet]
-    public async Task<IActionResult> All(int id = 1)
+    public IActionResult All(int id = 1)
     {
-        var ads = await this.adsService.GetAllAsync<GetAllAdsViewModel>(string.Empty, null, "createdOnDesc", null, null);
+        var ads = this.adsService.GetAll<GetAllAdsViewModel>(string.Empty, null, "createdOnDesc", null, null);
 
         var viewModel = new ListAllAdsViewModel
         {

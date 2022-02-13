@@ -93,36 +93,34 @@ public class AdsService : IAdsService
             .To<T>()
             .ToListAsync();
 
-    public async Task<IEnumerable<T>> GetAllAsync<T>(string search, string town, string orderBy, int? categoryId, string letter)
+    public IEnumerable<T> GetAll<T>(string search, string town, string orderBy, int? categoryId, string letter)
     {
         var ads = this.adsRepository
             .All()
             .Include(a => a.Images)
-            .Where(a => !a.IsArchived);
+            .Include(a => a.Town)
+            .Include(a => a.UserAdViews)
+            .Where(a => !a.IsArchived)
+            .AsEnumerable();
 
         if (search is not null)
         {
-            search = search.ToLower().Trim();
-
-            ads = ads
-                .Where(a => a.Name.ToLower().Contains(search) ||
-                            a.Description.ToLower().Contains(search));
+            ads = ads.Where(this.GetAdPredicate(search));
         }
 
         if (categoryId is not null)
         {
-            ads = ads.Where(a => a.CategoryId == categoryId.Value ||
-                                 a.SubCategoryId == categoryId.Value);
+            ads = ads.Where(this.GetAdPredicate(categoryId.Value.ToString()));
         }
 
         if (town is not null)
         {
-            ads = ads.Where(a => a.Town.Name == town);
+            ads = ads.Where(this.GetAdPredicate(town));
         }
 
         if (letter is not null)
         {
-            ads = ads.Where(a => a.Name.ToLower().StartsWith(letter.ToLower()));
+            ads = ads.Where(a => a.Name.ToLower().Trim()[0].ToString() == letter.ToLower().Trim());
         }
 
         ads = orderBy switch
@@ -145,10 +143,13 @@ public class AdsService : IAdsService
             "priceDesc" => ads
                 .OrderByDescending(a => a.IsPromoted)
                 .ThenByDescending(a => a.Price),
+            "mostViewed" => ads
+                .OrderByDescending(a => a.UserAdViews.Count)
+                .ThenByDescending(a => a.Price),
             _ => throw new ArgumentException(),
         };
 
-        return await ads.To<T>().ToListAsync();
+        return ads.AsQueryable().To<T>().ToList();
     }
 
     public int GetCount()
@@ -157,8 +158,7 @@ public class AdsService : IAdsService
             .Count(a => !a.IsArchived);
 
     public async Task<T> GetDetails<T>(string id)
-    {
-        var a = await this.adsRepository
+        => await this.adsRepository
             .All()
             .Where(a => a.Id == id && !a.IsArchived)
             .Include(a => a.Comments)
@@ -166,16 +166,6 @@ public class AdsService : IAdsService
             .Include(a => a.Images)
             .To<T>()
             .FirstOrDefaultAsync();
-
-        return await this.adsRepository
-            .All()
-            .Where(a => a.Id == id && !a.IsArchived)
-            .Include(a => a.Comments)
-            .Include(a => a.UserAdViews)
-            .Include(a => a.Images)
-            .To<T>()
-            .FirstOrDefaultAsync();
-    }
 
     public async Task<IEnumerable<T>> GetUserAllAds<T>(string userId)
         => await this.adsRepository
@@ -371,4 +361,18 @@ public class AdsService : IAdsService
         => this.adsRepository
             .All()
             .Any(a => a.AddedByUserId == userId && a.Id == adId);
+
+    private Func<Ad, bool> GetAdPredicate(string term)
+        => ad => this.FilterByProperty(ad, a => a.Name, term) ||
+                 this.FilterByProperty(ad, a => a.Description, term) ||
+                 this.FilterByProperty(ad, a => a.CategoryId.ToString(), term) ||
+                 this.FilterByProperty(ad, a => a.SubCategoryId.ToString(), term) ||
+                 this.FilterByProperty(ad, a => a.Town.Name, term);
+
+    private bool FilterByProperty<T>(T ad, Func<T, string> extractor, string term)
+        => extractor(ad)
+            ?.ToLower()
+            .Trim()
+            .Contains(term.ToLower().Trim())
+           ?? false;
 }
