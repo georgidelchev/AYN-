@@ -1,5 +1,5 @@
 # AYN - All you need.
-ASP.NET Core App for the final project at SoftUni C# Web Module.
+ASP.NET Core Application for online web trading between people.
 
 
 # Project Template:
@@ -22,4 +22,4 @@ ASP.NET Core App for the final project at SoftUni C# Web Module.
 * [nUnit](https://github.com/nunit)
 * [Moq](https://github.com/moq/moq)
 
-Give a star if you like it :)).
+Give it a star if you like it :)).
