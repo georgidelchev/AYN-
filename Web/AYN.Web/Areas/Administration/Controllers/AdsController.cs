@@ -23,7 +23,7 @@ public class AdsController : AdministrationController
     [HttpGet]
     public IActionResult All(int id = 1)
     {
-        var ads = this.adsService.GetAll<GetAllAdsViewModel>(string.Empty, null, "createdOnDesc", null, null);
+        var ads = this.adsService.GetAll<GetAllAdsViewModel>();
 
         var viewModel = new ListAllAdsViewModel
         {
@@ -60,9 +60,7 @@ public class AdsController : AdministrationController
 
     [HttpGet]
     public IActionResult Promote()
-    {
-        return this.View();
-    }
+        => this.View();
 
     [HttpPost]
     public async Task<IActionResult> Promote(PromoteAdInputModel input, string id)

@@ -11,11 +11,8 @@ public class ChatController : AdministrationController
 {
     private readonly IWordsBlacklistService wordsBlacklistService;
 
-    public ChatController(
-        IWordsBlacklistService wordsBlacklistService)
-    {
-        this.wordsBlacklistService = wordsBlacklistService;
-    }
+    public ChatController(IWordsBlacklistService wordsBlacklistService)
+        => this.wordsBlacklistService = wordsBlacklistService;
 
     public async Task<IActionResult> BlacklistedWords(int id = 1)
     {

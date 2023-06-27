@@ -18,9 +18,7 @@ public class ApplicationRole : IdentityRole, IAuditInfo, IDeletableEntity
     public ApplicationRole(string name)
         : base(name)
     {
-        this.Id = Guid
-            .NewGuid()
-            .ToString();
+        this.Id = Guid.NewGuid().ToString();
     }
 
     [Required]

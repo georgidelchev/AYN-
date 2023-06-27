@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+
 using AngleSharp.Html.Parser;
 using AYN.Data.Models;
 using AYN.Data.Seeding.Interfaces;
@@ -30,8 +31,8 @@ public class WordBlacklistSeeder : ISeeder
 
             var wordsToAdd =
                 (from word in words[0]
-                    where !string.IsNullOrEmpty(word)
-                    select new WordBlacklist { Content = word, }).ToList();
+                 where !string.IsNullOrEmpty(word)
+                 select new WordBlacklist { Content = word, }).ToList();
 
             await dbContext.WordsBlacklist.AddRangeAsync(wordsToAdd);
             await dbContext.SaveChangesAsync();

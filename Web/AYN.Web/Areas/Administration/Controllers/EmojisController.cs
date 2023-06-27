@@ -10,17 +10,12 @@ public class EmojisController : AdministrationController
 {
     private readonly IEmojisService emojisService;
 
-    public EmojisController(
-        IEmojisService emojisService)
-    {
-        this.emojisService = emojisService;
-    }
+    public EmojisController(IEmojisService emojisService)
+        => this.emojisService = emojisService;
 
     [HttpGet]
     public IActionResult Create()
-    {
-        return this.View();
-    }
+        => this.View();
 
     [HttpPost]
     public async Task<IActionResult> Create(CreateEmojiInputModel input)
@@ -37,14 +32,10 @@ public class EmojisController : AdministrationController
 
     [HttpGet]
     public async Task<IActionResult> All()
-    {
-        var viewModel = new ListEmojiViewModel
+        => this.View(new ListEmojiViewModel
         {
             Emojis = await this.emojisService.GetAll<EmojiViewModel>(),
-        };
-
-        return this.View(viewModel);
-    }
+        });
 
     [HttpGet]
     public async Task<IActionResult> Delete(int id)

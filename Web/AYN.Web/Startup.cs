@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.Reflection;
 
 using AYN.Data;
@@ -112,7 +111,7 @@ public class Startup
             .AsPublicImplementedInterfaces();
 
         services.AddTransient<IValidator<CreateAdInputModel>, CreateAdValidator>();
-        services.AddTransient<IEmailSender>(sp => new SendGridEmailSender(this.configuration["Sendgrid"]));
+        services.AddTransient<IEmailSender>(sp => new SendGridEmailSender(this.configuration["Sendgrid:ApiKey"]));
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

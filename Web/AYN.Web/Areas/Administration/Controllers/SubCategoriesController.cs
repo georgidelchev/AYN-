@@ -10,11 +10,8 @@ public class SubCategoriesController : AdministrationController
 {
     private readonly ISubCategoriesService subCategoriesService;
 
-    public SubCategoriesController(
-        ISubCategoriesService subCategoriesService)
-    {
-        this.subCategoriesService = subCategoriesService;
-    }
+    public SubCategoriesController(ISubCategoriesService subCategoriesService)
+        => this.subCategoriesService = subCategoriesService;
 
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
@@ -45,7 +42,6 @@ public class SubCategoriesController : AdministrationController
     public async Task<IActionResult> UnDelete(int id)
     {
         await this.subCategoriesService.UnDeleteAsync(id);
-
         return this.Redirect("/Administration/Categories/All");
     }
 }

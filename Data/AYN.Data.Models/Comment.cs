@@ -12,9 +12,7 @@ public class Comment : BaseDeletableModel<string>
 {
     public Comment()
     {
-        this.Id = Guid
-            .NewGuid()
-            .ToString();
+        this.Id = Guid.NewGuid().ToString();
     }
 
     [Required]

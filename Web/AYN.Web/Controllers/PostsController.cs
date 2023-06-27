@@ -13,11 +13,8 @@ public class PostsController : BaseController
 {
     private readonly IPostsService postsService;
 
-    public PostsController(
-        IPostsService postsService)
-    {
-        this.postsService = postsService;
-    }
+    public PostsController(IPostsService postsService)
+        => this.postsService = postsService;
 
     [HttpPost]
     public async Task<IActionResult> Create(string title, string content)
@@ -35,23 +32,13 @@ public class PostsController : BaseController
         }
 
         await this.postsService.CreateAsync(title, content, userId);
-
         return this.Redirect($"/Users/Profile/{userId}");
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> All()
-    {
-        var vm = await this.postsService.GetUserAllPostsAsync<GetUserPostsViewModel>(this.User.GetId());
-
-        return this.View();
     }
 
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
         var viewModel = await this.postsService.GetById<EditPostInputModel>(id);
-
         return this.View(viewModel);
     }
 
@@ -59,7 +46,6 @@ public class PostsController : BaseController
     public async Task<IActionResult> Edit(EditPostInputModel input)
     {
         await this.postsService.EditAsync(input);
-
         return this.Redirect($"/Users/Profile?id={this.User.GetId()}");
     }
 
@@ -67,7 +53,6 @@ public class PostsController : BaseController
     public async Task<IActionResult> Delete(int id)
     {
         await this.postsService.DeleteAsync(id);
-
         return this.Redirect($"/Users/Profile?id={this.User.GetId()}");
     }
 }

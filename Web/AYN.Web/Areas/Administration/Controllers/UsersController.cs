@@ -11,11 +11,8 @@ public class UsersController : AdministrationController
 {
     private readonly IUsersService usersService;
 
-    public UsersController(
-        IUsersService usersService)
-    {
-        this.usersService = usersService;
-    }
+    public UsersController(IUsersService usersService)
+        => this.usersService = usersService;
 
     [HttpGet]
     public async Task<IActionResult> All(int id = 1)
@@ -35,9 +32,7 @@ public class UsersController : AdministrationController
 
     [HttpGet]
     public IActionResult Ban()
-    {
-        return this.View();
-    }
+        => this.View();
 
     [HttpPost]
     public async Task<IActionResult> Ban(BanUserInputModel input, string id)

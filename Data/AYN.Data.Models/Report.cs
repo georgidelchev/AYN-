@@ -12,9 +12,7 @@ public class Report : BaseDeletableModel<string>
 {
     public Report()
     {
-        this.Id = Guid
-            .NewGuid()
-            .ToString();
+        this.Id = Guid.NewGuid().ToString();
     }
 
     [Required]

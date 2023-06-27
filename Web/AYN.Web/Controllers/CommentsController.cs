@@ -63,7 +63,6 @@ public class CommentsController : BaseController
         }
 
         await this.commentsService.Vote(vote, commentId, this.User.GetId());
-
         return this.Redirect($"/Ads/Details?id={adId}");
     }
 

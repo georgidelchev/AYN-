@@ -11,23 +11,17 @@ public class ReportsController : BaseController
 {
     private readonly IReportsService reportsService;
 
-    public ReportsController(
-        IReportsService reportsService)
-    {
-        this.reportsService = reportsService;
-    }
+    public ReportsController(IReportsService reportsService)
+        => this.reportsService = reportsService;
 
     [HttpGet]
     public IActionResult Create()
-    {
-        return this.View();
-    }
+        => this.View();
 
     [HttpPost]
     public async Task<IActionResult> Create(CreateReportInputModel input, string id, string reportedUser)
     {
         await this.reportsService.CreateAsync(input, id, reportedUser, this.User.GetId());
-
         return this.Redirect("/");
     }
 }

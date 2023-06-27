@@ -10,9 +10,7 @@ public class CommentVote : BaseDeletableModel<string>
 {
     public CommentVote()
     {
-        this.Id = Guid
-            .NewGuid()
-            .ToString();
+        this.Id = Guid.NewGuid().ToString();
     }
 
     [Required]

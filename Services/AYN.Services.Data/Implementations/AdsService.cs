@@ -93,7 +93,7 @@ public class AdsService : IAdsService
             .To<T>()
             .ToListAsync();
 
-    public IEnumerable<T> GetAll<T>(string search, string town, string orderBy, int? categoryId, string letter)
+    public IEnumerable<T> GetAll<T>(string search = null, string town = null, string orderBy = null, int? categoryId = null, string letter = null)
     {
         var ads = this.adsRepository
             .All()
@@ -123,31 +123,34 @@ public class AdsService : IAdsService
             ads = ads.Where(a => a.Name.ToLower().Trim()[0].ToString() == letter.ToLower().Trim());
         }
 
-        ads = orderBy switch
+        if (orderBy is not null)
         {
-            "createdOnDesc" => ads
-                .OrderByDescending(a => a.IsPromoted)
-                .ThenByDescending(a => a.CreatedOn),
-            "createdOnAsc" => ads
-                .OrderByDescending(a => a.IsPromoted)
-                .ThenBy(a => a.CreatedOn),
-            "nameAsc" => ads
-                .OrderByDescending(a => a.IsPromoted)
-                .ThenBy(a => a.Name),
-            "nameDesc" => ads
-                .OrderByDescending(a => a.IsPromoted)
-                .ThenByDescending(a => a.Name),
-            "priceAsc" => ads
-                .OrderByDescending(a => a.IsPromoted)
-                .ThenBy(a => a.Price),
-            "priceDesc" => ads
-                .OrderByDescending(a => a.IsPromoted)
-                .ThenByDescending(a => a.Price),
-            "mostViewed" => ads
-                .OrderByDescending(a => a.UserAdViews.Count)
-                .ThenByDescending(a => a.Price),
-            _ => throw new ArgumentException(),
-        };
+            ads = orderBy switch
+            {
+                "createdOnDesc" => ads
+                    .OrderByDescending(a => a.IsPromoted)
+                    .ThenByDescending(a => a.CreatedOn),
+                "createdOnAsc" => ads
+                    .OrderByDescending(a => a.IsPromoted)
+                    .ThenBy(a => a.CreatedOn),
+                "nameAsc" => ads
+                    .OrderByDescending(a => a.IsPromoted)
+                    .ThenBy(a => a.Name),
+                "nameDesc" => ads
+                    .OrderByDescending(a => a.IsPromoted)
+                    .ThenByDescending(a => a.Name),
+                "priceAsc" => ads
+                    .OrderByDescending(a => a.IsPromoted)
+                    .ThenBy(a => a.Price),
+                "priceDesc" => ads
+                    .OrderByDescending(a => a.IsPromoted)
+                    .ThenByDescending(a => a.Price),
+                "mostViewed" => ads
+                    .OrderByDescending(a => a.UserAdViews.Count)
+                    .ThenByDescending(a => a.Price),
+                _ => throw new ArgumentException(),
+            };
+        }
 
         return ads.AsQueryable().To<T>().ToList();
     }

@@ -114,20 +114,17 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
         var entityTypes = builder.Model.GetEntityTypes().ToList();
 
         // Set global query filter for not deleted entities only
-        var deletableEntityTypes = entityTypes
-            .Where(et => et.ClrType != null && typeof(IDeletableEntity).IsAssignableFrom(et.ClrType));
+        var deletableEntityTypes = entityTypes.Where(et => et.ClrType != null && typeof(IDeletableEntity).IsAssignableFrom(et.ClrType));
 
         foreach (var deletableEntityType in deletableEntityTypes)
         {
-            var method = SetIsDeletedQueryFilterMethod
-                .MakeGenericMethod(deletableEntityType.ClrType);
+            var method = SetIsDeletedQueryFilterMethod.MakeGenericMethod(deletableEntityType.ClrType);
 
             method.Invoke(null, new object[] { builder });
         }
 
         // Disable cascade delete
-        var foreignKeys = entityTypes
-            .SelectMany(e => e.GetForeignKeys().Where(f => f.DeleteBehavior == DeleteBehavior.Cascade));
+        var foreignKeys = entityTypes.SelectMany(e => e.GetForeignKeys().Where(f => f.DeleteBehavior == DeleteBehavior.Cascade));
 
         foreach (var foreignKey in foreignKeys)
         {

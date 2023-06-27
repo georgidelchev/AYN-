@@ -30,8 +30,7 @@ public class PanelsController : AdministrationController
     }
 
     public IActionResult Index()
-    {
-        var viewModel = new IndexViewModel
+        => this.View(new IndexViewModel
         {
             UsersCounts = this.usersService.GetCounts(),
             AdsCount = this.adsService.GetCounts(),
@@ -39,8 +38,5 @@ public class PanelsController : AdministrationController
             CategoriesCount = this.categoriesService.GetCounts(),
             EmojisCount = this.emojisService.Count(),
             BlacklistedWordsCount = this.wordsBlacklistService.Count(),
-        };
-
-        return this.View(viewModel);
-    }
+        });
 }

@@ -13,11 +13,8 @@ public class PostReactsController : BaseController
 {
     private readonly IPostReactsService postReactsService;
 
-    public PostReactsController(
-        IPostReactsService postReactsService)
-    {
-        this.postReactsService = postReactsService;
-    }
+    public PostReactsController(IPostReactsService postReactsService)
+        => this.postReactsService = postReactsService;
 
     [HttpPost]
     public async Task<ActionResult<PostReactResponseModel>> Post(PostReactInputModel input)

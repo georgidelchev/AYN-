@@ -9,9 +9,7 @@ public class FollowerFollowee : BaseDeletableModel<string>
 {
     public FollowerFollowee()
     {
-        this.Id = Guid
-            .NewGuid()
-            .ToString();
+        this.Id = Guid.NewGuid().ToString();
     }
 
     [Required]

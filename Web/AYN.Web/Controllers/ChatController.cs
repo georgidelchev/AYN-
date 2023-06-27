@@ -25,15 +25,11 @@ public class ChatController : BaseController
 
     [HttpGet]
     public IActionResult All()
-    {
-        return this.View();
-    }
+        => this.View();
 
     [HttpGet]
     public IActionResult NewMessage()
-    {
-        return this.View();
-    }
+        => this.View();
 
     [HttpPost]
     public async Task<IActionResult> NewMessage(ChatSendMessageInputModel input)
@@ -51,29 +47,20 @@ public class ChatController : BaseController
             return this.View(input);
         }
 
-        var userId = this.User.GetId();
-        await this.messagesService.CreateAsync(input.Message, userId, receiverId);
-
+        await this.messagesService.CreateAsync(input.Message, this.User.GetId(), receiverId);
         return this.RedirectToAction(nameof(this.With), new { id = receiverId });
     }
 
     [HttpGet]
     public async Task<IActionResult> With(string id)
-    {
-        var viewModel = new ChatWithUserViewModel
+        => this.View(new ChatWithUserViewModel
         {
             User = await this.usersService.GetByIdAsync<ChatUserViewModel>(id),
             Messages = await this.messagesService.GetAllWithUserAsync<ChatMessagesWithUserViewModel>(this.User.GetId(), id),
             Emojis = await this.emojisService.GetAll(),
-        };
-
-        return this.View(viewModel);
-    }
+        });
 
     [HttpGet]
     public IActionResult UnreadMessagesCount(string userId)
-    {
-        var data = this.messagesService.GetUnreadMessagesCount(userId);
-        return this.Json(data);
-    }
+        => this.Json(this.messagesService.GetUnreadMessagesCount(userId));
 }

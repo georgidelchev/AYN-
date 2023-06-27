@@ -9,9 +9,7 @@ public class PostVote : BaseModel<string>
 {
     public PostVote()
     {
-        this.Id = Guid
-            .NewGuid()
-            .ToString();
+        this.Id = Guid.NewGuid().ToString();
     }
 
     [Required]

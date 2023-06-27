@@ -73,9 +73,5 @@ public class WishlistsController : BaseController
 
     [HttpGet]
     public IActionResult Count(string userId)
-    {
-        var data = this.wishlistsService.Count(userId);
-
-        return this.Json(data);
-    }
+        => this.Json(this.wishlistsService.Count(userId));
 }

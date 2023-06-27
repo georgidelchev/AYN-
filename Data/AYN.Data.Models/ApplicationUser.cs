@@ -14,9 +14,7 @@ public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
 {
     public ApplicationUser()
     {
-        this.Id = Guid
-            .NewGuid()
-            .ToString();
+        this.Id = Guid.NewGuid().ToString();
     }
 
     public string ThumbnailImageUrl { get; set; }
@@ -63,13 +61,11 @@ public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
     [Required]
     public Gender Gender { get; set; }
 
-    // Audit info
     [Required]
     public DateTime CreatedOn { get; set; }
 
     public DateTime? ModifiedOn { get; set; }
 
-    // Deletable entity
     [Required]
     public bool IsDeleted { get; set; }
 

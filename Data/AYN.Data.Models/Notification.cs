@@ -12,9 +12,7 @@ public class Notification : BaseDeletableModel<string>
 {
     public Notification()
     {
-        this.Id = Guid
-            .NewGuid()
-            .ToString();
+        this.Id = Guid.NewGuid().ToString();
     }
 
     [Required]

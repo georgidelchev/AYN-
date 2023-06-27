@@ -28,8 +28,7 @@ public class UsersController : BaseController
     [HttpGet]
     public async Task<IActionResult> Profile(string id, int pagedId = 1)
     {
-        var viewModel = await this.usersService
-            .GetProfileDetails<GetUserProfileBaseDetailsViewModel>(id);
+        var viewModel = await this.usersService.GetProfileDetails<GetUserProfileBaseDetailsViewModel>(id);
 
         viewModel.PagingId = pagedId;
         viewModel.IsCurrentUserFollower = this.usersService.IsFollower(this.User.GetId(), id);
@@ -85,15 +84,11 @@ public class UsersController : BaseController
 
     [HttpGet]
     public async Task<IActionResult> EditGeneralInfo(string id)
-    {
-        var viewModel = new EditUserViewModel
+        => this.View(new EditUserViewModel
         {
             EditUserGeneralInfoViewModel = await this.usersService.GetByIdAsync<EditUserGeneralInfoViewModel>(id),
             Towns = await this.townsService.GetAllAsKeyValuePairsAsync(),
-        };
-
-        return this.View(viewModel);
-    }
+        });
 
     [HttpPost]
     public async Task<IActionResult> EditGeneralInfo(EditUserViewModel model)
@@ -104,7 +99,6 @@ public class UsersController : BaseController
         }
 
         await this.usersService.EditAsync(model, this.environment.WebRootPath);
-
         return this.Redirect($"/Users/Profile?id={this.User.GetId()}");
     }
 

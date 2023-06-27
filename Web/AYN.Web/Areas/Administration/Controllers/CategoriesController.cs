@@ -28,8 +28,7 @@ public class CategoriesController : AdministrationController
     [HttpGet]
     public async Task<IActionResult> All(int id = 1)
     {
-        var categories = await this.categoriesService
-            .GetAllWithDeletedAsync<GetAllCategoriesViewModel>();
+        var categories = await this.categoriesService.GetAllWithDeletedAsync<GetAllCategoriesViewModel>();
 
         var viewModel = new ListAllCategoriesViewModel
         {
@@ -44,9 +43,7 @@ public class CategoriesController : AdministrationController
 
     [HttpGet]
     public IActionResult Create()
-    {
-        return this.View();
-    }
+        => this.View();
 
     [HttpPost]
     public async Task<IActionResult> Create(CreateCategoryInputModel input)
@@ -63,7 +60,6 @@ public class CategoriesController : AdministrationController
         catch (InvalidOperationException ioe)
         {
             this.ModelState.AddModelError(string.Empty, ioe.Message);
-
             return this.View(input);
         }
 
@@ -73,28 +69,20 @@ public class CategoriesController : AdministrationController
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
-        var viewModel = await this.categoriesService
-            .GetByIdAsync<EditCategoryInputModel>(id);
-
+        var viewModel = await this.categoriesService.GetByIdAsync<EditCategoryInputModel>(id);
         return this.View(viewModel);
     }
 
     [HttpPost]
     public async Task<IActionResult> Edit(EditCategoryInputModel input, int id)
     {
-        var wwwrootPath = this.environment
-            .WebRootPath;
-
-        await this.categoriesService.UpdateAsync(input, id, wwwrootPath);
-
+        await this.categoriesService.UpdateAsync(input, id, this.environment.WebRootPath);
         return this.Redirect("/Administration/Categories/All");
     }
 
     [HttpGet]
     public IActionResult AddSubCategory()
-    {
-        return this.View();
-    }
+        => this.View();
 
     [HttpPost]
     public async Task<IActionResult> AddSubCategory(AddSubCategoryInputModel input, int id)

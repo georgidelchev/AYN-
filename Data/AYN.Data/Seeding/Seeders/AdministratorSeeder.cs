@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+
 using AYN.Common;
 using AYN.Data.Models;
 using AYN.Data.Models.Enumerations;
@@ -17,8 +18,7 @@ public class AdministratorSeeder : ISeeder
         var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
 
-        if (userManager.Users.Any(u => u.Email == "admin@example.com") ||
-            !await roleManager.RoleExistsAsync(GlobalConstants.AdministratorRoleName))
+        if (userManager.Users.Any(u => u.Email == "admin@example.com") || !await roleManager.RoleExistsAsync(GlobalConstants.AdministratorRoleName))
         {
             return;
         }

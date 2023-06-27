@@ -79,13 +79,7 @@ public class AdsController : BaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> Search(
-        string search,
-        string town,
-        int? categoryId,
-        string letter,
-        string orderBy = "createdOnDesc",
-        int id = 1)
+    public async Task<IActionResult> Search(string search, string town, int? categoryId, string letter, string orderBy = "createdOnDesc", int id = 1)
     {
         try
         {
@@ -109,8 +103,7 @@ public class AdsController : BaseController
                 AvailableLetters = await this.adsService.GetAdsStartingLetters(),
             };
 
-            var categories = this.categoriesService
-                .GetAll<CategoryViewModel>();
+            var categories = this.categoriesService.GetAll<CategoryViewModel>();
 
             foreach (var category in categories)
             {
@@ -125,8 +118,7 @@ public class AdsController : BaseController
                     ImageUrl = category.ImageUrl,
                 };
 
-                viewModel.AllCategoriesWithAllSubCategories
-                    .Add(categoryViewModel, subCategories);
+                viewModel.AllCategoriesWithAllSubCategories.Add(categoryViewModel, subCategories);
             }
 
             return this.View(viewModel);
@@ -192,17 +184,10 @@ public class AdsController : BaseController
 
     [HttpGet]
     public IActionResult Promote()
-    {
-        return this.View();
-    }
+        => this.View();
 
     [HttpPost]
-    public async Task<IActionResult> Promote(
-        string id,
-        int promoteDays,
-        string stripeEmail,
-        string stripeToken,
-        long amount)
+    public async Task<IActionResult> Promote(string id, int promoteDays, string stripeEmail, string stripeToken, long amount)
     {
         var customers = new CustomerService();
         var charges = new ChargeService();
@@ -216,26 +201,22 @@ public class AdsController : BaseController
         var charge = await charges.CreateAsync(new ChargeCreateOptions
         {
             Amount = amount * 100,
-            Description = "Test Payment",
+            Description = $"Ad with id {id} is promoted for {promoteDays} days for ${amount}",
             Currency = "usd",
             Customer = customer.Id,
             ReceiptEmail = stripeEmail,
-            Metadata = new Dictionary<string, string>
-            {
-            },
+            Metadata = new Dictionary<string, string>(),
         });
 
         switch (charge.Status)
         {
             case "succeeded":
                 {
-                    var currentTime = DateTime.Now;
-                    await this.adsService.Promote(currentTime.AddDays(promoteDays), id);
+                    await this.adsService.Promote(DateTime.Now.AddDays(promoteDays), id);
                     return this.Redirect("/");
                 }
 
-            default:
-                return this.Redirect("/");
+            default: return this.Redirect("/");
         }
     }
 

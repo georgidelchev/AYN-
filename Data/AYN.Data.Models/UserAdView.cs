@@ -9,9 +9,7 @@ public class UserAdView : BaseDeletableModel<string>
 {
     public UserAdView()
     {
-        this.Id = Guid
-            .NewGuid()
-            .ToString();
+        this.Id = Guid.NewGuid().ToString();
     }
 
     [Required]

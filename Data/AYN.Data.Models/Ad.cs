@@ -13,9 +13,7 @@ public class Ad : BaseDeletableModel<string>
 {
     public Ad()
     {
-        this.Id = Guid
-            .NewGuid()
-            .ToString();
+        this.Id = Guid.NewGuid().ToString();
     }
 
     [Required]
@@ -53,7 +51,7 @@ public class Ad : BaseDeletableModel<string>
 
     public virtual Town Town { get; set; }
 
-    // TODO: IMPORTANT - MAKE IT REQUIRED
+    [Required]
     public int? AddressId { get; set; }
 
     public virtual Address Address { get; set; }

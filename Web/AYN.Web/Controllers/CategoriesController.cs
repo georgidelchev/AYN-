@@ -8,11 +8,8 @@ public class CategoriesController : BaseController
 {
     private readonly ISubCategoriesService subCategoriesService;
 
-    public CategoriesController(
-        ISubCategoriesService subCategoriesService)
-    {
-        this.subCategoriesService = subCategoriesService;
-    }
+    public CategoriesController(ISubCategoriesService subCategoriesService)
+        => this.subCategoriesService = subCategoriesService;
 
     [HttpGet]
     public IActionResult GetSubCategories(int id)

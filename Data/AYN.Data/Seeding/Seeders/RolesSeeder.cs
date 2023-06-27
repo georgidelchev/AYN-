@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+
 using AYN.Common;
 using AYN.Data.Models;
 using AYN.Data.Seeding.Interfaces;
@@ -13,8 +14,7 @@ internal class RolesSeeder : ISeeder
 {
     public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
     {
-        var roleManager = serviceProvider
-            .GetRequiredService<RoleManager<ApplicationRole>>();
+        var roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
 
         await SeedRoleAsync(roleManager, GlobalConstants.AdministratorRoleName);
     }

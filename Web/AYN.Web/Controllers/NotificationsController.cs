@@ -12,19 +12,15 @@ public class NotificationsController : BaseController
 {
     private readonly INotificationsService notificationsService;
 
-    public NotificationsController(
-        INotificationsService notificationsService)
-    {
-        this.notificationsService = notificationsService;
-    }
+    public NotificationsController(INotificationsService notificationsService)
+        => this.notificationsService = notificationsService;
 
     [HttpGet]
     public async Task<IActionResult> All(int id = 1)
     {
         var userId = this.User.GetId();
 
-        var notifications = await this.notificationsService
-            .GetAll<GetAllNotificationsForUserViewModel>(userId);
+        var notifications = await this.notificationsService.GetAll<GetAllNotificationsForUserViewModel>(userId);
 
         var viewModel = new ListAllNotificationsViewModel
         {
@@ -39,17 +35,12 @@ public class NotificationsController : BaseController
 
     [HttpGet]
     public IActionResult Count(string userId)
-    {
-        var data = this.notificationsService.GetCount(userId);
-
-        return this.Json(data);
-    }
+        => this.Json(this.notificationsService.GetCount(userId));
 
     [HttpPost]
     public async Task<IActionResult> MarkAsRead(string id)
     {
         await this.notificationsService.MarkAsRead(id);
-
         return this.Redirect("/Notifications/All");
     }
 
@@ -57,7 +48,6 @@ public class NotificationsController : BaseController
     public async Task<IActionResult> MarkAllAsRead()
     {
         await this.notificationsService.MarkAllAsRead(this.User.GetId());
-
         return this.Redirect("/Notifications/All");
     }
 }

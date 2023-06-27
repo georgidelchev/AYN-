@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
 using AYN.Data.Seeding.Interfaces;
@@ -14,7 +12,6 @@ namespace AYN.Data.Seeding;
 
 public class ApplicationDbContextSeederBase : ISeeder
 {
-    private const string AssemblyName = "AYN.Data";
     private const string SeederSuccessfullyExecutedMessage = "Seeder {0} completed successfully in {1}.";
 
     public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)

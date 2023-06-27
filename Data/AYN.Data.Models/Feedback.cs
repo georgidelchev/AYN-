@@ -11,9 +11,7 @@ public class Feedback : BaseDeletableModel<string>
 {
     public Feedback()
     {
-        this.Id = Guid
-            .NewGuid()
-            .ToString();
+        this.Id = Guid.NewGuid().ToString();
     }
 
     [Required]

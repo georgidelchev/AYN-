@@ -14,7 +14,7 @@ public interface IAdsService
 
     Task<IEnumerable<T>> GetRecent12PromotedAdsAsync<T>();
 
-    IEnumerable<T> GetAll<T>(string search, string town, string orderBy, int? categoryId, string letter);
+    IEnumerable<T> GetAll<T>(string search = null, string town = null, string orderBy = null, int? categoryId = null, string letter = null);
 
     int GetCount();
 

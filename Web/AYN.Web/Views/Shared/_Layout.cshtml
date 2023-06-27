@@ -1,7 +1,9 @@
 ﻿@using AYN.Common
 @using System.Security.Claims
 @using AYN.Data.Models
+@using AYN.Web.Infrastructure.Extensions
 @using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 
 @inject SignInManager<ApplicationUser> SignInManager
 <!DOCTYPE html>
@@ -87,13 +89,83 @@
         </main>
     </div>
 
-    <footer>
-        <div class="container">
-            <div class="card-body bg-light p-3">
-                <div class="float-center"><a href="/">AYN.com</a> 2021-@DateTime.Now.Year - <a href="https://github.com/georgidelchev/AYN-" target="_blank">Open source system</a></div>
-            </div>
+    @if (this.User.IsUserAuthenticated())
+    {
+        <div class="container my-5">
+            <footer class="text-center text-lg-start text-white"
+                style="background-color: #1c2331">
+                <section class="d-flex justify-content-between p-4"
+                     style="background-color: #6351ce">
+                    <div class="me-5">
+                        <span>Get connected with us on social networks:</span>
+                    </div>
+                    <div>
+                        <a href="https://www.facebook.com/georgi.d99/" class="text-white me-4 mr-3">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://twitter.com/delchev77" class="text-white me-4 mr-3">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://www.instagram.com/georgi.d99/" class="text-white me-4 mr-3">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/delchevgeorgi/" class="text-white me-4 mr-3">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://github.com/georgidelchev" class="text-white me-4 mr-3">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </section>
+                <section class="">
+                    <div class="container text-center text-md-start mt-5">
+                        <div class="row mt-3">
+                            <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                                <h6 class="text-uppercase text-white fw-bold">About Us</h6>
+                                <hr class="mb-4 mt-0 d-inline-block mx-auto"
+                                style="width: 60px; background-color: #7c4dff; height: 2px" />
+                                <p>
+                                    AYN - All You Need Platform is online trading platform between people. Sell or buy anything you want.
+                                </p>
+                            </div>
+
+                            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                                <h6 class="text-uppercase text-white  fw-bold">Useful links</h6>
+                                <hr class="mb-4 mt-0 d-inline-block mx-auto"
+                                style="width: 60px; background-color: #7c4dff; height: 2px" />
+                                <p>
+                                    <a asp-controller="Users" asp-action="Profile" asp-route-id="@this.User.GetId()" class="text-white">Your Profile</a>
+                                </p>
+                                <p>
+                                    <a asp-controller="Ads" asp-action="Search" class="text-white">Ads</a>
+                                </p>
+                                <p>
+                                    <a asp-controller="Notifications" asp-action="All" class="text-white">Notifications</a>
+                                </p>
+                                <p>
+                                    <a asp-controller="Feedback" asp-action="Create" class="text-white">Feedback</a>
+                                </p>
+                            </div>
+                            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                                <h6 class="text-uppercase text-white  fw-bold">Contact</h6>
+                                <hr class="mb-4 mt-0 d-inline-block mx-auto"
+                                style="width: 60px; background-color: #7c4dff; height: 2px" />
+                                <p><i class="fas fa-home mr-3"></i> Stara Zagora 6000</p>
+                                <p><i class="fas fa-envelope mr-1"></i> allyouneedplatform@gmail.com</p>
+                                <p><i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
+                                <p><i class="fas fa-print mr-3"></i> + 01 234 567 89</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div class="text-center p-3"
+                 style="background-color: rgba(0, 0, 0, 0.2)">
+                    © @DateTime.Now.Year Copyright:
+                    <a class="text-white" href="/">AYN - All You Need Platform</a>
+                </div>
+            </footer>
         </div>
-    </footer>
+    }
 
     <script src="/vendor/jquery/jquery.min.js" asp-append-version="true"></script>
     <script src="/vendor/popper/popper.min.js" asp-append-version="true"></script>

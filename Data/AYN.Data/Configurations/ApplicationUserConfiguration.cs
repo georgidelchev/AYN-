@@ -6,21 +6,21 @@ namespace AYN.Data.Configurations;
 
 public class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
 {
-    public void Configure(EntityTypeBuilder<ApplicationUser> appUser)
+    public void Configure(EntityTypeBuilder<ApplicationUser> applicationUser)
     {
-        appUser.HasMany(e => e.Claims)
+        applicationUser.HasMany(e => e.Claims)
             .WithOne()
             .HasForeignKey(e => e.UserId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
 
-        appUser.HasMany(e => e.Logins)
+        applicationUser.HasMany(e => e.Logins)
             .WithOne()
             .HasForeignKey(e => e.UserId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
 
-        appUser.HasMany(e => e.Roles)
+        applicationUser.HasMany(e => e.Roles)
             .WithOne()
             .HasForeignKey(e => e.UserId)
             .IsRequired()

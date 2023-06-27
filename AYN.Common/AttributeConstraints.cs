@@ -39,7 +39,6 @@ public static class AttributeConstraints
     public const int MessageContentMinLength = 1;
     public const int MessageContentMaxLength = 1000;
 
-
     // Report model
     public const int ReportContentMinLength = 20;
     public const int ReportContentMaxLength = 1000;

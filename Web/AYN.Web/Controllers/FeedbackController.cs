@@ -27,14 +27,10 @@ public class FeedbackController : BaseController
     /// <returns>Create Feedback View with filled email.</returns>
     [HttpGet]
     public IActionResult Create()
-    {
-        var viewModel = new CreateFeedbackInputModel
+        => this.View(new CreateFeedbackInputModel
         {
             Email = this.User.GetEmail(),
-        };
-
-        return this.View(viewModel);
-    }
+        });
 
     /// <summary>
     /// Create POST Method -> Creates feedback with given Input Model and sends thanks email to the user.
