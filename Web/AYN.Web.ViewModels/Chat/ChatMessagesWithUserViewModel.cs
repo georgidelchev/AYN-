@@ -2,7 +2,7 @@
 
 using AYN.Data.Models;
 using AYN.Services.Mapping;
-using Ganss.XSS;
+using Ganss.Xss;
 
 namespace AYN.Web.ViewModels.Chat;
 
