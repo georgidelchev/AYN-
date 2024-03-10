@@ -1,20 +1,19 @@
-﻿using AYN.Data;
-using AYN.Data.Models;
-using AYN.Data.Repositories;
-using AYN.Services.Data.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using Moq;
-using NUnit.Framework;
-
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 
+using AYN.Data;
+using AYN.Data.Models;
+using AYN.Data.Repositories;
 using AYN.Services.Data.Implementations;
+using AYN.Services.Data.Interfaces;
+using AYN.Services.Mapping;
 using AYN.Web.ViewModels.Administration.Categories;
 using AYN.Web.ViewModels.SubCategories;
 using Microsoft.AspNetCore.Http;
-using AYN.Services.Mapping;
+using Microsoft.EntityFrameworkCore;
+using Moq;
+using NUnit.Framework;
 
 namespace AYN.Services.Data.Tests;
 
@@ -82,7 +81,6 @@ public class CategoriesServiceTests
         var dbCategory = this.dbContext
             .Categories
             .FirstOrDefault(c => c.Name == "Category");
-
 
         Assert.AreEqual(1, categories.Count);
         Assert.AreEqual(10, dbCategory.SubCategories.Count);

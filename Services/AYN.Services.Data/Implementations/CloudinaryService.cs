@@ -40,6 +40,6 @@ public class CloudinaryService : ICloudinaryService
             throw new InvalidOperationException("Error occurred.");
         }
 
-        return uploadResult?.SecureUri.AbsoluteUri;
+        return uploadResult?.SecureUrl.AbsoluteUri;
     }
 }

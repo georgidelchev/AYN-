@@ -150,7 +150,8 @@ public class AdsServiceTests
             SubCategoryId = 2,
             Weight = 2,
             TownId = 2,
-            Id = dbContext.Ads.FirstOrDefault(a => a.Name == "Shlqpki")?.Id,
+            Id = this.dbContext.Ads.FirstOrDefault(a => a.Name == "Shlqpki")?.Id,
+
             // Pictures = new List<IFormFile>
             // {
             //    moqIFormFile.Object,
@@ -345,7 +346,6 @@ public class AdsServiceTests
     //    Assert.AreEqual(ad.ProductCondition, details.ProductCondition);
     //    Assert.AreEqual(ad.Weight, details.Weight);
     // }
-
     [Test]
     public async Task GetCounts_ShouldReturnCorrectAdCounts()
     {

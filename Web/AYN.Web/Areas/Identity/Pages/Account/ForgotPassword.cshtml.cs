@@ -30,13 +30,6 @@ public class ForgotPasswordModel : PageModel
     [BindProperty]
     public InputModel Input { get; set; }
 
-    public class InputModel
-    {
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-    }
-
     public async Task<IActionResult> OnPostAsync()
     {
         if (this.ModelState.IsValid)
@@ -48,8 +41,7 @@ public class ForgotPasswordModel : PageModel
                 return this.RedirectToPage("./ForgotPasswordConfirmation");
             }
 
-            // For more information on how to enable account confirmation and password reset please 
-            // visit https://go.microsoft.com/fwlink/?LinkID=532713
+            // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
             var code = await this.userManager.GeneratePasswordResetTokenAsync(user);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
             var callbackUrl = this.Url.Page(
@@ -69,5 +61,12 @@ public class ForgotPasswordModel : PageModel
         }
 
         return this.Page();
+    }
+
+    public class InputModel
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
     }
 }

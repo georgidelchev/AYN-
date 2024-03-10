@@ -40,27 +40,6 @@ public partial class EmailModel : PageModel
     [BindProperty]
     public InputModel Input { get; set; }
 
-    public class InputModel
-    {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "New email")]
-        public string NewEmail { get; set; }
-    }
-
-    private async Task LoadAsync(ApplicationUser user)
-    {
-        var email = await this.userManager.GetEmailAsync(user);
-        this.Email = email;
-
-        this.Input = new InputModel
-        {
-            NewEmail = email,
-        };
-
-        this.IsEmailConfirmed = await this.userManager.IsEmailConfirmedAsync(user);
-    }
-
     public async Task<IActionResult> OnGetAsync()
     {
         var user = await this.userManager.GetUserAsync(this.User);
@@ -150,5 +129,26 @@ public partial class EmailModel : PageModel
         this.StatusMessage = "Verification email sent. Please check your email.";
 
         return this.RedirectToPage();
+    }
+
+    private async Task LoadAsync(ApplicationUser user)
+    {
+        var email = await this.userManager.GetEmailAsync(user);
+        this.Email = email;
+
+        this.Input = new InputModel
+        {
+            NewEmail = email,
+        };
+
+        this.IsEmailConfirmed = await this.userManager.IsEmailConfirmedAsync(user);
+    }
+
+    public class InputModel
+    {
+        [Required]
+        [EmailAddress]
+        [Display(Name = "New email")]
+        public string NewEmail { get; set; }
     }
 }

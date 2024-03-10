@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-using AYN.Services.Data.Interfaces;
+﻿using AYN.Services.Data.Interfaces;
 using AYN.Web.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +17,7 @@ public class GetHomePageStatisticsViewComponent : ViewComponent
         this.usersService = usersService;
     }
 
-    public async Task<IViewComponentResult> InvokeAsync()
+    public IViewComponentResult InvokeAsync()
     {
         var viewModel = new IndexPageStatisticsViewModel
         {

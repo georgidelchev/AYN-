@@ -18,7 +18,7 @@ public class RegisterConfirmationModel : PageModel
     private readonly IEmailSender sender;
 
     public RegisterConfirmationModel(
-        UserManager<ApplicationUser> userManager, 
+        UserManager<ApplicationUser> userManager,
         IEmailSender sender)
     {
         this.userManager = userManager;

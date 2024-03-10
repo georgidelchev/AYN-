@@ -60,57 +60,6 @@ public class RegisterModel : PageModel
 
     public IEnumerable<KeyValuePair<string, string>> Towns { get; set; }
 
-    public class InputModel
-    {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
-
-        [Required]
-        [Display(Name = "Username")]
-        [MinLength(ApplicationUserUserNameMinLength)]
-        [MaxLength(ApplicationUserUserNameMaxLength)]
-        [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessage = "Username must be combination of letters and numbers only.")]
-        public string UserName { get; set; }
-
-        [Required]
-        [MinLength(ApplicationUserAboutMinLength)]
-        [MaxLength(ApplicationUserAboutMaxLength)]
-        public string About { get; set; }
-
-        [Required]
-        [MinLength(ApplicationUserFirstNameMinLength)]
-        [MaxLength(ApplicationUserFirstNameMaxLength)]
-        public string FirstName { get; set; }
-
-        [MinLength(ApplicationUserMiddleNameMinLength)]
-        [MaxLength(ApplicationUserMiddleNameMaxLength)]
-        public string MiddleName { get; set; }
-
-        [Required]
-        [MinLength(ApplicationUserLastNameMinLength)]
-        [MaxLength(ApplicationUserLastNameMaxLength)]
-        public string LastName { get; set; }
-
-        [Required]
-        public int TownId { get; set; }
-
-        [Required]
-        public Gender Gender { get; set; }
-    }
-
     public async Task OnGetAsync(string returnUrl = null)
     {
         this.ReturnUrl = returnUrl;
@@ -187,5 +136,56 @@ public class RegisterModel : PageModel
 
         // If we got this far, something failed, redisplay form
         return this.Page();
+    }
+
+    public class InputModel
+    {
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Username")]
+        [MinLength(ApplicationUserUserNameMinLength)]
+        [MaxLength(ApplicationUserUserNameMaxLength)]
+        [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessage = "Username must be combination of letters and numbers only.")]
+        public string UserName { get; set; }
+
+        [Required]
+        [MinLength(ApplicationUserAboutMinLength)]
+        [MaxLength(ApplicationUserAboutMaxLength)]
+        public string About { get; set; }
+
+        [Required]
+        [MinLength(ApplicationUserFirstNameMinLength)]
+        [MaxLength(ApplicationUserFirstNameMaxLength)]
+        public string FirstName { get; set; }
+
+        [MinLength(ApplicationUserMiddleNameMinLength)]
+        [MaxLength(ApplicationUserMiddleNameMaxLength)]
+        public string MiddleName { get; set; }
+
+        [Required]
+        [MinLength(ApplicationUserLastNameMinLength)]
+        [MaxLength(ApplicationUserLastNameMaxLength)]
+        public string LastName { get; set; }
+
+        [Required]
+        public int TownId { get; set; }
+
+        [Required]
+        public Gender Gender { get; set; }
     }
 }

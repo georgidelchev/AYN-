@@ -27,7 +27,7 @@ public class CategoriesSeeder : ISeeder
                 {
                     new() { Name = "Baby clothes", },
                     new() { Name = "Child clothes", },
-                    new() { Name = "Shoes"},
+                    new() { Name = "Shoes" },
                     new() { Name = "Toys", },
                     new() { Name = "For kid room", },
                     new() { Name = "Baby accessories", },

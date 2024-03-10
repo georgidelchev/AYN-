@@ -26,7 +26,6 @@ public class CommentViewModel : IMapFrom<Comment>, IHaveCustomMappings
 
     public int CommentDownVotesCount { get; set; }
 
-
     public void CreateMappings(IProfileExpression configuration)
     {
         configuration.CreateMap<Comment, CommentViewModel>()
