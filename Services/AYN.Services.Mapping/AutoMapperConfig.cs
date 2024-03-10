@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 
 using AutoMapper;
+using AutoMapper.Configuration;
 
 namespace AYN.Services.Mapping;
 
